@@ -270,21 +270,20 @@
             }
         }
 
-        /* ===== ELITE BADGE – PULSING GOLD ===== */
+        /* ===== ELITE BADGE ===== */
         .badge-elite {
             background: linear-gradient(135deg, var(--gold), #FFD700);
             color: #000;
             border: none;
-            padding: .15rem .7rem;
-            border-radius: 50px;
+            padding: .05rem .6rem;
             font-weight: 800;
             font-family: var(--font-heading);
+            border-radius: 50px;
             animation: pulseGold 2s infinite;
             display: inline-flex;
             align-items: center;
             gap: .3rem;
-            font-size: .65rem;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            font-size: .7rem;
         }
         @keyframes pulseGold {
             0% {
@@ -1549,7 +1548,7 @@
             white-space: nowrap;
         }
 
-        /* ─── HERO VISUAL (preserved) ─── */
+        /* ─── HERO VISUAL ─── */
         .hero-vis {
             position: relative;
             padding: .75rem 0;
@@ -1859,6 +1858,25 @@
             left: 50%;
             transform: translateX(-50%);
             background: var(--primary);
+            color: #000;
+            font-size: .6rem;
+            font-family: var(--font-heading);
+            font-weight: 800;
+            letter-spacing: .1em;
+            padding: .25rem .85rem;
+            border-radius: 0 0 8px 8px;
+        }
+        .price-card.elite {
+            border-color: var(--gold);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+        }
+        .price-card.elite::before {
+            content: '⭐ ELITE';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold), #FFD700);
             color: #000;
             font-size: .6rem;
             font-family: var(--font-heading);
@@ -4736,6 +4754,10 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            onerror: this.style.display = 'none';
+        }
+        .book-card .book-cover img[onerror] {
+            display: none;
         }
         .book-card .book-body {
             padding: .85rem;
@@ -5129,101 +5151,137 @@
             }
         }
 
-        /* ===== PREMIUM LOUNGE (Chat) ===== */
-        .premium-lounge {
-            border: 1px solid var(--gold);
-            background: rgba(212, 175, 55, 0.04);
-            border-radius: var(--radius);
-            padding: 1rem;
-            margin-top: 1rem;
+        /* ─── AI SIDEBAR (new) ─── */
+        .ai-layout {
+            display: flex;
+            gap: 0;
+            height: calc(100vh - 200px);
+            min-height: 400px;
         }
-        .premium-lounge .lounge-header {
+        .ai-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: .75rem;
+        }
+        .ai-conversation-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: .25rem;
+        }
+        .ai-conv-item {
             display: flex;
             align-items: center;
             gap: .5rem;
-            margin-bottom: .75rem;
-        }
-        .premium-lounge .lounge-header i {
-            color: var(--gold);
-            font-size: 1.2rem;
-        }
-        .premium-lounge .lounge-messages {
-            max-height: 300px;
-            overflow-y: auto;
-            background: var(--bg2);
+            padding: .5rem .65rem;
             border-radius: var(--radius-sm);
-            padding: .65rem;
-            margin-bottom: .5rem;
+            cursor: pointer;
+            transition: all .2s;
         }
-        .premium-lounge .lounge-message {
-            padding: .4rem .65rem;
-            border-bottom: 1px solid rgba(128, 128, 128, .06);
-            font-size: .84rem;
+        .ai-conv-item:hover {
+            background: rgba(128, 128, 128, .06);
         }
-        .premium-lounge .lounge-message strong {
-            color: var(--gold);
+        .ai-conv-item.active {
+            background: rgba(212, 175, 55, .1);
+            border: 1px solid rgba(212, 175, 55, .2);
         }
-        .premium-lounge .lounge-input {
-            display: flex;
-            gap: .4rem;
-        }
-        .premium-lounge .lounge-input input {
+        .ai-chat-area {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg);
+            padding: 0 .75rem;
+            min-width: 0;
         }
-
-        /* ===== ANALYTICS CHART CONTAINER ===== */
-        .analytics-chart-container {
-            background: var(--bg2);
-            border-radius: var(--radius-sm);
-            padding: 1rem;
-            margin-top: .75rem;
-        }
-
-        /* ===== LEARNING PATH ===== */
-        .learning-path-container {
-            background: var(--bg2);
-            border-radius: var(--radius-sm);
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-        .learning-path-container .path-step {
+        .ai-chat-header {
             display: flex;
             align-items: center;
-            gap: .75rem;
+            justify-content: space-between;
             padding: .5rem 0;
-            border-bottom: 1px solid rgba(128, 128, 128, .06);
-        }
-        .learning-path-container .path-step:last-child {
-            border-bottom: none;
-        }
-        .learning-path-container .path-step .step-num {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: .7rem;
-            font-family: var(--font-heading);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: .4rem;
             flex-shrink: 0;
         }
-        .learning-path-container .path-step .step-content {
+        .ai-messages {
             flex: 1;
+            overflow-y: auto;
+            padding: .5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
         }
-        .learning-path-container .path-step .step-content strong {
-            display: block;
-            font-size: .85rem;
+        .ai-input-area {
+            border-top: 1px solid var(--border);
+            padding: .5rem 0;
+            display: flex;
+            gap: .5rem;
+            align-items: flex-end;
+            flex-shrink: 0;
         }
-        .learning-path-container .path-step .step-content span {
-            font-size: .72rem;
-            color: var(--text3);
+        .ai-input-area textarea {
+            resize: vertical;
+            min-height: 44px;
+            max-height: 120px;
         }
-        .learning-path-container .path-step .step-status {
-            color: var(--success);
-            font-size: .8rem;
+        .loading-dots::after {
+            content: '...';
+            animation: dots 1.2s steps(4) infinite;
+        }
+        @keyframes dots {
+            0% {
+                content: '';
+            }
+            25% {
+                content: '.';
+            }
+            50% {
+                content: '..';
+            }
+            75% {
+                content: '...';
+            }
+        }
+        @media (max-width: 767px) {
+            .ai-layout {
+                flex-direction: column;
+                height: auto;
+            }
+            .ai-sidebar {
+                width: 100%;
+                min-width: unset;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                max-height: 220px;
+                overflow-y: auto;
+            }
+            .ai-chat-area {
+                height: 60vh;
+            }
+            .ai-conversation-list {
+                max-height: 120px;
+            }
+            .ai-sidebar .btn-primary.w-full {
+                font-size: .72rem;
+                padding: .3rem .6rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .ai-chat-header select {
+                font-size: .65rem;
+                padding: .15rem .3rem;
+                min-height: 28px;
+            }
+            .ai-chat-header .btn-icon-sm {
+                width: 28px;
+                height: 28px;
+                font-size: .6rem;
+            }
         }
     </style>
 </head>
@@ -5242,7 +5300,7 @@
 
         <section class="lhero"><div class="lhero-bg"></div><div class="lhero-wrap"><div class="row items-center"><div class="col-12 col-lg-6"><div class="hero-eyebrow"><span class="pulse-dot"></span><span>🌍 Global Learn-to-Earn Platform</span></div><h1 style="font-size:clamp(2rem,5vw,3.2rem)">Turn Tech Skills Into <span class="grad-text">Real Income</span></h1><p class="hero-desc">Learn HTML, CSS, JavaScript &amp; AI Tools — earn from course sales, referrals, affiliates &amp; bonuses. Pay online or via <strong style="color:var(--primary)">bank transfer</strong>. No experience needed.</p><div class="hero-actions"><button class="btn btn-primary btn-lg" onclick="goPage('register')"><i class="fas fa-rocket"></i>Start Earning Free</button><button class="btn btn-outline btn-lg" onclick="smoothTo('how-it-works')"><i class="fas fa-play"></i>See How</button></div><div class="trust-row"><div class="trust-item"><i class="fas fa-shield-alt"></i>Secure &amp; Verified</div><div class="trust-item"><i class="fas fa-certificate"></i>Earn Certificates</div><div class="trust-item"><i class="fas fa-bolt"></i>Instant Payouts</div><div class="trust-item"><i class="fas fa-university"></i>Bank Transfer Accepted</div></div></div><div class="col-12 col-lg-6" style="padding-top:1.5rem"><div class="hero-vis"><div class="hero-dash"><div class="hd-bar"><div class="hd-dot" style="background:#ff5f57"></div><div class="hd-dot" style="background:#febc2e;margin-left:4px"></div><div class="hd-dot" style="background:#28c840;margin-left:4px"></div><span style="font-size:.67rem;color:var(--text3);margin-left:auto;font-family:var(--font-mono)">changex.academy/dashboard</span></div><div class="hd-body"><div class="hd-earn"><div style="font-size:.7rem;color:var(--text3);margin-bottom:.2rem;font-family:var(--font-mono)">💰 TOTAL EARNINGS</div><div class="hd-amt" id="heroEarnings">₦85M+</div><div class="hd-minis"><div class="hd-mini"><div class="hd-mv" style="color:var(--lime)" id="heroReferrals">₦12M+</div><div class="hd-ml">Referrals</div></div><div class="hd-mini"><div class="hd-mv" style="color:var(--cyan)" id="heroCourses">₦45M+</div><div class="hd-ml">Courses</div></div><div class="hd-mini"><div class="hd-mv" style="color:var(--gold)" id="heroStreak">🔥 1.2K+</div><div class="hd-ml">Active Streak</div></div></div></div></div></div><div class="fc fc-bot"><i class="fas fa-star" style="color:var(--gold)"></i> 4.9 · 3,200+ reviews</div><div class="fc fc-top"><i class="fas fa-user-plus"></i> 15K+ Students</div></div></div></div></div></section>
 
-        <!-- ─── TRUST BAR (NEW) ─── -->
+        <!-- ─── TRUST BAR ─── -->
         <div class="trust-bar">
             <div class="trust-bar-item"><i class="fas fa-lock"></i>256-bit SSL Encrypted</div>
             <div class="trust-bar-item"><i class="fas fa-credit-card"></i>Paystack Secured</div>
@@ -5250,7 +5308,7 @@
             <div class="trust-bar-item"><i class="fas fa-globe-africa"></i>Trusted in 50+ Countries</div>
         </div>
 
-        <!-- ─── HARDCODED STATS (NEW) ─── -->
+        <!-- ─── HARDCODED STATS ─── -->
         <section class="lsec" style="background:var(--bg2);padding:2.5rem 1rem;">
             <div class="lsec-wrap">
                 <div class="stat-counter-wrap">
@@ -5293,20 +5351,26 @@
         <!-- ─── LIVE TICKER (FOMO) ─── -->
         <div class="live-ticker">
             <div class="live-ticker-track" id="liveTickerTrack">
-                <span class="live-ticker-item">🔥 Amaka just earned ₦45,000</span>
-                <span class="live-ticker-item">💰 Tunde withdrew ₦250,000</span>
-                <span class="live-ticker-item">📚 Kelechi completed JavaScript Pro</span>
-                <span class="live-ticker-item">🎉 Fatima hit Level 15</span>
-                <span class="live-ticker-item">🤝 Chinedu referred 5 new users</span>
-                <span class="live-ticker-item">🔥 Amaka just earned ₦45,000</span>
-                <span class="live-ticker-item">💰 Tunde withdrew ₦250,000</span>
-                <span class="live-ticker-item">📚 Kelechi completed JavaScript Pro</span>
-                <span class="live-ticker-item">🎉 Fatima hit Level 15</span>
-                <span class="live-ticker-item">🤝 Chinedu referred 5 new users</span>
+                <span class="live-ticker-item">🔥 Amaka earned ₦45,000 today</span>
+                <span class="live-ticker-item">💰 Kelechi maintained a 67-day streak</span>
+                <span class="live-ticker-item">📚 Emeka withdrew ₦250,000 this week</span>
+                <span class="live-ticker-item">🎉 Fatima completed JavaScript Pro</span>
+                <span class="live-ticker-item">💸 Tunde made ₦15,000 in commissions</span>
+                <span class="live-ticker-item">⭐ Ngozi rated JavaScript Pro 5★</span>
+                <span class="live-ticker-item">🏆 Blessing reached Level 15</span>
+                <span class="live-ticker-item">🤝 Chinedu referred 5 friends</span>
+                <span class="live-ticker-item">🔥 Amaka earned ₦45,000 today</span>
+                <span class="live-ticker-item">💰 Kelechi maintained a 67-day streak</span>
+                <span class="live-ticker-item">📚 Emeka withdrew ₦250,000 this week</span>
+                <span class="live-ticker-item">🎉 Fatima completed JavaScript Pro</span>
+                <span class="live-ticker-item">💸 Tunde made ₦15,000 in commissions</span>
+                <span class="live-ticker-item">⭐ Ngozi rated JavaScript Pro 5★</span>
+                <span class="live-ticker-item">🏆 Blessing reached Level 15</span>
+                <span class="live-ticker-item">🤝 Chinedu referred 5 friends</span>
             </div>
         </div>
 
-        <section id="pricing-sec" class="lsec"><div class="lsec-wrap"><div class="text-center mb-5 reveal"><div class="stag mb-3"><i class="fas fa-tag"></i> Pricing</div><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Simple, <span class="grad-text">Transparent</span> Pricing</h2></div><div class="row justify-center"><div class="col-12 col-md-4 reveal" style="transition-delay:.05s"><div class="price-card"><div class="stag mb-3"><i class="fas fa-user"></i> Free</div><div class="p-amt">₦0<span style="font-size:1rem;color:var(--text3)">/mo</span></div><p style="font-size:.79rem;color:var(--text3);margin:.5rem 0 1rem">Perfect to get started</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.45rem;font-size:.83rem;margin-bottom:1.25rem"><li><i class="fas fa-check chk"></i>5 courses access</li><li><i class="fas fa-check chk"></i>Basic certificates</li><li><i class="fas fa-check chk"></i>Referral program</li><li><i class="fas fa-times nope"></i>Create courses</li><li><i class="fas fa-times nope"></i>Unlimited uploads</li><li><i class="fas fa-times nope"></i>No ads</li></ul><button class="btn btn-outline w-full" onclick="goPage('register')">Get Started Free</button></div></div><div class="col-12 col-md-4 reveal" style="transition-delay:.1s"><div class="price-card featured"><div class="stag mb-3"><i class="fas fa-crown"></i> Premium</div><div class="p-amt" style="color:var(--lime)">₦5,000<span style="font-size:1rem;color:var(--text3)">/mo</span></div><p style="font-size:.79rem;color:var(--text3);margin:.5rem 0 1rem">For serious learners &amp; earners</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.45rem;font-size:.83rem;margin-bottom:1.25rem"><li><i class="fas fa-check chk"></i>All courses unlimited</li><li><i class="fas fa-check chk"></i>Create &amp; sell courses</li><li><i class="fas fa-check chk"></i>Affiliate dashboard</li><li><i class="fas fa-check chk"></i>Unlimited uploads</li><li><i class="fas fa-check chk"></i>No ads 🎉</li><li><i class="fas fa-check chk"></i>80% course revenue</li></ul><button class="btn btn-primary w-full" onclick="goPage('register')"><i class="fas fa-crown"></i>Go Premium</button></div></div><div class="col-12 col-md-4 reveal" style="transition-delay:.15s"><div class="price-card featured" style="border-color:var(--gold);"><div class="stag mb-3"><i class="fas fa-crown"></i> Elite</div><div class="p-amt" style="color:var(--gold)">₦15,000<span style="font-size:1rem;color:var(--text3)">/mo</span></div><p style="font-size:.79rem;color:var(--text3);margin:.5rem 0 1rem">The ultimate experience</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.45rem;font-size:.83rem;margin-bottom:1.25rem"><li><i class="fas fa-check chk"></i>Everything in Premium</li><li><i class="fas fa-check chk"></i>Personal Brand Page</li><li><i class="fas fa-check chk"></i>1‑on‑1 Mentorship (monthly)</li><li><i class="fas fa-check chk"></i>Exclusive Webinars</li><li><i class="fas fa-check chk"></i>Priority Support</li><li><i class="fas fa-check chk"></i>Elite Gold Badge</li></ul><button class="btn btn-gold w-full" onclick="openModal('premiumModal')"><i class="fas fa-crown"></i> Upgrade to Elite</button></div></div></div></div></section>
+        <section id="pricing-sec" class="lsec"><div class="lsec-wrap"><div class="text-center mb-5 reveal"><div class="stag mb-3"><i class="fas fa-tag"></i> Pricing</div><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Simple, <span class="grad-text">Transparent</span> Pricing</h2></div><div class="row justify-center"><div class="col-12 col-md-4 reveal" style="transition-delay:.05s"><div class="price-card"><div class="stag mb-3"><i class="fas fa-user"></i> Free</div><div class="p-amt">₦0<span style="font-size:1rem;color:var(--text3)">/mo</span></div><p style="font-size:.79rem;color:var(--text3);margin:.5rem 0 1rem">Perfect to get started</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.45rem;font-size:.83rem;margin-bottom:1.25rem"><li><i class="fas fa-check chk"></i>5 courses access</li><li><i class="fas fa-check chk"></i>Basic certificates</li><li><i class="fas fa-check chk"></i>Referral program</li><li><i class="fas fa-times nope"></i>Create courses</li><li><i class="fas fa-times nope"></i>Unlimited uploads</li><li><i class="fas fa-times nope"></i>No ads</li></ul><button class="btn btn-outline w-full" onclick="goPage('register')">Get Started Free</button></div></div><div class="col-12 col-md-4 reveal" style="transition-delay:.1s"><div class="price-card featured"><div class="stag mb-3"><i class="fas fa-crown"></i> Premium</div><div class="p-amt" style="color:var(--lime)">₦5,000<span style="font-size:1rem;color:var(--text3)">/mo</span></div><p style="font-size:.79rem;color:var(--text3);margin:.5rem 0 1rem">For serious learners &amp; earners</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.45rem;font-size:.83rem;margin-bottom:1.25rem"><li><i class="fas fa-check chk"></i>All courses unlimited</li><li><i class="fas fa-check chk"></i>Create &amp; sell courses</li><li><i class="fas fa-check chk"></i>Affiliate dashboard</li><li><i class="fas fa-check chk"></i>Unlimited uploads</li><li><i class="fas fa-check chk"></i>No ads 🎉</li><li><i class="fas fa-check chk"></i>80% course revenue</li></ul><button class="btn btn-primary w-full" onclick="goPage('register')"><i class="fas fa-crown"></i>Go Premium</button></div></div><div class="col-12 col-md-4 reveal" style="transition-delay:.15s"><div class="price-card elite"><div class="stag mb-3"><i class="fas fa-crown"></i> Elite</div><div class="p-amt" style="color:var(--gold)">₦15,000<span style="font-size:1rem;color:var(--text3)">/mo</span></div><p style="font-size:.79rem;color:var(--text3);margin:.5rem 0 1rem">The ultimate experience</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.45rem;font-size:.83rem;margin-bottom:1.25rem"><li><i class="fas fa-check chk"></i>Everything in Premium</li><li><i class="fas fa-check chk"></i>Personal Brand Page</li><li><i class="fas fa-check chk"></i>1‑on‑1 Mentorship (monthly)</li><li><i class="fas fa-check chk"></i>Exclusive Webinars</li><li><i class="fas fa-check chk"></i>Priority Support</li><li><i class="fas fa-check chk"></i>Elite Gold Badge</li></ul><button class="btn btn-gold w-full" onclick="openModal('premiumModal')"><i class="fas fa-crown"></i> Upgrade to Elite</button></div></div></div></div></section>
 
         <footer class="lfooter"><div class="lsec-wrap"><div class="row mb-4"><div class="col-12 col-md-4"><div class="logo mb-3"><div class="logo-mark"><img src="/logo.png" alt="ChangeX" style="width:100%;height:100%;border-radius:8px;object-fit:cover;" /></div>ChangeX<span style="color:var(--primary)">.</span></div><p style="font-size:.82rem;color:var(--text3);max-width:260px;line-height:1.65">Global #1 Learn-to-Earn platform. Turning tech skills into real income.</p><div class="f-social"><div class="soc-btn"><i class="fab fa-twitter"></i></div><div class="soc-btn"><i class="fab fa-instagram"></i></div><div class="soc-btn"><i class="fab fa-linkedin"></i></div><div class="soc-btn"><i class="fab fa-youtube"></i></div><div class="soc-btn"><i class="fab fa-whatsapp"></i></div></div></div><div class="col-6 col-md-2"><h6 style="margin-bottom:.65rem">Learn</h6><ul class="f-links"><li><a onclick="goPage('register')">All Courses</a></li><li><a>Web Dev</a></li><li><a>AI &amp; Tools</a></li><li><a>Freelancing</a></li></ul></div><div class="col-6 col-md-2"><h6 style="margin-bottom:.65rem">Earn</h6><ul class="f-links"><li><a>Referrals</a></li><li><a>Affiliates</a></li><li><a>Teach Here</a></li><li><a>Leaderboard</a></li></ul></div><div class="col-6 col-md-2"><h6 style="margin-bottom:.65rem">Company</h6><ul class="f-links"><li><a>About</a></li><li><a onclick="goPage('contact')">Contact</a></li><li><a>Privacy</a></li><li><a>Terms</a></li></ul></div><div class="col-6 col-md-2"><h6 style="margin-bottom:.65rem">Newsletter</h6><p style="font-size:.75rem;color:var(--text3);margin-bottom:.6rem">Weekly tips &amp; earnings updates</p><input type="email" class="finput" id="footerEmail" placeholder="your@email.com" style="margin-bottom:.4rem"/><button class="btn btn-primary btn-sm w-full" onclick="subscribeEmail()">Subscribe</button></div></div><div style="border-top:1px solid var(--border);padding-top:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem"><p style="font-size:.73rem;color:var(--text3)">© 2025 ChangeX Academy. Made with ❤️ for the world.</p><p style="font-size:.73rem;color:var(--text3)">Contact: <a href="mailto:changexacademysupport@gmail.com" style="color:var(--primary)">changexacademysupport@gmail.com</a></p></div></div></footer>
     </div>
@@ -5461,22 +5525,71 @@
                     <div id="dash-leaderboard" class="dash-sub"><div class="page-hd"><h2 class="page-title">🏆 Leaderboard</h2><p class="page-sub">Top earners and learners this week</p></div><div class="tabs mb-3"><button class="tab-btn active" onclick="switchLbTab('xp',this)">XP</button><button class="tab-btn" onclick="switchLbTab('earnings',this)">Earnings</button><button class="tab-btn" onclick="switchLbTab('streak',this)">Streaks</button><button class="tab-btn" onclick="switchLbTab('refs',this)">Referrals</button></div><div class="card card-p" id="lbFull"></div></div>
 
                     <!-- INSTRUCTOR HUB -->
-                    <div id="dash-instructor" class="dash-sub"><div class="d-flex items-center gap-3 mb-4 flex-wrap" style="padding:1rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius)"><div class="si si-v" style="width:44px;height:44px;font-size:1.1rem"><i class="fas fa-chalkboard-teacher"></i></div><div><h4 style="margin:0">Instructor Hub</h4><p style="font-size:.8rem;color:var(--text2);margin:.15rem 0 0">Publish, track, manage</p></div><div style="margin-left:auto;display:flex;gap:.4rem;flex-wrap:wrap"><span class="badge badge-violet" id="instVerifiedBadge">Verified</span><button class="btn btn-primary btn-sm" onclick="initNewCourse()"><i class="fas fa-plus"></i>New Course</button></div></div><div id="instPremiumGate" style="display:none"></div><div id="instContent"><div class="tabs mb-3"><button class="tab-btn active" onclick="switchInstTab('courses',this)">My Courses</button><button class="tab-btn" onclick="switchInstTab('sales',this)">Sales &amp; Analytics</button><button class="tab-btn" onclick="switchInstTab('earnings',this)">Earnings Breakdown</button></div><div id="inst-tab-courses"><div class="row mb-4" id="instStatsRow"></div><div class="card card-p mb-3" id="instQANotifs" style="display:none"><h6 style="margin-bottom:.65rem;color:var(--orange)">🔔 Pending Q&amp;A Questions</h6><div id="instQAList"></div></div><div class="card card-p"><h6 style="margin-bottom:.85rem">My Published Courses</h6><div class="overflow-x-auto"><table class="dtable" id="instCoursesTable"></table></div></div></div><div id="inst-tab-sales" style="display:none"><div class="card card-p"><h6 style="margin-bottom:.85rem">📊 Sales &amp; Revenue</h6><div id="instSalesContent"><div class="empty-state"><i class="fas fa-chart-line"></i><h4>Loading sales data...</h4></div></div></div></div><div id="inst-tab-earnings" style="display:none"><div class="card card-p"><h6 style="margin-bottom:.85rem">💰 Earnings Breakdown</h6><div id="instEarningsContent"><div class="empty-state"><i class="fas fa-wallet"></i><h4>Loading earnings...</h4></div></div></div></div></div>
-                        <!-- ─── ANALYTICS CHART (Premium) ─── -->
-                        <div id="instAnalytics" class="analytics-chart-container" style="display:none;"></div>
-                        <!-- ─── PREMIUM LOUNGE (Chat) ─── -->
-                        <div id="premiumLounge" class="premium-lounge" style="display:none;">
-                            <div class="lounge-header"><i class="fas fa-crown"></i><strong>Premium Lounge</strong><span style="font-size:.7rem;color:var(--text3);margin-left:auto;">Exclusive chat for members</span></div>
-                            <div class="lounge-messages" id="loungeMessages"><div class="lounge-message"><strong>System:</strong> Welcome to the Premium Lounge! 🎉</div></div>
-                            <div class="lounge-input"><input type="text" class="finput" id="loungeInput" placeholder="Type a message..." style="font-size:.82rem;"/><button class="btn btn-primary btn-sm" onclick="sendLoungeMessage()"><i class="fas fa-paper-plane"></i></button></div>
-                        </div>
-                    </div>
+                    <div id="dash-instructor" class="dash-sub"><div class="d-flex items-center gap-3 mb-4 flex-wrap" style="padding:1rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius)"><div class="si si-v" style="width:44px;height:44px;font-size:1.1rem"><i class="fas fa-chalkboard-teacher"></i></div><div><h4 style="margin:0">Instructor Hub</h4><p style="font-size:.8rem;color:var(--text2);margin:.15rem 0 0">Publish, track, manage</p></div><div style="margin-left:auto;display:flex;gap:.4rem;flex-wrap:wrap"><span class="badge badge-violet" id="instVerifiedBadge">Verified</span><button class="btn btn-primary btn-sm" onclick="initNewCourse()"><i class="fas fa-plus"></i>New Course</button></div></div><div id="instPremiumGate" style="display:none"></div><div id="instContent"><div class="tabs mb-3"><button class="tab-btn active" onclick="switchInstTab('courses',this)">My Courses</button><button class="tab-btn" onclick="switchInstTab('sales',this)">Sales &amp; Analytics</button><button class="tab-btn" onclick="switchInstTab('earnings',this)">Earnings Breakdown</button></div><div id="inst-tab-courses"><div class="row mb-4" id="instStatsRow"></div><div class="card card-p mb-3" id="instQANotifs" style="display:none"><h6 style="margin-bottom:.65rem;color:var(--orange)">🔔 Pending Q&amp;A Questions</h6><div id="instQAList"></div></div><div class="card card-p"><h6 style="margin-bottom:.85rem">My Published Courses</h6><div class="overflow-x-auto"><table class="dtable" id="instCoursesTable"></table></div></div></div><div id="inst-tab-sales" style="display:none"><div class="card card-p"><h6 style="margin-bottom:.85rem">📊 Sales &amp; Revenue</h6><div id="instSalesContent"><div class="empty-state"><i class="fas fa-chart-line"></i><h4>Loading sales data...</h4></div></div></div></div><div id="inst-tab-earnings" style="display:none"><div class="card card-p"><h6 style="margin-bottom:.85rem">💰 Earnings Breakdown</h6><div id="instEarningsContent"><div class="empty-state"><i class="fas fa-wallet"></i><h4>Loading earnings...</h4></div></div></div></div></div></div>
 
                     <!-- COURSE EDITOR -->
                     <div id="dash-course-editor" class="dash-sub"><div class="editor-shell"><div class="editor-sidebar"><div class="esc-label">COURSE SETUP</div><div class="esc-step active" id="es-1" onclick="goES(1)"><div class="esc-num">1</div><div class="esc-text">Basic Info</div></div><div class="esc-step" id="es-2" onclick="goES(2)"><div class="esc-num">2</div><div class="esc-text">Lessons</div></div><div class="esc-step" id="es-3" onclick="goES(3)"><div class="esc-num">3</div><div class="esc-text">Content</div></div><div class="esc-step" id="es-4" onclick="goES(4)"><div class="esc-num">4</div><div class="esc-text">Media</div></div><div class="esc-step" id="es-5" onclick="goES(5)"><div class="esc-num">5</div><div class="esc-text">Quiz</div></div><div class="esc-step" id="es-6" onclick="goES(6)"><div class="esc-num">6</div><div class="esc-text">Pricing</div></div><div class="esc-step" id="es-7" onclick="goES(7)"><div class="esc-num">7</div><div class="esc-text">Affiliate</div></div><div class="esc-step" id="es-8" onclick="goES(8)"><div class="esc-num">8</div><div class="esc-text">Review</div></div></div><div class="editor-main"><div class="editor-topbar"><button class="btn btn-ghost btn-sm" onclick="setDP('instructor')"><i class="fas fa-arrow-left"></i>Back</button><div class="flex-1"><div style="font-size:.8rem;font-weight:600" id="edCourseTitle">Untitled Course</div><div style="font-size:.7rem;color:var(--text3)" id="edAutoSave">Draft · Auto-saved</div></div><button class="btn btn-ghost btn-sm" onclick="saveDraftToServer(false)"><i class="fas fa-save"></i>Save Draft</button><button class="btn btn-primary btn-sm" onclick="goES(8)"><i class="fas fa-rocket"></i>Review</button></div><div class="editor-step-panel active" id="esp-1"><div style="max-width:720px;margin:0 auto"><h4 style="margin-bottom:.25rem">Course Basic Info</h4><p style="font-size:.82rem;color:var(--text3);margin-bottom:1.25rem">Tell students what your course is about.</p><div class="form-group"><label class="flabel">Course Title</label><input type="text" class="finput" id="edTitle" placeholder="e.g. JavaScript Mastery: Zero to Freelancer" oninput="document.getElementById('edCourseTitle').textContent=this.value||'Untitled Course'"/></div><div class="form-group"><label class="flabel">Subtitle</label><input type="text" class="finput" id="edSubtitle" placeholder="A short powerful description..."/></div><div class="form-group"><label class="flabel">Description</label><div class="quill-wrapper"><div id="descEditorQuill" style="min-height:200px"></div></div></div><div class="row"><div class="col-12 col-md-4"><div class="form-group"><label class="flabel">Category</label><select class="finput" id="edCategory"><option>Web Development</option><option>AI &amp; Tools</option><option>Freelancing</option><option>Design</option><option>Backend</option><option>Mobile Dev</option><option>Data Science</option></select></div></div><div class="col-12 col-md-4"><div class="form-group"><label class="flabel">Level</label><select class="finput" id="edLevel"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>All Levels</option></select></div></div><div class="col-12 col-md-4"><div class="form-group"><label class="flabel">Language</label><select class="finput" id="edLanguage"><option>English</option><option>Pidgin English</option><option>Yoruba</option><option>Igbo</option><option>Hausa</option></select></div></div></div><div class="row"><div class="col-12 col-md-6"><div class="form-group"><label class="flabel">Thumbnail Emoji</label><input type="text" class="finput" id="edEmoji" placeholder="📚" maxlength="4"/></div></div><div class="col-12 col-md-6"><div class="form-group"><label class="flabel">Promo Video URL (optional)</label><input type="url" class="finput" id="edPromoVideo" placeholder="https://youtube.com/..."/></div></div></div><div class="form-group"><label class="flabel">Learning Outcomes</label><div id="outcomesList" style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.45rem"></div><button class="btn btn-ghost btn-sm" onclick="addOutcome()"><i class="fas fa-plus"></i>Add Outcome</button></div><div class="d-flex items-center gap-2 p-3" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);margin-top:.5rem"><div class="flex-1"><div style="font-size:.84rem;font-weight:600">Issue Certificate on Completion</div><div style="font-size:.74rem;color:var(--text3)">Students who complete get a certificate</div></div><input type="checkbox" checked style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer" id="edCertEnabled"/></div><div style="display:flex;justify-content:flex-end;margin-top:1.5rem"><button class="btn btn-primary" onclick="goES(2)">Next: Lessons <i class="fas fa-arrow-right"></i></button></div></div></div><div class="editor-step-panel" id="esp-2"><div style="max-width:720px;margin:0 auto"><div class="d-flex items-center justify-between mb-3 flex-wrap" style="gap:.5rem"><div><h4 style="margin-bottom:.2rem">Course Curriculum</h4><p style="font-size:.82rem;color:var(--text3)">Minimum <strong style="color:var(--primary)">20 lessons</strong> required to publish</p></div><button class="btn btn-primary btn-sm" onclick="openModal('addLessonModal')"><i class="fas fa-plus"></i>Add Lesson</button></div><div id="lessonCountBadge" style="margin-bottom:.85rem"></div><div id="lessonBuilderList"></div><div style="background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.15);border-radius:var(--radius-sm);padding:.75rem;font-size:.79rem;color:var(--text2);margin-bottom:1rem"><i class="fas fa-info-circle" style="color:var(--primary);margin-right:.3rem"></i>You need at least 20 lessons with content to submit for admin approval.</div><div class="d-flex justify-between mt-3"><button class="btn btn-ghost" onclick="goES(1)"><i class="fas fa-arrow-left"></i>Back</button><button class="btn btn-primary" onclick="goES(3)">Next: Content <i class="fas fa-arrow-right"></i></button></div></div></div><div class="editor-step-panel" id="esp-3"><div style="max-width:720px;margin:0 auto"><h4 style="margin-bottom:.25rem">Lesson Content Editor</h4><p style="font-size:.82rem;color:var(--text3);margin-bottom:1rem">Edit each lesson's content using the rich text editor. Content is always editable even after approval.</p><div id="lessonContentEditor"></div><div class="d-flex justify-between mt-4"><button class="btn btn-ghost" onclick="goES(2)"><i class="fas fa-arrow-left"></i>Back</button><button class="btn btn-primary" onclick="goES(4)">Next: Media <i class="fas fa-arrow-right"></i></button></div></div></div><div class="editor-step-panel" id="esp-4"><div style="max-width:720px;margin:0 auto"><h4 style="margin-bottom:.25rem">Media &amp; Files Upload</h4><p style="font-size:.82rem;color:var(--text3);margin-bottom:1rem" id="uploadLimitNote">Upload videos, PDFs, images, resources for your course.</p><div class="upload-zone" style="padding:2rem;margin-bottom:1rem"><input type="file" multiple id="mediaFileInput" onchange="handleMediaUpload(this)"/><div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div><div style="font-size:.88rem;color:var(--text2);font-weight:600">Drop any files here or click to upload</div><div style="font-size:.74rem;color:var(--text3);margin-top:.3rem" id="uploadHint">Free: max 10 files · Premium: unlimited files of any size</div></div><div id="uploadedFilesList"></div><div class="d-flex justify-between mt-3"><button class="btn btn-ghost" onclick="goES(3)"><i class="fas fa-arrow-left"></i>Back</button><button class="btn btn-primary" onclick="goES(5)">Next: Quiz <i class="fas fa-arrow-right"></i></button></div></div></div><div class="editor-step-panel" id="esp-5"><div style="max-width:720px;margin:0 auto"><div class="d-flex items-center justify-between mb-3 flex-wrap" style="gap:.5rem"><div><h4 style="margin-bottom:.2rem">Quiz Builder</h4><p style="font-size:.82rem;color:var(--text3)">Add quiz questions for this course</p></div><button class="btn btn-primary btn-sm" onclick="addQuizQ()"><i class="fas fa-plus"></i>Add Question</button></div><div id="quizBuilderList"></div><div class="d-flex justify-between mt-3"><button class="btn btn-ghost" onclick="goES(4)"><i class="fas fa-arrow-left"></i>Back</button><button class="btn btn-primary" onclick="goES(6)">Next: Pricing <i class="fas fa-arrow-right"></i></button></div></div></div><div class="editor-step-panel" id="esp-6"><div style="max-width:720px;margin:0 auto"><h4 style="margin-bottom:.25rem">Course Pricing</h4><p style="font-size:.82rem;color:var(--text3);margin-bottom:1rem">Platform takes 20%, you keep 80%.</p><div style="display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.25rem"><div class="price-type-opt selected" id="pt-paid" onclick="selectPriceType('paid')"><i class="fas fa-tag" style="color:var(--primary);width:20px"></i><div><strong>Paid Course</strong><br><small style="color:var(--text3)">Students pay to access</small></div></div><div class="price-type-opt" id="pt-free" onclick="selectPriceType('free')"><i class="fas fa-gift" style="color:var(--accent);width:20px"></i><div><strong>Free Course</strong><br><small style="color:var(--text3)">Open to all students</small></div></div><div class="price-type-opt" id="pt-sub" onclick="selectPriceType('sub')"><i class="fas fa-crown" style="color:var(--gold);width:20px"></i><div><strong>Premium Only</strong><br><small style="color:var(--text3)">Only premium subscribers</small></div></div></div><div id="pricingFields"><div class="row"><div class="col-12 col-md-6"><div class="form-group"><label class="flabel">Price (₦)</label><input type="number" class="finput" id="edPrice" placeholder="e.g. 15000" min="1000"/></div></div><div class="col-12 col-md-6"><div class="form-group"><label class="flabel">Sale Price (₦, optional)</label><input type="number" class="finput" id="edSalePrice" placeholder="e.g. 12000"/></div></div></div></div><div style="background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.15);border-radius:var(--radius-sm);padding:.75rem;font-size:.8rem;color:var(--text2)"><i class="fas fa-info-circle" style="color:var(--primary);margin-right:.3rem"></i>Revenue: <strong style="color:var(--primary)">80%</strong> to you · <strong style="color:var(--text3)">20%</strong> platform fee per sale.</div><div class="d-flex justify-between mt-3"><button class="btn btn-ghost" onclick="goES(5)"><i class="fas fa-arrow-left"></i>Back</button><button class="btn btn-primary" onclick="goES(7)">Next: Affiliate <i class="fas fa-arrow-right"></i></button></div></div></div><div class="editor-step-panel" id="esp-7"><div style="max-width:720px;margin:0 auto"><h4 style="margin-bottom:.25rem">🤝 Affiliate Program</h4><p style="font-size:.82rem;color:var(--text3);margin-bottom:1rem">Let other ChangeX users promote your course and earn commissions.</p><div class="d-flex items-center gap-2 p-3 mb-3" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm)"><div class="flex-1"><div style="font-size:.84rem;font-weight:600">Enable Affiliate Program</div><div style="font-size:.74rem;color:var(--text3)">After admin approves, all users get notified</div></div><input type="checkbox" id="edAffEnabled" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer" onchange="toggleAffiliateFields(this.checked)"/></div><div id="affiliateFields" style="display:none"><div class="form-group"><label class="flabel">Commission Percentage (%)</label><input type="number" class="finput" id="edAffPercent" placeholder="e.g. 15" min="5" max="50" value="15"/></div><div class="form-group"><label class="flabel">Affiliate Offer Description</label><textarea class="finput" style="min-height:80px;resize:vertical" id="edAffDesc" placeholder="e.g. Promote this JS course and earn 15% commission!"></textarea></div></div><div class="d-flex justify-between mt-3"><button class="btn btn-ghost" onclick="goES(6)"><i class="fas fa-arrow-left"></i>Back</button><button class="btn btn-primary" onclick="goES(8)">Next: Review <i class="fas fa-arrow-right"></i></button></div></div></div><div class="editor-step-panel" id="esp-8"><div style="max-width:720px;margin:0 auto"><h4 style="margin-bottom:.25rem">Review &amp; Submit</h4><p style="font-size:.82rem;color:var(--text3);margin-bottom:1rem">Review your course before submitting for admin approval.</p><div id="courseReviewSummary"></div><div style="background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.15);border-radius:var(--radius-sm);padding:.85rem;margin:1rem 0;font-size:.8rem;color:var(--text2)"><i class="fas fa-info-circle" style="color:var(--accent);margin-right:.3rem"></i>After submission, admin reviews your course. On approval, all ChangeX users get a notification. You can still edit after approval — changes will be reviewed again.</div><div class="d-flex justify-between mt-3"><button class="btn btn-ghost" onclick="goES(7)"><i class="fas fa-arrow-left"></i>Back</button><button class="btn btn-primary btn-lg" onclick="submitCourseForApproval()"><i class="fas fa-rocket"></i>Submit for Approval</button></div></div></div></div></div></div>
 
-                    <!-- AI TUTOR -->
-                    <div id="dash-ai" class="dash-sub"><div class="page-hd"><h2 class="page-title">🤖 AI Tutor</h2><p class="page-sub">Your personal AI-powered learning assistant</p></div><div id="aiPlanNote" style="margin-bottom:.85rem"></div><div class="card card-p mb-3"><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.85rem"><button class="fpill active" onclick="switchAIMode('chat',this)"><i class="fas fa-comments"></i>Chat</button><button class="fpill" onclick="switchAIMode('explain',this)"><i class="fas fa-book-open"></i>Explain Code</button><button class="fpill" onclick="switchAIMode('quiz',this)"><i class="fas fa-question-circle"></i>Generate Quiz</button><button class="fpill" onclick="switchAIMode('upload',this)"><i class="fas fa-upload"></i>Upload &amp; Analyze</button></div><div id="aiMessages" style="min-height:280px;max-height:380px;overflow-y:auto;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:.65rem;display:flex;flex-direction:column;gap:.6rem"></div><div class="d-flex gap-2"><input type="text" class="finput flex-1" id="aiInput" placeholder="Ask me anything about coding or your course..." onkeydown="if(event.key==='Enter')sendAI()"/><button class="btn btn-primary btn-sm" onclick="sendAI()"><i class="fas fa-paper-plane"></i></button></div></div><div class="card card-p" id="aiUploadPanel" style="display:none"><h6 style="margin-bottom:.65rem">📎 Upload Files for AI Analysis</h6><div id="aiUploadInfo" style="font-size:.8rem;color:var(--text3);margin-bottom:.65rem"></div><div class="upload-zone" style="padding:1.5rem"><input type="file" multiple id="aiFileInput" onchange="handleAIUpload(this)"/><div class="upload-icon"><i class="fas fa-file-upload"></i></div><div style="font-size:.84rem;color:var(--text2)">Drop any file here (PDF, image, code, etc.)</div><div style="font-size:.72rem;color:var(--text3);margin-top:.2rem" id="aiUploadLimit"></div></div><div id="aiUploadedFiles" style="margin-top:.65rem"></div></div></div>
+                    <!-- AI TUTOR – UPGRADED WITH SIDEBAR, HISTORY, MODEL SELECTION -->
+                    <div id="dash-ai" class="dash-sub">
+                        <div class="ai-layout">
+                            <!-- ─── SIDEBAR ──────────────────────────── -->
+                            <div class="ai-sidebar">
+                                <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;">
+                                    <button class="btn btn-primary btn-sm w-full" onclick="aiNewChat()">
+                                        <i class="fas fa-plus"></i> New Chat
+                                    </button>
+                                </div>
+                                <div style="margin-bottom:.75rem;">
+                                    <div class="finput-ico">
+                                        <i class="fas fa-search fii"></i>
+                                        <input type="text" class="finput" id="aiSearchInput" placeholder="Search conversations..." oninput="aiSearchConversations(this.value)" style="font-size:.78rem;padding:.3rem .8rem .3rem 2.2rem;">
+                                    </div>
+                                </div>
+                                <div class="ai-conversation-list" id="aiConvList">
+                                    <!-- rendered dynamically -->
+                                </div>
+                                <div style="border-top:1px solid var(--border);padding-top:.75rem;margin-top:.75rem;">
+                                    <div class="d-flex items-center justify-between">
+                                        <span class="badge badge-dark" id="aiUsageBadge">🔋 0/10 today</span>
+                                        <button class="btn btn-gold btn-sm" onclick="openModal('premiumModal')">Upgrade</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ─── CHAT AREA ─────────────────────────── -->
+                            <div class="ai-chat-area">
+                                <div class="ai-chat-header">
+                                    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;">
+                                        <span id="aiChatTitle" style="font-weight:600;font-size:.95rem;">New Chat</span>
+                                        <button class="btn-icon-sm" onclick="aiRenameChat()" title="Rename chat"><i class="fas fa-pen"></i></button>
+                                        <button class="btn-icon-sm" onclick="aiDeleteCurrentChat()" title="Delete chat" style="color:var(--danger);"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;">
+                                        <select class="finput" id="aiModelSelect" style="width:auto;font-size:.73rem;padding:.2rem .4rem;min-height:32px;" onchange="aiChangeModel(this.value)">
+                                            <option value="deepseek/deepseek-r1">🧠 DeepSeek</option>
+                                            <option value="google/gemini-2.0-flash-exp">⚡ Gemini</option>
+                                            <option value="mistralai/mistral-7b-instruct">🌀 Mistral</option>
+                                        </select>
+                                        <select class="finput" id="aiModeSelect" style="width:auto;font-size:.73rem;padding:.2rem .4rem;min-height:32px;" onchange="aiChangeMode(this.value)">
+                                            <option value="concise">📌 Concise</option>
+                                            <option value="detailed" selected>📖 Detailed</option>
+                                            <option value="step-by-step">🔢 Step‑by‑Step</option>
+                                        </select>
+                                        <button class="btn-icon-sm" onclick="aiClearChat()" title="Clear chat"><i class="fas fa-eraser"></i></button>
+                                    </div>
+                                </div>
+                                <div class="ai-messages" id="aiMessages">
+                                    <!-- Rendered dynamically -->
+                                </div>
+                                <div class="ai-input-area">
+                                    <textarea class="finput" id="aiInput" rows="2" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();aiSendMessage();}"></textarea>
+                                    <button class="btn btn-primary" onclick="aiSendMessage()" style="height:44px;flex-shrink:0;"><i class="fas fa-paper-plane"></i></button>
+                                    <button class="btn-icon" onclick="document.getElementById('aiFileInput').click()" title="Upload file (Premium)"><i class="fas fa-paperclip"></i></button>
+                                    <input type="file" id="aiFileInput" style="display:none" accept=".txt,.pdf,.png,.jpg,.jpeg" onchange="aiUploadFile(this)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- BOOKS -->
                     <div id="dash-books" class="dash-sub"><div class="page-hd"><h2 class="page-title">📚 Digital Library</h2><p class="page-sub">Browse, read and download books</p></div><div id="booksGrid" class="courses-grid"></div></div>
@@ -5518,7 +5631,17 @@
         let currentPaymentType = 'course';
         let currentManualCourseId = null;
         let currentManualBookId = null;
-        let chartInstance = null;
+
+        // ─── AI STATE ──────────────────────────────────────────────────
+        const AI = {
+            conversations: [],
+            currentId: null,
+            messages: [],
+            model: 'deepseek/deepseek-r1',
+            mode: 'detailed',
+            usage: { today: 0, limit: 10 },
+            searchQuery: '',
+        };
 
         // ═══════════════════════════════════════════════════════════════
         // APPLICATION STATE
@@ -5615,10 +5738,7 @@
             currentBook: null,
             currentBookId: null,
             adminBookFilter: 'all',
-            editingBookId: null,
-            learningPath: [],
-            loungeMessages: [],
-            loungeConnected: false
+            editingBookId: null
         };
 
         // ═══════════════════════════════════════════════════════════════
@@ -5683,12 +5803,19 @@
             return initial;
         }
 
+        function getTierBadge(user) {
+            const isElite = user?.isElite || user?.tier === 'elite';
+            const isPremium = user?.isPremium || user?.tier === 'premium';
+            if (isElite) return `<span class="badge-elite"><i class="fas fa-crown"></i> Elite</span>`;
+            if (isPremium) return `<span class="badge badge-premium">Premium</span>`;
+            return '';
+        }
+
         // ═══════════════════════════════════════════════════════════════
         // LAZY LOAD QUILL & PAYSTACK
         // ═══════════════════════════════════════════════════════════════
         let quillLoaded = false;
         let paystackLoaded = false;
-        let chartJsLoaded = false;
 
         async function loadQuill() {
             if (quillLoaded || window.Quill) { quillLoaded = true; return; }
@@ -5724,173 +5851,281 @@
             });
         }
 
-        async function loadChartJs() {
-            if (chartJsLoaded || window.Chart) { chartJsLoaded = true; return; }
-            return new Promise((resolve, reject) => {
-                try {
-                    const script = document.createElement('script');
-                    script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
-                    script.onload = () => { chartJsLoaded = true;
-                        resolve(); };
-                    script.onerror = reject;
-                    document.head.appendChild(script);
-                } catch (e) { reject(e); }
-            });
+        // ─── AI: Load conversations from localStorage ──────────────────
+        function aiLoadConversations() {
+            try {
+                const saved = localStorage.getItem('ai_conversations');
+                AI.conversations = saved ? JSON.parse(saved) : [];
+            } catch { AI.conversations = []; }
         }
 
-        // Override functions that need Quill
-        const origInitPostQuill = window.initPostQuill;
-        window.initPostQuill = async function() {
-            await loadQuill();
-            if (typeof origInitPostQuill === 'function') origInitPostQuill();
-            else {
-                if (S.postQuill) { try { S.postQuill.focus(); } catch (e) {} return; }
-                const el = document.getElementById('postEditor');
-                if (!el || typeof Quill === 'undefined') { setTimeout(window.initPostQuill, 300); return; }
-                try {
-                    S.postQuill = new Quill('#postEditor', {
-                        theme: 'snow',
-                        placeholder: 'Write your post content here...',
-                        modules: {
-                            toolbar: [
-                                ['bold', 'italic', 'underline'],
-                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                ['link', 'image', 'code-block'],
-                                ['clean']
-                            ]
-                        }
-                    });
-                    if (!S.postQuill.root.innerHTML || S.postQuill.root.innerHTML === '<p><br></p>') {
-                        S.postQuill.root.innerHTML = '';
-                    }
-                } catch (e) { console.warn('Quill init error:', e);
-                    setTimeout(window.initPostQuill, 500); }
+        function aiSaveConversations() {
+            localStorage.setItem('ai_conversations', JSON.stringify(AI.conversations));
+        }
+
+        // ─── AI: New Chat ──────────────────────────────────────────────
+        function aiNewChat() {
+            const newChat = {
+                id: 'chat_' + Date.now(),
+                title: 'New Chat',
+                createdAt: new Date().toISOString(),
+                messages: [],
+            };
+            AI.conversations.unshift(newChat);
+            AI.currentId = newChat.id;
+            AI.messages = [];
+            aiSaveConversations();
+            aiRenderSidebar();
+            aiRenderChat();
+            document.getElementById('aiChatTitle').textContent = 'New Chat';
+            aiUpdateUsage();
+        }
+
+        // ─── AI: Switch Chat ───────────────────────────────────────────
+        function aiSwitchChat(chatId) {
+            const chat = AI.conversations.find(c => c.id === chatId);
+            if (!chat) return;
+            AI.currentId = chatId;
+            AI.messages = chat.messages || [];
+            aiRenderChat();
+            document.getElementById('aiChatTitle').textContent = chat.title;
+            aiRenderSidebar();
+        }
+
+        // ─── AI: Send Message ──────────────────────────────────────────
+        async function aiSendMessage() {
+            const input = document.getElementById('aiInput');
+            const text = input.value.trim();
+            if (!text) return;
+            if (!AI.currentId) aiNewChat();
+
+            AI.messages.push({ role: 'user', content: text });
+            aiRenderChat();
+            input.value = '';
+            input.style.height = 'auto';
+
+            const chat = AI.conversations.find(c => c.id === AI.currentId);
+            if (chat && chat.messages.length === 0 && chat.title === 'New Chat') {
+                chat.title = text.substring(0, 40) + (text.length > 40 ? '...' : '');
+                document.getElementById('aiChatTitle').textContent = chat.title;
             }
-        };
 
-        const origInitQuillEditors = window.initQuillEditors;
-        window.initQuillEditors = async function() {
-            await loadQuill();
-            if (typeof origInitQuillEditors === 'function') origInitQuillEditors();
-            else {
-                setTimeout(() => {
-                    const descEl = document.getElementById('descEditorQuill');
-                    if (descEl && !S.quillEditors['descEditorQuill'] && typeof Quill !== 'undefined') {
-                        const existingContent = S.currentCourseData?.description || '';
-                        S.quillEditors['descEditorQuill'] = new Quill('#descEditorQuill', { theme: 'snow',
-                            placeholder: 'Write a compelling description...', modules: { toolbar: [
-                                    ['bold', 'italic', 'underline'], [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                                    ['link', 'code-block'], ['clean']
-                                ] } });
-                        if (existingContent && existingContent !== 'No description provided') { S.quillEditors[
-                                'descEditorQuill'].root.innerHTML = existingContent; }
-                    }
-                }, 300);
-            }
-        };
+            const typingId = 'typing_' + Date.now();
+            AI.messages.push({ role: 'assistant', content: '...', typing: true, id: typingId });
+            aiRenderChat();
+            aiScrollToBottom();
 
-        // ProcessPayment override to load Paystack
-        const origProcessPayment = window.processPayment;
-        window.processPayment = async function() {
-            await loadPaystack();
-            if (typeof origProcessPayment === 'function') return origProcessPayment();
-            // Fallback implementation
-            const type = currentPaymentType;
-            let item, id, amount;
-            if (type === 'course') {
-                item = S.currentBuyCourse;
-                if (!item) return;
-                id = item._id;
-                amount = item.salePrice || item.price || 0;
-            } else if (type === 'book') {
-                item = S.currentBuyBook;
-                if (!item) return;
-                id = item._id;
-                amount = item.price || 0;
-            } else { toast('Invalid payment type', 'error'); return; }
-            const email = S.user?.email;
-            if (!email) { toast('Please log in to purchase', 'error'); return; }
-            showLoading('Preparing payment...');
             try {
-                let code = getAffiliateCodeFromCookie();
-                const manualCode = document.getElementById('buyRefCode')?.value.trim();
-                if (manualCode) code = manualCode;
-                const metadata = { type, [`${type}Id`]: id, userId: S.user._id, affiliateCode: code || undefined,
-                    referralCode: code || undefined };
-                const paymentIntent = await apiCall('/payments/initialize-paystack', { method: 'POST',
-                    body: { email, amount, currency: 'NGN', metadata } });
-                const { reference, amount: paystackAmount } = paymentIntent.data;
-                const handler = PaystackPop.setup({
-                    key: PAYSTACK_PUBLIC_KEY,
-                    email,
-                    amount: paystackAmount,
-                    currency: 'NGN',
-                    ref: reference,
-                    metadata: { custom_fields: [{ display_name: type.charAt(0).toUpperCase() + type.slice(1),
-                            variable_name: type, value: item.title }, { display_name: 'User ID',
-                            variable_name: 'user_id', value: S.user._id }] },
-                    callback: async (response) => {
-                        const verify = await apiCall('/payments/verify-transaction', {
-                            method: 'POST',
-                            body: { reference: response.reference, type, courseId: type === 'course' ?
-                                    id : undefined, bookId: type === 'book' ? id : undefined }
-                        });
-                        if (verify.success) {
-                            toast('✅ Payment successful!', 'success');
-                            closeModal('buyCourseModal');
-                            await renderWallet();
-                            if (type === 'course') {
-                                await loadEnrollments();
-                                if (S.dp === 'courses') renderCourseGrid(S.courseFilter);
-                                else if (S.dp === 'explore') renderExplore();
-                                else setDP('courses');
-                            } else if (type === 'book') {
-                                if (S.currentBook) {
-                                    S.currentBook.isPurchased = true;
-                                    if (S.dp === 'book-detail') renderBookDetail(S.currentBook);
-                                }
-                                await loadBooks();
-                                setDP('books');
-                            }
-                            renderWallet();
-                        } else {
-                            toast('Verification failed.', 'error');
-                        }
-                    },
-                    onClose: () => { toast('Payment cancelled', 'warning'); }
-                });
-                handler.openIframe();
-            } catch (err) { toast('Payment failed: ' + err.message, 'error'); } finally { hideLoading(); }
-        };
-
-        const origDoPremiumPaystack = window.doPremiumPaystack;
-        window.doPremiumPaystack = async function() {
-            await loadPaystack();
-            if (typeof origDoPremiumPaystack === 'function') return origDoPremiumPaystack();
-            const referralCode = document.getElementById('premReferralCode')?.value.trim() || '';
-            const btn = document.querySelector('#premiumModal .paystack-btn');
-            if (btn) { btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner spin"></i> Processing...'; }
-            showLoading('Redirecting to payment...');
-            try {
-                const res = await apiCall('/payments/subscribe', {
+                const res = await apiCall('/ai/chat', {
                     method: 'POST',
-                    body: { plan: 'premium', paymentMethod: 'paystack', referralCode }
+                    body: {
+                        prompt: text,
+                        conversationId: AI.currentId,
+                        model: AI.model,
+                        mode: AI.mode,
+                    }
                 });
-                if (res.data?.paymentUrl) {
-                    window.location.href = res.data.paymentUrl;
-                } else {
-                    toast('Could not initiate payment.', 'error');
-                    hideLoading();
+
+                const idx = AI.messages.findIndex(m => m.id === typingId);
+                if (idx !== -1) AI.messages.splice(idx, 1);
+
+                const responseText = res.data?.response || 'Sorry, I could not process that.';
+                AI.messages.push({ role: 'assistant', content: responseText });
+
+                const chat = AI.conversations.find(c => c.id === AI.currentId);
+                if (chat) {
+                    chat.messages = AI.messages;
+                    aiSaveConversations();
                 }
-            } catch (e) {
-                toast('Payment error: ' + e.message, 'error');
-                hideLoading();
-            } finally {
-                if (btn) { btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-lock"></i> Pay ₦5,000 with Paystack'; }
+                aiRenderChat();
+                aiUpdateUsage();
+            } catch (err) {
+                const idx = AI.messages.findIndex(m => m.id === typingId);
+                if (idx !== -1) AI.messages.splice(idx, 1);
+                AI.messages.push({ role: 'assistant', content: '❌ Error: ' + err.message });
+                aiRenderChat();
             }
-        };
+            aiScrollToBottom();
+        }
+
+        // ─── AI: Render Chat ──────────────────────────────────────────
+        function aiRenderChat() {
+            const container = document.getElementById('aiMessages');
+            if (!container) return;
+            container.innerHTML = AI.messages.map(msg => {
+                const isUser = msg.role === 'user';
+                const isTyping = msg.typing;
+                return `
+                    <div style="display:flex;justify-content:${isUser ? 'flex-end' : 'flex-start'};gap:.4rem;">
+                        ${!isUser ? `<div class="si si-primary" style="width:28px;height:28px;flex-shrink:0;"><i class="fas fa-robot"></i></div>` : ''}
+                        <div style="max-width:80%;padding:.6rem .85rem;border-radius:var(--radius-sm);background:${isUser ? 'var(--primary)' : 'var(--bg2)'};color:${isUser ? '#000' : 'var(--text)'};${isTyping ? 'animation:pulse 1s infinite;' : ''}">
+                            ${isTyping ? '<span class="loading-dots">...</span>' : msg.content}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function aiScrollToBottom() {
+            const container = document.getElementById('aiMessages');
+            if (container) container.scrollTop = container.scrollHeight;
+        }
+
+        // ─── AI: Render Sidebar ────────────────────────────────────────
+        function aiRenderSidebar() {
+            const container = document.getElementById('aiConvList');
+            if (!container) return;
+            const q = AI.searchQuery.toLowerCase().trim();
+            let filtered = AI.conversations;
+            if (q) filtered = filtered.filter(c => c.title.toLowerCase().includes(q));
+            container.innerHTML = filtered.map(chat => `
+                <div class="ai-conv-item ${chat.id === AI.currentId ? 'active' : ''}" 
+                     onclick="aiSwitchChat('${chat.id}')">
+                    <i class="fas fa-message" style="font-size:.7rem;color:var(--text3);"></i>
+                    <div style="flex:1;min-width:0;font-size:.78rem;font-weight:${chat.id === AI.currentId ? '600' : '400'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                        ${chat.title}
+                    </div>
+                    <button class="btn-icon-sm" onclick="event.stopPropagation();aiDeleteChat('${chat.id}')" style="font-size:.6rem;width:20px;height:20px;color:var(--danger);"><i class="fas fa-times"></i></button>
+                </div>
+            `).join('');
+        }
+
+        // ─── AI: Search ────────────────────────────────────────────────
+        function aiSearchConversations(query) {
+            AI.searchQuery = query;
+            aiRenderSidebar();
+        }
+
+        // ─── AI: Delete Chat ──────────────────────────────────────────
+        function aiDeleteChat(chatId) {
+            if (!confirm('Delete this chat permanently?')) return;
+            AI.conversations = AI.conversations.filter(c => c.id !== chatId);
+            if (AI.currentId === chatId) {
+                AI.currentId = AI.conversations.length ? AI.conversations[0].id : null;
+                AI.messages = AI.currentId ? AI.conversations.find(c => c.id === AI.currentId)?.messages || [] : [];
+            }
+            aiSaveConversations();
+            aiRenderSidebar();
+            aiRenderChat();
+            if (!AI.currentId) aiNewChat();
+        }
+
+        // ─── AI: Delete Current Chat ──────────────────────────────────
+        function aiDeleteCurrentChat() {
+            if (AI.currentId) aiDeleteChat(AI.currentId);
+        }
+
+        // ─── AI: Clear Chat ────────────────────────────────────────────
+        function aiClearChat() {
+            if (!confirm('Clear all messages in this chat?')) return;
+            const chat = AI.conversations.find(c => c.id === AI.currentId);
+            if (chat) {
+                chat.messages = [];
+                AI.messages = [];
+                aiSaveConversations();
+                aiRenderChat();
+            }
+        }
+
+        // ─── AI: Rename Chat ──────────────────────────────────────────
+        function aiRenameChat() {
+            const chat = AI.conversations.find(c => c.id === AI.currentId);
+            if (!chat) return;
+            const newTitle = prompt('Rename chat:', chat.title);
+            if (newTitle && newTitle.trim()) {
+                chat.title = newTitle.trim();
+                document.getElementById('aiChatTitle').textContent = chat.title;
+                aiSaveConversations();
+                aiRenderSidebar();
+            }
+        }
+
+        // ─── AI: Model / Mode ─────────────────────────────────────────
+        function aiChangeModel(model) {
+            AI.model = model;
+            if (!S.isPremium && !['deepseek/deepseek-r1', 'google/gemini-2.0-flash-exp'].includes(model)) {
+                toast('Please upgrade to Premium to use this model.', 'warning');
+                document.getElementById('aiModelSelect').value = 'deepseek/deepseek-r1';
+                AI.model = 'deepseek/deepseek-r1';
+                return;
+            }
+            toast(`Switched to ${model.split('/')[1] || model}`, 'info');
+        }
+
+        function aiChangeMode(mode) {
+            AI.mode = mode;
+            toast(`Mode: ${mode}`, 'info');
+        }
+
+        // ─── AI: Usage ─────────────────────────────────────────────────
+        function aiUpdateUsage() {
+            const today = new Date().toDateString();
+            const key = `ai_usage_${S.user?._id}_${today}`;
+            const used = parseInt(localStorage.getItem(key) || '0');
+            document.getElementById('aiUsageBadge').textContent = `🔋 ${used}/10 today`;
+        }
+
+        // ─── AI: Upload File (Premium) ────────────────────────────────
+        async function aiUploadFile(input) {
+            if (!S.isPremium) {
+                toast('File uploads are a Premium feature. Upgrade to unlock!', 'warning');
+                openModal('premiumModal');
+                input.value = '';
+                return;
+            }
+            const file = input.files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('file', file);
+            showLoading('Uploading file for AI analysis...');
+            try {
+                const token = localStorage.getItem('cx_accessToken');
+                const res = await fetch(`${API_BASE}/ai/upload`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData,
+                });
+                const data = await res.json();
+                if (data.success) {
+                    toast('✅ File analyzed!', 'success');
+                    const analysis = data.data.analysis || 'File received. Ask me about it in the chat!';
+                    AI.messages.push({ role: 'assistant', content: `📎 **${data.data.filename}**\n\n${analysis}` });
+                    const chat = AI.conversations.find(c => c.id === AI.currentId);
+                    if (chat) {
+                        chat.messages = AI.messages;
+                        aiSaveConversations();
+                    }
+                    aiRenderChat();
+                    aiScrollToBottom();
+                } else {
+                    toast(data.message || 'Upload failed', 'error');
+                }
+            } catch (err) {
+                toast('Upload error: ' + err.message, 'error');
+            } finally {
+                hideLoading();
+                input.value = '';
+            }
+        }
+
+        // ─── AI: Init ──────────────────────────────────────────────────
+        function initAI() {
+            aiLoadConversations();
+            aiRenderSidebar();
+            if (AI.conversations.length === 0) {
+                aiNewChat();
+            } else {
+                aiSwitchChat(AI.conversations[0].id);
+            }
+            aiUpdateUsage();
+            // Set initial model/mode selectors
+            document.getElementById('aiModelSelect').value = AI.model;
+            document.getElementById('aiModeSelect').value = AI.mode;
+        }
+
+        // ─── Override initAI to be called from setDP ──────────────────
+        const origInitAI = window.initAI;
+        window.initAI = initAI;
 
         // ═══════════════════════════════════════════════════════════════
         // DEBOUNCE / THROTTLE UTILITIES
@@ -5979,7 +6214,6 @@
 
             try {
                 const controller = new AbortController();
-                // Increase timeout for uploads (5 minutes)
                 const timeoutDuration = endpoint.includes('upload') ? 300000 : 30000;
                 const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
                 fetchOptions.signal = controller.signal;
@@ -6074,14 +6308,6 @@
                         initApp === 'function') initApp(); }, 50); }
             if (pg === 'setup') { setTimeout(() => { if (typeof showWizStep === 'function') showWizStep(S.wizStep || 0); },
                     50); }
-            // Auto-refresh: force reload of data on navigation
-            if (pg === 'app' || pg === 'login' || pg === 'register') {
-                setTimeout(() => {
-                    if (S.loggedIn && pg === 'app') {
-                        initApp();
-                    }
-                }, 100);
-            }
         }
 
         function forceRedirect(targetPage) {
@@ -6092,10 +6318,6 @@
                 target.classList.add('active');
                 S.page = targetPage; }
             if (window.location.hash !== `#${targetPage}`) window.location.hash = targetPage;
-            // Auto-refresh after redirect
-            if (targetPage === 'app' && S.loggedIn) {
-                setTimeout(() => { initApp(); }, 200);
-            }
         }
 
         function setDP(pg) {
@@ -6142,8 +6364,6 @@
                         'creator') && S.user?.isApprovedInstructor);
                 fab.style.display = hasCreatorAccess ? 'block' : 'none'; }
             checkPlanExpiry();
-            // Show premium lounge if premium/elite
-            updatePremiumFeaturesUI();
         }
 
         function openSidebar() { document.getElementById('sidebar')?.classList.add('open');
@@ -6253,20 +6473,6 @@
                     toast(`📚 Book removed: ${data.title}`, 'info');
                     if (S.dp === 'books') loadBooks();
                     if (S.dp === 'admin' && S.admSec === 'books') loadAdminBooks();
-                });
-                // Premium Lounge messages
-                socket.on('lounge_message', (data) => {
-                    if (S.isPremium || S.isElite) {
-                        const container = document.getElementById('loungeMessages');
-                        if (container) {
-                            const msgDiv = document.createElement('div');
-                            msgDiv.className = 'lounge-message';
-                            msgDiv.innerHTML =
-                                `<strong>${escapeHtml(data.userName || 'User')}:</strong> ${escapeHtml(data.message)}`;
-                            container.appendChild(msgDiv);
-                            container.scrollTop = container.scrollHeight;
-                        }
-                    }
                 });
             } catch (e) { console.warn('Socket init failed:', e.message); }
         }
@@ -6439,7 +6645,10 @@
             if (S.page === 'landing' || document.getElementById('page-landing').classList.contains('active')) {
                 updateLandingHeroStats();
             }
-            updatePremiumFeaturesUI();
+            // Force refresh after login
+            setTimeout(() => {
+                if (S.dp) setDP(S.dp);
+            }, 300);
         }
 
         function handleGoogleLogin() { window.location.href = `${API_BASE}/auth/google`; }
@@ -6484,7 +6693,7 @@
             S.appCourses = [];
             toast('See you soon! 👋', 'info');
             // Force full reload to clear all state
-            window.location.reload();
+            window.location.href = '/';
         }
 
         function togglePw(id, btn) {
@@ -6508,10 +6717,9 @@
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // LANDING PAGE HERO STATS – FIXED
+        // LANDING PAGE HERO STATS – HARDCODED MARKETING STATS
         // ═══════════════════════════════════════════════════════════════
         function updateLandingHeroStats() {
-            // Hardcoded marketing stats
             document.getElementById('heroEarnings').textContent = '₦85M+';
             document.getElementById('heroReferrals').textContent = '₦12M+';
             document.getElementById('heroCourses').textContent = '₦45M+';
@@ -6627,10 +6835,9 @@
                     .trim(); });
             const sl = document.getElementById('sbLevel');
             if (sl) {
-                const tier = S.user.roles?.includes('admin') ? 'Admin' :
-                    S.isElite ? 'Elite 👑' :
-                    S.isPremium ? 'Premium' : 'Free';
-                sl.textContent = `⚡ Lvl ${S.user.level || 1} · ${tier}`;
+                const tierLabel = S.isElite ? 'Elite' : S.isPremium ? 'Premium' : 'Free';
+                const adminLabel = S.user.roles?.includes('admin') ? ' · Admin' : '';
+                sl.textContent = `⚡ Lvl ${S.user.level || 1} · ${tierLabel}${adminLabel}`;
             }
             if (document.getElementById('setEmail')) document.getElementById('setEmail').value = S.user.email || '';
             if (document.getElementById('setFirstName')) document.getElementById('setFirstName').value = S.user.firstName ||
@@ -6648,8 +6855,8 @@
                 `${FRONTEND_URL}/?ref=${refCode}`;
             if (document.getElementById('refCode')) document.getElementById('refCode').textContent = refCode;
             if (document.getElementById('wizRefCode')) document.getElementById('wizRefCode').textContent = refCode;
-            const hasCreatorAccess = S.isPremium || S.isElite || S.user?.roles?.includes('admin') || (S.user?.roles
-                ?.includes('creator') && S.user?.isApprovedInstructor);
+            const hasCreatorAccess = S.isPremium || S.user?.roles?.includes('admin') || (S.user?.roles?.includes('creator') &&
+                S.user?.isApprovedInstructor);
             document.getElementById('instVerifiedBadge').textContent = hasCreatorAccess ? 'Verified' : 'Free';
             const navInstructor = document.getElementById('nav-instructor');
             if (navInstructor) navInstructor.style.display = hasCreatorAccess ? '' : 'none';
@@ -6659,37 +6866,6 @@
             if (fab) fab.style.display = hasCreatorAccess ? 'block' : 'none';
             renderCurrencySelectorUI();
             updateLandingHeroStats();
-            updatePremiumFeaturesUI();
-        }
-
-        // ─── UPDATE PREMIUM FEATURES UI ──────────────────────────────────
-        function updatePremiumFeaturesUI() {
-            const isPremium = S.isPremium || S.isElite;
-            const lounge = document.getElementById('premiumLounge');
-            if (lounge) {
-                lounge.style.display = isPremium ? 'block' : 'none';
-                if (isPremium && !S.loungeConnected) {
-                    S.loungeConnected = true;
-                    if (socket) {
-                        socket.emit('join_lounge', { userId: S.user?._id });
-                    }
-                }
-            }
-            const analytics = document.getElementById('instAnalytics');
-            if (analytics) {
-                analytics.style.display = isPremium ? 'block' : 'none';
-                if (isPremium && S.dp === 'instructor') {
-                    renderAnalyticsChart();
-                }
-            }
-            // Show premium badge in sidebar
-            const levelEl = document.getElementById('sbLevel');
-            if (levelEl) {
-                const tier = S.user?.roles?.includes('admin') ? 'Admin' :
-                    S.isElite ? 'Elite 👑' :
-                    S.isPremium ? 'Premium' : 'Free';
-                levelEl.textContent = `⚡ Lvl ${S.user?.level || 1} · ${tier}`;
-            }
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -6754,17 +6930,17 @@
                 const warning = document.getElementById('planWarning');
                 warning.style.display = 'flex';
                 document.getElementById('planWarningText').textContent =
-                    `Your ${S.isElite ? 'Elite' : 'Premium'} plan expires in ${daysLeft} day${daysLeft > 1 ? 's' : ''}. Renew now to keep earning.`;
+                    `Your Premium plan expires in ${daysLeft} day${daysLeft > 1 ? 's' : ''}. Renew now to keep earning.`;
                 if (!S.planExpiryWarningShown) {
-                    toast(`⚠️ Your ${S.isElite ? 'Elite' : 'Premium'} plan expires in ${daysLeft} days!`, 'warning');
+                    toast(`⚠️ Your Premium plan expires in ${daysLeft} days!`, 'warning');
                     S.planExpiryWarningShown = true;
                 }
-            } else if (daysLeft <= 0 && (S.isPremium || S.isElite)) {
+            } else if (daysLeft <= 0 && S.isPremium) {
                 const warning = document.getElementById('planWarning');
                 warning.style.display = 'flex';
                 document.getElementById('planWarningText').textContent =
-                    'Your plan has expired! Renew now to continue enjoying premium features.';
-                toast('⚠️ Your plan has expired!', 'warning');
+                    'Your Premium plan has expired! Renew now to continue enjoying premium features.';
+                toast('⚠️ Your Premium plan has expired!', 'warning');
             } else {
                 document.getElementById('planWarning').style.display = 'none';
             }
@@ -7063,17 +7239,13 @@
             const slug = post.slug || post._id;
             const views = post.views || 0;
             const postUrl = `${FRONTEND_URL}/post/${slug}`;
+            const tierBadge = getTierBadge(author);
+            const authorDisplay = `${escapeHtml(author.firstName || 'User')} ${escapeHtml(author.lastName || '')}`;
 
-            // Tier badge
-            let tierBadge = '';
-            if (S.isElite) tierBadge =
-            `<span class="badge badge-elite"><i class="fas fa-crown"></i> Elite</span>`;
-            else if (S.isPremium) tierBadge = `<span class="badge badge-premium">Premium</span>`;
-
-            // Premium lock for content
-            let premiumLock = '';
+            // Premium lock for premium-only content
+            let premiumLockHtml = '';
             if (post.isPremiumOnly && !S.isPremium && !S.isElite) {
-                premiumLock = `
+                premiumLockHtml = `
                     <div style="background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.2);border-radius:var(--radius-sm);padding:.5rem;margin:.5rem 0;text-align:center;">
                         <i class="fas fa-lock" style="color:var(--gold);"></i>
                         <span style="font-size:.78rem;color:var(--text3);">This post is for Premium members only.</span>
@@ -7089,7 +7261,7 @@
                             ${avatarHtml}
                         </div>
                         <div class="post-author-info">
-                            <strong onclick="openUserProfile('${author._id || post.authorId}')" style="cursor:pointer">${escapeHtml(author.firstName || 'User')} ${escapeHtml(author.lastName || '')}</strong>
+                            <strong onclick="openUserProfile('${author._id || post.authorId}')" style="cursor:pointer">${authorDisplay}</strong>
                             <span class="post-date">${new Date(post.publishedAt || post.createdAt).toLocaleDateString()}</span>
                             <span class="badge badge-cyan" style="font-size:.55rem">${post.type || 'article'}</span>
                             ${isAuthor ? `<span class="badge badge-dark" style="font-size:.55rem">You</span>` : ''}
@@ -7105,9 +7277,9 @@
                     <h3 class="post-title" onclick="window.location.href='${postUrl}'">${escapeHtml(post.title)}</h3>
                     ${post.featuredImage ? `<img src="${post.featuredImage}" class="post-image" alt="featured" loading="lazy">` : ''}
                     ${post.videoUrl ? `<video controls style="max-width:100%;border-radius:var(--radius-sm);margin:.75rem 0;"><source src="${post.videoUrl}" type="video/mp4"></video>` : ''}
-                    ${premiumLock}
+                    ${premiumLockHtml}
                     <div class="post-content">
-                        ${post.isPremiumOnly && !S.isPremium && !S.isElite ? '' : contentHtml}
+                        ${contentHtml}
                     </div>
                     <div class="post-stats">
                         <span><i class="fas fa-eye"></i> ${views}</span>
@@ -7261,7 +7433,6 @@
                 const endpoint = isAdmin ? `/admin/posts/${postId}` : `${POSTS_API}/${postId}`;
                 await apiCall(endpoint, { method: 'DELETE' });
                 toast('Post deleted', 'success');
-                // Remove from cache
                 try {
                     const cached = JSON.parse(localStorage.getItem('cx_feed_posts') || '[]');
                     const updated = cached.filter(p => p._id !== postId);
@@ -7387,7 +7558,6 @@
         async function loadFollowing() {
             const container = document.getElementById('followingContainer');
             if (!container) return;
-            // Display followed users
             let html = `<h4 style="margin-bottom:1rem">People you follow (${S.followingUsers?.length || S.following?.length || 0})</h4>`;
             if (S.followingUsers && S.followingUsers.length) {
                 html += `<div class="following-collection" style="margin-bottom:1.5rem">`;
@@ -7395,11 +7565,7 @@
                     const avatarHtml = getAvatarUrl(u) ?
                         `<img src="${getAvatarUrl(u)}" alt="${u.firstName || 'U'}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` :
                         (u.firstName?.[0] || 'U');
-                    let tierBadge = '';
-                    if (u.isElite || u.tier === 'elite') tierBadge =
-                    `<span class="badge badge-elite" style="font-size:.55rem">Elite</span>`;
-                    else if (u.isPremium) tierBadge =
-                        `<span class="badge badge-premium" style="font-size:.55rem">Premium</span>`;
+                    const tierBadge = getTierBadge(u);
                     html += `
                         <div class="following-item" onclick="openUserProfile('${u._id}')">
                             <div class="fi-header">
@@ -7658,15 +7824,11 @@
                 const avatarHtml = getAvatarUrl(u) ?
                     `<img src="${getAvatarUrl(u)}" alt="${u.firstName || 'U'}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` :
                     (u.firstName?.[0] || 'U');
+                const tierBadge = getTierBadge(u);
                 const navFollowingBadge = document.getElementById('navFollowingBadge');
                 if (navFollowingBadge) {
                     navFollowingBadge.textContent = S.following.filter(id => id !== S.user?._id).length;
                 }
-                let tierBadge = '';
-                if (u.isElite || u.tier === 'elite') tierBadge =
-                `<span class="badge badge-elite" style="font-size:.55rem">Elite</span>`;
-                else if (u.isPremium) tierBadge =
-                `<span class="badge badge-premium" style="font-size:.55rem">Premium</span>`;
                 return `
                     <div class="person-card card card-p" onclick="openUserProfile('${u._id}')">
                         <div class="person-avatar" style="background:linear-gradient(135deg,var(--primary),var(--secondary));">
@@ -7754,15 +7916,11 @@
             const challengeProgress = data.challengeProgress || [];
             const isFollowing = data.isFollowing || false;
             const totalEarnings = posts.reduce((sum, p) => sum + (p.earnings || 0), 0);
+            const tierBadge = getTierBadge(user);
 
             const avatarHtml = getAvatarUrl(user) ?
                 `<img src="${getAvatarUrl(user)}" alt="avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` :
                 (user.firstName?.[0] || 'U');
-
-            let tierBadge = '';
-            if (user.isElite || user.tier === 'elite') tierBadge =
-            `<span class="badge badge-elite"><i class="fas fa-crown"></i> Elite</span>`;
-            else if (user.isPremium) tierBadge = `<span class="badge badge-premium">Premium</span>`;
 
             container.innerHTML = `
                 <div class="profile-header" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;background:var(--bg2);padding:1.5rem;border-radius:var(--radius);margin-bottom:1.5rem;">
@@ -7771,13 +7929,14 @@
                     </div>
                     <div style="flex:1;">
                         <h2>${escapeHtml(user.firstName)} ${escapeHtml(user.lastName)}</h2>
+                        ${tierBadge}
                         <p style="color:var(--text2);">${escapeHtml(user.bio || 'No bio yet')}</p>
                         <div style="display:flex;gap:1rem;font-size:.85rem;color:var(--text3);flex-wrap:wrap;">
                             <span><strong>${data.followersCount || 0}</strong> followers</span>
                             <span><strong>${data.followingCount || 0}</strong> following</span>
                             <span><strong>${posts.length}</strong> posts</span>
                             <span><strong>${fmtMoneyAPI(totalEarnings)}</strong> earned from posts</span>
-                            ${tierBadge}
+                            ${user.isPremium ? '<span class="badge badge-gold">Premium</span>' : ''}
                             ${user.isApprovedInstructor ? '<span class="badge badge-violet">Instructor</span>' : ''}
                         </div>
                         ${user._id !== S.user?._id ? `<button class="btn-follow ${isFollowing ? 'following' : ''}" onclick="followUser('${user._id}')" style="margin-top:.5rem;">${isFollowing ? 'Unfollow' : 'Follow'}</button>` : ''}
@@ -7904,7 +8063,6 @@
             checkPlanExpiry();
             loadFeed(1);
             updateSEO({ title: 'ChangeX Academy Dashboard', description: 'Learn tech skills and earn real money on ChangeX Academy.' });
-            updatePremiumFeaturesUI();
         }
 
         async function loadReferralStats() {
@@ -7940,11 +8098,7 @@
             const followersCount = S.following?.length || 0;
             const totalEarnings = S.user?.walletBalance || 0;
             const socialEarnings = S.socialEarnings || 0;
-
-            // Tier badge
-            let tierBadge = '';
-            if (S.isElite) tierBadge = `<span class="badge badge-elite"><i class="fas fa-crown"></i> Elite</span>`;
-            else if (S.isPremium) tierBadge = `<span class="badge badge-premium">Premium</span>`;
+            const tierBadge = getTierBadge(S.user);
 
             el.innerHTML = `
                 <div class="dash-grid">
@@ -7952,20 +8106,21 @@
                         <div id="homeUpgradeBanner" style="display:${showUpgrade ? 'block' : 'none'};background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(251,146,60,.05));border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);padding:1rem;margin-bottom:1rem">
                             <div class="d-flex items-center gap-3 flex-wrap">
                                 <div class="si si-gold"><i class="fas fa-crown"></i></div>
-                                <div style="flex:1"><strong style="font-size:.88rem">Unlock Premium Features!</strong><br><span style="font-size:.76rem;color:var(--text3)">Create courses, earn affiliates, remove ads & get Elite status</span></div>
-                                <button class="btn btn-gold btn-sm" onclick="openModal('premiumModal')"><i class="fas fa-crown"></i>Upgrade</button>
+                                <div style="flex:1"><strong style="font-size:.88rem">Unlock Course Creation!</strong><br><span style="font-size:.76rem;color:var(--text3)">Go Premium to create courses, earn affiliates & remove ads</span></div>
+                                <button class="btn btn-gold btn-sm" onclick="openModal('premiumModal')"><i class="fas fa-crown"></i>Upgrade — ₦5k/mo</button>
                             </div>
                         </div>
                         <div class="welcome-banner">
                             <div>
                                 <div style="font-size:.7rem;color:var(--text3);margin-bottom:.28rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em">${greet}</div>
                                 <h2 style="font-size:1.35rem;margin-bottom:.15rem">${S.user?.firstName || 'User'} ${S.user?.lastName || ''}</h2>
+                                ${tierBadge}
                                 <p style="color:var(--text3);font-size:.8rem;margin:0">You're on a <strong style="color:var(--primary)">${streak}-day streak</strong>! 🔥</p>
                             </div>
                             <div style="display:flex;gap:.4rem;flex-wrap:wrap">
                                 <span class="badge badge-gold"><i class="fas fa-star"></i>Level ${level}</span>
                                 <span class="badge badge-danger"><i class="fas fa-fire"></i>${streak} Streak</span>
-                                ${tierBadge || `<span class="badge badge-premium">${S.user?.roles?.includes('admin') ? '<i class="fas fa-shield-alt"></i>Admin' : S.isPremium ? '<i class="fas fa-crown"></i>Premium' : '<i class="fas fa-user"></i>Free'}</span>`}
+                                <span class="badge badge-premium">${S.user?.roles?.includes('admin') ? '<i class="fas fa-shield-alt"></i>Admin' : S.isElite ? '<i class="fas fa-crown"></i>Elite' : S.isPremium ? '<i class="fas fa-crown"></i>Premium' : '<i class="fas fa-user"></i>Free'}</span>
                             </div>
                         </div>
                         <div class="card card-sm mb-3">
@@ -7987,22 +8142,6 @@
                                 <button class="btn btn-ghost btn-sm" onclick="setDP('courses')">View all</button>
                             </div>
                             ${inProgress.length ? inProgress.slice(0, 3).map(e => { const cId = extractCourseId(e); if (!cId) return ''; return `<div style="display:flex;align-items:center;gap:.75rem;padding:.65rem 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="openEnrollmentLesson('${cId}','${e._id}')"><div style="width:36px;height:36px;background:var(--card2);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.1rem">📚</div><div style="flex:1;min-width:0"><div style="font-size:.82rem;font-weight:600">${e.course?.title || 'Course'}</div><div class="prog mt-1" style="height:4px"><div class="prog-fill pf-primary" style="width:${e.progress || 0}%"></div></div><div style="font-size:.68rem;color:var(--text3);margin-top:.2rem">${e.progress || 0}% complete</div></div><button class="btn btn-primary btn-sm" style="font-size:.68rem;padding:.2rem .55rem">Continue</button></div>`; }).join('') : '<div class="empty-state"><i class="fas fa-book-open"></i><h4>No courses yet</h4><p>Explore and enroll in courses to start learning!</p></div>'}
-                        </div>
-                        <!-- ─── LEARNING PATH (Premium) ─── -->
-                        <div class="learning-path-container" id="learningPathContainer" style="display:${S.isPremium || S.isElite ? 'block' : 'none'};">
-                            <h5 style="margin-bottom:.5rem;">🧭 Your Personalized Learning Path</h5>
-                            <div id="pathQuestions">
-                                <div class="form-group" style="margin-bottom:.5rem;">
-                                    <label class="flabel">What's your main goal?</label>
-                                    <select class="finput" id="goalSelect" style="font-size:.82rem;">
-                                        <option value="freelance">Become a freelancer</option>
-                                        <option value="career">Get a tech job</option>
-                                        <option value="startup">Build my own product</option>
-                                    </select>
-                                </div>
-                                <button class="btn btn-primary btn-sm" onclick="generatePath()"><i class="fas fa-robot"></i> Generate Path</button>
-                            </div>
-                            <div id="pathResult" style="display:none;margin-top:.75rem;"></div>
                         </div>
                     </div>
                     <div class="dash-right">
@@ -8354,7 +8493,7 @@
             try {
                 const token = localStorage.getItem('cx_accessToken');
                 const xhr = new XMLHttpRequest();
-                xhr.timeout = 120000; // 2 minutes
+                xhr.timeout = 120000;
 
                 xhr.upload.onprogress = (event) => {
                     if (event.lengthComputable) {
@@ -8532,6 +8671,7 @@
         // PAYSTACK – UNIFIED PAYMENT (with book unlock)
         // ================================================================
         async function processPayment() {
+            await loadPaystack();
             const type = currentPaymentType;
             let item, id, amount;
             if (type === 'course') {
@@ -8605,6 +8745,7 @@
 
         // ─── DO PREMIUM PAYSTACK – WITH REFERRAL CODE ────────────────
         async function doPremiumPaystack() {
+            await loadPaystack();
             const referralCode = document.getElementById('premReferralCode')?.value.trim() || '';
             const btn = document.querySelector('#premiumModal .paystack-btn');
             if (btn) { btn.disabled = true;
@@ -9040,7 +9181,6 @@
                 document.getElementById('walletWeekChange').innerHTML = pending > 0 ?
                     `<span style="color:var(--gold)">Pending: ${fmtMoneyAPI(pending)}</span>` : '+₦0 this week';
 
-                // ─── FULL BREAKDOWN ──────────────────────────────────────
                 document.getElementById('walletBreakdown').innerHTML = `
                     <div class="web-row"><span>Referral Earnings</span><span style="color:var(--primary);font-weight:700">${fmtMoneyAPI(breakdown.referralEarnings || 0)}</span></div>
                     <div class="web-row"><span>Course Bonuses</span><span style="color:var(--accent);font-weight:700">${fmtMoneyAPI(breakdown.courseBonuses || 0)}</span></div>
@@ -9050,7 +9190,6 @@
                     <div class="web-row" style="border-top:2px solid var(--border);font-weight:800;font-size:.9rem"><span>Total Earnings</span><span style="color:var(--lime)">${fmtMoneyAPI(breakdown.totalEarnings || 0)}</span></div>
                 `;
 
-                // ─── SOCIAL EARNINGS ─────────────────────────────────────
                 const socialEarnings = await apiCall('/posts/my/social-earnings');
                 const socialEarned = socialEarnings.data?.totalEarnings || 0;
                 const breakdownEl = document.getElementById('walletBreakdown');
@@ -9191,11 +9330,7 @@
                     default:
                         value = (u.xp || 0).toLocaleString() + ' XP';
                 }
-                let tierBadge = '';
-                if (u.isElite || u.tier === 'elite') tierBadge =
-                `<span class="badge badge-elite" style="font-size:.55rem">Elite</span>`;
-                else if (u.isPremium) tierBadge =
-                `<span class="badge badge-premium" style="font-size:.55rem">Premium</span>`;
+                const tierBadge = getTierBadge(u);
                 return `<div class="lb-row ${u._id === S.user?._id ? 'you' : ''}"><div class="lb-rank">${['🥇','🥈','🥉'][i] || i + 1}</div><div class="lb-av" style="background:linear-gradient(135deg,var(--violet),var(--cyan))">${(u.firstName || 'U')[0]}</div><div style="flex:1"><div style="font-size:.85rem;font-weight:600">${u.firstName || 'User'} ${u._id === S.user?._id ? '<span class="badge badge-primary" style="font-size:.55rem">You</span>' : ''} ${tierBadge}</div><div style="font-size:.71rem;color:var(--text3)">🔥 ${u.streakDays || 0}-day streak</div></div><div style="font-weight:800;color:var(--primary)">${value}</div></div>`;
             }).join('') || '<div class="empty-state"><p>No data</p></div>';
         }
@@ -9296,91 +9431,10 @@
                 document.getElementById('instPremiumGate').innerHTML =
                     `<div class="premium-gate-overlay"><h4>🔒 Premium Required</h4><p style="color:var(--text3)">Upgrade to Premium or get approved as an instructor to create & sell courses.</p><button class="btn btn-primary" onclick="openModal('premiumModal')">Upgrade — ₦5,000/mo</button></div>`;
                 document.getElementById('instContent').style.display = 'none';
-                document.getElementById('instAnalytics').style.display = 'none';
             } else {
                 document.getElementById('instPremiumGate').style.display = 'none';
                 document.getElementById('instContent').style.display = 'block';
-                document.getElementById('instAnalytics').style.display = 'block';
                 loadInstructorData();
-                renderAnalyticsChart();
-            }
-            updatePremiumFeaturesUI();
-        }
-
-        // ─── RENDER ANALYTICS CHART (Premium/Elite) ────────────────────
-        async function renderAnalyticsChart() {
-            const container = document.getElementById('instAnalytics');
-            if (!container || (!S.isPremium && !S.isElite)) return;
-            try {
-                await loadChartJs();
-                const stats = await apiCall('/instructor/dashboard');
-                const courses = stats.data?.courses || [];
-                if (!courses.length) {
-                    container.innerHTML = '<p style="color:var(--text3);font-size:.82rem;">No course data to display yet.</p>';
-                    return;
-                }
-                const labels = courses.map(c => c.title || 'Untitled');
-                const revenueData = courses.map(c => c.totalRevenue || 0);
-                const studentData = courses.map(c => c.totalStudents || 0);
-
-                if (chartInstance) {
-                    chartInstance.destroy();
-                    chartInstance = null;
-                }
-
-                container.innerHTML = `
-                    <h6 style="margin-bottom:.5rem;">📊 Revenue by Course</h6>
-                    <canvas id="analyticsChartCanvas" style="max-height:250px;"></canvas>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.75rem;">
-                        <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:.5rem;text-align:center;">
-                            <div style="font-size:.6rem;color:var(--text3);text-transform:uppercase;">Total Revenue</div>
-                            <div style="font-weight:800;font-size:1.1rem;color:var(--primary);">${fmtMoneyAPI(revenueData.reduce((a,b)=>a+b,0))}</div>
-                        </div>
-                        <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:.5rem;text-align:center;">
-                            <div style="font-size:.6rem;color:var(--text3);text-transform:uppercase;">Total Students</div>
-                            <div style="font-weight:800;font-size:1.1rem;color:var(--cyan);">${studentData.reduce((a,b)=>a+b,0)}</div>
-                        </div>
-                    </div>
-                `;
-
-                const canvas = document.getElementById('analyticsChartCanvas');
-                if (!canvas) return;
-                const ctx = canvas.getContext('2d');
-                chartInstance = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Revenue (₦)',
-                            data: revenueData,
-                            backgroundColor: 'rgba(212,175,55,0.6)',
-                            borderColor: 'rgba(212,175,55,1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                            legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue(
-                                    '--text3') || '#94A3B8' } }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: { color: getComputedStyle(document.documentElement).getPropertyValue(
-                                        '--text3') || '#94A3B8' }
-                            },
-                            x: {
-                                ticks: { color: getComputedStyle(document.documentElement).getPropertyValue(
-                                        '--text3') || '#94A3B8' }
-                            }
-                        }
-                    }
-                });
-            } catch (e) {
-                console.warn('Analytics chart error:', e);
-                container.innerHTML = '<p style="color:var(--text3);font-size:.82rem;">Analytics coming soon.</p>';
             }
         }
 
@@ -9432,7 +9486,6 @@
             document.getElementById('inst-tab-earnings').style.display = tab === 'earnings' ? 'block' : 'none';
             S.instTab = tab;
             if (tab === 'sales') loadInstructorSales();
-            if (tab === 'courses') renderAnalyticsChart();
         }
 
         async function deleteCourse(courseId) {
@@ -9875,67 +9928,25 @@
         }
 
         // ================================================================
-        // AI TUTOR
+        // AI TUTOR – INIT (already defined above with full history)
         // ================================================================
-        function initAI() {
-            document.getElementById('aiMessages').innerHTML =
-                `<div style="display:flex;gap:.5rem"><div class="si si-c" style="width:28px;height:28px"><i class="fas fa-robot"></i></div><div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.6rem;font-size:.82rem">Hi ${S.user?.firstName || 'there'}! 👋 I'm your ChangeX AI Tutor. Ask me anything about coding, your courses, or tech in general!</div></div>`;
-            document.getElementById('aiPlanNote').innerHTML = (S.isPremium || S.isElite) ?
-                '<span class="badge badge-premium"><i class="fas fa-crown"></i>Premium: Unlimited AI Chat &amp; File Uploads</span>' :
-                '<span class="badge badge-dark">Free: Basic chat · <a style="color:var(--primary);cursor:pointer" onclick="openModal(\'premiumModal\')">Upgrade for Unlimited</a></span>';
-            document.getElementById('aiUploadLimit').textContent = (S.isPremium || S.isElite) ?
-                'No limits — upload PDFs, images, code, anything!' :
-                'Free users: text chat only. Upgrade to Premium for unlimited file uploads.';
-        }
+        // initAI() is already defined above with full sidebar and history support.
 
-        async function sendAI() {
-            const inp = document.getElementById('aiInput');
-            const msgs = document.getElementById('aiMessages');
-            if (!inp?.value.trim()) return;
-            const q = inp.value.trim();
-            msgs.innerHTML +=
-                `<div style="display:flex;justify-content:flex-end;margin-bottom:.5rem"><div style="background:rgba(212,175,55,.12);border-radius:var(--radius-sm);padding:.6rem;font-size:.82rem;max-width:85%">${q}</div></div>`;
-            msgs.innerHTML +=
-                `<div id="aiTyping" style="display:flex;gap:.5rem"><div class="si si-c" style="width:28px;height:28px"><i class="fas fa-robot"></i></div><div style="background:var(--bg3);border-radius:var(--radius-sm);padding:.6rem;font-size:.82rem;color:var(--text3)">Thinking...</div></div>`;
-            inp.value = '';
-            msgs.scrollTop = msgs.scrollHeight;
+        // ─── Clear AI History (backend) ──────────────────────────────────
+        async function clearAIHistory() {
             try {
-                const res = await apiCall('/ai/chat', { method: 'POST', body: { message: q } });
-                const reply = res.data?.response || res.data?.reply ||
-                    'I received your message! Let me help you with that.';
-                const typing = document.getElementById('aiTyping');
-                if (typing) { typing.querySelector('div:last-child').textContent = reply;
-                    typing.removeAttribute('id'); }
-            } catch (e) {
-                const replies = [
-                    'Great question! 💪 Keep learning and building.',
-                    'Excellent topic! Practice makes perfect.',
-                    'I recommend checking out the resources in your course.',
-                    'Keep going! Consistency is key. 🔥'
-                ];
-                const reply = replies[Math.floor(Math.random() * replies.length)];
-                const typing = document.getElementById('aiTyping');
-                if (typing) { typing.querySelector('div:last-child').textContent = reply;
-                    typing.removeAttribute('id'); }
+                await apiCall('/ai/history', { method: 'DELETE' });
+                toast('Chat history cleared.', 'success');
+                AI.conversations = [];
+                AI.messages = [];
+                AI.currentId = null;
+                aiSaveConversations();
+                aiRenderSidebar();
+                aiRenderChat();
+                aiNewChat();
+            } catch (err) {
+                toast('Failed to clear history.', 'error');
             }
-            msgs.scrollTop = msgs.scrollHeight;
-        }
-
-        function switchAIMode(mode, btn) {
-            document.querySelectorAll('#dash-ai .fpill').forEach(p => p.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            document.getElementById('aiUploadPanel').style.display = mode === 'upload' ? 'block' : 'none';
-            if (mode === 'upload' && !S.isPremium && !S.isElite) { toast('File uploads require Premium!', 'warning');
-                openModal('premiumModal'); }
-        }
-
-        function handleAIUpload(input) {
-            if (!S.isPremium && !S.isElite) { toast('Upgrade to Premium for file uploads', 'warning');
-                openModal('premiumModal'); return; }
-            const files = Array.from(input.files);
-            document.getElementById('aiUploadedFiles').innerHTML = files.map(f =>
-                `<div style="font-size:.8rem;margin-bottom:.3rem">✅ ${f.name} — AI analyzing...</div>`).join('');
-            setTimeout(() => toast(`${files.length} file(s) analyzed by AI!`, 'success'), 1500);
         }
 
         // ================================================================
@@ -10283,7 +10294,7 @@
             }
 
             const xhr = new XMLHttpRequest();
-            xhr.timeout = 120000; // 2 minutes
+            xhr.timeout = 120000;
 
             xhr.upload.onprogress = (event) => {
                 if (event.lengthComputable) {
@@ -10368,7 +10379,6 @@
                 return;
             }
 
-            // Validate file size (500MB max)
             if (file.size > 500 * 1024 * 1024) {
                 toast('File exceeds 500MB limit', 'error');
                 input.value = '';
@@ -10396,9 +10406,8 @@
                 progressEl.textContent = 'Uploading... 0%';
             }
 
-            // Use XMLHttpRequest for progress tracking and timeout control
             const xhr = new XMLHttpRequest();
-            xhr.timeout = 600000; // 10 minutes
+            xhr.timeout = 600000;
             xhr.open('POST', `${API_BASE}/admin/upload-file`);
             xhr.setRequestHeader('Authorization', `Bearer ${token}`);
 
@@ -10609,15 +10618,14 @@
         }
 
         function renderSubStatus() {
-            const tier = S.isElite ? 'Elite 👑' : S.isPremium ? 'Premium' : 'Free';
-            document.getElementById('subStatusCard').innerHTML = (S.isPremium || S.isElite) ?
-                `<h5>Your Subscription</h5><div style="background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(20,184,166,.04));border:1px solid rgba(212,175,55,.2);border-radius:var(--radius-sm);padding:1rem"><span class="badge ${S.isElite ? 'badge-elite' : 'badge-premium'}"><i class="fas fa-crown"></i>${tier} Active</span><p style="margin-top:.5rem;font-size:.82rem">${S.isElite ? '₦15,000/month · Everything in Premium + Elite perks' : '₦5,000/month · 80% revenue share · Unlimited uploads · No ads'}</p><button class="btn btn-danger btn-sm mt-2" onclick="cancelSubscription()">Cancel Subscription</button></div>` :
+            document.getElementById('subStatusCard').innerHTML = S.isPremium || S.isElite ?
+                `<h5>Your Subscription</h5><div style="background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(20,184,166,.04));border:1px solid rgba(212,175,55,.2);border-radius:var(--radius-sm);padding:1rem"><span class="badge ${S.isElite ? 'badge-elite' : 'badge-premium'}"><i class="fas fa-crown"></i>${S.isElite ? ' Elite' : ' Premium'} Active</span><p style="margin-top:.5rem;font-size:.82rem">${S.isElite ? '₦15,000/month · Everything in Premium + Elite benefits' : '₦5,000/month · 80% revenue share · Unlimited uploads · No ads'}</p><button class="btn btn-danger btn-sm mt-2" onclick="cancelSubscription()">Cancel Subscription</button></div>` :
                 `<h5>Your Subscription</h5><div style="text-align:center;padding:1.5rem"><div style="font-size:2rem">🔒</div><h5>Free Plan</h5><p style="color:var(--text3)">Upgrade to create courses & earn more</p><button class="btn btn-primary" onclick="openModal('premiumModal')">Upgrade — ₦5,000/mo</button></div>`;
         }
 
         async function cancelSubscription() {
             if (!confirm(
-                    'Are you sure you want to cancel your subscription? You\'ll lose access at the end of your billing period.'
+                    'Are you sure you want to cancel your Premium subscription? You\'ll lose access at the end of your billing period.'
                     )) return;
             try {
                 await apiCall('/payments/cancel-subscription', { method: 'POST' });
@@ -10705,11 +10713,9 @@
                 if (res.success) {
                     toast(`⭐ Thanks! You rated ${window.selectedRating}/5`, 'success');
                     closeModal('rateModal');
-                    // Refresh course data to show updated rating
                     if (S.currentCourseId) {
                         await loadCourseForLesson(S.currentCourseId);
                     }
-                    // Also refresh explore grid if visible
                     if (S.dp === 'explore') {
                         await renderExplore();
                     }
@@ -10764,6 +10770,7 @@
             if (S.user) { S.user.setupDone = true;
                 S.user.isPremium = isPremium;
                 S.isPremium = isPremium;
+                if (isPremium) S.tier = 'premium';
                 localStorage.setItem('cx_user', JSON.stringify(S.user)); try { await apiCall('/users/profile', { method: 'PUT',
                             body: { setupDone: true, roles: S.wizRoles.length ? S.wizRoles : ['student'],
                                 bio: document.getElementById('wiz-bio')?.value || '',
@@ -11563,7 +11570,6 @@
                 if (res.success) {
                     toast('Payment approved!', 'success');
                     await renderWallet();
-                    // Refresh books if it was a book purchase
                     try {
                         const payment = await apiCall(`/admin/manual-payments/${paymentId}`);
                         if (payment.data?.type === 'book') {
@@ -11840,7 +11846,6 @@
             updateThemeIcons();
             updateLandingHeroStats();
             updateSEO({ title: 'ChangeX Academy — Learn, Earn, and Grow', description: 'Turn tech skills into real income. Join the #1 Learn-to-Earn platform.' });
-            // Init counters
             setTimeout(initCounters, 500);
         }
 
@@ -11938,7 +11943,7 @@
                     <div style="flex:1;min-width:200px">
                         <div class="l-cc" onclick="goPage('register')">
                             <div class="l-cc-thumb" style="background:linear-gradient(135deg,var(--card2),var(--card3));font-size:2.5rem;">
-                                ${book.coverImage ? `<img src="${book.coverImage}" style="width:100%;height:100%;object-fit:cover;">` : '📖'}
+                                ${book.coverImage ? `<img src="${book.coverImage}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='📖'">` : '📖'}
                             </div>
                             <div class="l-cc-body">
                                 <div class="l-cc-title">${escapeHtml(book.title)}</div>
@@ -11962,12 +11967,8 @@
                     const avatarHtml = getAvatarUrl(inst) ?
                         `<img src="${getAvatarUrl(inst)}" alt="${inst.firstName || 'I'}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` :
                         (inst.firstName?.[0] || 'I');
-                    let tierBadge = '';
-                    if (inst.isElite || inst.tier === 'elite') tierBadge =
-                        `<span class="badge badge-elite" style="font-size:.55rem">Elite</span>`;
-                    else if (inst.isPremium) tierBadge =
-                        `<span class="badge badge-premium" style="font-size:.55rem">Premium</span>`;
-                    return `<div style="flex:1;min-width:200px"><div class="inst-card"><div class="inst-av-lg" style="background:linear-gradient(135deg,var(--primary),var(--secondary));overflow:hidden">${avatarHtml}</div><div style="font-weight:700">${inst.firstName || 'Instructor'} ${inst.lastName || ''}</div><div style="font-size:.74rem;color:var(--text3)">Level ${inst.level || 1} ${tierBadge}</div><button class="btn btn-ghost btn-sm w-full mt-3" onclick="goPage('register')">View Profile</button></div></div>`;
+                    const tierBadge = getTierBadge(inst);
+                    return `<div style="flex:1;min-width:200px"><div class="inst-card"><div class="inst-av-lg" style="background:linear-gradient(135deg,var(--primary),var(--secondary));overflow:hidden">${avatarHtml}</div><div style="font-weight:700">${inst.firstName || 'Instructor'} ${inst.lastName || ''}</div>${tierBadge}<div style="font-size:.74rem;color:var(--text3)">Level ${inst.level || 1}</div><button class="btn btn-ghost btn-sm w-full mt-3" onclick="goPage('register')">View Profile</button></div></div>`;
                 }).join('') :
                     '<div class="col-12"><div class="empty-state"><p>Loading instructors...</p></div></div>';
             } catch (e) { document.getElementById('landingInstructors').innerHTML =
@@ -12081,56 +12082,6 @@
         }
 
         // ================================================================
-        // PREMIUM LOUNGE – CHAT
-        // ================================================================
-        function sendLoungeMessage() {
-            const input = document.getElementById('loungeInput');
-            if (!input?.value.trim()) return;
-            const msg = input.value.trim();
-            if (!socket || !socket.connected) { toast('Connecting to lounge...', 'info'); return; }
-            socket.emit('lounge_message', { userId: S.user?._id, userName: S.user?.firstName || 'User', message: msg });
-            const container = document.getElementById('loungeMessages');
-            if (container) {
-                const msgDiv = document.createElement('div');
-                msgDiv.className = 'lounge-message';
-                msgDiv.innerHTML = `<strong>You:</strong> ${escapeHtml(msg)}`;
-                container.appendChild(msgDiv);
-                container.scrollTop = container.scrollHeight;
-            }
-            input.value = '';
-        }
-
-        // ================================================================
-        // LEARNING PATH
-        // ================================================================
-        async function generatePath() {
-            const goal = document.getElementById('goalSelect')?.value || 'freelance';
-            const resultContainer = document.getElementById('pathResult');
-            if (!resultContainer) return;
-            showLoading('Generating learning path...');
-            try {
-                const res = await apiCall('/ai/chat', {
-                    method: 'POST',
-                    body: { prompt: `Generate a detailed learning path for someone who wants to ${goal} using tech skills. Include 5 specific courses in order.` }
-                });
-                const reply = res.data?.response || res.data?.reply ||
-                    'Here\'s your learning path: Start with HTML/CSS, then JavaScript, then React, then Node.js, then a freelance business course.';
-                resultContainer.style.display = 'block';
-                resultContainer.innerHTML =
-                    `<div style="background:var(--bg2);padding:.75rem;border-radius:var(--radius-sm);border-left:3px solid var(--primary);">${reply}</div>`;
-                document.getElementById('pathQuestions').style.display = 'none';
-                toast('🧭 Learning path generated!', 'success');
-            } catch (e) {
-                toast('Failed to generate path: ' + e.message, 'error');
-                resultContainer.style.display = 'block';
-                resultContainer.innerHTML =
-                    `<div style="background:var(--bg2);padding:.75rem;border-radius:var(--radius-sm);color:var(--text3);">⚠️ Could not generate path. Please try again later.</div>`;
-            } finally {
-                hideLoading();
-            }
-        }
-
-        // ================================================================
         // INITIALIZATION
         // ================================================================
         window.addEventListener('load', async () => {
@@ -12138,7 +12089,6 @@
             const urlRef = urlParams.get('ref');
             if (urlRef) localStorage.setItem('cx_pending_ref', urlRef.toUpperCase());
 
-            // ─── PWA BANNER – 7‑day dismissal ──────────────────────────
             const banner = document.getElementById('installBanner');
             if (banner) {
                 if (!shouldShowInstallBanner()) {
@@ -12178,7 +12128,6 @@
                             hash.split('/')[1]; if (slug) setTimeout(() => loadPostBySlug(slug), 1000); } else if (
                         hash === 'app' || hash === 'setup') goPage(hash);
                     else goPage('app');
-                    updatePremiumFeaturesUI();
                 } catch (e) {
                     localStorage.removeItem('cx_accessToken');
                     localStorage.removeItem('cx_user');
@@ -12240,7 +12189,6 @@
                             updateUserUI();
                             checkPlanExpiry();
                             await loadUserFollowing();
-                            updatePremiumFeaturesUI();
                         } catch (e) {}
                         if (S.user?.setupDone) goPage('app');
                         else goPage('setup');
@@ -12259,7 +12207,6 @@
                         localStorage.setItem('cx_user', JSON.stringify(S.user));
                         updateUserUI();
                         checkPlanExpiry();
-                        updatePremiumFeaturesUI();
                     } catch (e) { console.warn('Subscription verification failed:', e.message); }
                     window.history.replaceState({}, '', window.location.pathname);
                 })();
@@ -12308,22 +12255,7 @@
                 .content) : '';
             const earnings = post.earnings || 0;
             const views = post.views || 0;
-
-            let tierBadge = '';
-            if (S.isElite) tierBadge =
-            `<span class="badge badge-elite"><i class="fas fa-crown"></i> Elite</span>`;
-            else if (S.isPremium) tierBadge = `<span class="badge badge-premium">Premium</span>`;
-
-            let premiumLock = '';
-            if (post.isPremiumOnly && !S.isPremium && !S.isElite) {
-                premiumLock = `
-                    <div style="background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.2);border-radius:var(--radius-sm);padding:.5rem;margin:.5rem 0;text-align:center;">
-                        <i class="fas fa-lock" style="color:var(--gold);"></i>
-                        <span style="font-size:.78rem;color:var(--text3);">This post is for Premium members only.</span>
-                        <button class="btn btn-gold btn-sm" onclick="openModal('premiumModal')" style="font-size:.65rem;">Unlock</button>
-                    </div>
-                `;
-            }
+            const tierBadge = getTierBadge(author);
 
             container.innerHTML = `
                 <div class="post-card card card-p">
@@ -12342,9 +12274,8 @@
                     <h1 class="post-title" style="font-size:1.5rem;">${escapeHtml(post.title)}</h1>
                     ${post.featuredImage ? `<img src="${post.featuredImage}" class="post-image" alt="featured" loading="lazy">` : ''}
                     ${post.videoUrl ? `<video controls style="max-width:100%;border-radius:var(--radius-sm);margin:.75rem 0;"><source src="${post.videoUrl}" type="video/mp4"></video>` : ''}
-                    ${premiumLock}
                     <div class="post-content" style="font-size:1rem;line-height:1.8;color:var(--text2);margin:1rem 0;">
-                        ${post.isPremiumOnly && !S.isPremium && !S.isElite ? '' : contentHtml}
+                        ${contentHtml}
                     </div>
                     <div class="post-stats">
                         <span><i class="fas fa-eye"></i> ${views} views</span>
@@ -12607,7 +12538,6 @@
             await loadPeople();
             checkPlanExpiry();
             await loadSocialEarnings();
-            updatePremiumFeaturesUI();
             setTimeout(() => {
                 const hash = window.location.hash.slice(1);
                 if (hash.startsWith('courses/')) { const courseId = hash.split('/')[1]; if (courseId) setTimeout(() =>
@@ -12669,26 +12599,24 @@
             } catch (e) { console.warn('Could not fetch notifications:', e.message); }
         }
 
-        console.log('🚀 ChangeX Academy — Production Ready (v2.0)');
+        console.log('🚀 ChangeX Academy — Production Ready');
         console.log('📚 Learn, Earn, and Grow with ChangeX!');
-        console.log('👑 Elite tier: ₦15,000/mo with premium perks');
-        console.log('📊 Analytics dashboard with Chart.js');
-        console.log('🧠 AI Learning Path generator');
-        console.log('💬 Premium Lounge chat');
-        console.log('🏷️ Premium & Elite badges everywhere');
-        console.log('🔒 Premium-only content lock');
-        console.log('⚡ Auto-refresh on login/logout');
-        console.log('📈 Hardcoded marketing stats: ₦85M+, ₦12M+, ₦45M+, 🔥1.2K+');
-        console.log('🏦 Bank details: Lead Bank & Taj Bank');
-        console.log('📱 PWA install banner 7-day dismissal');
-        console.log('🎨 Gold, White & Black premium theme');
-        console.log('🔄 Multi-currency support (NGN, USD, GBP, EUR)');
-        console.log('📖 Book cover images with onerror fallback');
-        console.log('💾 Auto-save drafts with local storage');
-        console.log('🔍 Global search for courses, posts & users');
-        console.log('📢 Smart ads rotation with tracking');
-        console.log('🗑️ Admin delete any post');
-        console.log('📤 Book upload: 500MB with progress tracking');
+        console.log('📱 PWA: Install banner hides for 7 days after dismissal.');
+        console.log('⭐ Rating system fully integrated with course reviews.');
+        console.log('👥 Following system fixed with proper localStorage persistence.');
+        console.log('🔍 SEO meta tags dynamically updated for posts and courses.');
+        console.log('📖 Book downloads permanently unlocked after purchase approval.');
+        console.log('💰 Course completion bonus: ₦100.');
+        console.log('🎨 Gold, White & Black premium theme applied with Elite tier.');
+        console.log('📢 Smart ads rotation implemented.');
+        console.log('🗑️ Admin can delete any post.');
+        console.log('📤 Book upload: Large file support (500MB) with progress tracking.');
+        console.log('🔗 Affiliate links now use hash-based routing (#courses/...) for SPA compatibility.');
+        console.log('🏦 Bank details updated: Lead Bank & Taj Bank for manual transfers.');
+        console.log('⚡ Performance: Lazy loading, debounce, throttle, batch DOM updates, request deduplication.');
+        console.log('🏷️ Branding: Glassmorphism, animated premium badges, trust bar, live ticker, animated counters.');
+        console.log('🤖 AI Tutor: Full chat history with Redis, sidebar, model selection, premium file uploads.');
+        console.log('👑 Elite tier: ₦15,000/mo with exclusive benefits.');
     </script>
 </body>
 </html>
