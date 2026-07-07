@@ -5249,6 +5249,42 @@
             border-radius: var(--radius-sm);
             border: 1px solid var(--border);
         }
+        .social-post-item {
+            transition: all var(--transition);
+            cursor: pointer;
+        }
+        .social-post-item:hover {
+            transform: translateY(-2px);
+            border-color: rgba(212, 175, 55, .2);
+        }
+        .social-posts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+        @media(min-width:600px) {
+            .social-posts-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media(min-width:992px) {
+            .social-posts-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+        .earnings-breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.82rem;
+        }
+        .earnings-breakdown-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--lime);
+        }
     </style>
 </head>
 <body>
@@ -5278,7 +5314,7 @@
 
         <section id="books-landing" class="lsec lsec-dark"><div class="lsec-wrap"><div class="d-flex items-center justify-between mb-4 reveal flex-wrap" style="gap:.75rem"><div><div class="stag mb-2"><i class="fas fa-book"></i> Library</div><h2 style="font-size:1.85rem">Explore Our <span class="grad-text">Digital Books</span></h2></div><button class="btn btn-outline btn-sm" onclick="goPage('register')">Browse All <i class="fas fa-arrow-right"></i></button></div><div class="row" id="landingBooksGrid"></div></div></section>
 
-        <section class="lsec"><div class="lsec-wrap"><div class="row items-center"><div class="col-12 col-md-6 reveal"><div class="stag mb-3"><i class="fas fa-fire"></i> Live Activity</div><h3 style="font-size:1.4rem;margin-bottom:.85rem">Students Earning <span class="grad-text">Right Now</span></h3><div id="landingFeed"></div></div><div class="col-12 col-md-6 reveal-r"><div class="bonus-card"><div class="stag mb-3"><i class="fas fa-wallet"></i> 4 Income Streams</div><h4 style="margin-bottom:.85rem">Earn Multiple Ways on ChangeX</h4><div style="display:flex;flex-direction:column;gap:.55rem;font-size:.83rem"><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-primary" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-book"></i></div><div><strong>Course Sales</strong> — 80% revenue share to you</div></div><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-c" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-users"></i></div><div><strong>Referrals</strong> — ₦500 per signup that subscribes</div></div><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-v" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-handshake"></i></div><div><strong>Affiliates</strong> — Promote others, earn % commission</div></div><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-g" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-trophy"></i></div><div><strong>Completion Bonuses</strong> — ₦100 per course done</div></div></div><button class="btn btn-primary btn-sm mt-4" onclick="goPage('register')"><i class="fas fa-rocket"></i>Start Earning Now</button></div></div></div></div></section>
+        <section class="lsec"><div class="lsec-wrap"><div class="row items-center"><div class="col-12 col-md-6 reveal"><div class="stag mb-3"><i class="fas fa-fire"></i> Live Activity</div><h3 style="font-size:1.4rem;margin-bottom:.85rem">Students Earning <span class="grad-text">Right Now</span></h3><div id="landingFeed"></div></div><div class="col-12 col-md-6 reveal-r"><div class="bonus-card"><div class="stag mb-3"><i class="fas fa-wallet"></i> 4 Income Streams</div><h4 style="margin-bottom:.85rem">Earn Multiple Ways on ChangeX</h4><div style="display:flex;flex-direction:column;gap:.55rem;font-size:.83rem"><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-primary" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-book"></i></div><div><strong>Course Sales</strong> — 80% revenue share to you</div></div><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-c" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-users"></i></div><div><strong>Referrals</strong> — ₦500 per signup that subscribes</div></div><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-v" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-handshake"></i></div><div><strong>Affiliates</strong> — Promote others, earn % commission</div></div><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-g" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-trophy"></i></div><div><strong>Completion Bonuses</strong> — ₦100 per course done</div></div><div style="display:flex;align-items:center;gap:.65rem"><div class="si si-gold" style="width:30px;height:30px;font-size:.75rem"><i class="fas fa-seedling"></i></div><div><strong>Social Earnings</strong> — Earn from post engagement!</div></div></div><button class="btn btn-primary btn-sm mt-4" onclick="goPage('register')"><i class="fas fa-rocket"></i>Start Earning Now</button></div></div></div></div></section>
 
         <section id="instructors-sec" class="lsec"><div class="lsec-wrap"><div class="text-center mb-5 reveal"><div class="stag mb-3"><i class="fas fa-chalkboard-teacher"></i> Educators</div><h2 style="font-size:clamp(1.7rem,4vw,2.6rem)">Learn From <span class="grad-text">Nigeria's Best</span></h2></div><div class="row" id="landingInstructors"></div></div></section>
 
@@ -5377,6 +5413,8 @@
                         <li><span class="nav-item" id="nav-books" onclick="setDP('books')"><span class="nav-ico"><i class="fas fa-book"></i></span>Books</span></li>
                         <li class="nav-sec" style="margin-top:.3rem">Publish</li>
                         <li><span class="nav-item premium-only" id="nav-create-book" onclick="setDP('create-book')"><span class="nav-ico"><i class="fas fa-book"></i></span>Upload Book<span class="nav-badge nav-badge-premium">Premium</span></span></li>
+                        <li class="nav-sec" style="margin-top:.3rem">Earn More</li>
+                        <li><span class="nav-item" id="nav-social-earnings" onclick="setDP('social-earnings')"><span class="nav-ico"><i class="fas fa-seedling"></i></span>Social Earnings<span class="nav-badge nav-badge-gold" id="navSocialBadge">0</span></span></li>
                         <li class="nav-sec" style="margin-top:.3rem">Account</li>
                         <li><span class="nav-item" id="nav-settings" onclick="setDP('settings')"><span class="nav-ico"><i class="fas fa-cog"></i></span>Settings</span></li>
                         <li><span class="nav-item" id="nav-tools" onclick="setDP('tools')"><span class="nav-ico"><i class="fas fa-tools"></i></span>Tools</span></li>
@@ -5395,7 +5433,7 @@
                     <div id="sidebarAd"><div id="sidebarAdContent"></div></div>
 
                     <!-- FEED -->
-                    <div id="dash-feed" class="dash-sub active"><div class="d-flex items-center justify-between mb-3"><h2 class="page-title" style="margin:0">📰 Feed</h2><button class="btn btn-primary btn-sm" onclick="openCreatePostModal()"><i class="fas fa-plus"></i> Create Post</button></div><div class="feed-tabs"><span class="fpill active" onclick="filterFeed('all',this)">All</span><span class="fpill" onclick="filterFeed('personalized',this)">✨ For You</span><span class="fpill" onclick="filterFeed('article',this)">Articles</span><span class="fpill" onclick="filterFeed('tutorial',this)">Tutorials</span><span class="fpill" onclick="filterFeed('challenge',this)">Challenges</span><span class="fpill" onclick="filterFeed('announcement',this)">Announcements</span></div><div id="feedContainer"></div><div id="feedSentinel"></div><div id="feedLoadingMore" class="feed-loading-more" style="display:none"><span class="spinner"></span> Loading more posts...</div></div>
+                    <div id="dash-feed" class="dash-sub active"><div class="d-flex items-center justify-between mb-3"><h2 class="page-title" style="margin:0">📰 Feed</h2><button class="btn btn-primary btn-sm" onclick="openCreatePostModal()"><i class="fas fa-plus"></i> Create Post</button></div><div class="feed-tabs"><span class="fpill active" onclick="filterFeed('personalized',this)">✨ For You</span><span class="fpill" onclick="filterFeed('all',this)">All</span><span class="fpill" onclick="filterFeed('following',this)">Following</span><span class="fpill" onclick="filterFeed('article',this)">Articles</span><span class="fpill" onclick="filterFeed('tutorial',this)">Tutorials</span><span class="fpill" onclick="filterFeed('challenge',this)">Challenges</span><span class="fpill" onclick="filterFeed('announcement',this)">Announcements</span></div><div id="feedContainer"></div><div id="feedSentinel"></div><div id="feedLoadingMore" class="feed-loading-more" style="display:none"><span class="spinner"></span> Loading more posts...</div></div>
 
                     <!-- FOLLOWING -->
                     <div id="dash-following" class="dash-sub"><div class="page-hd"><h2 class="page-title">📡 Following</h2><p class="page-sub">Posts from people you follow</p></div><div id="followingContainer"><div class="empty-state"><i class="fas fa-rss"></i><h4>No one to follow yet</h4><p>Follow other learners and instructors to see their posts here.</p><button class="btn btn-primary btn-sm" onclick="setDP('people')">Discover People</button></div></div></div>
@@ -5428,7 +5466,7 @@
                     <div id="dash-certs" class="dash-sub"><div class="page-hd"><h2 class="page-title">🏆 My Certificates</h2><p class="page-sub">Your earned achievements &amp; credentials</p></div><div class="row" id="certsGrid"></div></div>
 
                     <!-- WALLET -->
-                    <div id="dash-wallet" class="dash-sub"><div class="page-hd"><h2 class="page-title">My Wallet</h2><p class="page-sub">Earnings, payouts &amp; transaction history</p></div><div class="row mb-4"><div class="col-12 col-md-4"><div class="wallet-card"><div style="font-size:.7rem;color:var(--text2);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.2rem">💰 Available Balance</div><div class="wallet-bal" id="walletBal">₦0</div><div style="font-size:.74rem;color:var(--text3)" id="walletWeekChange">+₦0 this week</div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-top:.75rem" id="walletBreakdown"></div><div class="d-flex gap-2 mt-3"><button class="btn btn-primary btn-sm flex-1" onclick="openWithdrawModal()"><i class="fas fa-paper-plane"></i>Withdraw</button><button class="btn btn-ghost btn-sm flex-1" onclick="setDP('settings');setTimeout(()=>switchSet('ss-payout',null),50)"><i class="fas fa-university"></i>Bank</button></div></div></div><div class="col-12 col-md-8"><div class="row" id="walletStatsRow"></div></div></div><div class="card card-p"><div class="d-flex items-center justify-between mb-3 flex-wrap" style="gap:.5rem"><h6 style="margin:0">Transaction History</h6><select class="finput" style="width:auto;height:32px;font-size:.76rem" onchange="filterTx(this.value)"><option>All</option><option>Referral</option><option>Affiliate</option><option>Instructor</option><option>Bonus</option><option>Withdrawal</option></select></div><div class="overflow-x-auto"><table class="dtable" id="txTable"></table></div></div></div>
+                    <div id="dash-wallet" class="dash-sub"><div class="page-hd"><h2 class="page-title">My Wallet</h2><p class="page-sub">Earnings, payouts &amp; transaction history</p></div><div class="row mb-4"><div class="col-12 col-md-4"><div class="wallet-card"><div style="font-size:.7rem;color:var(--text2);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.2rem">💰 Available Balance</div><div class="wallet-bal" id="walletBal">₦0</div><div style="font-size:.74rem;color:var(--text3)" id="walletWeekChange">+₦0 this week</div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-top:.75rem" id="walletBreakdown"></div><div class="d-flex gap-2 mt-3"><button class="btn btn-primary btn-sm flex-1" onclick="openWithdrawModal()"><i class="fas fa-paper-plane"></i>Withdraw</button><button class="btn btn-ghost btn-sm flex-1" onclick="setDP('settings');setTimeout(()=>switchSet('ss-payout',null),50)"><i class="fas fa-university"></i>Bank</button></div></div></div><div class="col-12 col-md-8"><div class="row" id="walletStatsRow"></div></div></div><div class="card card-p"><div class="d-flex items-center justify-between mb-3 flex-wrap" style="gap:.5rem"><h6 style="margin:0">Transaction History</h6><select class="finput" style="width:auto;height:32px;font-size:.76rem" onchange="filterTx(this.value)"><option>All</option><option>Referral</option><option>Affiliate</option><option>Instructor</option><option>Bonus</option><option>Withdrawal</option><option>Social</option></select></div><div class="overflow-x-auto"><table class="dtable" id="txTable"></table></div></div></div>
 
                     <!-- AFFILIATES -->
                     <div id="dash-affiliates" class="dash-sub"><div class="page-hd"><h2 class="page-title">🤝 Affiliate Dashboard</h2><p class="page-sub">Promote courses and earn commissions</p></div><button class="btn btn-ghost btn-sm mb-3" onclick="renderAffiliates(true)"><i class="fas fa-sync-alt"></i> Refresh Offers</button><div class="row mb-4" id="affStatsRow"></div><div class="card card-p mb-3"><h6 style="margin-bottom:.65rem">📣 Available Affiliate Offers</h6><p style="font-size:.81rem;color:var(--text3);margin-bottom:.85rem">Accept any offer to get your unique affiliate link &amp; code for that course</p><div id="affiliateOffers"></div></div><div class="card card-p"><h6 style="margin-bottom:.65rem">🔗 My Active Affiliate Links</h6><div id="myAffiliateLinks"></div></div></div>
@@ -5471,6 +5509,18 @@
                             <div class="info-box"><i class="fas fa-info-circle" style="color:var(--primary)"></i>You earn <strong>80%</strong> of each sale. Platform takes 20%. Affiliates earn the percentage you set.</div>
                             <button class="btn btn-primary btn-lg w-full mt-3" onclick="submitBookForApproval()"><i class="fas fa-paper-plane"></i> Submit for Approval</button>
                         </div>
+                    </div>
+
+                    <!-- SOCIAL EARNINGS -->
+                    <div id="dash-social-earnings" class="dash-sub">
+                        <div class="page-hd"><h2 class="page-title">🌱 Social Earnings</h2><p class="page-sub">Earn from engagement on your posts</p></div>
+                        <div class="card card-p mb-3">
+                            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
+                                <div><div style="font-size:.7rem;color:var(--text3);text-transform:uppercase;">Total Earned</div><div style="font-family:var(--font-heading);font-size:2rem;font-weight:800;color:var(--lime);" id="socialTotalEarnings">₦0</div></div>
+                                <div style="display:flex;gap:1rem;"><div><span style="color:var(--text3);font-size:.7rem;">Posts</span><br><strong id="socialPostCount">0</strong></div><div><span style="color:var(--text3);font-size:.7rem;">Avg per Post</span><br><strong id="socialAvgPerPost">₦0</strong></div></div>
+                            </div>
+                        </div>
+                        <div id="socialPostsList" class="social-posts-grid"></div>
                     </div>
 
                     <!-- TOOLS PAGE -->
@@ -5613,7 +5663,7 @@
             affiliateStats: null,
             lessonStartTime: null,
             feedPage: 1,
-            feedFilter: 'all',
+            feedFilter: 'personalized',
             posts: [],
             users: [],
             peopleSearchTerm: '',
@@ -5671,6 +5721,11 @@
             currentVideoAdPlayed: false,
             videoAdCount: 0,
             pendingManualPaymentId: null,
+            socialPosts: [],
+            socialTotalEarnings: 0,
+            socialAvgPerPost: 0,
+            socialPostCount: 0,
+            adPlacementCache: {},
         };
 
         // ═══════════════════════════════════════════════════════════════
@@ -5748,26 +5803,30 @@
         function shouldShowAd(placement) {
             if (!S.loggedIn) return true;
             if (S.isPremium) {
-                // Premium users see ONLY in-feed ads
                 return placement === 'in-feed';
             }
             return true;
         }
 
         function getNextAd(placement) {
-            let ads = S.customAds;
-            let idx = S.customAdIndex;
+            if (!S.adPlacementCache[placement]) S.adPlacementCache[placement] = [];
+            let ads = S.adPlacementCache[placement];
+            let idx = 0;
             if (placement === 'explore') {
                 ads = S.exploreAds.length ? S.exploreAds : S.customAds;
                 idx = S.exploreAdIndex;
-            }
-            if (placement === 'book-page' || placement === 'book-sponsor') {
+            } else if (placement === 'book-page' || placement === 'book-sponsor') {
                 ads = S.bookAds.length ? S.bookAds : S.customAds;
                 idx = S.bookAdIndex;
+            } else {
+                ads = S.customAds;
+                idx = S.customAdIndex;
             }
-            // Filter by placement
             if (ads && ads.length) {
-                const filtered = ads.filter(a => a.placement === placement || a.placement === 'in-feed');
+                const filtered = ads.filter(a => a.placement === placement || a.placement === 'in-feed' || a.placement ===
+                    'sidebar' || a.placement === 'banner' || a.placement === 'popup' || a.placement === 'video-pre' ||
+                    a.placement === 'video-mid' || a.placement === 'lesson-inline' || a.placement === 'challenge-sponsor' ||
+                    a.placement === 'book-sponsor' || a.placement === 'explore-sponsor');
                 if (filtered.length) {
                     const ad = filtered[idx % filtered.length];
                     if (placement === 'explore') S.exploreAdIndex++;
@@ -5776,7 +5835,6 @@
                     return { type: 'custom', data: ad };
                 }
             }
-            // Fallback to Adsterra
             if (S.adsterraLoaded) {
                 return { type: 'adsterra', data: { placement } };
             }
@@ -5788,7 +5846,7 @@
             if (ad.type === 'custom' && ad.data) {
                 const adData = ad.data;
                 return `
-                    <div class="ad-card" data-ad-id="${adData._id}" data-post-id="${postId || ''}">
+                    <div class="ad-card" data-ad-id="${adData._id}" data-post-id="${postId || ''}" data-placement="${adData.placement || 'in-feed'}">
                         <div class="ad-label">📢 Sponsored</div>
                         <a href="#" onclick="handleAdClick('${adData._id}','${adData.linkUrl}','${postId || ''}','custom'); return false;">
                             ${adData.imageUrl ? `<img src="${adData.imageUrl}" alt="${escapeHtml(adData.title)}" loading="lazy">` : ''}
@@ -5853,7 +5911,6 @@
                     body: { adId, type, postId, network }
                 });
                 if (res.success && res.credited > 0) {
-                    // Update wallet silently
                     if (S.dp === 'wallet') renderWallet();
                 }
             } catch (e) { console.warn('Ad tracking failed:', e); }
@@ -6254,8 +6311,8 @@
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             const ni = document.getElementById('nav-' + pg);
             if (ni) ni.classList.add('active');
-            ['feed', 'challenges', 'explore', 'wallet', 'home', 'books', 'following'].forEach(k => { const m = document
-                    .getElementById('mbn-' + k); if (m) m.classList.toggle('active', k === pg); });
+            ['feed', 'challenges', 'explore', 'wallet', 'home', 'books', 'following', 'social-earnings'].forEach(k => { const m =
+                    document.getElementById('mbn-' + k); if (m) m.classList.toggle('active', k === pg); });
             closeSidebar();
             const map = {
                 feed: () => { loadFeed(1);
@@ -6290,7 +6347,8 @@
                 tools: () => { loadTools(); },
                 profile: () => {},
                 'post-detail': () => {},
-                following: loadFollowing
+                following: loadFollowing,
+                'social-earnings': renderSocialEarnings
             };
             if (map[pg]) map[pg]();
             const fab = document.getElementById('fab');
@@ -6299,6 +6357,7 @@
                 fab.style.display = hasCreatorAccess ? 'block' : 'none'; }
             checkPlanExpiry();
             updatePremiumUI();
+            updateSocialBadge();
         }
 
         function openSidebar() { document.getElementById('sidebar')?.classList.add('open');
@@ -6423,9 +6482,18 @@
                     if (S.dp === 'books') loadBooks();
                     if (S.dp === 'admin' && S.admSec === 'books') loadAdminBooks();
                 });
-                // Real-time like updates
+                socket.on('social_earnings_distributed', (data) => {
+                    toast(`🌱 Social earnings distributed: ₦${data.totalDistributed.toLocaleString()} across ${data.postsAffected} posts!`, 'info');
+                    if (S.dp === 'wallet') renderWallet();
+                    if (S.dp === 'social-earnings') renderSocialEarnings();
+                    if (S.dp === 'admin' && S.admSec === 'social-earnings') {
+                        loadTopEarningPosts();
+                        loadTotalPool();
+                        loadSocialEarningsConfig();
+                    }
+                    updateSocialBadge();
+                });
                 socket.on('post_liked', (data) => {
-                    // data: { postId, likes, liked, userId }
                     const likeSpan = document.querySelector(`.post-likes[data-id="${data.postId}"]`);
                     if (likeSpan) {
                         likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${data.likes}`;
@@ -6434,7 +6502,6 @@
                     if (btn && data.userId === S.user?._id) {
                         btn.classList.toggle('liked', data.liked);
                     } else if (btn) {
-                        // Update heart icon if needed
                         const isLiked = btn.classList.contains('liked');
                         if (data.liked && !isLiked) {
                             btn.classList.add('liked');
@@ -6805,6 +6872,7 @@
             const followersCountEl = document.getElementById('followersCount');
             if (followersCountEl) followersCountEl.textContent = S.followersCount || 0;
             updatePremiumUI();
+            updateSocialBadge();
             if (S.dp === 'feed' || S.dp === 'home' || S.dp === 'explore' || S.dp === 'books') {
                 loadSidebarAd();
                 loadBottomAd();
@@ -7097,10 +7165,10 @@
         }
 
         // ================================================================
-        // FEED RENDER WITH HYBRID ADS + READ MORE + NESTED COMMENTS
+        // FEED RENDER WITH HYBRID ADS + READ MORE + NESTED COMMENTS + PERSONALIZED
         // ================================================================
         async function loadFeed(page = 1) {
-            const filter = S.feedFilter || 'all';
+            const filter = S.feedFilter || 'personalized';
             if (page === 1) {
                 feedPage = 1;
                 feedHasMore = true;
@@ -7123,9 +7191,12 @@
                 let url;
                 if (filter === 'personalized') {
                     url = `${POSTS_API}/personalized?page=${page}&limit=10`;
-                } else {
+                } else if (filter === 'following') {
+                    url = `${POSTS_API}/following?page=${page}&limit=10`;
+                } else if (filter === 'all') {
                     url = `${POSTS_API}?page=${page}&limit=10`;
-                    if (filter !== 'all') url += `&type=${filter}`;
+                } else {
+                    url = `${POSTS_API}?page=${page}&limit=10&type=${filter}`;
                 }
                 const res = await apiCall(url);
                 const posts = res.data?.posts || res.data || [];
@@ -7216,13 +7287,16 @@
                     const loadingEl = document.getElementById('feedLoadingMore');
                     if (loadingEl) loadingEl.style.display = 'block';
                     try {
-                        const filter = S.feedFilter || 'all';
+                        const filter = S.feedFilter || 'personalized';
                         let url;
                         if (filter === 'personalized') {
                             url = `${POSTS_API}/personalized?page=${feedPage}&limit=10`;
-                        } else {
+                        } else if (filter === 'following') {
+                            url = `${POSTS_API}/following?page=${feedPage}&limit=10`;
+                        } else if (filter === 'all') {
                             url = `${POSTS_API}?page=${feedPage}&limit=10`;
-                            if (filter !== 'all') url += `&type=${filter}`;
+                        } else {
+                            url = `${POSTS_API}?page=${feedPage}&limit=10&type=${filter}`;
                         }
                         const res = await apiCall(url);
                         const posts = res.data?.posts || res.data || [];
@@ -7252,7 +7326,6 @@
                 `<img src="${getAvatarUrl(author)}" alt="${author.firstName || 'U'}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` :
                 (author.firstName?.[0] || 'U');
             const fullContent = post.content || '';
-            // Truncate to 200 characters for preview
             const previewContent = fullContent.length > 200 ? fullContent.slice(0, 200) + '...' : fullContent;
             const needsReadMore = fullContent.length > 200;
             const contentHtml = post.content ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(post.content) : post
@@ -7295,7 +7368,7 @@
                         <span class="post-likes" data-id="${post._id}"><i class="far fa-heart"></i> ${post.likes || 0}</span>
                         <span class="post-comments"><i class="far fa-comment"></i> ${post.commentsCount || 0}</span>
                         <span class="post-shares"><i class="fas fa-share-alt"></i> ${post.shares || 0}</span>
-                        ${earnings > 0 ? `<span class="badge badge-gold" style="font-size:.6rem">🏆 +${fmtMoneyAPI(earnings)}</span>` : ''}
+                        ${earnings > 0 ? `<span class="badge badge-gold" style="font-size:.6rem">🌱 +${fmtMoneyAPI(earnings)}</span>` : ''}
                     </div>
                     <div class="post-actions">
                         <button class="btn-like ${post.userLiked ? 'liked' : ''}" data-id="${post._id}"><i class="far fa-heart"></i> Like</button>
@@ -7405,25 +7478,20 @@
             const likeSpan = document.querySelector(`.post-likes[data-id="${postId}"]`);
             if (!likeBtn || !likeSpan) return;
 
-            // Optimistic update
             const isCurrentlyLiked = likeBtn.classList.contains('liked');
             const currentLikes = parseInt(likeSpan.textContent.split(' ')[1]) || 0;
             const newLikes = isCurrentlyLiked ? currentLikes - 1 : currentLikes + 1;
 
-            // Update UI immediately
             likeBtn.classList.toggle('liked', !isCurrentlyLiked);
             likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${newLikes}`;
 
             try {
                 const res = await apiCall(`/posts/${postId}/like`, { method: 'POST' });
-                // If server returns final count, sync
                 if (res.likes !== undefined && res.liked !== undefined) {
                     likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${res.likes}`;
                     likeBtn.classList.toggle('liked', res.liked);
                 }
-                // If socket is connected, we'll also get real-time update via socket
             } catch (err) {
-                // Rollback on error
                 likeBtn.classList.toggle('liked', isCurrentlyLiked);
                 likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${currentLikes}`;
                 toast('Error liking post', 'error');
@@ -7443,7 +7511,6 @@
         }
 
         function attachPostEventListeners() {
-            // Liked already handled inline with likePost
             document.querySelectorAll('.btn-comment').forEach(btn => { btn.onclick = () => toggleComments(btn.dataset.id); });
         }
 
@@ -7467,7 +7534,6 @@
         async function likeComment(commentId) {
             try { await apiCall(`${POSTS_API}/comment/${commentId}/like`, { method: 'POST' });
                 toast('Liked comment', 'success');
-                // Reload comments to reflect updated like count (or optimistically update)
                 const postId = document.querySelector('.comments-section')?.dataset.postId;
                 if (postId) loadComments(postId);
             } catch (err) { toast('Error', 'error'); }
@@ -7493,6 +7559,7 @@
                 if (S.dp === 'admin' && S.admSec === 'users') {
                     switchAdm('users', document.querySelector('#dash-admin .fpill.active'));
                 }
+                if (S.dp === 'social-earnings') renderSocialEarnings();
             } catch (err) { toast('Failed to delete: ' + err.message, 'error'); }
         }
 
@@ -7588,6 +7655,7 @@
                     renderUserProfile(res2.data);
                 }
                 if (!S.myPostTitles.includes(title)) S.myPostTitles.push(title);
+                updateSocialBadge();
             } catch (err) { toast('Failed to create post: ' + err.message, 'error'); } finally { hideLoading(); }
         }
 
@@ -7639,7 +7707,7 @@
         }
 
         // ================================================================
-        // CHALLENGES (existing code, unchanged but with sponsor ads)
+        // CHALLENGES
         // ================================================================
         async function loadChallenges() {
             showLoading('Loading challenges...');
@@ -7682,7 +7750,6 @@
                     '<div class="empty-state"><i class="fas fa-trophy"></i><h4>No challenges</h4><p>Check back soon!</p></div>';
                 return;
             }
-            // Sponsor ad insertion: after every 2 challenges
             const showAds = !S.isPremium && shouldShowAd('challenge-sponsor');
             let html = '';
             challenges.forEach((c, idx) => {
@@ -7713,7 +7780,6 @@
                     </div>
                     ${isJoined ? `<div style="margin-top:.5rem;"><div class="prog" style="height:5px;"><div class="prog-fill ${userStatus === 'completed' ? 'pf-success' : 'pf-primary'}" style="width:${userProgress}%"></div></div><div style="font-size:.7rem;color:var(--text3);margin-top:.2rem;">${userStatus === 'completed' ? '✅ Completed!' : `${userProgress}% complete`}</div></div>` : `<button class="btn-primary btn-sm" onclick="joinChallenge('${c._id}')" ${c.status !== 'active' ? 'disabled' : ''}>${c.status === 'active' ? 'Join Challenge' : 'Coming Soon'}</button>`}
                 </div>`;
-                // Sponsor ad
                 if (showAds && (idx + 1) % 2 === 0 && idx < challenges.length - 1) {
                     const ad = getNextAd('challenge-sponsor');
                     if (ad && ad.type === 'custom') {
@@ -7792,7 +7858,7 @@
         }
 
         // ================================================================
-        // PEOPLE – with Followers section (unchanged)
+        // PEOPLE
         // ================================================================
         async function loadPeople() {
             showLoading('Loading users...');
@@ -7940,7 +8006,7 @@
         }
 
         // ================================================================
-        // USER PROFILE (unchanged)
+        // USER PROFILE
         // ================================================================
         async function openUserProfile(userId) {
             showLoading('Loading profile...');
@@ -8020,7 +8086,7 @@
         }
 
         // ================================================================
-        // FOLLOWING PERSISTENCE (unchanged)
+        // FOLLOWING PERSISTENCE
         // ================================================================
         async function loadUserFollowing() {
             if (!S.user) return;
@@ -8054,20 +8120,74 @@
         }
 
         // ================================================================
-        // SOCIAL EARNINGS (unchanged)
+        // SOCIAL EARNINGS – FULL INTEGRATION
         // ================================================================
-        async function loadSocialEarnings() {
+        async function renderSocialEarnings() {
+            showLoading('Loading social earnings...');
             try {
                 const res = await apiCall('/posts/my/social-earnings');
                 const data = res.data || {};
-                S.socialEarnings = data.totalEarnings || 0;
-                const el = document.getElementById('socialEarnings');
-                if (el) el.textContent = fmtMoneyAPI(S.socialEarnings);
-            } catch (e) { console.warn('Could not load social earnings:', e); }
+                S.socialPosts = data.posts || [];
+                S.socialTotalEarnings = data.totalEarnings || 0;
+                S.socialPostCount = S.socialPosts.length;
+                S.socialAvgPerPost = S.socialPostCount ? S.socialTotalEarnings / S.socialPostCount : 0;
+
+                document.getElementById('socialTotalEarnings').textContent = fmtMoneyAPI(S.socialTotalEarnings);
+                document.getElementById('socialPostCount').textContent = S.socialPostCount;
+                document.getElementById('socialAvgPerPost').textContent = S.socialPostCount ? fmtMoneyAPI(S
+                    .socialAvgPerPost) : '₦0';
+
+                const container = document.getElementById('socialPostsList');
+                if (!S.socialPosts.length) {
+                    container.innerHTML =
+                        `<div class="empty-state"><i class="fas fa-seedling"></i><h4>No posts yet</h4><p>Create posts to start earning from social engagement!</p><button class="btn btn-primary btn-sm" onclick="openCreatePostModal()">Create Post</button></div>`;
+                    return;
+                }
+
+                container.innerHTML = S.socialPosts.map(p => {
+                    const slug = p.id || p._id || 'post';
+                    return `
+                        <div class="social-post-item card card-p" onclick="window.location.href='/post/${slug}'">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;flex-wrap:wrap;">
+                                <div style="flex:1;min-width:0;">
+                                    <h4 style="font-size:.95rem;margin-bottom:.25rem;">${escapeHtml(p.title)}</h4>
+                                    <div style="font-size:.75rem;color:var(--text3);">
+                                        <span><i class="fas fa-eye"></i> ${p.impressions || 0}</span>
+                                        <span style="margin-left:.75rem;"><i class="fas fa-heart"></i> ${p.likes || 0}</span>
+                                        <span style="margin-left:.75rem;"><i class="fas fa-comment"></i> ${p.comments || 0}</span>
+                                        <span style="margin-left:.75rem;"><i class="fas fa-share-alt"></i> ${p.shares || 0}</span>
+                                    </div>
+                                </div>
+                                <div style="font-family:var(--font-heading);font-size:1.2rem;font-weight:800;color:var(--lime);flex-shrink:0;">
+                                    ${fmtMoneyAPI(p.earnings || 0)}
+                                </div>
+                            </div>
+                            <div class="prog mt-2" style="height:4px;background:var(--border);">
+                                <div class="prog-fill pf-primary" style="width:${S.socialTotalEarnings ? Math.min(100, ((p.earnings || 0) / (S.socialTotalEarnings || 1)) * 100) : 0}%;"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                updateSocialBadge();
+            } catch (err) {
+                toast('Failed to load social earnings: ' + err.message, 'error');
+                document.getElementById('socialPostsList').innerHTML =
+                    '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Could not load social earnings. Please try again.</p></div>';
+            } finally { hideLoading(); }
+        }
+
+        async function updateSocialBadge() {
+            try {
+                const res = await apiCall('/posts/my/social-earnings');
+                const total = res.data?.totalEarnings || 0;
+                const badge = document.getElementById('navSocialBadge');
+                if (badge) badge.textContent = fmtMoneyAPI(total);
+                S.socialTotalEarnings = total;
+            } catch (e) { console.warn('Could not update social badge:', e); }
         }
 
         // ================================================================
-        // DASHBOARD - HOME (unchanged)
+        // DASHBOARD - HOME
         // ================================================================
         async function initHome() {
             document.getElementById('homeContent').innerHTML = '';
@@ -8077,7 +8197,7 @@
                 await loadLeaderboard();
                 await loadTransactions();
                 await loadReferralStats();
-                await loadSocialEarnings(); } catch (e) {}
+                await updateSocialBadge(); } catch (e) {}
             renderHomeDashboard();
             checkPlanExpiry();
             loadFeed(1);
@@ -8120,7 +8240,7 @@
             const postCount = S.posts?.length || 0;
             const followersCount = S.following?.length || 0;
             const totalEarnings = S.user?.walletBalance || 0;
-            const socialEarnings = S.socialEarnings || 0;
+            const socialEarnings = S.socialTotalEarnings || 0;
 
             el.innerHTML = `
                 <div class="dash-grid">
@@ -8155,7 +8275,7 @@
                             <div class="earning-stat"><div class="es-icon">💰</div><div class="es-value">${fmtMoneyAPI(totalEarnings)}</div><div class="es-label">Total Earned</div></div>
                             <div class="earning-stat"><div class="es-icon">📝</div><div class="es-value">${postCount}</div><div class="es-label">Posts</div></div>
                             <div class="earning-stat"><div class="es-icon">👥</div><div class="es-value">${followersCount}</div><div class="es-label">Following</div></div>
-                            <div class="earning-stat"><div class="es-icon">📊</div><div class="es-value">${fmtMoneyAPI(socialEarnings)}</div><div class="es-label">Social Earnings</div></div>
+                            <div class="earning-stat"><div class="es-icon">🌱</div><div class="es-value">${fmtMoneyAPI(socialEarnings)}</div><div class="es-label">Social Earnings</div></div>
                         </div>
                         <div class="card card-p">
                             <div class="d-flex items-center justify-between mb-3 flex-wrap" style="gap:.4rem">
@@ -8406,7 +8526,7 @@
         }
 
         // ================================================================
-        // PAYMENT TOGGLES (unchanged)
+        // PAYMENT TOGGLES
         // ================================================================
         function toggleBuyPaymentMethod(method, btn) {
             const container = btn.closest('.modal-bd');
@@ -8487,7 +8607,7 @@
         });
 
         // ================================================================
-        // MANUAL PAYMENT SUBMISSION (with status check)
+        // MANUAL PAYMENT SUBMISSION
         // ================================================================
         function getAffiliateCodeFromCookie() {
             const match = document.cookie.match(/(?:^|; )affiliate_code=([^;]*)/);
@@ -8693,7 +8813,7 @@
         }
 
         // ================================================================
-        // PAYSTACK (unchanged)
+        // PAYSTACK
         // ================================================================
         async function processPayment() {
             const type = currentPaymentType;
@@ -8791,7 +8911,7 @@
         }
 
         // ================================================================
-        // MY COURSES (unchanged)
+        // MY COURSES
         // ================================================================
         function renderCourseGrid(filter) {
             S.courseFilter = filter || 'all';
@@ -8817,7 +8937,7 @@
         }
 
         // ================================================================
-        // LESSON / CURRICULUM (unchanged)
+        // LESSON / CURRICULUM
         // ================================================================
         function renderCurric() {
             const list = document.getElementById('curricList');
@@ -8917,7 +9037,6 @@
                         ).join('');
                 } else { resList.innerHTML = '<div class="empty-state"><p>No resources</p></div>'; }
             }
-            // Lesson inline ad
             if (!S.isPremium && shouldShowAd('lesson-inline')) {
                 const ad = getNextAd('lesson-inline');
                 if (ad && ad.type === 'custom') {
@@ -8977,7 +9096,7 @@
         }
 
         // ================================================================
-        // QA (unchanged)
+        // QA
         // ================================================================
         async function loadQA() {
             if (!S.currentCourseId) return;
@@ -9025,7 +9144,7 @@
         }
 
         // ================================================================
-        // QUIZ (unchanged)
+        // QUIZ
         // ================================================================
         function initQuiz() {
             const el = document.getElementById('quizWrap');
@@ -9079,7 +9198,7 @@
         }
 
         // ================================================================
-        // CERTIFICATES (unchanged)
+        // CERTIFICATES
         // ================================================================
         async function renderCerts() {
             try {
@@ -9183,7 +9302,7 @@
         }
 
         // ================================================================
-        // WALLET (enhanced with ad revenue and manual payment status)
+        // WALLET
         // ================================================================
         async function renderWallet() {
             try {
@@ -9218,8 +9337,9 @@
                     const socialEarnings = await apiCall('/posts/my/social-earnings');
                     const socialEarned = socialEarnings.data?.totalEarnings || 0;
                     breakdownHtml += `
-                        <div class="web-row"><span>Social Earnings</span><span style="color:var(--cyan);font-weight:700">${fmtMoneyAPI(socialEarned)}</span></div>
+                        <div class="web-row"><span>🌱 Social Earnings</span><span style="color:var(--cyan);font-weight:700">${fmtMoneyAPI(socialEarned)}</span></div>
                     `;
+                    S.socialTotalEarnings = socialEarned;
                 } catch (e) {}
 
                 document.getElementById('walletBreakdown').innerHTML = breakdownHtml;
@@ -9230,7 +9350,6 @@
                 await loadTransactions();
                 renderTxTable();
 
-                // Check for pending manual payment status
                 await checkManualPaymentStatus();
 
                 try {
@@ -9241,6 +9360,7 @@
                         `<option value="${b._id || b.accountNumber}">${b.bankName} - ${b.accountNumber}</option>`
                         ).join('');
                 } catch (e) {}
+                updateSocialBadge();
             } catch (e) { console.warn('Wallet render error:', e); }
         }
 
@@ -9291,7 +9411,7 @@
         }
 
         // ================================================================
-        // REFERRALS (unchanged)
+        // REFERRALS
         // ================================================================
         async function renderRefs() {
             const refCode = S.user?.referralCode || 'REF';
@@ -9329,7 +9449,7 @@
         function shareOnSocial(p) { toast(`Shared on ${p}!`, 'success'); }
 
         // ================================================================
-        // LEADERBOARD (unchanged)
+        // LEADERBOARD
         // ================================================================
         async function loadLeaderboard() {
             try {
@@ -9420,7 +9540,7 @@
         }
 
         // ================================================================
-        // AFFILIATES (unchanged)
+        // AFFILIATES
         // ================================================================
         async function renderAffiliates(forceRefresh = false) {
             showLoading('Loading affiliate offers...');
@@ -9500,7 +9620,7 @@
         }
 
         // ================================================================
-        // INSTRUCTOR HUB (unchanged)
+        // INSTRUCTOR HUB
         // ================================================================
         function renderInstHub() {
             const hasCreatorAccess = S.isPremium || S.user?.roles?.includes('admin') || (S.user?.roles?.includes('creator') &&
@@ -9683,7 +9803,7 @@
         }
 
         // ================================================================
-        // COURSE EDITOR (unchanged)
+        // COURSE EDITOR
         // ================================================================
         function startAutoSave() {
             if (autoSaveTimer) clearInterval(autoSaveTimer);
@@ -10044,7 +10164,7 @@
         }
 
         // ================================================================
-        // AI TUTOR (unchanged)
+        // AI TUTOR
         // ================================================================
         function initAI() {
             document.getElementById('aiMessages').innerHTML =
@@ -10467,7 +10587,6 @@
                 container.innerHTML = '<div class="empty-state"><p>No books added yet.</p></div>';
                 return;
             }
-            // Admin filter: all, pending, approved, rejected
             const filter = document.getElementById('bookFilter')?.value || 'all';
             let filtered = books;
             if (filter !== 'all') {
@@ -10524,7 +10643,7 @@
         }
 
         // ================================================================
-        // SETTINGS (unchanged)
+        // SETTINGS
         // ================================================================
         function initSettings() { updateUserUI();
             renderSubStatus();
@@ -10648,7 +10767,7 @@
         }
 
         // ================================================================
-        // UPLOAD AVATAR (unchanged)
+        // UPLOAD AVATAR
         // ================================================================
         async function uploadAvatar(input) {
             const file = input.files[0];
@@ -10674,7 +10793,7 @@
         }
 
         // ================================================================
-        // RATING STARS (unchanged)
+        // RATING STARS
         // ================================================================
         window.selectedRating = 0;
 
@@ -10714,7 +10833,7 @@
         }
 
         // ================================================================
-        // WIZARD (unchanged)
+        // WIZARD
         // ================================================================
         function nextWizStep(skip) { S.wizStep++;
             showWizStep(S.wizStep); }
@@ -10766,7 +10885,7 @@
         }
 
         // ================================================================
-        // COUPON HELPERS (unchanged)
+        // COUPON HELPERS
         // ================================================================
         function applySubCode(val) {
             const st = document.getElementById('subCodeStatus');
@@ -10797,7 +10916,7 @@
         }
 
         // ================================================================
-        // GLOBAL SEARCH (unchanged)
+        // GLOBAL SEARCH
         // ================================================================
         document.addEventListener('input', e => {
             if (e.target.id !== 'globalSearch') return;
@@ -10842,7 +10961,7 @@
         });
 
         // ================================================================
-        // RIPPLE EFFECT (unchanged)
+        // RIPPLE EFFECT
         // ================================================================
         document.addEventListener('click', e => {
             const btn = e.target.closest(
@@ -10860,7 +10979,7 @@
         });
 
         // ================================================================
-        // ESC CLOSE (unchanged)
+        // ESC CLOSE
         // ================================================================
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
@@ -10870,7 +10989,7 @@
         });
 
         // ================================================================
-        // SAVE NOTE (unchanged)
+        // SAVE NOTE
         // ================================================================
         function saveNote() {
             const note = document.getElementById('lessonNote')?.value.trim();
@@ -10884,7 +11003,7 @@
         }
 
         // ================================================================
-        // REVIEW STAR HELPER (unchanged)
+        // REVIEW STAR HELPER
         // ================================================================
         function setReviewStar(n) {
             document.querySelectorAll('#reviewStars span').forEach((s, i) => {
@@ -10894,7 +11013,7 @@
         }
 
         // ================================================================
-        // ADMIN PANEL – FULL WITH BOOKS, ADS, CHALLENGES, CONFIG
+        // ADMIN PANEL – FULL WITH BOOKS, ADS, CHALLENGES, SOCIAL EARNINGS
         // ================================================================
         function renderAdm(sec) { switchAdm(sec, null); }
 
@@ -11041,7 +11160,6 @@
                         <div id="admAdsList"><p style="color:var(--text3)">Loading ads...</p></div>
                     `;
                     await loadAdminAds();
-                    // Ad Config section
                     content.innerHTML += `
                         <div class="admin-config-section">
                             <h6 style="margin-bottom:.65rem">⚙️ Ad Configuration</h6>
@@ -11096,12 +11214,14 @@
                 case 'social-earnings':
                     content.innerHTML = `
                         <div class="social-earnings-admin">
-                            <div class="admin-form card card-p"><h5 style="margin-bottom:1rem">📊 Social Earnings Configuration</h5><div class="form-group"><label class="flabel">Daily Pool Amount (₦)</label><input type="number" class="finput" id="admPoolAmount" value="${S.poolConfig.dailyPoolAmount || 10000}" min="1000"/></div><button class="btn btn-primary" onclick="updateSocialEarningsConfig()"><i class="fas fa-save"></i> Update Pool</button></div>
-                            <div class="card card-p mt-3"><h5>🏆 Top Earning Posts</h5><div id="topEarningPosts"><p style="color:var(--text3)">Loading...</p></div></div>
+                            <div class="admin-form card card-p"><h5 style="margin-bottom:1rem">📊 Social Earnings Configuration</h5><div class="form-group"><label class="flabel">Daily Pool Amount (₦)</label><input type="number" class="finput" id="admPoolAmount" value="${S.poolConfig.dailyPoolAmount || 10000}" min="1000"/></div><div class="row"><div class="col-6 col-md-3"><div class="form-group"><label class="flabel">Like Weight</label><input type="number" class="finput" id="admLikeWeight" step="0.5" min="0" value="${S.poolConfig.engagementWeights?.like || 1}" /></div></div><div class="col-6 col-md-3"><div class="form-group"><label class="flabel">Comment Weight</label><input type="number" class="finput" id="admCommentWeight" step="0.5" min="0" value="${S.poolConfig.engagementWeights?.comment || 2}" /></div></div><div class="col-6 col-md-3"><div class="form-group"><label class="flabel">Share Weight</label><input type="number" class="finput" id="admShareWeight" step="0.5" min="0" value="${S.poolConfig.engagementWeights?.share || 3}" /></div></div><div class="col-6 col-md-3"><div class="form-group"><label class="flabel">View Weight</label><input type="number" class="finput" id="admViewWeight" step="0.1" min="0" value="${S.poolConfig.engagementWeights?.view || 0.5}" /></div></div></div><div class="d-flex gap-2 mt-2"><button class="btn btn-primary" onclick="updateSocialEarningsConfig()"><i class="fas fa-save"></i> Save Config</button><button class="btn btn-gold" onclick="triggerSocialDistribution()"><i class="fas fa-play"></i> Trigger Distribution Now</button></div></div>
+                            <div class="row mb-3 mt-3"><div class="col-12 col-md-6"><div class="card card-p"><h6>💰 Total Distributed</h6><div style="font-family:var(--font-heading);font-size:1.8rem;color:var(--lime);" id="admTotalPool">₦0</div></div></div><div class="col-12 col-md-6"><div class="card card-p"><h6>🏆 Top Earning Posts</h6><div id="admTopPostsList"></div></div></div></div>
+                            <div class="card card-p"><h6>📊 Distribution History</h6><div id="admDistributionHistory"></div></div>
                         </div>
                     `;
                     await loadSocialEarningsConfig();
                     await loadTopEarningPosts();
+                    await loadTotalPool();
                     break;
                 case 'audit':
                     content.innerHTML = '<p style="color:var(--text3)">Loading audit logs...</p>';
@@ -11116,6 +11236,84 @@
                 default:
                     content.innerHTML = '<p>Select a section</p>';
             }
+        }
+
+        // ─── ADMIN SOCIAL EARNINGS ──────────────────────────────────────
+        async function loadSocialEarningsConfig() {
+            try {
+                const res = await apiCall('/admin/social-earnings/config');
+                const config = res.data || {};
+                S.poolConfig = config;
+                const el = document.getElementById('admPoolAmount');
+                if (el) el.value = config.dailyPoolAmount || 10000;
+                const weights = config.engagementWeights || {};
+                document.getElementById('admLikeWeight').value = weights.like || 1;
+                document.getElementById('admCommentWeight').value = weights.comment || 2;
+                document.getElementById('admShareWeight').value = weights.share || 3;
+                document.getElementById('admViewWeight').value = weights.view || 0.5;
+                if (document.getElementById('admLastDistribution')) {
+                    document.getElementById('admLastDistribution').value = config.lastDistributionDate ? new Date(config
+                        .lastDistributionDate).toLocaleString() : 'Never';
+                }
+            } catch (e) { console.warn('Could not load social earnings config:', e); }
+        }
+
+        async function updateSocialEarningsConfig() {
+            const payload = {
+                dailyPoolAmount: parseFloat(document.getElementById('admPoolAmount').value) || 10000,
+                engagementWeights: {
+                    like: parseFloat(document.getElementById('admLikeWeight').value) || 1,
+                    comment: parseFloat(document.getElementById('admCommentWeight').value) || 2,
+                    share: parseFloat(document.getElementById('admShareWeight').value) || 3,
+                    view: parseFloat(document.getElementById('admViewWeight').value) || 0.5
+                }
+            };
+            try {
+                await apiCall('/admin/social-earnings/config', { method: 'PUT', body: payload });
+                toast('✅ Config updated!', 'success');
+                S.poolConfig = payload;
+                loadSocialEarningsConfig();
+            } catch (err) { toast(err.message, 'error'); }
+        }
+
+        async function triggerSocialDistribution() {
+            if (!confirm('Trigger daily social earnings distribution now? This will distribute the pool amount to eligible posts.'))
+                return;
+            showLoading('Distributing earnings...');
+            try {
+                const res = await apiCall('/admin/social-earnings/trigger', { method: 'POST' });
+                toast(res.message || '✅ Distribution completed!', 'success');
+                loadSocialEarningsConfig();
+                loadTopEarningPosts();
+                loadTotalPool();
+            } catch (err) { toast('Failed: ' + err.message, 'error'); } finally { hideLoading(); }
+        }
+
+        async function loadTopEarningPosts() {
+            try {
+                const res = await apiCall('/admin/social-earnings/top-posts?limit=10');
+                const posts = res.data || [];
+                S.topEarningPosts = posts;
+                const container = document.getElementById('admTopPostsList');
+                if (!container) return;
+                if (!posts.length) {
+                    container.innerHTML = '<p style="color:var(--text3);font-size:.8rem;">No posts with earnings yet.</p>';
+                    return;
+                }
+                container.innerHTML = posts.map(p => `
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.82rem;">
+                        <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(p.postId?.title || 'Untitled')}</span>
+                        <span style="color:var(--primary);font-weight:700;flex-shrink:0;">${fmtMoneyAPI(p.earnings || 0)}</span>
+                    </div>
+                `).join('');
+            } catch (err) { console.warn('Could not load top earning posts:', err); }
+        }
+
+        async function loadTotalPool() {
+            try {
+                const res = await apiCall('/admin/social-earnings/total-pool');
+                document.getElementById('admTotalPool').textContent = fmtMoneyAPI(res.data?.total || 0);
+            } catch (err) { console.warn('Could not load total pool:', err); }
         }
 
         // ─── ADMIN AD IMAGE UPLOAD ──────────────────────────────────────
@@ -11381,7 +11579,6 @@
                 document.getElementById('admAdEnd').value = '';
                 document.getElementById('admAdImagePreview').classList.remove('visible');
                 document.getElementById('admAdImageFile').value = '';
-                // Refresh frontend ads
                 await loadAds('in-feed');
                 if (placement === 'explore') await loadAds('explore');
                 if (placement === 'book-page' || placement === 'book-sponsor') await loadBookPageAds();
@@ -11508,47 +11705,6 @@
                 toast('Payment rejected', 'info');
                 loadManualPayments();
             } catch (err) { toast('Failed: ' + err.message, 'error'); } finally { hideLoading(); }
-        }
-
-        // ─── ADMIN SOCIAL EARNINGS ──────────────────────────────────────
-        async function loadSocialEarningsConfig() {
-            try {
-                const res = await apiCall('/admin/social-earnings/config');
-                const config = res.data || {};
-                S.poolConfig = config;
-                const el = document.getElementById('admPoolAmount');
-                if (el) el.value = config.dailyPoolAmount || 10000;
-            } catch (e) { console.warn('Could not load social earnings config:', e); }
-        }
-
-        async function updateSocialEarningsConfig() {
-            const amount = document.getElementById('admPoolAmount')?.value;
-            if (!amount || amount < 1000) { toast('Enter a valid pool amount (min ₦1,000)', 'error'); return; }
-            try {
-                await apiCall('/admin/social-earnings/config', { method: 'PUT', body: { dailyPoolAmount: Number(
-                        amount) } });
-                toast('Pool updated!', 'success');
-                S.poolConfig.dailyPoolAmount = Number(amount);
-            } catch (e) { toast(e.message, 'error'); }
-        }
-
-        async function loadTopEarningPosts() {
-            try {
-                const res = await apiCall('/admin/social-earnings/top-posts?limit=10');
-                const posts = res.data || [];
-                S.topEarningPosts = posts;
-                const container = document.getElementById('topEarningPosts');
-                if (!container) return;
-                if (!posts.length) { container.innerHTML = '<p style="color:var(--text3)">No posts with earnings yet.</p>'; } else {
-                    container.innerHTML = posts.map(p => `
-                        <div style="padding:.5rem 0; border-bottom:1px solid var(--border);">
-                            <strong>${escapeHtml(p.postId?.title || 'Untitled')}</strong>
-                            <span style="float:right;color:var(--primary);font-weight:700">${fmtMoneyAPI(p.earnings)}</span>
-                            <br><small style="color:var(--text3)">${p.views || 0} views · ❤️ ${p.likes || 0} · 💬 ${p.comments || 0}</small>
-                        </div>
-                    `).join('');
-                }
-            } catch (e) { console.warn('Could not load top earning posts:', e); }
         }
 
         // ─── ADMIN USER ACTIONS ──────────────────────────────────────────
@@ -11877,7 +12033,7 @@
         }
 
         // ================================================================
-        // LANDING PAGE FUNCTIONS (unchanged)
+        // LANDING PAGE FUNCTIONS
         // ================================================================
         async function initLanding() {
             await fetchLandingStats();
@@ -11990,7 +12146,7 @@
         }
 
         // ================================================================
-        // REVIEWS (unchanged)
+        // REVIEWS
         // ================================================================
         async function submitReview() {
             const name = document.getElementById('reviewName').value.trim();
@@ -12042,7 +12198,7 @@
         }
 
         // ================================================================
-        // FEEDBACK (unchanged)
+        // FEEDBACK
         // ================================================================
         async function sendFeedback() {
             const message = document.getElementById('feedbackMsg')?.value.trim();
@@ -12060,7 +12216,7 @@
         }
 
         // ================================================================
-        // ENROLLMENTS HELPER (unchanged)
+        // ENROLLMENTS HELPER
         // ================================================================
         async function loadEnrollments() {
             try {
@@ -12072,7 +12228,7 @@
         }
 
         // ================================================================
-        // TOOLS PAGE (unchanged)
+        // TOOLS PAGE
         // ================================================================
         function loadTools() {
             loadCodeTool();
@@ -12322,7 +12478,7 @@
         });
 
         // ================================================================
-        // OAUTH CALLBACK + PAYSTACK VERIFICATION (unchanged)
+        // OAUTH CALLBACK + PAYSTACK VERIFICATION
         // ================================================================
         (function() {
             const params = new URLSearchParams(window.location.search);
@@ -12388,7 +12544,7 @@
         })();
 
         // ================================================================
-        // POST DETAIL PAGE (unchanged)
+        // POST DETAIL PAGE
         // ================================================================
         async function loadPostBySlug(slug) {
             showLoading('Loading post...');
@@ -12426,7 +12582,7 @@
                     ${post.featuredImage ? `<img src="${post.featuredImage}" class="post-image" alt="featured" loading="lazy">` : ''}
                     ${post.videoUrl ? `<video controls style="max-width:100%;border-radius:var(--radius-sm);margin:.75rem 0;"><source src="${post.videoUrl}" type="video/mp4"></video>` : ''}
                     <div class="post-content" style="font-size:1rem;line-height:1.8;color:var(--text2);margin:1rem 0;">${contentHtml}</div>
-                    <div class="post-stats"><span><i class="fas fa-eye"></i> ${views} views</span><span><i class="far fa-heart"></i> ${post.likes || 0}</span><span><i class="far fa-comment"></i> ${post.commentsCount || 0}</span><span><i class="fas fa-share-alt"></i> ${post.shares || 0}</span>${earnings > 0 ? `<span class="badge badge-gold">🏆 +${fmtMoneyAPI(earnings)}</span>` : ''}</div>
+                    <div class="post-stats"><span><i class="fas fa-eye"></i> ${views} views</span><span><i class="far fa-heart"></i> ${post.likes || 0}</span><span><i class="far fa-comment"></i> ${post.commentsCount || 0}</span><span><i class="fas fa-share-alt"></i> ${post.shares || 0}</span>${earnings > 0 ? `<span class="badge badge-gold">🌱 +${fmtMoneyAPI(earnings)}</span>` : ''}</div>
                     <div class="post-actions"><button class="btn-like ${post.userLiked ? 'liked' : ''}" data-id="${post._id}"><i class="far fa-heart"></i> Like</button><button class="btn-comment" data-id="${post._id}"><i class="far fa-comment"></i> Comment</button><button class="btn-share" onclick="openShareModal('${post._id}','${post.slug}')"><i class="fas fa-share-alt"></i> Share</button></div>
                     <div class="comments-section" data-post-id="${post._id}" style="display:block;margin-top:1rem;">
                         <div class="comment-input"><textarea placeholder="Write a comment..." id="commentText-${post._id}"></textarea><button class="btn-primary btn-sm" onclick="addComment('${post._id}')">Post</button></div>
@@ -12439,7 +12595,7 @@
         }
 
         // ================================================================
-        // SHARE MODAL (unchanged)
+        // SHARE MODAL
         // ================================================================
         function openShareModal(postId, slug) {
             S.sharePostId = postId;
@@ -12487,7 +12643,7 @@
         }
 
         // ================================================================
-        // INTERACTIVE MATERIALS (unchanged)
+        // INTERACTIVE MATERIALS
         // ================================================================
         async function loadInteractiveMaterials(lessonId) {
             if (!lessonId) return;
@@ -12599,7 +12755,7 @@
         function initCalculator(id, config) { calcDisplay = ''; }
 
         // ================================================================
-        // INTERACTIVE TAB (unchanged)
+        // INTERACTIVE TAB
         // ================================================================
         function switchLTab(tab, el) {
             document.querySelectorAll('.ltab').forEach(t => t.classList.remove('active'));
@@ -12619,7 +12775,7 @@
         }
 
         // ================================================================
-        // APP INIT (unchanged)
+        // APP INIT
         // ================================================================
         async function initApp() {
             try {
@@ -12664,7 +12820,7 @@
             populateAllBankDetailsBoxes();
             await loadPeople();
             checkPlanExpiry();
-            await loadSocialEarnings();
+            await updateSocialBadge();
             await loadAds('in-feed');
             loadSidebarAd();
             loadBottomAd();
@@ -12763,9 +12919,9 @@
         console.log('👤 Profile earnings hidden when viewing other users\' profiles.');
         console.log('📢 Ad Frequency: Free users see ads every 3 posts, Premium users every 6 posts.');
         console.log('📚 Book purchase approval automatically converts purchase button to download.');
-        console.log(
-            '✅ Production-ready: All features optimized for growth, engagement, and profitability.'
-            );
+        console.log('🌱 Social Earnings fully integrated with wallet breakdown and dedicated page.');
+        console.log('✅ Production-ready: All features optimized for growth, engagement, and profitability.');
+        console.log('📊 Social Earnings: Daily pool distribution with admin config and real-time socket updates.');
     </script>
 </body>
 </html>
