@@ -3749,6 +3749,9 @@
             max-width: 100%;
             border-radius: var(--radius-sm);
         }
+        .post-content .post-preview {
+            display: inline;
+        }
         .post-content .post-full {
             display: none;
         }
@@ -5285,6 +5288,48 @@
             font-size: 0.9rem;
             color: var(--lime);
         }
+        .ad-container {
+            margin: 0.75rem 0;
+            padding: 0.5rem;
+            background: var(--bg2);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+        .ad-container .ad-card {
+            margin: 0;
+            border: none;
+            background: transparent;
+        }
+        .ad-container .ad-card img {
+            max-height: 120px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+        }
+        .ad-container .ad-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text3);
+            margin-bottom: 0.3rem;
+        }
+        .premium .ad-container {
+            display: none !important;
+        }
+        .book-status-pending {
+            background: rgba(251, 146, 60, .15);
+            color: var(--orange);
+            border: 1px solid rgba(251, 146, 60, .25);
+        }
+        .book-status-approved {
+            background: rgba(52, 211, 153, .15);
+            color: var(--success);
+            border: 1px solid rgba(52, 211, 153, .25);
+        }
+        .book-status-rejected {
+            background: rgba(248, 113, 113, .15);
+            color: var(--danger);
+            border: 1px solid rgba(248, 113, 113, .25);
+        }
     </style>
 </head>
 <body>
@@ -5412,7 +5457,7 @@
                         <li class="nav-sec" style="margin-top:.3rem">Library</li>
                         <li><span class="nav-item" id="nav-books" onclick="setDP('books')"><span class="nav-ico"><i class="fas fa-book"></i></span>Books</span></li>
                         <li class="nav-sec" style="margin-top:.3rem">Publish</li>
-                        <li><span class="nav-item premium-only" id="nav-create-book" onclick="setDP('create-book')"><span class="nav-ico"><i class="fas fa-book"></i></span>Upload Book<span class="nav-badge nav-badge-premium">Premium</span></span></li>
+                        <li id="nav-create-book" class="premium-only"><span class="nav-item" onclick="setDP('create-book')"><span class="nav-ico"><i class="fas fa-book"></i></span>Upload Book<span class="nav-badge nav-badge-premium">Premium</span></span></li>
                         <li class="nav-sec" style="margin-top:.3rem">Earn More</li>
                         <li><span class="nav-item" id="nav-social-earnings" onclick="setDP('social-earnings')"><span class="nav-ico"><i class="fas fa-seedling"></i></span>Social Earnings<span class="nav-badge nav-badge-gold" id="navSocialBadge">0</span></span></li>
                         <li class="nav-sec" style="margin-top:.3rem">Account</li>
@@ -5487,10 +5532,18 @@
                     <div id="dash-ai" class="dash-sub"><div class="page-hd"><h2 class="page-title">🤖 AI Tutor</h2><p class="page-sub">Your personal AI-powered learning assistant</p></div><div id="aiPlanNote" style="margin-bottom:.85rem"></div><div class="card card-p mb-3"><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.85rem"><button class="fpill active" onclick="switchAIMode('chat',this)"><i class="fas fa-comments"></i>Chat</button><button class="fpill" onclick="switchAIMode('explain',this)"><i class="fas fa-book-open"></i>Explain Code</button><button class="fpill" onclick="switchAIMode('quiz',this)"><i class="fas fa-question-circle"></i>Generate Quiz</button><button class="fpill" onclick="switchAIMode('upload',this)"><i class="fas fa-upload"></i>Upload &amp; Analyze</button></div><div id="aiMessages" style="min-height:280px;max-height:380px;overflow-y:auto;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:.65rem;display:flex;flex-direction:column;gap:.6rem"></div><div class="d-flex gap-2"><input type="text" class="finput flex-1" id="aiInput" placeholder="Ask me anything about coding or your course..." onkeydown="if(event.key==='Enter')sendAI()"/><button class="btn btn-primary btn-sm" onclick="sendAI()"><i class="fas fa-paper-plane"></i></button></div></div><div class="card card-p" id="aiUploadPanel" style="display:none"><h6 style="margin-bottom:.65rem">📎 Upload Files for AI Analysis</h6><div id="aiUploadInfo" style="font-size:.8rem;color:var(--text3);margin-bottom:.65rem"></div><div class="upload-zone" style="padding:1.5rem"><input type="file" multiple id="aiFileInput" onchange="handleAIUpload(this)"/><div class="upload-icon"><i class="fas fa-file-upload"></i></div><div style="font-size:.84rem;color:var(--text2)">Drop any file here (PDF, image, code, etc.)</div><div style="font-size:.72rem;color:var(--text3);margin-top:.2rem" id="aiUploadLimit"></div></div><div id="aiUploadedFiles" style="margin-top:.65rem"></div></div></div>
 
                     <!-- BOOKS -->
-                    <div id="dash-books" class="dash-sub"><div class="page-hd"><h2 class="page-title">📚 Digital Library</h2><p class="page-sub">Browse, read and download books</p></div><div id="booksGrid" class="courses-grid"></div></div>
+                    <div id="dash-books" class="dash-sub"><div class="page-hd"><h2 class="page-title">📚 Digital Library</h2><p class="page-sub">Browse, read and download books</p></div>
+                        <div id="bookPageAdContainer" class="ad-container"></div>
+                        <div id="bookSponsorAdContainer" class="ad-container"></div>
+                        <div id="booksGrid" class="courses-grid"></div>
+                    </div>
 
                     <!-- BOOK DETAIL -->
-                    <div id="dash-book-detail" class="dash-sub"><div class="page-hd"><button class="btn btn-ghost btn-sm" onclick="setDP('books')"><i class="fas fa-arrow-left"></i> Back to Library</button></div><div id="bookDetailContent"></div></div>
+                    <div id="dash-book-detail" class="dash-sub"><div class="page-hd"><button class="btn btn-ghost btn-sm" onclick="setDP('books')"><i class="fas fa-arrow-left"></i> Back to Library</button></div>
+                        <div id="bookPageAdContainerDetail" class="ad-container"></div>
+                        <div id="bookDetailContent"></div>
+                        <div id="bookSponsorAdContainerDetail" class="ad-container"></div>
+                    </div>
 
                     <!-- UPLOAD BOOK (Premium Only) -->
                     <div id="dash-create-book" class="dash-sub premium-only">
@@ -5680,7 +5733,7 @@
             sharePostSlug: null,
             planExpiryWarningShown: false,
             socialEarnings: 0,
-            poolConfig: { dailyPoolAmount: 10000 },
+            poolConfig: { dailyPoolAmount: 10000, engagementWeights: { like: 1, comment: 2, share: 3, view: 0.5 } },
             topEarningPosts: [],
             reviewStars: 0,
             feedHasMore: true,
@@ -6892,6 +6945,10 @@
                 el.textContent = isPremium ? '✅ Premium' : '🔓 Free';
                 el.className = `badge ${isPremium ? 'badge-premium' : 'badge-dark'}`;
             });
+            // Hide all ad containers for premium users
+            document.querySelectorAll('.ad-container').forEach(container => {
+                container.style.display = isPremium ? 'none' : '';
+            });
             if (S.dp === 'create-book' && !isPremium) {
                 toast('Premium required to upload books', 'warning');
                 setDP('home');
@@ -7326,10 +7383,14 @@
                 `<img src="${getAvatarUrl(author)}" alt="${author.firstName || 'U'}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` :
                 (author.firstName?.[0] || 'U');
             const fullContent = post.content || '';
-            const previewContent = fullContent.length > 200 ? fullContent.slice(0, 200) + '...' : fullContent;
-            const needsReadMore = fullContent.length > 200;
-            const contentHtml = post.content ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(post.content) : post
-                .content) : '';
+            // Truncate for preview
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = fullContent;
+            const textContent = tempDiv.textContent || tempDiv.innerText || '';
+            const previewText = textContent.length > 200 ? textContent.substring(0, 200) + '...' : textContent;
+            const needsReadMore = textContent.length > 200;
+            const contentHtml = fullContent ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(fullContent) : fullContent) :
+                '';
             const earnings = post.earnings || 0;
             const isAuthor = S.user?._id === author._id || S.user?._id === post.authorId?._id || S.user?._id === post
                 .authorId;
@@ -7360,7 +7421,7 @@
                     ${post.featuredImage ? `<img src="${post.featuredImage}" class="post-image" alt="featured" loading="lazy">` : ''}
                     ${post.videoUrl ? `<video controls style="max-width:100%;border-radius:var(--radius-sm);margin:.75rem 0;"><source src="${post.videoUrl}" type="video/mp4"></video>` : ''}
                     <div class="post-content" id="postContent-${post._id}">
-                        <span class="post-preview">${contentHtml}</span>
+                        <span class="post-preview">${escapeHtml(previewText)}</span>
                         ${needsReadMore ? `<span class="post-full" style="display:none;">${contentHtml}</span><button class="btn-readmore" onclick="togglePostContent('${post._id}')">Read more</button>` : ''}
                     </div>
                     <div class="post-stats">
@@ -11145,7 +11206,6 @@
                                     <option value="in-feed">In-Feed</option>
                                     <option value="popup">Popup</option>
                                     <option value="book-page">Book Page</option>
-                                    <option value="explore">Explore</option>
                                     <option value="video-pre">Video Pre-roll</option>
                                     <option value="video-mid">Video Mid-roll</option>
                                     <option value="lesson-inline">Lesson Inline</option>
@@ -12922,6 +12982,11 @@
         console.log('🌱 Social Earnings fully integrated with wallet breakdown and dedicated page.');
         console.log('✅ Production-ready: All features optimized for growth, engagement, and profitability.');
         console.log('📊 Social Earnings: Daily pool distribution with admin config and real-time socket updates.');
+        console.log('📌 Read More: Posts truncate at 200 characters with toggle.');
+        console.log('📌 Premium Book Upload: Only visible to premium users with pending status.');
+        console.log('📌 All 11 ad placements supported in dropdown and rendering.');
+        console.log('📌 Popup ads: Only shown to free users, once per session.');
+        console.log('📌 Ad containers hidden for premium users.');
     </script>
 </body>
 </html>
