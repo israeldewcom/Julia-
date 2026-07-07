@@ -16,7 +16,7 @@
     <meta name="twitter:description" content="Global #1 Learn-to-Earn platform. Learn tech skills and earn real money. Card or bank transfer accepted." />
     <link rel="canonical" href="https://changex.academy" id="canonicalLink" />
 
-    <!-- ===== PWA ===== -->
+    <!-- PWA -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -24,7 +24,7 @@
     <link rel="apple-touch-icon" href="/logo.png" />
     <link rel="apple-touch-startup-image" href="/logo.png" />
 
-    <!-- ===== PERFORMANCE ===== -->
+    <!-- PERFORMANCE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://js.paystack.co">
@@ -47,7 +47,7 @@
     </script>
     <meta name="google-site-verification" content="PB3lWW6G3FccAT72e65ehI6ILq12ZxNzS_RUsXDVufE" />
 
-    <!-- ===== ADSTERRA (Fallback Ad Network) ===== -->
+    <!-- ADSTERRA (Fallback Ad Network) -->
     <script async="async" data-cfasync="false" src="https://pl30155373.effectivecpmnetwork.com/cc89042fff30e53e48049a8c585d9105/invoke.js">
     </script>
 
@@ -665,9 +665,6 @@
             color: #000;
             padding: .62rem 1.6rem;
             font-size: .88rem;
-        }
-        .btn-pink:hover {
-            background: var(--primary-dark);
         }
         .btn-sm {
             padding: .38rem .9rem;
@@ -3687,6 +3684,8 @@
         .post-card {
             margin-bottom: 1.5rem;
             transition: transform 0.2s;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 300px;
         }
         .post-card:hover {
             transform: translateY(-2px);
@@ -3734,6 +3733,7 @@
             line-height: 1.7;
             color: var(--text2);
             margin: .5rem 0;
+            word-break: break-word;
         }
         .post-content img {
             max-width: 100%;
@@ -3748,6 +3748,21 @@
         .post-content video {
             max-width: 100%;
             border-radius: var(--radius-sm);
+        }
+        .post-content .post-full {
+            display: none;
+        }
+        .btn-readmore {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: .82rem;
+            padding: .2rem 0;
+        }
+        .btn-readmore:hover {
+            text-decoration: underline;
         }
         .post-stats {
             display: flex;
@@ -3835,6 +3850,23 @@
         }
         .comment-item .comment-like:hover {
             color: var(--danger);
+        }
+        .comment-item .reply-input-container {
+            margin-top: .5rem;
+        }
+        .comment-item .reply-input-container input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: .3rem .6rem;
+            color: var(--text);
+            font-size: .82rem;
+        }
+        .comment-item .replies-container {
+            margin-top: .5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border);
         }
         .challenge-card {
             margin-bottom: 1rem;
@@ -4983,8 +5015,6 @@
         .premium-hide {
             display: none !important;
         }
-
-        /* ===== NEW: Followers & Following Section ===== */
         .followers-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -5054,8 +5084,6 @@
         .follower-card .fc-badge {
             font-size: .55rem;
         }
-
-        /* ===== NEW: Tools Page Styles ===== */
         .tool-panel {
             display: none;
         }
@@ -5106,14 +5134,132 @@
         .has-premium .premium-only-inline {
             display: inline-flex !important;
         }
+        #videoAdOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 10;
+            color: white;
+            cursor: pointer;
+        }
+        #videoAdOverlay .ad-content {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        #videoAdOverlay .ad-content img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 4px;
+        }
+        #videoAdOverlay .ad-content p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .sponsored {
+            border: 2px solid var(--primary) !important;
+        }
+        .sponsored .sponsored-badge {
+            background: var(--primary);
+            color: #000;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.1rem 0.5rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        #sidebarAd {
+            display: none;
+            position: sticky;
+            top: 70px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        @media(max-width:991px) {
+            #sidebarAd {
+                display: none !important;
+            }
+        }
+        #bottomAdBanner {
+            display: none;
+            position: fixed;
+            bottom: 68px;
+            left: 0;
+            right: 0;
+            z-index: 199;
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            padding: 4px 8px;
+            text-align: center;
+        }
+        @media(max-width:991px) {
+            #bottomAdBanner {
+                display: block;
+            }
+        }
+        #bottomAdBanner .ad-card {
+            margin: 0;
+            padding: 4px;
+            border: none;
+            background: transparent;
+        }
+        #bottomAdBanner .ad-card img {
+            max-height: 60px;
+        }
+        #bottomAdBanner .ad-close {
+            position: absolute;
+            top: 2px;
+            right: 6px;
+            background: none;
+            border: none;
+            color: var(--text3);
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+        /* Admin book status badges */
+        .book-status-pending {
+            background: rgba(251, 146, 60, .15);
+            color: var(--orange);
+            border: 1px solid rgba(251, 146, 60, .25);
+        }
+        .book-status-approved {
+            background: rgba(52, 211, 153, .15);
+            color: var(--success);
+            border: 1px solid rgba(52, 211, 153, .25);
+        }
+        .book-status-rejected {
+            background: rgba(248, 113, 113, .15);
+            color: var(--danger);
+            border: 1px solid rgba(248, 113, 113, .25);
+        }
+        .admin-config-section {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg2);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
     </style>
 </head>
 <body>
     <div id="toastBox"></div>
     <div id="loadingOverlay" class="loading-overlay" style="display:none"><div class="loading-spinner"></div><div class="loading-text" id="loadingText">Loading...</div></div>
 
-    <!-- ===== PWA INSTALL BANNER ===== -->
+    <!-- PWA INSTALL BANNER -->
     <div id="installBanner" class="install-banner hidden"><div style="font-size:1.5rem">📲</div><div style="flex:1"><div style="font-weight:700;font-size:.84rem">Install ChangeX Academy</div><div style="font-size:.72rem;color:var(--text3)">Get faster access, offline learning & instant notifications</div></div><button class="btn btn-primary btn-sm" id="installBtn" onclick="installPWA()">Install</button><button class="btn-icon-sm" onclick="dismissInstallBanner()"><i class="fas fa-times"></i></button></div>
+
+    <!-- BOTTOM AD BANNER (Mobile) -->
+    <div id="bottomAdBanner"><button class="ad-close" onclick="document.getElementById('bottomAdBanner').style.display='none'"><i class="fas fa-times"></i></button><div id="bottomAdContent"></div></div>
 
     <!-- ============================================================ -->
     <!-- LANDING PAGE -->
@@ -5158,7 +5304,7 @@
     <div id="page-setup" class="page"><div class="wizard-wrap"><div class="wizard-bg"></div><div class="wizard-box"><div class="wizard-prog-bar"><div class="wizard-prog-fill" id="wizProg" style="width:0%"></div></div><div class="wizard-step active wizard-congrats" id="wiz-0"><span class="confetti-emoji">🎉</span><h2 style="font-size:1.8rem;margin:.75rem 0 .35rem">Congratulations!</h2><p style="color:var(--text2);font-size:.95rem;margin-bottom:.4rem">Welcome to ChangeX Academy, <strong id="wizName" style="color:var(--primary)">User</strong>! 🚀</p><p style="color:var(--text3);font-size:.84rem;margin-bottom:1.5rem">Complete your profile to unlock your referral code &amp; start earning!</p><div style="background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.18);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1.5rem;text-align:left"><p style="font-size:.82rem;color:var(--text2);margin-bottom:.5rem"><strong style="color:var(--primary)">🎁 Welcome Bonus:</strong></p><div style="display:flex;flex-direction:column;gap:.35rem;font-size:.8rem;color:var(--text2)"><div>✅ <strong style="color:var(--primary)">₦500</strong> added to your wallet</div><div>⚡ Complete profile to unlock referral code</div><div>🏆 Earn badges for each step completed</div></div></div><button class="btn btn-primary btn-lg w-full" onclick="nextWizStep()"><i class="fas fa-arrow-right"></i>Complete My Profile</button></div><div class="wizard-step" id="wiz-1" style="padding:1.75rem"><h4 style="margin-bottom:.35rem">Choose Your Role</h4><p style="font-size:.83rem;color:var(--text3);margin-bottom:.85rem">Select all that apply — you can change anytime in settings</p><div class="role-options"><div class="role-opt" id="role-student" onclick="toggleRole('student')"><div class="ricon">🎓</div><div class="rtitle">Student</div><div class="rdesc">Learn &amp; earn certificates</div></div><div class="role-opt" id="role-instructor" onclick="toggleRole('instructor')"><div class="ricon">👨‍🏫</div><div class="rtitle">Instructor</div><div class="rdesc">Create &amp; sell courses</div></div><div class="role-opt" id="role-affiliate" onclick="toggleRole('affiliate')"><div class="ricon">🤝</div><div class="rtitle">Affiliate</div><div class="rdesc">Promote &amp; earn commissions</div></div><div class="role-opt" id="role-all" onclick="toggleRole('all')"><div class="ricon">⚡</div><div class="rtitle">All of Above</div><div class="rdesc">Student + Instructor + Affiliate</div></div></div><div class="d-flex gap-2 mt-4"><button class="btn btn-ghost flex-1" onclick="prevWizStep()">← Back</button><button class="btn btn-primary flex-1" onclick="nextWizStep()">Next →</button></div></div><div class="wizard-step" id="wiz-2" style="padding:1.75rem"><h4 style="margin-bottom:.35rem">Personal Information</h4><p style="font-size:.83rem;color:var(--text3);margin-bottom:.85rem">Tell us a bit about yourself</p><div class="form-group"><label class="flabel">Bio / About You</label><textarea class="finput" id="wiz-bio" style="min-height:80px;resize:vertical" placeholder="e.g. Full-stack developer from Lagos passionate about AI &amp; freelancing."></textarea></div><div class="row"><div class="col-12 col-md-6"><div class="form-group"><label class="flabel">Location</label><input type="text" class="finput" id="wiz-loc" placeholder="e.g. Lagos, Nigeria"/></div></div><div class="col-12 col-md-6"><div class="form-group"><label class="flabel">Website (optional)</label><input type="url" class="finput" id="wiz-web" placeholder="https://yoursite.com"/></div></div></div><div class="form-group"><label class="flabel">Skills (comma separated)</label><input type="text" class="finput" id="wiz-skills" placeholder="e.g. HTML, CSS, JavaScript, React"/></div><div class="d-flex gap-2 mt-2"><button class="btn btn-ghost flex-1" onclick="prevWizStep()">← Back</button><button class="btn btn-primary flex-1" onclick="nextWizStep()">Next →</button></div></div><div class="wizard-step" id="wiz-3" style="padding:1.75rem"><h4 style="margin-bottom:.35rem">💳 Bank Details</h4><p style="font-size:.83rem;color:var(--text3);margin-bottom:.85rem">For receiving your earnings (you can skip and add later)</p><div class="form-group"><label class="flabel">Bank Name</label><select class="finput" id="wiz-bank"><option value="">Select Bank</option><option>GTBank</option><option>Access Bank</option><option>Zenith Bank</option><option>UBA</option><option>First Bank</option><option>Opay</option><option>Palmpay</option><option>Kuda Bank</option><option>Moniepoint</option><option>Sterling Bank</option></select></div><div class="row"><div class="col-12 col-md-6"><div class="form-group"><label class="flabel">Account Number</label><input type="text" class="finput" id="wiz-accnum" placeholder="0123456789" maxlength="10" oninput="verifyAccount(this.value)"/></div></div><div class="col-12 col-md-6"><div class="form-group"><label class="flabel">Account Name</label><input type="text" class="finput" id="wiz-accname" placeholder="Enter your full name"/></div></div></div><div id="accVerifyStatus" style="font-size:.76rem;margin-bottom:.75rem;display:none"></div><div style="background:rgba(34,211,238,.05);border:1px solid rgba(34,211,238,.15);border-radius:var(--radius-sm);padding:.6rem .85rem;font-size:.76rem;color:var(--text3);margin-bottom:1rem"><i class="fas fa-shield-alt" style="color:var(--cyan);margin-right:.3rem"></i>Your bank info is encrypted and only used for payouts</div><div class="d-flex gap-2"><button class="btn btn-ghost flex-1" onclick="prevWizStep()">← Back</button><button class="btn btn-ghost btn-sm" onclick="nextWizStep(true)">Skip</button><button class="btn btn-primary flex-1" onclick="nextWizStep()">Save &amp; Next →</button></div></div><div class="wizard-step" id="wiz-4" style="padding:1.75rem"><h4 style="margin-bottom:.35rem">⚡ Unlock Premium</h4><p style="font-size:.83rem;color:var(--text3);margin-bottom:.85rem">Create courses, earn affiliates, no ads!</p><div style="background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(20,184,166,.04));border:1px solid rgba(212,175,55,.2);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem"><div class="d-flex items-center justify-between mb-3"><span class="badge badge-premium"><i class="fas fa-crown"></i>Premium Plan</span><div><span style="font-family:var(--font-heading);font-size:1.6rem;font-weight:800;color:var(--primary)">₦5,000</span><span style="color:var(--text3);font-size:.8rem">/month</span></div></div><div style="display:flex;flex-direction:column;gap:.4rem;font-size:.82rem;margin-bottom:1rem"><div>✅ Create &amp; sell unlimited courses</div><div>✅ 80% revenue share</div><div>✅ Affiliate dashboard &amp; links</div><div>✅ Unlimited AI Tutor file uploads</div><div>✅ No ads, priority support</div></div><div class="form-group"><label class="flabel">Referral / Discount Code</label><input type="text" class="finput" id="premRefCode" placeholder="Enter referral code for bonus" oninput="applyPremCode(this.value)"/><div id="premCodeStatus" style="font-size:.76rem;margin:.25rem 0;min-height:1em"></div></div><div class="payment-method-tabs"><div class="payment-method-tab active" onclick="toggleWizPaymentMethod('card',this)">💳 Card</div><div class="payment-method-tab" onclick="toggleWizPaymentMethod('manual',this)">🏦 Bank Transfer</div></div><div id="wizCardPayment"><button class="paystack-btn" onclick="doPremiumPaystack()"><i class="fas fa-lock"></i>Pay with Paystack — ₦5,000/mo</button></div><div id="wizManualPayment" style="display:none"><div class="bank-details-box" id="wizBankDetailsBox"></div><div class="form-group"><label class="flabel">Transaction Reference</label><input type="text" class="finput" id="wizManualRef" placeholder="e.g. TRX123456789"></div><div class="form-group"><label class="flabel">Payment Date</label><input type="date" class="finput" id="wizManualDate"></div><div class="form-group"><label class="flabel">Upload Receipt</label><div class="upload-zone" style="padding:1rem"><input type="file" id="wizManualReceipt" accept="image/*,application/pdf"><div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div><div style="font-size:.8rem;color:var(--text2)">Upload bank transfer receipt</div></div></div><button class="btn btn-primary w-full" onclick="submitWizManualPayment()"><i class="fas fa-paper-plane"></i>Submit for Verification</button></div></div><div class="d-flex gap-2"><button class="btn btn-ghost flex-1" onclick="prevWizStep()">← Back</button><button class="btn btn-ghost btn-sm" onclick="finishWizard(false)">Stay Free</button></div></div><div class="wizard-step wizard-congrats" id="wiz-5"><span class="confetti-emoji">🚀</span><h2 style="font-size:1.8rem;margin:.75rem 0 .35rem">You're All Set!</h2><p style="color:var(--text2);font-size:.95rem;margin-bottom:1rem">Profile complete! Your referral code is ready.</p><div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1rem;font-family:var(--font-mono);font-size:.9rem;color:var(--primary);text-align:center" id="wizRefCode">LOADING...</div><p style="font-size:.78rem;color:var(--text3);margin-bottom:1.5rem">Share this code to earn ₦500 per referral that subscribes!</p><button class="btn btn-primary btn-lg w-full" onclick="goPage('app')"><i class="fas fa-home"></i>Go to Dashboard</button></div></div></div></div>
 
     <!-- ============================================================ -->
-    <!-- CONTACT PAGE – Redirects to email -->
+    <!-- CONTACT PAGE -->
     <!-- ============================================================ -->
     <div id="page-contact" class="page"><div style="min-height:100svh;padding:2rem 1.25rem;background:var(--bg)"><div style="max-width:700px;margin:0 auto"><button class="btn btn-ghost btn-sm mb-4" onclick="goPage('landing')"><i class="fas fa-arrow-left"></i>Back to Home</button><div class="stag mb-2"><i class="fas fa-envelope"></i> Contact Us</div><h2 style="font-size:2rem;margin-bottom:.5rem">Get In <span class="grad-text">Touch</span></h2><p style="color:var(--text3);margin-bottom:2rem">We respond within 24 hours.</p><div class="row"><div class="col-12 col-md-5"><div class="card card-p mb-3"><div class="si si-primary" style="width:40px;height:40px;margin-bottom:.65rem"><i class="fas fa-envelope"></i></div><h6 style="margin-bottom:.25rem">Email</h6><a href="mailto:changexacademysupport@gmail.com" style="color:var(--primary);font-size:.88rem">changexacademysupport@gmail.com</a></div><div class="card card-p"><div class="si si-g" style="width:40px;height:40px;margin-bottom:.65rem"><i class="fas fa-map-marker-alt"></i></div><h6 style="margin-bottom:.25rem">Location</h6><p style="font-size:.84rem;color:var(--text3)">Lagos &amp; Abuja, Nigeria 🇳🇬</p></div></div><div class="col-12 col-md-7"><div class="card card-p"><h6 style="margin-bottom:1rem">Send a Message</h6><div class="row"><div class="col-6"><div class="form-group"><label class="flabel">First Name</label><input type="text" class="finput" id="contactFirst" placeholder="Amaka"/></div></div><div class="col-6"><div class="form-group"><label class="flabel">Last Name</label><input type="text" class="finput" id="contactLast" placeholder="Obi"/></div></div></div><div class="form-group"><label class="flabel">Email</label><input type="email" class="finput" id="contactEmail" placeholder="you@example.com"/></div><div class="form-group"><label class="flabel">Subject</label><select class="finput" id="contactSubject"><option>General Inquiry</option><option>Technical Support</option><option>Payment Issue</option><option>Course Report</option><option>Partnership</option></select></div><div class="form-group"><label class="flabel">Message</label><textarea class="finput" id="contactMsg" style="min-height:120px;resize:vertical" placeholder="How can we help?"></textarea></div><button class="btn btn-primary" onclick="sendContact()"><i class="fas fa-paper-plane"></i>Send Message</button></div></div></div></div></div></div>
 
@@ -5169,11 +5315,7 @@
 
     <div class="modal-ov hidden" id="buyCourseModal"><div class="modal-box modal-box-lg"><div class="sheet-handle d-md-none"></div><div class="modal-hd"><h5 style="margin:0">🛒 Purchase</h5><button class="btn-icon-sm" onclick="closeModal('buyCourseModal')"><i class="fas fa-times"></i></button></div><div class="modal-bd"><div id="buyCourseInfo" style="margin-bottom:1rem"></div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem"><h6 style="margin-bottom:.75rem">Order Summary</h6><div id="buyCourseSummary"></div><div class="payment-method-tabs mt-3"><div class="payment-method-tab active" onclick="toggleBuyPaymentMethod('card',this)">💳 Card Payment</div><div class="payment-method-tab" onclick="toggleBuyPaymentMethod('manual',this)">🏦 Bank Transfer</div></div><div id="buyCardSection"><div class="form-group mt-3"><label class="flabel">Referral Code (optional)</label><input type="text" class="finput" id="buyRefCode" placeholder="Enter referral code" oninput="applyBuyCode(this.value)"/></div><div id="buyCodeStatus" style="font-size:.76rem;margin:.25rem 0;min-height:1em"></div><button class="paystack-btn" onclick="processPayment()"><i class="fas fa-lock"></i><span id="paystackBtnText">Pay with Paystack</span></button></div><div id="buyManualSection" style="display:none"><div class="bank-details-box" id="buyBankDetailsBox"></div><div class="form-group mt-3"><label class="flabel">Referral Code (optional)</label><input type="text" class="finput" id="buyManualRefCode" placeholder="Enter referral code" oninput="applyBuyManualCode(this.value)"/></div><div id="buyManualCodeStatus" style="font-size:.76rem;margin:.25rem 0;min-height:1em"></div><div class="form-group"><label class="flabel">Transaction Reference</label><input type="text" class="finput" id="manualRef" placeholder="e.g. TRX123456789"><small style="font-size:.7rem;color:var(--text3)">Enter the reference from your bank transfer</small></div><div id="manualRefError" style="font-size:.72rem;margin-top:.2rem;min-height:1.2em"></div><div class="form-group"><label class="flabel">Amount Paid (₦)</label><input type="number" class="finput" id="manualAmount" placeholder="e.g. 5000"></div><div class="form-group"><label class="flabel">Payment Date</label><input type="date" class="finput" id="manualDate"></div><div class="form-group"><label class="flabel">Upload Receipt/Screenshot</label><div class="upload-zone" style="padding:1rem"><input type="file" id="manualReceipt" accept="image/*,application/pdf" onchange="previewReceipt(this)"><div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div><div style="font-size:.8rem;color:var(--text2)">Upload bank transfer receipt or screenshot</div></div><div id="receiptPreview" style="margin-top:.5rem;display:none"><img id="receiptPreviewImg" style="max-width:100%;max-height:150px;border-radius:var(--radius-sm)"></div><div id="manualReceiptProgress" class="book-upload-progress" style="display:none;">Uploading receipt... 0%</div></div><button class="btn btn-primary w-full" onclick="submitManualPayment()">Submit for Verification</button><div class="info-box"><i class="fas fa-info-circle" style="color:var(--primary)"></i><strong>How it works:</strong> Transfer the exact amount to the bank details above, then submit your reference and receipt. Our system will automatically verify your payment if all details match. If verification fails, an admin will review within 24 hours.</div></div></div></div></div></div>
 
-    <div class="modal-ov hidden" id="premiumModal"><div class="modal-box modal-box-lg"><div class="sheet-handle d-md-none"></div><div class="modal-hd"><h5 style="margin:0">👑 Go Premium</h5><button class="btn-icon-sm" onclick="closeModal('premiumModal')"><i class="fas fa-times"></i></button></div><div class="modal-bd"><div style="text-align:center;margin-bottom:1.25rem"><div style="font-size:2.5rem;margin-bottom:.5rem">👑</div><h4>Unlock Full Power</h4><p style="color:var(--text3);font-size:.83rem;margin-top:.35rem">Create courses, earn affiliates, no ads!</p></div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem"><div class="pay-summary-row"><span>Premium Plan</span><span style="color:var(--primary);font-weight:800">₦5,000/mo</span></div><div class="pay-summary-row"><span>Setup Fee</span><span>₦0</span></div><div class="pay-summary-row"><span style="font-weight:700">Total Today</span><span style="color:var(--primary)">₦5,000</span></div>
-        <div class="form-group prem-referral-input mt-3"><label class="flabel">Referral Code (optional) <span style="color:var(--gold)">🎁</span></label><input type="text" class="finput" id="premReferralCode" placeholder="Enter referral code to earn ₦500 bonus" oninput="applyPremReferralCode(this.value)"/><div id="premRefCodeStatus" class="prem-referral-status">Enter a referral code to get ₦500 bonus for the referrer</div></div>
-        <div class="payment-method-tabs mt-3"><div class="payment-method-tab active" onclick="togglePremPaymentMethod('card',this)">💳 Card Payment</div><div class="payment-method-tab" onclick="togglePremPaymentMethod('manual',this)">🏦 Bank Transfer</div></div>
-        <div id="premCardSection"><button class="paystack-btn" onclick="doPremiumPaystack()"><i class="fas fa-lock"></i>Pay ₦5,000 with Paystack</button></div>
-        <div id="premManualSection" style="display:none"><div class="bank-details-box" id="premBankDetailsBox"></div><div class="form-group"><label class="flabel">Transaction Reference</label><input type="text" class="finput" id="premManualRef" placeholder="e.g. TRX123456789"></div><div class="form-group"><label class="flabel">Payment Date</label><input type="date" class="finput" id="premManualDate"></div><div class="form-group"><label class="flabel">Upload Receipt</label><div class="upload-zone" style="padding:1rem"><input type="file" id="premManualReceipt" accept="image/*,application/pdf"><div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div><div style="font-size:.8rem;color:var(--text2)">Upload bank transfer receipt</div></div></div><button class="btn btn-primary w-full" onclick="submitPremManualPayment()">Submit for Verification</button><div class="info-box"><i class="fas fa-info-circle" style="color:var(--primary)"></i><strong>How it works:</strong> Transfer ₦5,000 to the bank details above, then submit your reference and receipt. After submitting, our system will automatically verify your payment if all details match. If verification fails, an admin will review within 24 hours.</div></div></div></div></div></div>
+    <div class="modal-ov hidden" id="premiumModal"><div class="modal-box modal-box-lg"><div class="sheet-handle d-md-none"></div><div class="modal-hd"><h5 style="margin:0">👑 Go Premium</h5><button class="btn-icon-sm" onclick="closeModal('premiumModal')"><i class="fas fa-times"></i></button></div><div class="modal-bd"><div style="text-align:center;margin-bottom:1.25rem"><div style="font-size:2.5rem;margin-bottom:.5rem">👑</div><h4>Unlock Full Power</h4><p style="color:var(--text3);font-size:.83rem;margin-top:.35rem">Create courses, earn affiliates, no ads!</p></div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem"><div class="pay-summary-row"><span>Premium Plan</span><span style="color:var(--primary);font-weight:800">₦5,000/mo</span></div><div class="pay-summary-row"><span>Setup Fee</span><span>₦0</span></div><div class="pay-summary-row"><span style="font-weight:700">Total Today</span><span style="color:var(--primary)">₦5,000</span></div><div class="form-group prem-referral-input mt-3"><label class="flabel">Referral Code (optional) <span style="color:var(--gold)">🎁</span></label><input type="text" class="finput" id="premReferralCode" placeholder="Enter referral code to earn ₦500 bonus" oninput="applyPremReferralCode(this.value)"/><div id="premRefCodeStatus" class="prem-referral-status">Enter a referral code to get ₦500 bonus for the referrer</div></div><div class="payment-method-tabs mt-3"><div class="payment-method-tab active" onclick="togglePremPaymentMethod('card',this)">💳 Card Payment</div><div class="payment-method-tab" onclick="togglePremPaymentMethod('manual',this)">🏦 Bank Transfer</div></div><div id="premCardSection"><button class="paystack-btn" onclick="doPremiumPaystack()"><i class="fas fa-lock"></i>Pay ₦5,000 with Paystack</button></div><div id="premManualSection" style="display:none"><div class="bank-details-box" id="premBankDetailsBox"></div><div class="form-group"><label class="flabel">Transaction Reference</label><input type="text" class="finput" id="premManualRef" placeholder="e.g. TRX123456789"></div><div class="form-group"><label class="flabel">Payment Date</label><input type="date" class="finput" id="premManualDate"></div><div class="form-group"><label class="flabel">Upload Receipt</label><div class="upload-zone" style="padding:1rem"><input type="file" id="premManualReceipt" accept="image/*,application/pdf"><div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div><div style="font-size:.8rem;color:var(--text2)">Upload bank transfer receipt</div></div></div><button class="btn btn-primary w-full" onclick="submitPremManualPayment()">Submit for Verification</button><div class="info-box"><i class="fas fa-info-circle" style="color:var(--primary)"></i><strong>How it works:</strong> Transfer ₦5,000 to the bank details above, then submit your reference and receipt. After submitting, our system will automatically verify your payment if all details match. If verification fails, an admin will review within 24 hours.</div></div></div></div></div></div>
 
     <div class="modal-ov hidden" id="rateModal"><div class="modal-box"><div class="sheet-handle d-md-none"></div><div class="modal-hd"><h5 style="margin:0">⭐ Rate This Course</h5><button class="btn-icon-sm" onclick="closeModal('rateModal')"><i class="fas fa-times"></i></button></div><div class="modal-bd"><p style="color:var(--text3);font-size:.84rem;margin-bottom:1rem">Your feedback helps instructors improve and helps other students make better choices.</p><div style="text-align:center;margin-bottom:1rem"><div style="display:flex;justify-content:center;gap:.35rem;font-size:2rem;cursor:pointer" id="starRow"><span onclick="setRating(1)" class="star-pick" data-v="1">☆</span><span onclick="setRating(2)" class="star-pick" data-v="2">☆</span><span onclick="setRating(3)" class="star-pick" data-v="3">☆</span><span onclick="setRating(4)" class="star-pick" data-v="4">☆</span><span onclick="setRating(5)" class="star-pick" data-v="5">☆</span></div><p id="ratingLabel" style="font-size:.8rem;color:var(--text3);margin-top:.35rem">Tap to rate</p></div><div class="form-group"><label class="flabel">Review (optional)</label><textarea class="finput" id="rateReview" style="min-height:90px;resize:vertical" placeholder="What did you like or dislike?"></textarea></div></div><div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('rateModal')">Cancel</button><button class="btn btn-primary" onclick="submitRating()"><i class="fas fa-star"></i>Submit Review</button></div></div></div>
 
@@ -5197,9 +5339,7 @@
 
     <div class="modal-ov hidden" id="shareModal"><div class="modal-box"><div class="sheet-handle d-md-none"></div><div class="modal-hd"><h5 style="margin:0">📤 Share Post</h5><button class="btn-icon-sm" onclick="closeModal('shareModal')"><i class="fas fa-times"></i></button></div><div class="modal-bd"><p style="color:var(--text2);font-size:.85rem;margin-bottom:1rem">Share this post with your friends and followers!</p><div id="shareLinks" style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:1rem"><button class="btn btn-ghost" onclick="shareVia('facebook')" style="color:#1877F2"><i class="fab fa-facebook"></i> Facebook</button><button class="btn btn-ghost" onclick="shareVia('twitter')" style="color:#1DA1F2"><i class="fab fa-twitter"></i> Twitter</button><button class="btn btn-ghost" onclick="shareVia('linkedin')" style="color:#0A66C2"><i class="fab fa-linkedin"></i> LinkedIn</button><button class="btn btn-ghost" onclick="shareVia('whatsapp')" style="color:#25D366"><i class="fab fa-whatsapp"></i> WhatsApp</button><button class="btn btn-ghost" onclick="shareVia('telegram')" style="color:#0088CC"><i class="fab fa-telegram"></i> Telegram</button><button class="btn btn-ghost" onclick="shareVia('copy')"><i class="fas fa-link"></i> Copy Link</button></div><div class="form-group"><label class="flabel">Link</label><div class="ref-box"><span class="ref-link" id="shareLink">Loading...</span><button class="btn btn-primary btn-sm" onclick="copyShareLink()"><i class="fas fa-copy"></i> Copy</button></div></div></div></div></div>
 
-    <!-- ============================================================ -->
     <!-- NOTIFICATION PANEL -->
-    <!-- ============================================================ -->
     <div class="notif-panel" id="notifPanel"><div style="padding:.85rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0"><h6 style="margin:0">Notifications</h6><div style="display:flex;gap:.4rem"><button class="btn btn-ghost btn-sm" style="font-size:.69rem" onclick="markAllRead()">Mark all read</button><button class="btn-icon-sm" onclick="closeNotifPanel()"><i class="fas fa-times"></i></button></div></div><div style="flex:1;overflow-y:auto;padding:.25rem 0" id="notifList"></div></div>
 
     <!-- ============================================================ -->
@@ -5251,6 +5391,9 @@
                 <div class="mob-bottom-nav"><div class="mbn-item active" id="mbn-feed" onclick="setDP('feed')"><i class="fas fa-newspaper"></i><span>Feed</span></div><div class="mbn-item" id="mbn-challenges" onclick="setDP('challenges')"><i class="fas fa-trophy"></i><span>Challenges</span></div><div class="mbn-item" id="mbn-explore" onclick="setDP('explore')"><i class="fas fa-compass"></i><span>Explore</span></div><div class="mbn-item" id="mbn-wallet" onclick="setDP('wallet')"><i class="fas fa-wallet"></i><span>Wallet</span></div><div class="mbn-item" id="mbn-more" onclick="openSidebar()"><i class="fas fa-bars"></i><span>More</span></div></div>
 
                 <div class="dash-wrap thin-scroll" id="dashWrap">
+                    <!-- SIDEBAR AD (Desktop) -->
+                    <div id="sidebarAd"><div id="sidebarAdContent"></div></div>
+
                     <!-- FEED -->
                     <div id="dash-feed" class="dash-sub active"><div class="d-flex items-center justify-between mb-3"><h2 class="page-title" style="margin:0">📰 Feed</h2><button class="btn btn-primary btn-sm" onclick="openCreatePostModal()"><i class="fas fa-plus"></i> Create Post</button></div><div class="feed-tabs"><span class="fpill active" onclick="filterFeed('all',this)">All</span><span class="fpill" onclick="filterFeed('personalized',this)">✨ For You</span><span class="fpill" onclick="filterFeed('article',this)">Articles</span><span class="fpill" onclick="filterFeed('tutorial',this)">Tutorials</span><span class="fpill" onclick="filterFeed('challenge',this)">Challenges</span><span class="fpill" onclick="filterFeed('announcement',this)">Announcements</span></div><div id="feedContainer"></div><div id="feedSentinel"></div><div id="feedLoadingMore" class="feed-loading-more" style="display:none"><span class="spinner"></span> Loading more posts...</div></div>
 
@@ -5276,7 +5419,7 @@
                     <div id="dash-courses" class="dash-sub"><div class="page-hd"><h2 class="page-title">My Courses</h2><p class="page-sub">Track your learning progress</p></div><div style="display:flex;gap:.28rem;flex-wrap:nowrap;overflow-x:auto;margin-bottom:1rem;padding-bottom:.15rem"><span class="fpill active" onclick="filterCourses('all',this)">All</span><span class="fpill" onclick="filterCourses('progress',this)">In Progress</span><span class="fpill" onclick="filterCourses('completed',this)">Completed</span><span class="fpill" onclick="filterCourses('new',this)">Not Started</span></div><div class="courses-grid" id="coursesGrid"></div></div>
 
                     <!-- LESSON -->
-                    <div id="dash-lesson" class="dash-sub"><div class="d-flex items-center justify-between mb-3 flex-wrap" style="gap:.5rem"><button class="btn btn-ghost btn-sm" onclick="setDP('courses')"><i class="fas fa-arrow-left"></i>Back</button><div class="d-flex gap-2"><button class="btn btn-ghost btn-sm" onclick="openModal('rateModal')"><i class="fas fa-star"></i>Rate</button><button class="btn btn-primary btn-sm" onclick="completeLessonAndNext()"><i class="fas fa-check"></i>Mark Done &amp; Next</button></div></div><div id="interactiveContainer"></div><div class="lesson-layout"><div><div class="video-wrap mb-3" id="lessonVideoWrap"><div style="text-align:center"><div class="play-btn" onclick="toast('Playing lesson video...','info')"><i class="fas fa-play"></i></div><div style="font-size:.78rem;color:var(--text2);margin-top:.75rem" id="currentLessonTitle">Select a course</div><div style="font-size:.7rem;color:var(--text3);margin-top:.2rem" id="currentCourseTitle">Loading...</div></div></div><div class="d-flex justify-between mb-3 gap-2"><button class="btn btn-ghost btn-sm" id="prevLessonBtn" onclick="navigateLesson(-1)"><i class="fas fa-arrow-left"></i>Previous</button><span style="font-size:.78rem;color:var(--text3);padding:.35rem .5rem" id="lessonNavIndicator">—</span><button class="btn btn-primary btn-sm" id="nextLessonBtn" onclick="navigateLesson(1)">Next<i class="fas fa-arrow-right"></i></button></div><div class="lesson-tabs"><div class="ltab active" onclick="switchLTab('overview',this)">Overview</div><div class="ltab" onclick="switchLTab('notes',this)">📝 Notes</div><div class="ltab" onclick="switchLTab('resources',this)">📎 Resources</div><div class="ltab" onclick="switchLTab('qa',this)">💬 Q&amp;A</div><div class="ltab" onclick="switchLTab('reviews',this)">⭐ Reviews</div><div class="ltab" onclick="switchLTab('interactive',this)">⚡ Try It</div></div><div class="lesson-sub active" id="ls-overview"><h5 style="margin-bottom:.5rem" id="lessonOverviewTitle">Loading...</h5><p style="font-size:.84rem;color:var(--text2);line-height:1.7" id="lessonOverviewDesc">Please select a course.</p><div id="courseRatingsContainer"></div></div><div class="lesson-sub" id="ls-notes"><div class="d-flex items-center justify-between mb-3"><h6 style="margin:0">My Notes</h6><button class="btn btn-primary btn-sm" onclick="saveNote()"><i class="fas fa-save"></i>Save</button></div><textarea class="finput" id="lessonNote" style="min-height:200px;resize:vertical" placeholder="Write your personal notes... They auto-save."></textarea></div><div class="lesson-sub" id="ls-resources"><h6 style="margin-bottom:.75rem">📎 Resources</h6><div id="lessonResourcesList"></div></div><div class="lesson-sub" id="ls-qa"><h6 style="margin-bottom:.75rem">💬 Questions &amp; Answers</h6><div style="margin-bottom:.85rem"><textarea class="finput" id="qaInput" style="min-height:80px;resize:vertical" placeholder="Ask a question about this lesson..."></textarea><button class="btn btn-primary btn-sm mt-2" onclick="submitQuestion()"><i class="fas fa-paper-plane"></i>Ask Question</button></div><div id="qaList"></div></div><div class="lesson-sub" id="ls-reviews"><h6 style="margin-bottom:.75rem">⭐ Course Reviews</h6><div id="reviewsListContainer"></div></div><div class="lesson-sub" id="ls-interactive"><h6 style="margin-bottom:.75rem">⚡ Try It Yourself</h6><div id="interactiveMaterialsContainer"></div></div></div><div><div class="card card-p mb-3"><div class="d-flex items-center justify-between mb-3"><h6 style="margin:0">Curriculum</h6><span style="font-size:.73rem;color:var(--text3)" id="curricProgress">0/0</span></div><div class="prog mb-3" style="height:5px"><div class="prog-fill pf-primary" id="curricBar" style="width:0%"></div></div><div id="curricList" class="thin-scroll" style="max-height:420px;overflow-y:auto"></div></div><div class="card card-p"><h6 style="margin-bottom:.65rem">📊 Your Progress</h6><div><div class="web-row"><span>Lessons Done</span><strong id="lpLessonsDone">0/0</strong></div><div class="web-row"><span>XP Earned</span><strong style="color:var(--gold)">+0</strong></div><div class="web-row"><span>Quiz Score Avg</span><strong style="color:var(--primary)">—</strong></div><div class="web-row"><span>Time Spent</span><strong>0h 0m</strong></div></div></div></div></div></div>
+                    <div id="dash-lesson" class="dash-sub"><div class="d-flex items-center justify-between mb-3 flex-wrap" style="gap:.5rem"><button class="btn btn-ghost btn-sm" onclick="setDP('courses')"><i class="fas fa-arrow-left"></i>Back</button><div class="d-flex gap-2"><button class="btn btn-ghost btn-sm" onclick="openModal('rateModal')"><i class="fas fa-star"></i>Rate</button><button class="btn btn-primary btn-sm" onclick="completeLessonAndNext()"><i class="fas fa-check"></i>Mark Done &amp; Next</button></div></div><div id="interactiveContainer"></div><div class="lesson-layout"><div><div class="video-wrap mb-3" id="lessonVideoWrap"><div style="text-align:center;position:relative;"><div class="play-btn" onclick="playLessonVideo()"><i class="fas fa-play"></i></div><div style="font-size:.78rem;color:var(--text2);margin-top:.75rem" id="currentLessonTitle">Select a course</div><div style="font-size:.7rem;color:var(--text3);margin-top:.2rem" id="currentCourseTitle">Loading...</div></div></div><div class="d-flex justify-between mb-3 gap-2"><button class="btn btn-ghost btn-sm" id="prevLessonBtn" onclick="navigateLesson(-1)"><i class="fas fa-arrow-left"></i>Previous</button><span style="font-size:.78rem;color:var(--text3);padding:.35rem .5rem" id="lessonNavIndicator">—</span><button class="btn btn-primary btn-sm" id="nextLessonBtn" onclick="navigateLesson(1)">Next<i class="fas fa-arrow-right"></i></button></div><div class="lesson-tabs"><div class="ltab active" onclick="switchLTab('overview',this)">Overview</div><div class="ltab" onclick="switchLTab('notes',this)">📝 Notes</div><div class="ltab" onclick="switchLTab('resources',this)">📎 Resources</div><div class="ltab" onclick="switchLTab('qa',this)">💬 Q&amp;A</div><div class="ltab" onclick="switchLTab('reviews',this)">⭐ Reviews</div><div class="ltab" onclick="switchLTab('interactive',this)">⚡ Try It</div></div><div class="lesson-sub active" id="ls-overview"><h5 style="margin-bottom:.5rem" id="lessonOverviewTitle">Loading...</h5><p style="font-size:.84rem;color:var(--text2);line-height:1.7" id="lessonOverviewDesc">Please select a course.</p><div id="courseRatingsContainer"></div></div><div class="lesson-sub" id="ls-notes"><div class="d-flex items-center justify-between mb-3"><h6 style="margin:0">My Notes</h6><button class="btn btn-primary btn-sm" onclick="saveNote()"><i class="fas fa-save"></i>Save</button></div><textarea class="finput" id="lessonNote" style="min-height:200px;resize:vertical" placeholder="Write your personal notes... They auto-save."></textarea></div><div class="lesson-sub" id="ls-resources"><h6 style="margin-bottom:.75rem">📎 Resources</h6><div id="lessonResourcesList"></div></div><div class="lesson-sub" id="ls-qa"><h6 style="margin-bottom:.75rem">💬 Questions &amp; Answers</h6><div style="margin-bottom:.85rem"><textarea class="finput" id="qaInput" style="min-height:80px;resize:vertical" placeholder="Ask a question about this lesson..."></textarea><button class="btn btn-primary btn-sm mt-2" onclick="submitQuestion()"><i class="fas fa-paper-plane"></i>Ask Question</button></div><div id="qaList"></div></div><div class="lesson-sub" id="ls-reviews"><h6 style="margin-bottom:.75rem">⭐ Course Reviews</h6><div id="reviewsListContainer"></div></div><div class="lesson-sub" id="ls-interactive"><h6 style="margin-bottom:.75rem">⚡ Try It Yourself</h6><div id="interactiveMaterialsContainer"></div></div></div><div><div class="card card-p mb-3"><div class="d-flex items-center justify-between mb-3"><h6 style="margin:0">Curriculum</h6><span style="font-size:.73rem;color:var(--text3)" id="curricProgress">0/0</span></div><div class="prog mb-3" style="height:5px"><div class="prog-fill pf-primary" id="curricBar" style="width:0%"></div></div><div id="curricList" class="thin-scroll" style="max-height:420px;overflow-y:auto"></div></div><div class="card card-p"><h6 style="margin-bottom:.65rem">📊 Your Progress</h6><div><div class="web-row"><span>Lessons Done</span><strong id="lpLessonsDone">0/0</strong></div><div class="web-row"><span>XP Earned</span><strong style="color:var(--gold)">+0</strong></div><div class="web-row"><span>Quiz Score Avg</span><strong style="color:var(--primary)">—</strong></div><div class="web-row"><span>Time Spent</span><strong>0h 0m</strong></div></div></div></div></div></div>
 
                     <!-- QUIZ -->
                     <div id="dash-quiz" class="dash-sub"><div class="page-hd"><h2 class="page-title">Quizzes</h2><p class="page-sub">Test your knowledge and earn XP</p></div><div class="quiz-wrap" id="quizWrap"></div></div>
@@ -5378,7 +5521,7 @@
                     <div id="dash-admin" class="dash-sub"><div class="admin-hd"><div class="si si-d" style="width:44px;height:44px;font-size:1.1rem"><i class="fas fa-shield-alt"></i></div><div><h4 style="margin:0">Admin Panel</h4><p style="font-size:.78rem;color:var(--text2);margin:.12rem 0 0">Super admin · All actions logged · Actions affect user dashboards live</p></div><div style="margin-left:0"><span class="badge badge-danger">SUPER ADMIN</span></div></div><div class="row"><div class="col-12"><div style="display:flex;gap:.28rem;flex-wrap:wrap;overflow-x:auto;margin-bottom:.75rem;padding-bottom:.2rem"><span class="fpill active" onclick="switchAdm('dashboard',this)">Dashboard</span><span class="fpill" onclick="switchAdm('users',this)">Users</span><span class="fpill" onclick="switchAdm('courses',this)">Courses</span><span class="fpill" onclick="switchAdm('approvals',this)">Approvals</span><span class="fpill" onclick="switchAdm('withdrawals',this)">Payouts</span><span class="fpill" onclick="switchAdm('manualPayments',this)">Manual Pay</span><span class="fpill" onclick="switchAdm('coupons',this)">Coupons</span><span class="fpill" onclick="switchAdm('announcements',this)">Announce</span><span class="fpill" onclick="switchAdm('challenges',this)">Challenges</span><span class="fpill" onclick="switchAdm('ads',this)">Ads</span><span class="fpill" onclick="switchAdm('affiliates',this)">Affiliates</span><span class="fpill" onclick="switchAdm('books',this)">Books</span><span class="fpill" onclick="switchAdm('social-earnings',this)">Social Earnings</span><span class="fpill" onclick="switchAdm('audit',this)">Audit</span></div><div id="adminContent"></div></div></div></div>
                 </div></div></div></div>
 
-    <!-- ===== FAB ===== -->
+    <!-- FAB -->
     <div class="fab" id="fab" style="display:none"><button onclick="initNewCourse()"><i class="fas fa-plus"></i></button></div>
 
     <!-- ============================================================ -->
@@ -5403,8 +5546,12 @@
         let currentPaymentType = 'course';
         let currentManualCourseId = null;
         let currentManualBookId = null;
+        let currentManualArticleId = null;
+        let videoAdActive = false;
+        let videoAdTimeout = null;
+        let lastMidrollAdTime = 0;
 
-        // ─── ADSTERRA ──────────────────────────────────────────────────
+        // ADSTERRA
         const ADSTERRA_TAG = 'https://pl30155373.effectivecpmnetwork.com/cc89042fff30e53e48049a8c585d9105/invoke.js';
 
         // ═══════════════════════════════════════════════════════════════
@@ -5516,11 +5663,14 @@
                 courses: '₦45.8M',
                 streak: '🔥 1,284'
             },
-            // ─── Tools state ──────────────────────────────────────────
             currentToolTab: 'code',
             convertFileData: null,
             convertedFileData: null,
-            convertedFileType: ''
+            convertedFileType: '',
+            currentVideoElement: null,
+            currentVideoAdPlayed: false,
+            videoAdCount: 0,
+            pendingManualPaymentId: null,
         };
 
         // ═══════════════════════════════════════════════════════════════
@@ -5593,8 +5743,440 @@
                     last = now; } }; }
 
         // ================================================================
-        // TOAST
+        // AD SYSTEM – HYBRID ADS + 50% REVENUE SHARE
         // ================================================================
+        function shouldShowAd(placement) {
+            if (!S.loggedIn) return true;
+            if (S.isPremium) {
+                // Premium users see ONLY in-feed ads
+                return placement === 'in-feed';
+            }
+            return true;
+        }
+
+        function getNextAd(placement) {
+            let ads = S.customAds;
+            let idx = S.customAdIndex;
+            if (placement === 'explore') {
+                ads = S.exploreAds.length ? S.exploreAds : S.customAds;
+                idx = S.exploreAdIndex;
+            }
+            if (placement === 'book-page' || placement === 'book-sponsor') {
+                ads = S.bookAds.length ? S.bookAds : S.customAds;
+                idx = S.bookAdIndex;
+            }
+            // Filter by placement
+            if (ads && ads.length) {
+                const filtered = ads.filter(a => a.placement === placement || a.placement === 'in-feed');
+                if (filtered.length) {
+                    const ad = filtered[idx % filtered.length];
+                    if (placement === 'explore') S.exploreAdIndex++;
+                    else if (placement === 'book-page' || placement === 'book-sponsor') S.bookAdIndex++;
+                    else S.customAdIndex++;
+                    return { type: 'custom', data: ad };
+                }
+            }
+            // Fallback to Adsterra
+            if (S.adsterraLoaded) {
+                return { type: 'adsterra', data: { placement } };
+            }
+            return null;
+        }
+
+        function renderAdCard(ad, postId) {
+            if (!ad) return '';
+            if (ad.type === 'custom' && ad.data) {
+                const adData = ad.data;
+                return `
+                    <div class="ad-card" data-ad-id="${adData._id}" data-post-id="${postId || ''}">
+                        <div class="ad-label">📢 Sponsored</div>
+                        <a href="#" onclick="handleAdClick('${adData._id}','${adData.linkUrl}','${postId || ''}','custom'); return false;">
+                            ${adData.imageUrl ? `<img src="${adData.imageUrl}" alt="${escapeHtml(adData.title)}" loading="lazy">` : ''}
+                            <div class="ad-title">${escapeHtml(adData.title)}</div>
+                        </a>
+                    </div>
+                `;
+            }
+            if (ad.type === 'adsterra') {
+                const uid = 'adsterra-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+                return `
+                    <div class="ad-card adsterra-wrapper" data-post-id="${postId || ''}" id="${uid}">
+                        <div class="ad-label">📢 Sponsored</div>
+                        <div id="container-cc89042fff30e53e48049a8c585d9105"></div>
+                    </div>
+                `;
+            }
+            return '';
+        }
+
+        function renderSponsoredCourse(ad) {
+            if (!ad || !ad.data) return '';
+            const d = ad.data;
+            return `
+                <div class="course-card sponsored" style="border: 2px solid var(--primary);">
+                    <div class="cc-img" style="background: linear-gradient(135deg, var(--card2), var(--card3));">
+                        ${d.imageUrl ? `<img src="${d.imageUrl}" style="width:100%;height:100%;object-fit:cover;">` : '📢'}
+                    </div>
+                    <div class="cc-body">
+                        <div style="font-size:0.7rem; color:var(--gold);" class="sponsored-badge">⭐ Sponsored</div>
+                        <div style="font-weight:700;font-size:.85rem;">${escapeHtml(d.title)}</div>
+                        <a href="${d.linkUrl}" target="_blank" class="btn btn-ghost btn-sm mt-2" onclick="handleAdClick('${d._id}','${d.linkUrl}','','custom')">Learn More</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSponsoredBook(ad) {
+            if (!ad || !ad.data) return '';
+            const d = ad.data;
+            return `
+                <div class="book-card sponsored" style="border: 2px solid var(--primary);">
+                    <div class="book-cover">${d.imageUrl ? `<img src="${d.imageUrl}" alt="Sponsored">` : '📢'}</div>
+                    <div class="book-body">
+                        <div class="book-title">${escapeHtml(d.title)} <span class="badge badge-gold" style="font-size:.55rem">Ad</span></div>
+                        <a href="${d.linkUrl}" target="_blank" class="btn btn-ghost btn-sm" onclick="handleAdClick('${d._id}','${d.linkUrl}','','custom')">Visit</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function handleAdClick(adId, linkUrl, postId, network = 'custom') {
+            if (postId) { await trackAdRevenue(adId, 'click', postId, network); }
+            window.open(linkUrl, '_blank');
+        }
+
+        async function trackAdRevenue(adId, type, postId, network = 'custom') {
+            if (!postId) return;
+            try {
+                const res = await apiCall('/ads/track', {
+                    method: 'POST',
+                    body: { adId, type, postId, network }
+                });
+                if (res.success && res.credited > 0) {
+                    // Update wallet silently
+                    if (S.dp === 'wallet') renderWallet();
+                }
+            } catch (e) { console.warn('Ad tracking failed:', e); }
+        }
+
+        async function trackAdImpression(adId, postId, network = 'custom') {
+            if (!postId) return;
+            const key = `ad_imp_${adId}_${postId}`;
+            if (sessionStorage.getItem(key)) return;
+            sessionStorage.setItem(key, '1');
+            await trackAdRevenue(adId, 'impression', postId, network);
+        }
+
+        function observeAdImpressions() {
+            const adCards = document.querySelectorAll('.ad-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const card = entry.target;
+                        const adId = card.dataset.adId;
+                        const postId = card.dataset.postId;
+                        const isAdsterra = card.classList.contains('adsterra-wrapper');
+                        if (adId && postId) {
+                            trackAdImpression(adId, postId, isAdsterra ? 'adsterra' : 'custom');
+                        }
+                        observer.unobserve(card);
+                    }
+                });
+            }, { threshold: 0.5 });
+            adCards.forEach(card => observer.observe(card));
+        }
+
+        // ─── LOAD ADS ──────────────────────────────────────────────────
+        async function loadAds(placement = 'in-feed') {
+            try {
+                const res = await apiCall(`/ads/placement/${placement}`);
+                S.customAds = res.data || [];
+                S.customAdIndex = 0;
+                if (S.customAds.length === 0) {
+                    loadAdsterra();
+                }
+                if (placement === 'explore') {
+                    const exploreRes = await apiCall('/ads/placement/explore');
+                    S.exploreAds = exploreRes.data || [];
+                    S.exploreAdIndex = 0;
+                }
+                if (placement === 'book-page') {
+                    const bookRes = await apiCall('/ads/placement/book-page');
+                    S.bookAds = bookRes.data || [];
+                    S.bookAdIndex = 0;
+                }
+            } catch (e) {
+                loadAdsterra();
+                S.customAds = [];
+                S.exploreAds = [];
+                S.bookAds = [];
+            }
+        }
+
+        function loadAdsterra() {
+            if (S.adsterraLoaded) return;
+            if (document.getElementById('adsterra-script')) return;
+            const script = document.createElement('script');
+            script.id = 'adsterra-script';
+            script.src = ADSTERRA_TAG;
+            script.async = true;
+            script.dataset.cfasync = 'false';
+            document.head.appendChild(script);
+            S.adsterraLoaded = true;
+        }
+
+        async function fetchAdConfig() {
+            try {
+                const res = await apiCall('/admin/ad-config');
+                S.adConfig = res.data || { cpm: 1.00, cpc: 0.02, sharePercent: 50 };
+            } catch (e) { console.warn('Using default ad config'); }
+        }
+
+        function loadSidebarAd() {
+            if (!shouldShowAd('sidebar')) {
+                document.getElementById('sidebarAd').style.display = 'none';
+                return;
+            }
+            const ad = getNextAd('sidebar');
+            if (ad) {
+                const container = document.getElementById('sidebarAdContent');
+                if (!container) return;
+                container.innerHTML = `
+                    <div class="ad-card" style="margin: 10px 0;">
+                        <div class="ad-label">📢 Sponsor</div>
+                        <a href="${ad.data.linkUrl}" target="_blank" onclick="handleAdClick('${ad.data._id}','${ad.data.linkUrl}','','custom')">
+                            ${ad.data.imageUrl ? `<img src="${ad.data.imageUrl}" style="width:100%; border-radius:8px;">` : ''}
+                            <div class="ad-title">${escapeHtml(ad.data.title)}</div>
+                        </a>
+                    </div>
+                `;
+                document.getElementById('sidebarAd').style.display = 'block';
+                trackAdImpression(ad.data._id, null, 'custom');
+            } else {
+                document.getElementById('sidebarAd').style.display = 'none';
+            }
+        }
+
+        function loadBottomAd() {
+            if (!shouldShowAd('sidebar')) {
+                document.getElementById('bottomAdBanner').style.display = 'none';
+                return;
+            }
+            const ad = getNextAd('sidebar');
+            if (ad) {
+                const container = document.getElementById('bottomAdContent');
+                if (!container) return;
+                container.innerHTML = `
+                    <div class="ad-card" style="margin:0;padding:4px;border:none;background:transparent;">
+                        <a href="${ad.data.linkUrl}" target="_blank" onclick="handleAdClick('${ad.data._id}','${ad.data.linkUrl}','','custom')">
+                            ${ad.data.imageUrl ? `<img src="${ad.data.imageUrl}" style="max-height:60px;border-radius:4px;">` : `<span style="font-size:.7rem;color:var(--text2)">${escapeHtml(ad.data.title)}</span>`}
+                        </a>
+                    </div>
+                `;
+                document.getElementById('bottomAdBanner').style.display = 'block';
+                trackAdImpression(ad.data._id, null, 'custom');
+            } else {
+                document.getElementById('bottomAdBanner').style.display = 'none';
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // VIDEO ADS
+        // ═══════════════════════════════════════════════════════════════
+        function playLessonVideo() {
+            const wrap = document.getElementById('lessonVideoWrap');
+            if (!wrap) return;
+            const l = S.currentLessons[S.currentLessonIdx];
+            if (!l) { toast('No video available for this lesson', 'warning'); return; }
+
+            if (!shouldShowAd('video-pre')) {
+                playVideoContent(l);
+                return;
+            }
+
+            const ad = getNextAd('video-pre');
+            if (ad && ad.type === 'custom') {
+                showVideoAdOverlay(ad, l, 'pre');
+            } else {
+                playVideoContent(l);
+            }
+        }
+
+        function showVideoAdOverlay(ad, lesson, type) {
+            const wrap = document.getElementById('lessonVideoWrap');
+            if (!wrap) return;
+            const existing = document.getElementById('videoAdOverlay');
+            if (existing) existing.remove();
+
+            const overlay = document.createElement('div');
+            overlay.id = 'videoAdOverlay';
+            overlay.style.cssText = `
+                position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center;
+                flex-direction: column; z-index: 10; color: white; cursor: pointer;
+            `;
+            overlay.innerHTML = `
+                <div class="ad-content" style="background: rgba(0,0,0,0.6); padding: 20px; border-radius: 12px; text-align: center; max-width: 90%;">
+                    <div style="font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">📢 Ad</div>
+                    ${ad.data.imageUrl ? `<img src="${ad.data.imageUrl}" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:.5rem;">` : ''}
+                    <div style="font-size:.9rem;font-weight:600;">${escapeHtml(ad.data.title)}</div>
+                    <p style="font-size:.7rem;color:var(--text3);margin:.3rem 0 .5rem;">${escapeHtml(ad.data.description || '')}</p>
+                    <button class="btn btn-primary btn-sm" onclick="handleAdClick('${ad.data._id}','${ad.data.linkUrl}','','custom');skipVideoAd()" style="margin-top:.3rem;">Learn More</button>
+                    <div style="margin-top:.5rem;font-size:.7rem;color:var(--text3);">Ad plays for 10s — click to skip</div>
+                </div>
+            `;
+
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay || e.target.closest('.ad-content')) {
+                    skipVideoAd();
+                }
+            });
+
+            wrap.style.position = 'relative';
+            wrap.appendChild(overlay);
+            videoAdActive = true;
+
+            if (ad.data._id) trackAdImpression(ad.data._id, null, 'custom');
+
+            clearTimeout(videoAdTimeout);
+            videoAdTimeout = setTimeout(() => {
+                skipVideoAd();
+            }, 10000);
+
+            S.currentVideoAd = ad;
+            S.currentVideoLesson = lesson;
+        }
+
+        function skipVideoAd() {
+            const overlay = document.getElementById('videoAdOverlay');
+            if (overlay) {
+                overlay.style.display = 'none';
+                overlay.remove();
+            }
+            videoAdActive = false;
+            clearTimeout(videoAdTimeout);
+
+            if (S.currentVideoLesson) {
+                playVideoContent(S.currentVideoLesson);
+            }
+            S.currentVideoAd = null;
+            S.currentVideoLesson = null;
+        }
+
+        function playVideoContent(lesson) {
+            const wrap = document.getElementById('lessonVideoWrap');
+            if (!wrap) return;
+
+            if (lesson.type === 'video' && lesson.videoUrl) {
+                let videoHtml = '';
+                if (lesson.videoUrl.includes('youtube.com') || lesson.videoUrl.includes('youtu.be')) {
+                    const embedUrl = lesson.videoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/');
+                    videoHtml = `
+                        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius-sm);">
+                            <iframe src="${embedUrl}" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                        </div>
+                    `;
+                } else {
+                    videoHtml = `
+                        <video controls style="width:100%;border-radius:var(--radius-sm);" id="lessonVideoPlayer">
+                            <source src="${lesson.videoUrl}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                }
+                wrap.innerHTML = videoHtml;
+
+                const videoEl = document.getElementById('lessonVideoPlayer');
+                if (videoEl) {
+                    S.currentVideoElement = videoEl;
+                    setupMidrollAds(videoEl);
+                }
+            } else if (lesson.type === 'text' && lesson.content) {
+                wrap.innerHTML = `
+                    <div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);min-height:120px;line-height:1.7;max-height:400px;overflow-y:auto;">
+                        ${lesson.content}
+                    </div>
+                `;
+            } else {
+                wrap.innerHTML = `
+                    <div class="empty-state" style="padding:1rem;">
+                        <i class="fas fa-file-alt"></i>
+                        <p>No video content for this lesson.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function setupMidrollAds(videoElement) {
+            if (!videoElement || !shouldShowAd('video-mid')) return;
+
+            let lastAdTime = 0;
+            videoElement.addEventListener('timeupdate', function() {
+                if (videoAdActive) return;
+                const current = Math.floor(this.currentTime);
+                if (current > 0 && current % 300 === 0 && current !== lastAdTime && current > 60) {
+                    lastAdTime = current;
+                    const ad = getNextAd('video-mid');
+                    if (ad && ad.type === 'custom') {
+                        this.pause();
+                        const lesson = S.currentLessons[S.currentLessonIdx];
+                        if (lesson) {
+                            showMidrollAd(ad, lesson, this);
+                        }
+                    }
+                }
+            });
+        }
+
+        function showMidrollAd(ad, lesson, videoElement) {
+            const wrap = document.getElementById('lessonVideoWrap');
+            if (!wrap) return;
+            const existing = document.getElementById('videoAdOverlay');
+            if (existing) existing.remove();
+
+            const overlay = document.createElement('div');
+            overlay.id = 'videoAdOverlay';
+            overlay.style.cssText = `
+                position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center;
+                flex-direction: column; z-index: 10; color: white; cursor: pointer;
+            `;
+            overlay.innerHTML = `
+                <div class="ad-content" style="background: rgba(0,0,0,0.6); padding: 20px; border-radius: 12px; text-align: center; max-width: 90%;">
+                    <div style="font-size:.7rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">📢 Ad Break</div>
+                    ${ad.data.imageUrl ? `<img src="${ad.data.imageUrl}" style="max-width:100%;max-height:200px;border-radius:8px;margin-bottom:.5rem;">` : ''}
+                    <div style="font-size:.9rem;font-weight:600;">${escapeHtml(ad.data.title)}</div>
+                    <p style="font-size:.7rem;color:var(--text3);margin:.3rem 0 .5rem;">${escapeHtml(ad.data.description || '')}</p>
+                    <button class="btn btn-primary btn-sm" onclick="handleAdClick('${ad.data._id}','${ad.data.linkUrl}','','custom');skipVideoAd()" style="margin-top:.3rem;">Learn More</button>
+                    <div style="margin-top:.5rem;font-size:.7rem;color:var(--text3);">Ad plays for 10s — click to skip</div>
+                </div>
+            `;
+
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay || e.target.closest('.ad-content')) {
+                    skipVideoAd();
+                }
+            });
+
+            wrap.style.position = 'relative';
+            wrap.appendChild(overlay);
+            videoAdActive = true;
+
+            if (ad.data._id) trackAdImpression(ad.data._id, null, 'custom');
+
+            clearTimeout(videoAdTimeout);
+            videoAdTimeout = setTimeout(() => {
+                skipVideoAd();
+            }, 10000);
+
+            S.currentVideoAd = ad;
+            S.currentVideoLesson = lesson;
+            S.currentVideoElement = videoElement;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // TOAST
+        // ═══════════════════════════════════════════════════════════════
         function toast(msg, type = 'info') {
             const box = document.getElementById('toastBox');
             if (!box) return;
@@ -5676,7 +6258,9 @@
                     .getElementById('mbn-' + k); if (m) m.classList.toggle('active', k === pg); });
             closeSidebar();
             const map = {
-                feed: () => { loadFeed(1); },
+                feed: () => { loadFeed(1);
+                    loadSidebarAd();
+                    loadBottomAd(); },
                 challenges: loadChallenges,
                 people: loadPeople,
                 home: initHome,
@@ -5697,7 +6281,8 @@
                 admin: () => renderAdm('dashboard'),
                 settings: initSettings,
                 books: () => { loadBooks();
-                    if (!S.isPremium) loadBookPageAds(); },
+                    loadSidebarAd();
+                    loadBottomAd(); },
                 'book-detail': () => { if (!S.isPremium) loadBookPageAds(); },
                 'create-book': () => { if (!S.isPremium) { toast('Premium required to upload books', 'warning');
                         openModal('premiumModal');
@@ -5837,6 +6422,26 @@
                     toast(`📚 Book removed: ${data.title}`, 'info');
                     if (S.dp === 'books') loadBooks();
                     if (S.dp === 'admin' && S.admSec === 'books') loadAdminBooks();
+                });
+                // Real-time like updates
+                socket.on('post_liked', (data) => {
+                    // data: { postId, likes, liked, userId }
+                    const likeSpan = document.querySelector(`.post-likes[data-id="${data.postId}"]`);
+                    if (likeSpan) {
+                        likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${data.likes}`;
+                    }
+                    const btn = document.querySelector(`.btn-like[data-id="${data.postId}"]`);
+                    if (btn && data.userId === S.user?._id) {
+                        btn.classList.toggle('liked', data.liked);
+                    } else if (btn) {
+                        // Update heart icon if needed
+                        const isLiked = btn.classList.contains('liked');
+                        if (data.liked && !isLiked) {
+                            btn.classList.add('liked');
+                        } else if (!data.liked && isLiked) {
+                            btn.classList.remove('liked');
+                        }
+                    }
                 });
             } catch (e) { console.warn('Socket init failed:', e.message); }
         }
@@ -6199,8 +6804,11 @@
             if (navFollowingBadge) navFollowingBadge.textContent = S.following?.length || 0;
             const followersCountEl = document.getElementById('followersCount');
             if (followersCountEl) followersCountEl.textContent = S.followersCount || 0;
-            // Show/hide premium-only elements
             updatePremiumUI();
+            if (S.dp === 'feed' || S.dp === 'home' || S.dp === 'explore' || S.dp === 'books') {
+                loadSidebarAd();
+                loadBottomAd();
+            }
         }
 
         function updatePremiumUI() {
@@ -6216,7 +6824,6 @@
                 el.textContent = isPremium ? '✅ Premium' : '🔓 Free';
                 el.className = `badge ${isPremium ? 'badge-premium' : 'badge-dark'}`;
             });
-            // If on create-book and not premium, redirect
             if (S.dp === 'create-book' && !isPremium) {
                 toast('Premium required to upload books', 'warning');
                 setDP('home');
@@ -6290,7 +6897,7 @@
         }
 
         // ================================================================
-        // PLAN EXPIRY – Enhanced
+        // PLAN EXPIRY
         // ================================================================
         async function checkPlanExpiry() {
             const expiryDate = S.user?.subscriptionExpires;
@@ -6298,11 +6905,9 @@
                 document.getElementById('planWarning').style.display = 'none';
                 return;
             }
-
             const expiry = new Date(expiryDate);
             const now = new Date();
             const daysLeft = Math.ceil((expiry - now) / (1000 * 60 * 60 * 24));
-
             if (daysLeft <= 7 && daysLeft > 0) {
                 const warning = document.getElementById('planWarning');
                 warning.style.display = 'flex';
@@ -6314,13 +6919,11 @@
                     S.planExpiryWarningShown = true;
                 }
             } else if (daysLeft <= 0 && S.isPremium) {
-                // User is marked premium but expired – auto-downgrade
                 const warning = document.getElementById('planWarning');
                 warning.style.display = 'flex';
                 document.getElementById('planWarningText').textContent =
                     '🔓 Your Premium plan has expired. You have been reverted to free plan. Subscribe again to regain premium features.';
                 toast('🔓 Premium has expired', 'error');
-                // Refresh user data to reflect downgrade
                 await refreshUserData();
             } else {
                 document.getElementById('planWarning').style.display = 'none';
@@ -6416,7 +7019,7 @@
         }
 
         // ================================================================
-        // POSTS MODULE
+        // POSTS MODULE – ENHANCED WITH READ MORE, NESTED COMMENTS, OPTIMISTIC LIKES
         // ================================================================
         const POSTS_API = '/posts';
         const CHALLENGES_API = '/challenges';
@@ -6494,171 +7097,8 @@
         }
 
         // ================================================================
-        // HYBRID AD ENGINE – CUSTOM + ADSTERRA + 50% REVENUE
+        // FEED RENDER WITH HYBRID ADS + READ MORE + NESTED COMMENTS
         // ================================================================
-        function shouldShowAds() {
-            if (!S.loggedIn) return true;
-            if (S.isPremium) {
-                // Premium users: show ads on Feed only (and explore with lower frequency)
-                return S.dp === 'feed' || S.dp === 'explore';
-            }
-            return ['feed', 'books', 'book-detail', 'explore'].includes(S.dp);
-        }
-
-        function loadAdsterra() {
-            if (S.adsterraLoaded) return;
-            if (document.getElementById('adsterra-script')) return;
-            const script = document.createElement('script');
-            script.id = 'adsterra-script';
-            script.src = ADSTERRA_TAG;
-            script.async = true;
-            script.dataset.cfasync = 'false';
-            document.head.appendChild(script);
-            S.adsterraLoaded = true;
-        }
-
-        async function fetchAdConfig() {
-            try {
-                const res = await apiCall('/admin/ad-config');
-                S.adConfig = res.data || { cpm: 1.00, cpc: 0.02, sharePercent: 50 };
-            } catch (e) { console.warn('Using default ad config'); }
-        }
-
-        async function loadAds(placement = 'in-feed') {
-            try {
-                const res = await apiCall(`/ads/placement/${placement}`);
-                S.customAds = res.data || [];
-                S.customAdIndex = 0;
-                if (S.customAds.length === 0) {
-                    loadAdsterra();
-                }
-                if (placement === 'explore') {
-                    const exploreRes = await apiCall('/ads/placement/explore');
-                    S.exploreAds = exploreRes.data || [];
-                    S.exploreAdIndex = 0;
-                }
-            } catch (e) {
-                loadAdsterra();
-                S.customAds = [];
-                S.exploreAds = [];
-            }
-        }
-
-        function getNextAd(placement = 'in-feed') {
-            let ads = S.customAds;
-            let idx = S.customAdIndex;
-            if (placement === 'explore') {
-                ads = S.exploreAds.length ? S.exploreAds : S.customAds;
-                idx = S.exploreAdIndex;
-            }
-            if (ads && ads.length > 0) {
-                const ad = ads[idx % ads.length];
-                if (placement === 'explore') S.exploreAdIndex++;
-                else S.customAdIndex++;
-                return { type: 'custom', data: ad };
-            }
-            if (S.adsterraLoaded) {
-                return { type: 'adsterra', data: { placement } };
-            }
-            return null;
-        }
-
-        // ─── BOOK PAGE ADS ──────────────────────────────────────────────
-        async function loadBookPageAds() {
-            try {
-                const res = await apiCall('/ads/placement/book-page');
-                S.bookAds = res.data || [];
-                S.bookAdIndex = 0;
-                if (S.bookAds.length === 0) loadAdsterra();
-            } catch (e) { loadAdsterra();
-                S.bookAds = []; }
-        }
-
-        function getNextBookAd() {
-            if (S.bookAds.length > 0) {
-                const ad = S.bookAds[S.bookAdIndex % S.bookAds.length];
-                S.bookAdIndex++;
-                return { type: 'custom', data: ad };
-            }
-            if (S.adsterraLoaded) {
-                return { type: 'adsterra', data: { placement: 'book-page' } };
-            }
-            return null;
-        }
-
-        // ─── REVENUE TRACKING ───────────────────────────────────────────
-        async function trackAdRevenue(adId, type, postId, network = 'custom') {
-            if (!postId) return;
-            try {
-                const res = await apiCall('/ads/track', {
-                    method: 'POST',
-                    body: { adId, type, postId, network }
-                });
-                if (res.success && res.credited > 0) {
-                    // Optionally show a subtle toast
-                }
-            } catch (e) { console.warn('Ad tracking failed:', e); }
-        }
-
-        function renderAdCard(ad, postId) {
-            if (!ad) return '';
-            if (ad.type === 'custom' && ad.data) {
-                const adData = ad.data;
-                return `
-                    <div class="ad-card" data-ad-id="${adData._id}" data-post-id="${postId || ''}">
-                        <div class="ad-label">📢 Sponsored</div>
-                        <a href="#" onclick="handleAdClick('${adData._id}','${adData.linkUrl}','${postId || ''}','custom'); return false;">
-                            ${adData.imageUrl ? `<img src="${adData.imageUrl}" alt="${escapeHtml(adData.title)}" loading="lazy">` : ''}
-                            <div class="ad-title">${escapeHtml(adData.title)}</div>
-                        </a>
-                    </div>
-                `;
-            }
-            if (ad.type === 'adsterra') {
-                const uid = 'adsterra-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-                return `
-                    <div class="ad-card adsterra-wrapper" data-post-id="${postId || ''}" id="${uid}">
-                        <div class="ad-label">📢 Sponsored</div>
-                        <div id="container-cc89042fff30e53e48049a8c585d9105"></div>
-                    </div>
-                `;
-            }
-            return '';
-        }
-
-        async function handleAdClick(adId, linkUrl, postId, network = 'custom') {
-            if (postId) { await trackAdRevenue(adId, 'click', postId, network); }
-            window.open(linkUrl, '_blank');
-        }
-
-        async function trackAdImpression(adId, postId, network = 'custom') {
-            if (!postId) return;
-            const key = `ad_imp_${adId}_${postId}`;
-            if (sessionStorage.getItem(key)) return;
-            sessionStorage.setItem(key, '1');
-            await trackAdRevenue(adId, 'impression', postId, network);
-        }
-
-        function observeAdImpressions() {
-            const adCards = document.querySelectorAll('.ad-card');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const card = entry.target;
-                        const adId = card.dataset.adId;
-                        const postId = card.dataset.postId;
-                        const isAdsterra = card.classList.contains('adsterra-wrapper');
-                        if (adId && postId) {
-                            trackAdImpression(adId, postId, isAdsterra ? 'adsterra' : 'custom');
-                        }
-                        observer.unobserve(card);
-                    }
-                });
-            }, { threshold: 0.5 });
-            adCards.forEach(card => observer.observe(card));
-        }
-
-        // ─── FEED RENDER WITH HYBRID ADS ──────────────────────────────
         async function loadFeed(page = 1) {
             const filter = S.feedFilter || 'all';
             if (page === 1) {
@@ -6673,7 +7113,7 @@
                 }
                 if (feedSentinelObserver) { feedSentinelObserver.disconnect();
                     feedSentinelObserver = null; }
-                if (shouldShowAds()) await loadAds('in-feed');
+                if (shouldShowAd('in-feed')) await loadAds('in-feed');
             }
             const container = document.getElementById('feedContainer');
             if (!container) return;
@@ -6720,7 +7160,7 @@
                 `;
                 return;
             }
-            const showAds = shouldShowAds();
+            const showAds = shouldShowAd('in-feed');
             const adFrequency = S.isPremium ? 6 : 3;
             let html = '';
             posts.forEach((post, idx) => {
@@ -6748,7 +7188,7 @@
             if (!container) return;
             const loadingEl = document.getElementById('feedLoadingMore');
             if (loadingEl) loadingEl.style.display = 'none';
-            const showAds = shouldShowAds();
+            const showAds = shouldShowAd('in-feed');
             const adFrequency = S.isPremium ? 6 : 3;
             posts.forEach((post, idx) => {
                 if (!container.querySelector(`[data-post-id="${post._id}"]`)) {
@@ -6801,6 +7241,7 @@
             feedSentinelObserver.observe(sentinel);
         }
 
+        // ─── POST CARD WITH READ MORE ──────────────────────────────────
         function renderPostCard(post, scoreBadge = '') {
             let author = post.authorId || post.author || {};
             if (typeof author === 'string') {
@@ -6810,6 +7251,10 @@
             const avatarHtml = getAvatarUrl(author) ?
                 `<img src="${getAvatarUrl(author)}" alt="${author.firstName || 'U'}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` :
                 (author.firstName?.[0] || 'U');
+            const fullContent = post.content || '';
+            // Truncate to 200 characters for preview
+            const previewContent = fullContent.length > 200 ? fullContent.slice(0, 200) + '...' : fullContent;
+            const needsReadMore = fullContent.length > 200;
             const contentHtml = post.content ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(post.content) : post
                 .content) : '';
             const earnings = post.earnings || 0;
@@ -6841,7 +7286,10 @@
                     <h3 class="post-title" onclick="window.location.href='${postUrl}'">${escapeHtml(post.title)}</h3>
                     ${post.featuredImage ? `<img src="${post.featuredImage}" class="post-image" alt="featured" loading="lazy">` : ''}
                     ${post.videoUrl ? `<video controls style="max-width:100%;border-radius:var(--radius-sm);margin:.75rem 0;"><source src="${post.videoUrl}" type="video/mp4"></video>` : ''}
-                    <div class="post-content">${contentHtml}</div>
+                    <div class="post-content" id="postContent-${post._id}">
+                        <span class="post-preview">${contentHtml}</span>
+                        ${needsReadMore ? `<span class="post-full" style="display:none;">${contentHtml}</span><button class="btn-readmore" onclick="togglePostContent('${post._id}')">Read more</button>` : ''}
+                    </div>
                     <div class="post-stats">
                         <span><i class="fas fa-eye"></i> ${views}</span>
                         <span class="post-likes" data-id="${post._id}"><i class="far fa-heart"></i> ${post.likes || 0}</span>
@@ -6859,6 +7307,130 @@
             `;
         }
 
+        // ─── TOGGLE READ MORE ──────────────────────────────────────────
+        function togglePostContent(postId) {
+            const container = document.getElementById(`postContent-${postId}`);
+            if (!container) return;
+            const preview = container.querySelector('.post-preview');
+            const full = container.querySelector('.post-full');
+            const btn = container.querySelector('.btn-readmore');
+            if (!preview || !full || !btn) return;
+            if (full.style.display === 'none') {
+                full.style.display = 'inline';
+                preview.style.display = 'none';
+                btn.textContent = 'Read less';
+            } else {
+                full.style.display = 'none';
+                preview.style.display = 'inline';
+                btn.textContent = 'Read more';
+            }
+        }
+
+        // ─── COMMENTS WITH NESTED REPLIES ─────────────────────────────
+        async function loadComments(postId) {
+            const section = document.querySelector(`.comments-section[data-post-id="${postId}"]`);
+            if (!section) return;
+            try {
+                const res = await apiCall(`${POSTS_API}/${postId}/comments`);
+                const comments = res.data || [];
+                section.innerHTML = `
+                    <div class="comment-input"><textarea placeholder="Write a comment..." id="commentText-${postId}"></textarea><button class="btn-primary btn-sm" onclick="addComment('${postId}')">Post</button></div>
+                    <div class="comments-list" id="commentsList-${postId}">
+                        ${comments.map(c => renderCommentItem(c, postId)).join('')}
+                    </div>
+                `;
+            } catch (err) { section.innerHTML = '<p>Failed to load comments</p>'; }
+        }
+
+        function renderCommentItem(comment, postId, level = 0) {
+            const replies = comment.replies || [];
+            const avatarHtml = getAvatarUrl(comment.userId) ?
+                `<img src="${getAvatarUrl(comment.userId)}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;">` :
+                (comment.userId?.firstName?.[0] || 'U');
+            return `
+                <div class="comment-item" style="margin-left: ${level * 20}px;" data-comment-id="${comment._id}">
+                    <div class="comment-header">
+                        <strong>${escapeHtml(comment.userId?.firstName || 'User')} ${escapeHtml(comment.userId?.lastName || '')}</strong>
+                        <span class="comment-date">${new Date(comment.createdAt).toLocaleDateString()}</span>
+                    </div>
+                    <div class="comment-body">${escapeHtml(comment.content)}</div>
+                    <div class="comment-actions">
+                        <span class="comment-like" onclick="likeComment('${comment._id}')">
+                            <i class="fas fa-heart"></i> ${comment.likes || 0}
+                        </span>
+                        <span class="comment-reply" onclick="showReplyInput('${comment._id}')">Reply</span>
+                        ${replies.length ? `<span class="comment-replies-count">💬 ${replies.length} replies</span>` : ''}
+                    </div>
+                    <div class="reply-input-container" id="replyInput-${comment._id}" style="display:none;margin-top:.5rem;">
+                        <div class="d-flex gap-2"><input type="text" class="finput" id="replyText-${comment._id}" placeholder="Write a reply..." /><button class="btn btn-primary btn-sm" onclick="submitReply('${comment._id}','${postId}')"><i class="fas fa-paper-plane"></i></button></div>
+                    </div>
+                    ${replies.length ? `
+                        <div class="replies-container">
+                            ${replies.map(r => renderCommentItem(r, postId, level + 1)).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function showReplyInput(commentId) {
+            const container = document.getElementById(`replyInput-${commentId}`);
+            if (container) {
+                container.style.display = container.style.display === 'none' ? 'block' : 'none';
+                const input = document.getElementById(`replyText-${commentId}`);
+                if (input) input.focus();
+            }
+        }
+
+        async function submitReply(commentId, postId) {
+            const input = document.getElementById(`replyText-${commentId}`);
+            const content = input?.value.trim();
+            if (!content) { toast('Please enter a reply', 'error'); return; }
+            try {
+                await apiCall(`/posts/${postId}/comment`, {
+                    method: 'POST',
+                    body: { content, parentId: commentId }
+                });
+                toast('✅ Reply posted!', 'success');
+                input.value = '';
+                loadComments(postId);
+            } catch (err) {
+                toast('Failed to post reply: ' + err.message, 'error');
+            }
+        }
+
+        // ─── OPTIMISTIC LIKE ────────────────────────────────────────────
+        async function likePost(postId) {
+            const likeBtn = document.querySelector(`.btn-like[data-id="${postId}"]`);
+            const likeSpan = document.querySelector(`.post-likes[data-id="${postId}"]`);
+            if (!likeBtn || !likeSpan) return;
+
+            // Optimistic update
+            const isCurrentlyLiked = likeBtn.classList.contains('liked');
+            const currentLikes = parseInt(likeSpan.textContent.split(' ')[1]) || 0;
+            const newLikes = isCurrentlyLiked ? currentLikes - 1 : currentLikes + 1;
+
+            // Update UI immediately
+            likeBtn.classList.toggle('liked', !isCurrentlyLiked);
+            likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${newLikes}`;
+
+            try {
+                const res = await apiCall(`/posts/${postId}/like`, { method: 'POST' });
+                // If server returns final count, sync
+                if (res.likes !== undefined && res.liked !== undefined) {
+                    likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${res.likes}`;
+                    likeBtn.classList.toggle('liked', res.liked);
+                }
+                // If socket is connected, we'll also get real-time update via socket
+            } catch (err) {
+                // Rollback on error
+                likeBtn.classList.toggle('liked', isCurrentlyLiked);
+                likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${currentLikes}`;
+                toast('Error liking post', 'error');
+            }
+        }
+
+        // ─── OTHER POST FUNCTIONS ──────────────────────────────────────
         function filterFeed(type, el) {
             if (el) { document.querySelectorAll('.feed-tabs .fpill').forEach(p => p.classList.remove('active'));
                 el.classList.add('active'); }
@@ -6871,21 +7443,8 @@
         }
 
         function attachPostEventListeners() {
-            document.querySelectorAll('.btn-like').forEach(btn => { btn.onclick = () => likePost(btn.dataset.id); });
+            // Liked already handled inline with likePost
             document.querySelectorAll('.btn-comment').forEach(btn => { btn.onclick = () => toggleComments(btn.dataset.id); });
-        }
-
-        async function likePost(postId) {
-            try {
-                const res = await apiCall(`${POSTS_API}/${postId}/like`, { method: 'POST' });
-                if (res.success) {
-                    const likeSpan = document.querySelector(`.post-likes[data-id="${postId}"]`);
-                    if (likeSpan) likeSpan.innerHTML = `<i class="fas fa-heart"></i> ${res.likes || 0}`;
-                    const btn = document.querySelector(`.btn-like[data-id="${postId}"]`);
-                    if (btn) btn.classList.toggle('liked', res.liked);
-                    toast(res.liked ? 'Liked!' : 'Unliked', 'success');
-                }
-            } catch (err) { toast('Error liking post', 'error'); }
         }
 
         async function toggleComments(postId) {
@@ -6893,74 +7452,6 @@
             if (!section) return;
             if (section.style.display === 'none') { section.style.display = 'block';
                 await loadComments(postId); } else { section.style.display = 'none'; }
-        }
-
-        async function loadComments(postId) {
-            const section = document.querySelector(`.comments-section[data-post-id="${postId}"]`);
-            try {
-                const res = await apiCall(`${POSTS_API}/${postId}/comments`);
-                const comments = res.data || [];
-                section.innerHTML = `
-                    <div class="comment-input"><textarea placeholder="Write a comment..." id="commentText-${postId}"></textarea><button class="btn-primary btn-sm" onclick="addComment('${postId}')">Post</button></div>
-                    <div class="comments-list" id="commentsList-${postId}">
-                        ${comments.map(c => {
-                            const replyCount = c.replies?.length || 0;
-                            return `
-                                <div class="comment-item" data-comment-id="${c._id}">
-                                    <div class="comment-header"><strong>${escapeHtml(c.userId?.firstName || 'User')}</strong><span class="comment-date">${new Date(c.createdAt).toLocaleDateString()}</span></div>
-                                    <div class="comment-body">${escapeHtml(c.content)}</div>
-                                    <div class="comment-actions">
-                                        <span class="comment-like" onclick="likeComment('${c._id}')"><i class="fas fa-heart"></i> ${c.likes || 0}</span>
-                                        <span class="comment-reply" onclick="showReplyInput('${c._id}')"><i class="fas fa-reply"></i> Reply</span>
-                                        ${replyCount > 0 ? `<span class="comment-replies-count">💬 ${replyCount} replies</span>` : ''}
-                                    </div>
-                                    <div class="reply-input-container" id="replyInput-${c._id}" style="display:none;margin-top:.5rem;">
-                                        <div class="d-flex gap-2"><input type="text" class="finput" id="replyText-${c._id}" placeholder="Write a reply..." /><button class="btn btn-primary btn-sm" onclick="submitReply('${c._id}')"><i class="fas fa-paper-plane"></i></button></div>
-                                    </div>
-                                    ${c.replies?.length ? `
-                                        <div class="replies-container" style="margin-top:.5rem;padding-left:1.5rem;border-left:2px solid var(--border);">
-                                            ${c.replies.map(r => `
-                                                <div class="comment-item reply-item">
-                                                    <div class="comment-header"><strong>${escapeHtml(r.userId?.firstName || 'User')}</strong><span class="comment-date">${new Date(r.createdAt).toLocaleDateString()}</span></div>
-                                                    <div class="comment-body">${escapeHtml(r.content)}</div>
-                                                </div>
-                                            `).join('')}
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                `;
-            } catch (err) { section.innerHTML = '<p>Failed to load comments</p>'; }
-        }
-
-        function showReplyInput(commentId) {
-            const container = document.getElementById(`replyInput-${commentId}`);
-            if (container) {
-                container.style.display = container.style.display === 'none' ? 'block' : 'none';
-                const input = document.getElementById(`replyText-${commentId}`);
-                if (input) input.focus();
-            }
-        }
-
-        async function submitReply(commentId) {
-            const input = document.getElementById(`replyText-${commentId}`);
-            const content = input?.value.trim();
-            if (!content) { toast('Please enter a reply', 'error'); return; }
-            const postId = document.querySelector('.comments-section')?.dataset.postId;
-            if (!postId) { toast('Error: Post not found', 'error'); return; }
-            try {
-                await apiCall(`/posts/${postId}/comment`, {
-                    method: 'POST',
-                    body: { content, parentId: commentId }
-                });
-                toast('✅ Reply posted!', 'success');
-                input.value = '';
-                loadComments(postId);
-            } catch (err) {
-                toast('Failed to post reply: ' + err.message, 'error');
-            }
         }
 
         async function addComment(postId) {
@@ -6975,7 +7466,11 @@
 
         async function likeComment(commentId) {
             try { await apiCall(`${POSTS_API}/comment/${commentId}/like`, { method: 'POST' });
-                toast('Liked comment', 'success'); } catch (err) { toast('Error', 'error'); }
+                toast('Liked comment', 'success');
+                // Reload comments to reflect updated like count (or optimistically update)
+                const postId = document.querySelector('.comments-section')?.dataset.postId;
+                if (postId) loadComments(postId);
+            } catch (err) { toast('Error', 'error'); }
         }
 
         async function deletePost(postId) {
@@ -7003,6 +7498,7 @@
 
         function editPost(postId) { toast('Edit functionality coming soon!', 'info'); }
 
+        // ─── CREATE POST ───────────────────────────────────────────────
         function openCreatePostModal() {
             const modal = document.getElementById('createPostModal');
             if (modal) {
@@ -7143,7 +7639,7 @@
         }
 
         // ================================================================
-        // CHALLENGES
+        // CHALLENGES (existing code, unchanged but with sponsor ads)
         // ================================================================
         async function loadChallenges() {
             showLoading('Loading challenges...');
@@ -7186,7 +7682,10 @@
                     '<div class="empty-state"><i class="fas fa-trophy"></i><h4>No challenges</h4><p>Check back soon!</p></div>';
                 return;
             }
-            container.innerHTML = challenges.map(c => {
+            // Sponsor ad insertion: after every 2 challenges
+            const showAds = !S.isPremium && shouldShowAd('challenge-sponsor');
+            let html = '';
+            challenges.forEach((c, idx) => {
                 const isJoined = c.participants?.some(p => p === S.user?._id) || false;
                 const statusClass = c.status === 'active' ? 'badge-success' : c.status === 'upcoming' ?
                     'badge-cyan' : 'badge-dark';
@@ -7198,7 +7697,7 @@
                     if (progress) { userProgress = progress.progress || 0;
                         userStatus = progress.status || 'enrolled'; }
                 }
-                return `
+                html += `
                 <div class="challenge-card card card-p">
                     <div class="challenge-icon">🏆</div>
                     <h3>${escapeHtml(c.title)}</h3>
@@ -7214,7 +7713,23 @@
                     </div>
                     ${isJoined ? `<div style="margin-top:.5rem;"><div class="prog" style="height:5px;"><div class="prog-fill ${userStatus === 'completed' ? 'pf-success' : 'pf-primary'}" style="width:${userProgress}%"></div></div><div style="font-size:.7rem;color:var(--text3);margin-top:.2rem;">${userStatus === 'completed' ? '✅ Completed!' : `${userProgress}% complete`}</div></div>` : `<button class="btn-primary btn-sm" onclick="joinChallenge('${c._id}')" ${c.status !== 'active' ? 'disabled' : ''}>${c.status === 'active' ? 'Join Challenge' : 'Coming Soon'}</button>`}
                 </div>`;
-            }).join('');
+                // Sponsor ad
+                if (showAds && (idx + 1) % 2 === 0 && idx < challenges.length - 1) {
+                    const ad = getNextAd('challenge-sponsor');
+                    if (ad && ad.type === 'custom') {
+                        html += `
+                            <div class="challenge-card card card-p sponsored" style="border:2px solid var(--primary);">
+                                <div class="challenge-icon">⭐</div>
+                                <h3>${escapeHtml(ad.data.title)}</h3>
+                                <p>${escapeHtml(ad.data.description || 'Sponsored challenge')}</p>
+                                <a href="${ad.data.linkUrl}" target="_blank" class="btn btn-primary btn-sm" onclick="handleAdClick('${ad.data._id}','${ad.data.linkUrl}','','custom')">Learn More</a>
+                            </div>
+                        `;
+                    }
+                }
+            });
+            container.innerHTML = html;
+            observeAdImpressions();
         }
 
         function filterChallenges(type, el) {
@@ -7277,7 +7792,7 @@
         }
 
         // ================================================================
-        // PEOPLE – with Followers section
+        // PEOPLE – with Followers section (unchanged)
         // ================================================================
         async function loadPeople() {
             showLoading('Loading users...');
@@ -7323,7 +7838,6 @@
             if (!container) return;
             const term = S.peopleSearchTerm?.toLowerCase() || '';
             const filtered = term ? users.filter(u => (u.firstName + ' ' + u.lastName).toLowerCase().includes(term)) : users;
-            // Build followers section
             let followersHtml = '';
             if (S.followers && S.followers.length > 0 && !term) {
                 followersHtml = `
@@ -7426,7 +7940,7 @@
         }
 
         // ================================================================
-        // USER PROFILE – NO EARNINGS FOR OTHER USERS
+        // USER PROFILE (unchanged)
         // ================================================================
         async function openUserProfile(userId) {
             showLoading('Loading profile...');
@@ -7506,7 +8020,7 @@
         }
 
         // ================================================================
-        // FOLLOWING PERSISTENCE
+        // FOLLOWING PERSISTENCE (unchanged)
         // ================================================================
         async function loadUserFollowing() {
             if (!S.user) return;
@@ -7540,7 +8054,7 @@
         }
 
         // ================================================================
-        // SOCIAL EARNINGS
+        // SOCIAL EARNINGS (unchanged)
         // ================================================================
         async function loadSocialEarnings() {
             try {
@@ -7553,7 +8067,7 @@
         }
 
         // ================================================================
-        // DASHBOARD - HOME
+        // DASHBOARD - HOME (unchanged)
         // ================================================================
         async function initHome() {
             document.getElementById('homeContent').innerHTML = '';
@@ -7567,6 +8081,8 @@
             renderHomeDashboard();
             checkPlanExpiry();
             loadFeed(1);
+            loadSidebarAd();
+            loadBottomAd();
             updateSEO({ title: 'ChangeX Academy Dashboard', description: 'Learn tech skills and earn real money on ChangeX Academy.' });
         }
 
@@ -7664,6 +8180,8 @@
             if (document.getElementById('feedContainer') && !document.querySelector('#feedContainer .post-card')) {
                 loadFeed(1);
             }
+            loadSidebarAd();
+            loadBottomAd();
         }
 
         function extractCourseId(enrollment) {
@@ -7750,6 +8268,8 @@
                     await loadAds('explore');
                 }
                 document.getElementById('exploreGrid').innerHTML = buildExploreCourseCards(S.appCourses);
+                loadSidebarAd();
+                loadBottomAd();
             } catch (e) { S.appCourses = [];
                 document.getElementById('exploreGrid').innerHTML =
                     `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><h4>Could not load courses</h4><p>${e.message}</p></div>`; } finally { hideLoading(); }
@@ -7757,7 +8277,7 @@
 
         function buildExploreCourseCards(list) {
             if (!Array.isArray(list)) return '<div class="empty-state"><p>Loading courses...</p></div>';
-            const showAds = !S.isPremium && shouldShowAds();
+            const showAds = !S.isPremium && shouldShowAd('explore');
             const adFrequency = 4;
             let html = '';
             let adCounter = 0;
@@ -7773,10 +8293,13 @@
                 if (showAds && (idx + 1) % adFrequency === 0 && idx < filtered.length - 1) {
                     const ad = getNextAd('explore');
                     if (ad) {
-                        const adHtml = renderAdCard(ad, null);
-                        html += `<div style="grid-column:1/-1;">${adHtml}</div>`;
-                        const adId = ad.type === 'custom' ? ad.data._id : 'adsterra-explore-' + Date.now();
-                        if (adId) trackAdImpression(adId, null, ad.type === 'custom' ? 'custom' : 'adsterra');
+                        if (ad.type === 'custom') {
+                            html += `<div style="grid-column:1/-1;">${renderSponsoredCourse(ad)}</div>`;
+                            const adId = ad.data?._id;
+                            if (adId) trackAdImpression(adId, null, 'custom');
+                        } else if (ad.type === 'adsterra') {
+                            html += `<div style="grid-column:1/-1;"><div class="ad-card adsterra-wrapper"><div class="ad-label">📢 Sponsored</div><div style="text-align:center;padding:.5rem;color:var(--text3);font-size:.7rem;">Advertisement</div></div></div>`;
+                        }
                     }
                 }
             });
@@ -7883,7 +8406,7 @@
         }
 
         // ================================================================
-        // PAYMENT TOGGLES
+        // PAYMENT TOGGLES (unchanged)
         // ================================================================
         function toggleBuyPaymentMethod(method, btn) {
             const container = btn.closest('.modal-bd');
@@ -7964,7 +8487,7 @@
         });
 
         // ================================================================
-        // MANUAL PAYMENT SUBMISSION
+        // MANUAL PAYMENT SUBMISSION (with status check)
         // ================================================================
         function getAffiliateCodeFromCookie() {
             const match = document.cookie.match(/(?:^|; )affiliate_code=([^;]*)/);
@@ -8021,6 +8544,10 @@
                     try {
                         const data = JSON.parse(xhr.responseText);
                         if (data.success) {
+                            if (data.data?._id) {
+                                S.pendingManualPaymentId = data.data._id;
+                                sessionStorage.setItem('pendingManualPayment', data.data._id);
+                            }
                             if (data.autoApproved) {
                                 toast('✅ Payment verified! Access granted.', 'success');
                                 closeModal('buyCourseModal');
@@ -8034,7 +8561,8 @@
                                     await renderWallet();
                                 }, 1500);
                             } else {
-                                toast('📋 Payment submitted for admin review.', 'info');
+                                toast('📋 Payment submitted for admin review. You will be notified once approved.',
+                                    'info');
                                 closeModal('buyCourseModal');
                                 setTimeout(renderWallet, 2000);
                             }
@@ -8067,6 +8595,28 @@
             }
         }
 
+        async function checkManualPaymentStatus() {
+            const paymentId = sessionStorage.getItem('pendingManualPayment');
+            if (!paymentId) { return; }
+            try {
+                const res = await apiCall(`/payments/manual/${paymentId}`);
+                const payment = res.data;
+                if (!payment) return;
+                if (payment.status === 'approved') {
+                    toast('✅ Your manual payment was approved!', 'success');
+                    sessionStorage.removeItem('pendingManualPayment');
+                    await renderWallet();
+                    if (payment.type === 'course') { await loadEnrollments();
+                        setDP('courses'); } else if (payment.type === 'book') { await loadBooks(); }
+                    if (S.currentBook) renderBookDetail(S.currentBook);
+                } else if (payment.status === 'rejected') {
+                    toast('❌ Your manual payment was rejected. Reason: ' + (payment.adminNote || 'Not specified'),
+                        'error');
+                    sessionStorage.removeItem('pendingManualPayment');
+                }
+            } catch (e) { console.warn('Could not check manual payment status:', e); }
+        }
+
         async function submitPremManualPayment() {
             const reference = document.getElementById('premManualRef')?.value.trim();
             const paymentDate = document.getElementById('premManualDate')?.value;
@@ -8089,6 +8639,10 @@
                     body: formData });
                 const data = await response.json();
                 if (data.success) {
+                    if (data.data?._id) {
+                        S.pendingManualPaymentId = data.data._id;
+                        sessionStorage.setItem('pendingManualPayment', data.data._id);
+                    }
                     if (data.autoApproved) {
                         toast('✅ Premium activated!', 'success');
                         closeModal('premiumModal');
@@ -8127,6 +8681,10 @@
                     body: formData });
                 const data = await response.json();
                 if (data.success) {
+                    if (data.data?._id) {
+                        S.pendingManualPaymentId = data.data._id;
+                        sessionStorage.setItem('pendingManualPayment', data.data._id);
+                    }
                     if (data.autoApproved) { toast('✅ Premium activated!', 'success');
                         finishWizard(true); } else { toast('📋 Payment submitted for review.', 'info');
                         finishWizard(false); }
@@ -8135,7 +8693,7 @@
         }
 
         // ================================================================
-        // PAYSTACK
+        // PAYSTACK (unchanged)
         // ================================================================
         async function processPayment() {
             const type = currentPaymentType;
@@ -8233,7 +8791,7 @@
         }
 
         // ================================================================
-        // MY COURSES
+        // MY COURSES (unchanged)
         // ================================================================
         function renderCourseGrid(filter) {
             S.courseFilter = filter || 'all';
@@ -8259,7 +8817,7 @@
         }
 
         // ================================================================
-        // LESSON / CURRICULUM
+        // LESSON / CURRICULUM (unchanged)
         // ================================================================
         function renderCurric() {
             const list = document.getElementById('curricList');
@@ -8326,20 +8884,29 @@
             }
             const courseTitleEl = document.getElementById('currentCourseTitle');
             if (courseTitleEl) courseTitleEl.textContent = S.currentCourseData?.title || '';
-            const videoWrap = document.getElementById('lessonVideoWrap');
-            if (videoWrap) {
+            const wrap = document.getElementById('lessonVideoWrap');
+            if (wrap) {
                 if (l.type === 'video' && l.videoUrl) {
-                    videoWrap.innerHTML =
-                        `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"><iframe src="${l.videoUrl}" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe></div>`;
-                } else if (l.type === 'video' && !l.videoUrl) {
-                    videoWrap.innerHTML =
-                        `<div class="empty-state"><i class="fas fa-video"></i><p>Video URL missing.</p></div>`;
+                    wrap.innerHTML = `
+                        <div style="text-align:center;position:relative;">
+                            <div class="play-btn" onclick="playLessonVideo()"><i class="fas fa-play"></i></div>
+                            <div style="font-size:.78rem;color:var(--text2);margin-top:.75rem">${l.title || 'Lesson'}</div>
+                            <div style="font-size:.7rem;color:var(--text3);margin-top:.2rem">Click to play video</div>
+                        </div>
+                    `;
                 } else if (l.type === 'text' && l.content) {
-                    videoWrap.innerHTML =
-                        `<div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);min-height:120px;line-height:1.7">${l.content}</div>`;
+                    wrap.innerHTML = `
+                        <div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);min-height:120px;line-height:1.7;max-height:400px;overflow-y:auto;">
+                            ${l.content}
+                        </div>
+                    `;
                 } else {
-                    videoWrap.innerHTML =
-                        `<div class="empty-state"><i class="fas fa-file-alt"></i><p>Text-based lesson. Read below.</p></div>`;
+                    wrap.innerHTML = `
+                        <div class="empty-state" style="padding:1rem;">
+                            <i class="fas fa-file-alt"></i>
+                            <p>No video content for this lesson.</p>
+                        </div>
+                    `;
                 }
             }
             const resList = document.getElementById('lessonResourcesList');
@@ -8349,6 +8916,24 @@
                         `<div style="padding:.5rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:.3rem;font-size:.79rem"><i class="fas fa-paperclip" style="color:var(--accent);margin-right:.4rem"></i><a href="${r.url}" target="_blank" rel="noopener" style="color:var(--primary)">${r.title || r.url}</a></div>`
                         ).join('');
                 } else { resList.innerHTML = '<div class="empty-state"><p>No resources</p></div>'; }
+            }
+            // Lesson inline ad
+            if (!S.isPremium && shouldShowAd('lesson-inline')) {
+                const ad = getNextAd('lesson-inline');
+                if (ad && ad.type === 'custom') {
+                    const adHtml = `
+                        <div class="ad-card" style="margin: 15px 0; padding: 10px; background: var(--bg2); border-radius: 8px; border-left: 3px solid var(--primary);">
+                            <div style="font-size:0.7rem; color:var(--gold);">📢 Sponsored</div>
+                            <a href="${ad.data.linkUrl}" target="_blank" onclick="handleAdClick('${ad.data._id}','${ad.data.linkUrl}','','custom')">
+                                <strong>${escapeHtml(ad.data.title)}</strong>
+                            </a>
+                        </div>
+                    `;
+                    const desc = document.getElementById('lessonOverviewDesc');
+                    if (desc) {
+                        desc.insertAdjacentHTML('afterend', adHtml);
+                    }
+                }
             }
         }
 
@@ -8392,7 +8977,7 @@
         }
 
         // ================================================================
-        // QA
+        // QA (unchanged)
         // ================================================================
         async function loadQA() {
             if (!S.currentCourseId) return;
@@ -8440,7 +9025,7 @@
         }
 
         // ================================================================
-        // QUIZ
+        // QUIZ (unchanged)
         // ================================================================
         function initQuiz() {
             const el = document.getElementById('quizWrap');
@@ -8494,7 +9079,7 @@
         }
 
         // ================================================================
-        // CERTIFICATES
+        // CERTIFICATES (unchanged)
         // ================================================================
         async function renderCerts() {
             try {
@@ -8598,7 +9183,7 @@
         }
 
         // ================================================================
-        // WALLET
+        // WALLET (enhanced with ad revenue and manual payment status)
         // ================================================================
         async function renderWallet() {
             try {
@@ -8625,6 +9210,7 @@
                     <div class="web-row"><span>Instructor Earnings</span><span style="color:var(--gold);font-weight:700">${fmtMoneyAPI(breakdown.instructorEarnings || 0)}</span></div>
                     <div class="web-row"><span>Welcome Bonus</span><span style="color:var(--lime);font-weight:700">${fmtMoneyAPI(breakdown.welcomeBonus || 0)}</span></div>
                     <div class="web-row"><span>Book Earnings</span><span style="color:var(--cyan);font-weight:700">${fmtMoneyAPI(breakdown.bookEarnings || 0)}</span></div>
+                    <div class="web-row"><span>Ad Revenue</span><span style="color:var(--gold);font-weight:700">${fmtMoneyAPI(breakdown.adRevenue || 0)}</span></div>
                     <div class="web-row" style="border-top:2px solid var(--border);font-weight:800;font-size:.9rem"><span>Total Earnings</span><span style="color:var(--lime)">${fmtMoneyAPI(breakdown.totalEarnings || 0)}</span></div>
                 `;
 
@@ -8643,6 +9229,9 @@
 
                 await loadTransactions();
                 renderTxTable();
+
+                // Check for pending manual payment status
+                await checkManualPaymentStatus();
 
                 try {
                     const payoutData = await apiCall('/payments/methods');
@@ -8702,7 +9291,7 @@
         }
 
         // ================================================================
-        // REFERRALS
+        // REFERRALS (unchanged)
         // ================================================================
         async function renderRefs() {
             const refCode = S.user?.referralCode || 'REF';
@@ -8740,7 +9329,7 @@
         function shareOnSocial(p) { toast(`Shared on ${p}!`, 'success'); }
 
         // ================================================================
-        // LEADERBOARD – CORRECT USER DATA (NO MORE ZEROS)
+        // LEADERBOARD (unchanged)
         // ================================================================
         async function loadLeaderboard() {
             try {
@@ -8764,7 +9353,6 @@
             const el = document.getElementById('lbFull');
             if (!el) return;
             if (!S.leaderboard || S.leaderboard.length === 0) {
-                // Show realistic placeholder data when real data isn't available
                 const placeholders = [
                     { firstName: 'Amaka', lastName: 'Obi', xp: 28450, totalEarned: 245000, streakDays: 45,
                         referralCount: 12 },
@@ -8832,7 +9420,7 @@
         }
 
         // ================================================================
-        // AFFILIATES
+        // AFFILIATES (unchanged)
         // ================================================================
         async function renderAffiliates(forceRefresh = false) {
             showLoading('Loading affiliate offers...');
@@ -8912,7 +9500,7 @@
         }
 
         // ================================================================
-        // INSTRUCTOR HUB – Enhanced with Ratings & Q&A
+        // INSTRUCTOR HUB (unchanged)
         // ================================================================
         function renderInstHub() {
             const hasCreatorAccess = S.isPremium || S.user?.roles?.includes('admin') || (S.user?.roles?.includes('creator') &&
@@ -8935,7 +9523,6 @@
                 const stats = data.data || {};
                 S.instructorCourses = Array.isArray(stats.courses) ? stats.courses : [];
 
-                // Update stats row with rating
                 const avgRating = stats.averageRating || 0;
                 const ratingStars = '★'.repeat(Math.floor(avgRating)) + '☆'.repeat(5 - Math.floor(avgRating));
                 document.getElementById('instStatsRow').innerHTML = `
@@ -8945,7 +9532,6 @@
                     <div class="col-6 col-md-3"><div class="stat-card"><div class="si si-v"><i class="fas fa-star"></i></div><div class="sv">${avgRating.toFixed(1)} ${ratingStars}</div><div class="sl">Avg Rating</div></div></div>
                 `;
 
-                // Show pending Q&A
                 if (stats.pendingQuestions > 0) {
                     document.getElementById('instQANotifs').style.display = 'block';
                     document.getElementById('instQAList').innerHTML = `
@@ -8959,7 +9545,6 @@
                     document.getElementById('instQANotifs').style.display = 'none';
                 }
 
-                // Course table with ratings
                 const coursesWithRating = S.instructorCourses.map(c => {
                     const avgRating = c.avgRating || 0;
                     const stars = '★'.repeat(Math.floor(avgRating)) + '☆'.repeat(5 - Math.floor(avgRating));
@@ -9098,7 +9683,7 @@
         }
 
         // ================================================================
-        // COURSE EDITOR
+        // COURSE EDITOR (unchanged)
         // ================================================================
         function startAutoSave() {
             if (autoSaveTimer) clearInterval(autoSaveTimer);
@@ -9459,7 +10044,7 @@
         }
 
         // ================================================================
-        // AI TUTOR
+        // AI TUTOR (unchanged)
         // ================================================================
         function initAI() {
             document.getElementById('aiMessages').innerHTML =
@@ -9523,7 +10108,7 @@
         }
 
         // ================================================================
-        // BOOKS MODULE – WITH HYBRID ADS FOR FREE USERS + VIEW TRACKING
+        // BOOKS MODULE – WITH HYBRID ADS + ADMIN APPROVAL + PREMIUM UPLOAD
         // ================================================================
         async function loadBooks() {
             showLoading('Loading books...');
@@ -9531,6 +10116,9 @@
                 const res = await apiCall(BOOKS_API);
                 S.books = res.data || [];
                 renderBooks(S.books);
+                loadSidebarAd();
+                loadBottomAd();
+                if (!S.isPremium && !S.bookAds.length) loadBookPageAds();
             } catch (err) {
                 toast('Failed to load books: ' + err.message, 'error');
                 document.getElementById('booksGrid').innerHTML =
@@ -9549,7 +10137,7 @@
             if (!S.isPremium && !S.bookAds.length) loadBookPageAds();
 
             let html = '';
-            const showAds = !S.isPremium;
+            const showAds = !S.isPremium && shouldShowAd('book-sponsor');
             const adFrequency = 3;
             books.filter(b => b.isPublished !== false).forEach((book, index) => {
                 const isOwner = book.authorId?._id === S.user?._id || book.authorId === S.user?._id;
@@ -9573,17 +10161,28 @@
                     </div>
                 `;
                 if (showAds && (index + 1) % adFrequency === 0 && index < books.length - 1) {
-                    const ad = getNextBookAd();
-                    if (ad) {
-                        const adHtml = renderAdCard(ad, null);
-                        html += `<div class="book-ad-banner" style="grid-column:1/-1;">${adHtml}</div>`;
-                        const adId = ad.type === 'custom' ? ad.data._id : 'adsterra-book-' + Date.now();
-                        if (adId) trackAdImpression(adId, null, ad.type === 'custom' ? 'custom' : 'adsterra');
+                    const ad = getNextAd('book-sponsor');
+                    if (ad && ad.type === 'custom') {
+                        html += `<div class="book-ad-banner" style="grid-column:1/-1;">${renderSponsoredBook(ad)}</div>`;
+                        const adId = ad.data?._id;
+                        if (adId) trackAdImpression(adId, null, 'custom');
+                    } else if (ad && ad.type === 'adsterra') {
+                        html += `<div class="book-ad-banner" style="grid-column:1/-1;"><div class="ad-card adsterra-wrapper"><div class="ad-label">📢 Sponsored</div><div style="text-align:center;padding:.5rem;color:var(--text3);font-size:.7rem;">Advertisement</div></div></div>`;
                     }
                 }
             });
             container.innerHTML = html;
             observeAdImpressions();
+        }
+
+        async function loadBookPageAds() {
+            try {
+                const res = await apiCall('/ads/placement/book-page');
+                S.bookAds = res.data || [];
+                S.bookAdIndex = 0;
+                if (S.bookAds.length === 0) loadAdsterra();
+            } catch (e) { loadAdsterra();
+                S.bookAds = []; }
         }
 
         async function openBookDetail(bookId) {
@@ -9596,6 +10195,9 @@
                 renderBookDetail(book);
                 setDP('book-detail');
                 updateSEO({ title: book.title, description: book.description, thumbnail: book.coverImage });
+                loadSidebarAd();
+                loadBottomAd();
+                if (!S.isPremium) loadBookPageAds();
             } catch (err) { toast('Failed to load book: ' + err.message, 'error');
                 setDP('books'); } finally { hideLoading(); }
         }
@@ -9610,15 +10212,16 @@
 
             let adHtml = '';
             if (!S.isPremium) {
-                const ad = getNextBookAd();
-                if (ad) {
-                    adHtml = `<div class="book-ad-banner mt-3">${renderAdCard(ad, null)}</div>`;
-                    const adId = ad.type === 'custom' ? ad.data._id : 'adsterra-book-' + Date.now();
-                    if (adId) trackAdImpression(adId, null, ad.type === 'custom' ? 'custom' : 'adsterra');
+                const ad = getNextAd('book-page');
+                if (ad && ad.type === 'custom') {
+                    adHtml = `<div class="book-ad-banner mt-3">${renderSponsoredBook(ad)}</div>`;
+                    const adId = ad.data?._id;
+                    if (adId) trackAdImpression(adId, null, 'custom');
+                } else if (ad && ad.type === 'adsterra') {
+                    adHtml = `<div class="book-ad-banner mt-3"><div class="ad-card adsterra-wrapper"><div class="ad-label">📢 Sponsored</div><div style="text-align:center;padding:.5rem;color:var(--text3);font-size:.7rem;">Advertisement</div></div></div>`;
                 }
             }
 
-            // Show affiliate info if user is premium and book has affiliate
             let affiliateHtml = '';
             if (book.affiliatePercent > 0 && S.isPremium) {
                 const hasAffiliateLink = S.myAffiliateLinks.some(l => l.bookId === book._id);
@@ -9808,7 +10411,7 @@
             try {
                 const res = await apiCall('/books', {
                     method: 'POST',
-                    body: { title, author, description, price, coverImage, fileUrl, affiliatePercent }
+                    body: { title, author, description, price, coverImage, fileUrl, affiliatePercent, isPublished: false, status: 'pending' }
                 });
 
                 if (res.success) {
@@ -9864,7 +10467,14 @@
                 container.innerHTML = '<div class="empty-state"><p>No books added yet.</p></div>';
                 return;
             }
-            container.innerHTML = books.map(book => `
+            // Admin filter: all, pending, approved, rejected
+            const filter = document.getElementById('bookFilter')?.value || 'all';
+            let filtered = books;
+            if (filter !== 'all') {
+                filtered = books.filter(b => b.status === filter);
+            }
+
+            container.innerHTML = filtered.map(book => `
                 <div class="admin-book-item">
                     <div class="book-info">
                         <strong>${escapeHtml(book.title)}</strong>
@@ -9914,7 +10524,7 @@
         }
 
         // ================================================================
-        // SETTINGS
+        // SETTINGS (unchanged)
         // ================================================================
         function initSettings() { updateUserUI();
             renderSubStatus();
@@ -10038,7 +10648,7 @@
         }
 
         // ================================================================
-        // UPLOAD AVATAR
+        // UPLOAD AVATAR (unchanged)
         // ================================================================
         async function uploadAvatar(input) {
             const file = input.files[0];
@@ -10064,7 +10674,7 @@
         }
 
         // ================================================================
-        // RATING STARS
+        // RATING STARS (unchanged)
         // ================================================================
         window.selectedRating = 0;
 
@@ -10104,7 +10714,7 @@
         }
 
         // ================================================================
-        // WIZARD
+        // WIZARD (unchanged)
         // ================================================================
         function nextWizStep(skip) { S.wizStep++;
             showWizStep(S.wizStep); }
@@ -10156,7 +10766,7 @@
         }
 
         // ================================================================
-        // COUPON HELPERS
+        // COUPON HELPERS (unchanged)
         // ================================================================
         function applySubCode(val) {
             const st = document.getElementById('subCodeStatus');
@@ -10187,7 +10797,7 @@
         }
 
         // ================================================================
-        // GLOBAL SEARCH
+        // GLOBAL SEARCH (unchanged)
         // ================================================================
         document.addEventListener('input', e => {
             if (e.target.id !== 'globalSearch') return;
@@ -10232,7 +10842,7 @@
         });
 
         // ================================================================
-        // RIPPLE EFFECT
+        // RIPPLE EFFECT (unchanged)
         // ================================================================
         document.addEventListener('click', e => {
             const btn = e.target.closest(
@@ -10250,7 +10860,7 @@
         });
 
         // ================================================================
-        // ESC CLOSE
+        // ESC CLOSE (unchanged)
         // ================================================================
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
@@ -10260,7 +10870,7 @@
         });
 
         // ================================================================
-        // SAVE NOTE
+        // SAVE NOTE (unchanged)
         // ================================================================
         function saveNote() {
             const note = document.getElementById('lessonNote')?.value.trim();
@@ -10274,7 +10884,7 @@
         }
 
         // ================================================================
-        // REVIEW STAR HELPER
+        // REVIEW STAR HELPER (unchanged)
         // ================================================================
         function setReviewStar(n) {
             document.querySelectorAll('#reviewStars span').forEach((s, i) => {
@@ -10284,7 +10894,7 @@
         }
 
         // ================================================================
-        // ADMIN PANEL – WITH FULL FEATURES
+        // ADMIN PANEL – FULL WITH BOOKS, ADS, CHALLENGES, CONFIG
         // ================================================================
         function renderAdm(sec) { switchAdm(sec, null); }
 
@@ -10303,13 +10913,14 @@
             switch (sec) {
                 case 'dashboard':
                     content.innerHTML =
-                        '<div class="row"><div class="col-6 col-md-3"><div class="stat-card"><div class="sv" id="admTotalUsers">—</div><div class="sl">Total Users</div></div></div><div class="col-6 col-md-3"><div class="stat-card"><div class="sv" id="admTotalCourses">—</div><div class="sl">Courses</div></div></div><div class="col-6 col-md-3"><div class="stat-card"><div class="sv" id="admPendingW">—</div><div class="sl">Pending Withdrawals</div></div></div></div>';
+                        '<div class="row"><div class="col-6 col-md-3"><div class="stat-card"><div class="sv" id="admTotalUsers">—</div><div class="sl">Total Users</div></div></div><div class="col-6 col-md-3"><div class="stat-card"><div class="sv" id="admTotalCourses">—</div><div class="sl">Courses</div></div></div><div class="col-6 col-md-3"><div class="stat-card"><div class="sv" id="admPendingW">—</div><div class="sl">Pending Withdrawals</div></div></div><div class="col-6 col-md-3"><div class="stat-card"><div class="sv" id="admTotalBooks">—</div><div class="sl">Books</div></div></div></div>';
                     try {
                         const res = await apiCall('/admin/dashboard');
                         const d = res.data;
                         document.getElementById('admTotalUsers').textContent = d.totalUsers || 0;
                         document.getElementById('admTotalCourses').textContent = d.totalCourses || 0;
                         document.getElementById('admPendingW').textContent = d.pendingWithdrawals || 0;
+                        document.getElementById('admTotalBooks').textContent = d.totalBooks || 0;
                     } catch (e) { content.innerHTML += '<p style="color:var(--danger)">Failed to load stats</p>'; }
                     break;
                 case 'users':
@@ -10416,6 +11027,12 @@
                                     <option value="popup">Popup</option>
                                     <option value="book-page">Book Page</option>
                                     <option value="explore">Explore</option>
+                                    <option value="video-pre">Video Pre-roll</option>
+                                    <option value="video-mid">Video Mid-roll</option>
+                                    <option value="lesson-inline">Lesson Inline</option>
+                                    <option value="challenge-sponsor">Challenge Sponsor</option>
+                                    <option value="book-sponsor">Book Sponsor</option>
+                                    <option value="explore-sponsor">Explore Sponsor</option>
                                 </select>
                             </div>
                             <div class="row"><div class="col-6"><div class="form-group"><label class="flabel">Start Date</label><input type="date" class="finput" id="admAdStart"/></div></div><div class="col-6"><div class="form-group"><label class="flabel">End Date</label><input type="date" class="finput" id="admAdEnd"/></div></div></div>
@@ -10424,6 +11041,18 @@
                         <div id="admAdsList"><p style="color:var(--text3)">Loading ads...</p></div>
                     `;
                     await loadAdminAds();
+                    // Ad Config section
+                    content.innerHTML += `
+                        <div class="admin-config-section">
+                            <h6 style="margin-bottom:.65rem">⚙️ Ad Configuration</h6>
+                            <div class="row">
+                                <div class="col-4"><div class="form-group"><label class="flabel">CPM (₦)</label><input type="number" class="finput" id="admCpm" value="${S.adConfig.cpm || 1.00}" step="0.01" min="0" /></div></div>
+                                <div class="col-4"><div class="form-group"><label class="flabel">CPC (₦)</label><input type="number" class="finput" id="admCpc" value="${S.adConfig.cpc || 0.02}" step="0.01" min="0" /></div></div>
+                                <div class="col-4"><div class="form-group"><label class="flabel">Revenue Share (%)</label><input type="number" class="finput" id="admSharePercent" value="${S.adConfig.sharePercent || 50}" min="0" max="100" /></div></div>
+                            </div>
+                            <button class="btn btn-primary" onclick="updateAdConfig()"><i class="fas fa-save"></i> Save Config</button>
+                        </div>
+                    `;
                     break;
                 case 'affiliates':
                     content.innerHTML =
@@ -10437,7 +11066,17 @@
                     break;
                 case 'books':
                     content.innerHTML = `
-                        <div class="admin-section-header"><h6>📚 Manage Books</h6><button class="btn btn-primary btn-sm" onclick="openBookForm()"><i class="fas fa-plus"></i> Add Book</button></div>
+                        <div class="admin-section-header"><h6>📚 Manage Books</h6>
+                            <div class="d-flex gap-2">
+                                <select id="bookFilter" onchange="loadAdminBooks()" class="finput" style="width:auto;">
+                                    <option value="all">All</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                <button class="btn btn-primary btn-sm" onclick="openBookForm()"><i class="fas fa-plus"></i> Add Book</button>
+                            </div>
+                        </div>
                         <div id="adminBookFormContainer" style="display:none;" class="admin-book-form card card-p">
                             <div class="d-flex items-center justify-between mb-3"><h5 id="bookFormTitle">📚 Add New Book</h5><button class="btn-icon-sm" onclick="closeBookForm()"><i class="fas fa-times"></i></button></div>
                             <input type="hidden" id="editingBookId" />
@@ -10742,6 +11381,10 @@
                 document.getElementById('admAdEnd').value = '';
                 document.getElementById('admAdImagePreview').classList.remove('visible');
                 document.getElementById('admAdImageFile').value = '';
+                // Refresh frontend ads
+                await loadAds('in-feed');
+                if (placement === 'explore') await loadAds('explore');
+                if (placement === 'book-page' || placement === 'book-sponsor') await loadBookPageAds();
             } catch (err) { toast('Failed to create ad: ' + err.message, 'error'); }
         }
 
@@ -10773,7 +11416,22 @@
             if (!confirm('Delete this ad?')) return;
             try { await apiCall(`/admin/ads/${adId}`, { method: 'DELETE' });
                 toast('Ad deleted', 'success');
-                loadAdminAds(); } catch (err) { toast('Failed to delete: ' + err.message, 'error'); }
+                loadAdminAds();
+                await loadAds('in-feed');
+                if (S.dp === 'explore') await renderExplore();
+                if (S.dp === 'books') await loadBooks();
+            } catch (err) { toast('Failed to delete: ' + err.message, 'error'); }
+        }
+
+        async function updateAdConfig() {
+            const cpm = parseFloat(document.getElementById('admCpm').value) || 1.00;
+            const cpc = parseFloat(document.getElementById('admCpc').value) || 0.02;
+            const sharePercent = parseFloat(document.getElementById('admSharePercent').value) || 50;
+            try {
+                await apiCall('/admin/ads/config', { method: 'PUT', body: { cpm, cpc, sharePercent } });
+                S.adConfig = { cpm, cpc, sharePercent };
+                toast('Ad config updated!', 'success');
+            } catch (err) { toast('Failed to update config: ' + err.message, 'error'); }
         }
 
         // ─── ADMIN MANUAL PAYMENTS ──────────────────────────────────────
@@ -11032,8 +11690,194 @@
             } catch (err) { toast('Failed to load user details: ' + err.message, 'error'); }
         }
 
+        // ─── ADMIN BOOKS (additional functions for upload, etc.) ──────
+        let editingBookId = null;
+
+        function openBookForm(bookId = null) {
+            const container = document.getElementById('adminBookFormContainer');
+            if (!container) return;
+            if (bookId) {
+                editingBookId = bookId;
+                document.getElementById('bookFormTitle').textContent = '✏️ Edit Book';
+                document.getElementById('bookSaveBtnText').textContent = 'Update Book';
+                loadBookData(bookId);
+            } else {
+                editingBookId = null;
+                document.getElementById('bookFormTitle').textContent = '📚 Add New Book';
+                document.getElementById('bookSaveBtnText').textContent = 'Add Book';
+                resetBookForm();
+            }
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function closeBookForm() {
+            document.getElementById('adminBookFormContainer').style.display = 'none';
+            resetBookForm();
+        }
+
+        function resetBookForm() {
+            document.getElementById('editingBookId').value = '';
+            document.getElementById('bookTitle').value = '';
+            document.getElementById('bookAuthor').value = '';
+            document.getElementById('bookDescription').value = '';
+            document.getElementById('bookPrice').value = '0';
+            document.getElementById('bookIsPublished').checked = true;
+            document.getElementById('bookCoverImage').value = '';
+            document.getElementById('bookFileUrl').value = '';
+            document.getElementById('bookCoverPreview').classList.remove('visible');
+            document.getElementById('bookPdfPreview').classList.remove('visible');
+            document.getElementById('bookCoverFile').value = '';
+            document.getElementById('bookPdfFile').value = '';
+        }
+
+        async function loadBookData(bookId) {
+            try {
+                const res = await apiCall(`/admin/books/${bookId}`);
+                const book = res.data;
+                document.getElementById('editingBookId').value = book._id;
+                document.getElementById('bookTitle').value = book.title || '';
+                document.getElementById('bookAuthor').value = book.author || '';
+                document.getElementById('bookDescription').value = book.description || '';
+                document.getElementById('bookPrice').value = book.price || 0;
+                document.getElementById('bookIsPublished').checked = book.isPublished !== false;
+                if (book.coverImage) {
+                    document.getElementById('bookCoverImage').value = book.coverImage;
+                    const preview = document.getElementById('bookCoverPreview');
+                    preview.classList.add('visible');
+                    document.getElementById('bookCoverPreviewImg').src = book.coverImage;
+                }
+                if (book.fileUrl) {
+                    document.getElementById('bookFileUrl').value = book.fileUrl;
+                    document.getElementById('bookPdfPreview').classList.add('visible');
+                }
+            } catch (err) { toast('Failed to load book: ' + err.message, 'error'); }
+        }
+
+        async function uploadBookCover(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('image', file);
+            const progressEl = document.getElementById('bookCoverProgress');
+            if (progressEl) { progressEl.style.display = 'block';
+                progressEl.textContent = 'Uploading... 0%'; }
+            showLoading('Uploading cover...');
+            try {
+                const token = localStorage.getItem('cx_accessToken');
+                const xhr = new XMLHttpRequest();
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable && progressEl) {
+                        const pct = Math.round((event.loaded / event.total) * 100);
+                        progressEl.textContent = `Uploading... ${pct}%`;
+                    }
+                };
+                xhr.onload = function() {
+                    if (progressEl) { progressEl.style.display = 'none'; }
+                    hideLoading();
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        if (data.success) {
+                            document.getElementById('bookCoverImage').value = data.data.url;
+                            const preview = document.getElementById('bookCoverPreview');
+                            preview.classList.add('visible');
+                            document.getElementById('bookCoverPreviewImg').src = data.data.url;
+                            toast('✅ Cover uploaded!', 'success');
+                        } else { toast('Upload failed: ' + data.message, 'error'); }
+                    } catch (e) { toast('Invalid response', 'error'); }
+                };
+                xhr.onerror = function() { if (progressEl) progressEl.style.display = 'none';
+                    hideLoading();
+                    toast('Network error', 'error'); };
+                xhr.open('POST', `${API_BASE}/admin/upload`);
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                xhr.send(formData);
+            } catch (err) { toast('Upload error: ' + err.message, 'error');
+                hideLoading(); }
+        }
+
+        async function uploadBookPdf(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('pdf', file);
+            const progressEl = document.getElementById('bookPdfProgress');
+            if (progressEl) { progressEl.style.display = 'block';
+                progressEl.textContent = 'Uploading... 0%'; }
+            showLoading('Uploading PDF...');
+            try {
+                const token = localStorage.getItem('cx_accessToken');
+                const xhr = new XMLHttpRequest();
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable && progressEl) {
+                        const pct = Math.round((event.loaded / event.total) * 100);
+                        progressEl.textContent = `Uploading... ${pct}%`;
+                    }
+                };
+                xhr.onload = function() {
+                    if (progressEl) { progressEl.style.display = 'none'; }
+                    hideLoading();
+                    try {
+                        const data = JSON.parse(xhr.responseText);
+                        if (data.success) {
+                            document.getElementById('bookFileUrl').value = data.data.url;
+                            document.getElementById('bookPdfPreview').classList.add('visible');
+                            toast('✅ PDF uploaded!', 'success');
+                        } else { toast('Upload failed: ' + data.message, 'error'); }
+                    } catch (e) { toast('Invalid response', 'error'); }
+                };
+                xhr.onerror = function() { if (progressEl) progressEl.style.display = 'none';
+                    hideLoading();
+                    toast('Network error', 'error'); };
+                xhr.open('POST', `${API_BASE}/admin/upload`);
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                xhr.send(formData);
+            } catch (err) { toast('Upload error: ' + err.message, 'error');
+                hideLoading(); }
+        }
+
+        async function saveBook() {
+            const title = document.getElementById('bookTitle').value.trim();
+            const author = document.getElementById('bookAuthor').value.trim();
+            const description = document.getElementById('bookDescription').value.trim();
+            const price = parseFloat(document.getElementById('bookPrice').value) || 0;
+            const isPublished = document.getElementById('bookIsPublished').checked;
+            const coverImage = document.getElementById('bookCoverImage').value.trim();
+            const fileUrl = document.getElementById('bookFileUrl').value.trim();
+
+            if (!title) { toast('Title is required', 'error'); return; }
+            if (!author) { toast('Author is required', 'error'); return; }
+            if (!fileUrl) { toast('PDF file is required', 'error'); return; }
+
+            const payload = {
+                title,
+                author,
+                description,
+                price,
+                coverImage,
+                fileUrl,
+                isPublished,
+                status: isPublished ? 'approved' : 'pending'
+            };
+            const editId = document.getElementById('editingBookId').value;
+            showLoading('Saving book...');
+            try {
+                let res;
+                if (editId) {
+                    res = await apiCall(`/admin/books/${editId}`, { method: 'PUT', body: payload });
+                    toast('Book updated!', 'success');
+                } else {
+                    res = await apiCall('/admin/books', { method: 'POST', body: payload });
+                    toast('Book created!', 'success');
+                }
+                closeBookForm();
+                loadAdminBooks();
+                loadBooks();
+            } catch (err) { toast('Failed to save book: ' + err.message, 'error'); } finally { hideLoading(); }
+        }
+
         // ================================================================
-        // LANDING PAGE FUNCTIONS
+        // LANDING PAGE FUNCTIONS (unchanged)
         // ================================================================
         async function initLanding() {
             await fetchLandingStats();
@@ -11146,7 +11990,7 @@
         }
 
         // ================================================================
-        // REVIEWS
+        // REVIEWS (unchanged)
         // ================================================================
         async function submitReview() {
             const name = document.getElementById('reviewName').value.trim();
@@ -11198,7 +12042,7 @@
         }
 
         // ================================================================
-        // FEEDBACK
+        // FEEDBACK (unchanged)
         // ================================================================
         async function sendFeedback() {
             const message = document.getElementById('feedbackMsg')?.value.trim();
@@ -11216,7 +12060,7 @@
         }
 
         // ================================================================
-        // ENROLLMENTS HELPER
+        // ENROLLMENTS HELPER (unchanged)
         // ================================================================
         async function loadEnrollments() {
             try {
@@ -11228,12 +12072,11 @@
         }
 
         // ================================================================
-        // TOOLS PAGE – Code Runner, Converter, Text Editor
+        // TOOLS PAGE (unchanged)
         // ================================================================
         function loadTools() {
             loadCodeTool();
             loadTextEditor();
-            // Load any saved converter state
         }
 
         function switchToolTab(tab, btn) {
@@ -11318,7 +12161,6 @@
             const from = document.getElementById('convertFrom').value;
             const to = document.getElementById('convertTo').value;
             toast('Converting... Please wait.', 'info');
-            // Simulate conversion using canvas for images
             setTimeout(() => {
                 if (from === 'image') {
                     const reader = new FileReader();
@@ -11474,10 +12316,13 @@
             if (pendingRef && document.getElementById('regRef')) { document.getElementById('regRef').value = pendingRef;
                 localStorage.removeItem('cx_pending_ref'); }
             populateAllBankDetailsBoxes();
+            await loadAds('in-feed');
+            loadSidebarAd();
+            loadBottomAd();
         });
 
         // ================================================================
-        // OAUTH CALLBACK + PAYSTACK VERIFICATION
+        // OAUTH CALLBACK + PAYSTACK VERIFICATION (unchanged)
         // ================================================================
         (function() {
             const params = new URLSearchParams(window.location.search);
@@ -11543,7 +12388,7 @@
         })();
 
         // ================================================================
-        // POST DETAIL PAGE
+        // POST DETAIL PAGE (unchanged)
         // ================================================================
         async function loadPostBySlug(slug) {
             showLoading('Loading post...');
@@ -11594,7 +12439,7 @@
         }
 
         // ================================================================
-        // SHARE MODAL
+        // SHARE MODAL (unchanged)
         // ================================================================
         function openShareModal(postId, slug) {
             S.sharePostId = postId;
@@ -11642,7 +12487,7 @@
         }
 
         // ================================================================
-        // INTERACTIVE MATERIALS
+        // INTERACTIVE MATERIALS (unchanged)
         // ================================================================
         async function loadInteractiveMaterials(lessonId) {
             if (!lessonId) return;
@@ -11754,7 +12599,7 @@
         function initCalculator(id, config) { calcDisplay = ''; }
 
         // ================================================================
-        // INTERACTIVE TAB
+        // INTERACTIVE TAB (unchanged)
         // ================================================================
         function switchLTab(tab, el) {
             document.querySelectorAll('.ltab').forEach(t => t.classList.remove('active'));
@@ -11774,7 +12619,7 @@
         }
 
         // ================================================================
-        // APP INIT
+        // APP INIT (unchanged)
         // ================================================================
         async function initApp() {
             try {
@@ -11820,6 +12665,9 @@
             await loadPeople();
             checkPlanExpiry();
             await loadSocialEarnings();
+            await loadAds('in-feed');
+            loadSidebarAd();
+            loadBottomAd();
             setTimeout(() => {
                 const hash = window.location.hash.slice(1);
                 if (hash.startsWith('courses/')) { const courseId = hash.split('/')[1]; if (courseId) setTimeout(() =>
@@ -11903,9 +12751,10 @@
         console.log('🎨 Gold, White & Black premium theme applied.');
         console.log('📢 Hybrid Ads: Custom Admin Ads + Adsterra fallback with 50% creator revenue share.');
         console.log('📢 Ads appear between posts (every 3 for free, 6 for premium) AND after every 4 courses in Explore.');
-        console.log('📢 Ad rotation: different ads are shown each time (custom ads + Adsterra fallback).');
+        console.log('📢 Ads also appear in: Video (pre/mid-roll), Sidebar, Books, Lesson inline, Challenges.');
         console.log('🗑️ Admin can delete any post.');
-        console.log('📤 Book upload: Large file support (500MB) with progress tracking.');
+        console.log('📤 Book upload: Premium users can submit books for admin approval.');
+        console.log('📤 Admin can directly add books with immediate publishing.');
         console.log('🔗 Affiliate links now use hash-based routing for SPA compatibility.');
         console.log('🏦 Bank details updated: Lead Bank & Taj Bank for manual transfers.');
         console.log('⚡ Performance: Lazy loading, debounce, throttle, batch DOM updates, request deduplication.');
