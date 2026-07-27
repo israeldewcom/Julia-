@@ -6422,24 +6422,95 @@
                     <div id="dash-ai" class="dash-sub"><div class="page-hd"><h2 class="page-title">🤖 AI Tutor</h2><p class="page-sub">Your personal AI-powered learning assistant</p></div><div id="aiPlanNote" style="margin-bottom:.85rem"></div><div class="card card-p mb-3"><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.85rem"><button class="fpill active" onclick="switchAIMode('chat',this)"><i class="fas fa-comments"></i>Chat</button><button class="fpill" onclick="switchAIMode('explain',this)"><i class="fas fa-book-open"></i>Explain Code</button><button class="fpill" onclick="switchAIMode('quiz',this)"><i class="fas fa-question-circle"></i>Generate Quiz</button><button class="fpill" onclick="switchAIMode('upload',this)"><i class="fas fa-upload"></i>Upload &amp; Analyze</button></div><div id="aiMessages" style="min-height:280px;max-height:380px;overflow-y:auto;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.85rem;margin-bottom:.65rem;display:flex;flex-direction:column;gap:.6rem"></div><div class="d-flex gap-2"><input type="text" class="finput flex-1" id="aiInput" placeholder="Ask me anything about coding or your course..." onkeydown="if(event.key==='Enter')sendAI()"/><button class="btn btn-primary btn-sm" onclick="sendAI()"><i class="fas fa-paper-plane"></i></button></div></div><div class="card card-p" id="aiUploadPanel" style="display:none"><h6 style="margin-bottom:.65rem">📎 Upload Files for AI Analysis</h6><div id="aiUploadInfo" style="font-size:.8rem;color:var(--text3);margin-bottom:.65rem"></div><div class="upload-zone" style="padding:1.5rem"><input type="file" multiple id="aiFileInput" onchange="handleAIUpload(this)"/><div class="upload-icon"><i class="fas fa-file-upload"></i></div><div style="font-size:.84rem;color:var(--text2)">Drop any file here (PDF, image, code, etc.)</div><div style="font-size:.72rem;color:var(--text3);margin-top:.2rem" id="aiUploadLimit"></div></div><div id="aiUploadedFiles" style="margin-top:.65rem"></div></div></div>
 
                     <!-- BOOKS -->
-                    <div id="dash-books" class="dash-sub"><div class="page-hd"><h2 class="page-title">📚 Digital Library</h2><p class="page-sub">Browse, read and download books</p></div>
-                        <!-- Upload Book Button Added Here -->
-                        <div style="margin-bottom: 1rem;">
-                            <button class="btn btn-primary btn-sm" onclick="setDP('create-book')">
-                                <i class="fas fa-plus"></i> Upload Book
-                            </button>
-                            <span style="font-size:.7rem;color:var(--text3);margin-left:.5rem;">(Premium users only)</span>
-                        </div>
-                        <div id="bookPageAdContainer" class="ad-container"></div>
-                        <div id="bookSponsorAdContainer" class="ad-container"></div>
-                        <div id="booksGrid" class="courses-grid"></div>
-                    </div>
+                    <div id="dash-books" class="dash-sub"><div class="page-hd"><h2 class="page-title">📚 Digital Library</h2><p class="page-sub">Browse, read and download books</p></div><div id="bookPageAdContainer" class="ad-container"></div><div id="bookSponsorAdContainer" class="ad-container"></div><div id="booksGrid" class="courses-grid"></div></div>
 
                     <!-- BOOK DETAIL -->
                     <div id="dash-book-detail" class="dash-sub"><div class="page-hd"><button class="btn btn-ghost btn-sm" onclick="setDP('books')"><i class="fas fa-arrow-left"></i> Back to Library</button></div><div id="bookPageAdContainerDetail" class="ad-container"></div><div id="bookDetailContent"></div><div id="bookSponsorAdContainerDetail" class="ad-container"></div></div>
 
-                    <!-- UPLOAD BOOK (Premium Only) -->
-                    <div id="dash-create-book" class="dash-sub premium-only" style="display:none;"><div class="page-hd"><h2 class="page-title">📚 Upload Book</h2><p class="page-sub">Publish your book for admin approval. Premium users only.</p></div><div id="bookUploadStatus" style="display:none;" class="card card-p mb-3"></div><div class="card card-p"><div class="form-group"><label class="flabel">Book Title *</label><input type="text" class="finput" id="bookUploadTitle" placeholder="Enter book title" /></div><div class="form-group"><label class="flabel">Author *</label><input type="text" class="finput" id="bookUploadAuthor" placeholder="Author name" /></div><div class="form-group"><label class="flabel">Description</label><textarea class="finput" id="bookUploadDesc" rows="3" placeholder="Book description..."></textarea></div><div class="form-group"><label class="flabel">Price (₦)</label><input type="number" class="finput" id="bookUploadPrice" placeholder="0 for free" min="0" value="0" /></div><div class="form-group"><label class="flabel">Cover Image URL</label><input type="url" class="finput" id="bookUploadCover" placeholder="https://example.com/cover.jpg" oninput="previewBookCover(this.value)" /></div><div id="bookUploadCoverPreview" style="display:none;"><img id="bookUploadCoverPreviewImg" style="max-width:150px;border-radius:var(--radius-sm);border:1px solid var(--border);" /></div><div class="form-group"><label class="flabel">Book PDF URL *</label><input type="url" class="finput" id="bookUploadFile" placeholder="https://example.com/book.pdf" oninput="previewBookFile(this.value)" /></div><div id="bookUploadFilePreview" style="display:none;"><span class="badge badge-success">✅ PDF URL provided</span></div><div class="form-group"><label class="flabel">Affiliate Commission (%)</label><input type="number" class="finput" id="bookUploadAffiliate" placeholder="e.g. 15" min="0" max="50" value="0" /></div><div class="info-box"><i class="fas fa-info-circle" style="color:var(--primary)"></i>You earn <strong>80%</strong> of each sale. Platform takes 20%. Affiliates earn the percentage you set.</div><button class="btn btn-primary btn-lg w-full mt-3" onclick="submitBookForApproval()"><i class="fas fa-paper-plane"></i> Submit for Approval</button></div></div>
+                    <!-- ============================================================ -->
+                    <!-- UPLOAD BOOK – PREMIUM ONLY (File Upload Version)           -->
+                    <!-- ============================================================ -->
+                    <div id="dash-create-book" class="dash-sub premium-only" style="display:none;">
+                        <div class="page-hd">
+                            <h2 class="page-title">📚 Upload Book</h2>
+                            <p class="page-sub">Publish your book for admin approval. Premium users only.</p>
+                        </div>
+
+                        <div id="bookUploadStatus" style="display:none;" class="card card-p mb-3"></div>
+
+                        <div class="card card-p">
+                            <!-- Title -->
+                            <div class="form-group">
+                                <label class="flabel">Book Title *</label>
+                                <input type="text" class="finput" id="bookUploadTitle" placeholder="Enter book title" />
+                            </div>
+
+                            <!-- Author -->
+                            <div class="form-group">
+                                <label class="flabel">Author *</label>
+                                <input type="text" class="finput" id="bookUploadAuthor" placeholder="Author name" />
+                            </div>
+
+                            <!-- Description -->
+                            <div class="form-group">
+                                <label class="flabel">Description</label>
+                                <textarea class="finput" id="bookUploadDesc" rows="3" placeholder="Book description..."></textarea>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="form-group">
+                                <label class="flabel">Price (₦)</label>
+                                <input type="number" class="finput" id="bookUploadPrice" placeholder="0 for free" min="0" value="0" />
+                            </div>
+
+                            <!-- Cover Image Upload -->
+                            <div class="form-group">
+                                <label class="flabel">Cover Image *</label>
+                                <div class="upload-zone" style="padding:1.5rem; margin-bottom:.5rem;">
+                                    <input type="file" id="bookCoverFile" accept="image/*" onchange="uploadBookCover(this)" />
+                                    <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                    <div style="font-size:.8rem; color:var(--text2);">Click or drop your cover image (PNG, JPG, WebP)</div>
+                                </div>
+                                <div id="bookCoverPreview" style="display:none; margin-top:.5rem;">
+                                    <img id="bookCoverPreviewImg" style="max-width:150px; border-radius:var(--radius-sm); border:1px solid var(--border);" />
+                                    <span class="badge badge-success" style="margin-left:.5rem;">✅ Uploaded</span>
+                                    <div id="bookCoverProgress" style="display:none; font-size:.8rem; color:var(--primary); margin-top:.3rem;">Uploading... 0%</div>
+                                </div>
+                                <input type="hidden" id="bookUploadCover" />
+                            </div>
+
+                            <!-- PDF File Upload -->
+                            <div class="form-group">
+                                <label class="flabel">Book PDF *</label>
+                                <div class="upload-zone" style="padding:1.5rem; margin-bottom:.5rem;">
+                                    <input type="file" id="bookPdfFile" accept="application/pdf" onchange="uploadBookPdf(this)" />
+                                    <div class="upload-icon"><i class="fas fa-file-pdf"></i></div>
+                                    <div style="font-size:.8rem; color:var(--text2);">Click or drop your PDF file</div>
+                                </div>
+                                <div id="bookPdfPreview" style="display:none; margin-top:.5rem;">
+                                    <span class="badge badge-success">✅ PDF uploaded</span>
+                                    <span id="bookPdfName" style="font-size:.8rem; color:var(--text3); margin-left:.5rem;"></span>
+                                    <div id="bookPdfProgress" style="display:none; font-size:.8rem; color:var(--primary); margin-top:.3rem;">Uploading... 0%</div>
+                                </div>
+                                <input type="hidden" id="bookUploadFile" />
+                            </div>
+
+                            <!-- Affiliate Commission -->
+                            <div class="form-group">
+                                <label class="flabel">Affiliate Commission (%)</label>
+                                <input type="number" class="finput" id="bookUploadAffiliate" placeholder="e.g. 15" min="0" max="50" value="0" />
+                            </div>
+
+                            <div class="info-box">
+                                <i class="fas fa-info-circle" style="color:var(--primary)"></i>
+                                You earn <strong>80%</strong> of each sale. Platform takes 20%. Affiliates earn the percentage you set.
+                            </div>
+
+                            <button class="btn btn-primary btn-lg w-full mt-3" onclick="submitBookForApproval()">
+                                <i class="fas fa-paper-plane"></i> Submit for Approval
+                            </button>
+                        </div>
+                    </div>
 
                     <!-- MY LIBRARY (Purchased Books) -->
                     <div id="dash-my-library" class="dash-sub"><div class="page-hd"><h2 class="page-title">📚 My Library</h2><p class="page-sub">Books you've purchased – download them anytime</p></div><div id="myLibraryBooks" class="courses-grid"></div></div>
@@ -6502,6 +6573,9 @@
             feedAds = [],
             feedAdIndex = 0;
         let reactionPickerTimeout = {};
+
+        // ─── APP VERSION FOR AUTO-UPDATE ───────────────────────────────
+        const APP_VERSION = '2.0.0';
 
         // ═══════════════════════════════════════════════════════════════
         // APPLICATION STATE
@@ -6785,7 +6859,7 @@
             const d = ad.data;
             return `
                 <div class="course-card sponsored" style="border: 2px solid var(--primary);">
-                    <div class="cc-img" style="background: linear-gradient(135deg, var(--card2), var(--card3));">
+                    <div class="cc-img" style="background:linear-gradient(135deg,var(--card2),var(--card3));">
                         ${d.imageUrl ? `<img src="${d.imageUrl}" style="width:100%;height:100%;object-fit:cover;">` : '📢'}
                     </div>
                     <div class="cc-body">
@@ -7187,11 +7261,6 @@
         // NAVIGATION
         // ================================================================
         function goPage(pg) {
-            // --- REDIRECT LOGGED-IN USERS AWAY FROM LOGIN/REGISTER ---
-            if (S.loggedIn && (pg === 'login' || pg === 'register')) {
-                pg = 'app';
-            }
-            // --- END REDIRECT LOGIC ---
             const pages = document.querySelectorAll('.page');
             const target = document.getElementById('page-' + pg);
             if (!target) { const fallback = document.getElementById('page-app'); if (fallback) { pages.forEach(p => p
@@ -7551,7 +7620,6 @@
                 btn.innerHTML = '<i class="fas fa-spinner spin"></i> Signing in...'; }
             showLoading('Signing in...');
             try {
-                // --- SEND REMEMBER ME FLAG TO BACKEND FOR 30-DAY SESSION ---
                 const url =
                     `${API_BASE}/auth/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&rememberMe=${rememberMe}`;
                 const res = await fetch(url, { method: 'GET', credentials: 'include' });
@@ -7785,6 +7853,20 @@
             navigator.serviceWorker.register('/sw.js', { scope: '/' })
                 .then(() => console.log('✅ Service Worker registered'))
                 .catch((err) => console.warn('⚠️ SW registration failed:', err));
+        }
+
+        // ─── CHECK FOR NEW VERSION ──────────────────────────────────────
+        function checkForUpdates() {
+            const lastVersion = localStorage.getItem('cx_app_version');
+            if (lastVersion && lastVersion !== APP_VERSION) {
+                toast('🔄 A new version of ChangeX Academy is available. Refreshing...', 'info');
+                setTimeout(() => {
+                    localStorage.setItem('cx_app_version', APP_VERSION);
+                    window.location.reload();
+                }, 1500);
+            } else if (!lastVersion) {
+                localStorage.setItem('cx_app_version', APP_VERSION);
+            }
         }
 
         // ================================================================
@@ -8445,8 +8527,8 @@
                     toast('Reaction added!', 'success');
                 }
             } catch (err) {
-                toast('Error reacting: ' + err.message, 'error');
-            }
+                    toast('Error reacting: ' + err.message, 'error');
+                }
         }
 
         // ─── HANDLE LIKE POST ───────────────────────────────────────────
@@ -8476,8 +8558,8 @@
                     toast(res.liked ? 'Liked!' : 'Unliked', 'info');
                 }
             } catch (err) {
-                toast('Error: ' + err.message, 'error');
-            }
+                    toast('Error: ' + err.message, 'error');
+                }
         }
 
         // ─── TOGGLE COMMENTS ────────────────────────────────────────────
@@ -11474,7 +11556,7 @@
             const editorId = 'lessonQuill_' + idx;
             const resources = Array.isArray(l.resources) ? l.resources : [];
             el.innerHTML =
-                `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1rem"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem"><div><strong>Lesson ${idx + 1}: ${l.title}</strong><span class="badge badge-cyan" style="font-size:.6rem;margin-left:.4rem">${l.type}</span></div><div style="display:flex;gap:.4rem;align-items:center">${idx > 0 ? `<button class="btn btn-ghost btn-sm" onclick="S.currentEditLesson=${idx - 1};renderLessonContentEditor()" style="font-size:.74rem"><i class="fas fa-arrow-left"></i>Prev</button>` : ''}<span style="font-size:.74rem;color:var(--text3)">${idx + 1}/${S.editorLessons.length}</span>${idx < S.editorLessons.length - 1 ? `<button class="btn btn-ghost btn-sm" onclick="S.currentEditLesson=${idx + 1};renderLessonContentEditor()" style="font-size:.74rem">Next<i class="fas fa-arrow-right"></i></button>` : ''}</div></div></div><div class="form-group"><label class="flabel">Lesson Content (Rich Text) — Always Editable</label><div class="quill-wrapper"><div id="${editorId}" style="min-height:250px">${l.content || ''}</div></div></div><div class="form-group"><label class="flabel">Key Notes for Students</label><textarea class="finput" id="lessonNotesInput_${idx}" style="min-height:80px;resize:vertical" placeholder="Key takeaways...">${l.notes || ''}</textarea></div><div class="form-group"><label class="flabel">Video URL (YouTube, Vimeo, or direct MP4)</label><input type="url" class="finput" id="lessonVideoUrlInput" placeholder="https://www.youtube.com/embed/..." value="${l.videoUrl || ''}" /></div><div class="form-group"><label class="flabel">Upload Resources for this Lesson</label><div class="upload-zone" style="padding:1rem"><input type="file" multiple onchange="handleLessonResources(this,${idx})"/><div style="font-size:.8rem;color:var(--text2)"><i class="fas fa-upload" style="margin-right:.3rem"></i>Drop resource files here</div></div><div id="lessonResources_${idx}">${resources.map((r, ridx) => `<div style="display:flex;align-items:center;gap:.4rem;margin-top:.3rem;font-size:.75rem;color:var(--text3)">📎 ${r.title || r}<button class="btn-icon-sm" onclick="removeResource(${idx},${ridx})" style="color:var(--danger);font-size:.6rem;width:22px;height:22px"><i class="fas fa-times"></i></button></div>`).join('')}</div></div><div style="display:flex;gap:.5rem;margin-top:.75rem">${idx > 0 ? `<button class="btn btn-ghost flex-1" onclick="S.currentEditLesson=${idx - 1};renderLessonContentEditor()"><i class="fas fa-arrow-left"></i>Previous</button>` : '<div class="flex-1"></div>'}<button class="btn btn-primary flex-1" onclick="saveLessonContent(${idx})"><i class="fas fa-save"></i>Save &amp; Next</button></div>`;
+                `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1rem"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem"><div><strong>Lesson ${idx + 1}: ${l.title}</strong><span class="badge badge-cyan" style="font-size:.6rem;margin-left:.4rem">${l.type}</span></div><div style="display:flex;gap:.4rem;align-items:center">${idx > 0 ? `<button class="btn btn-ghost btn-sm" onclick="S.currentEditLesson=${idx - 1};renderLessonContentEditor()" style="font-size:.74rem"><i class="fas fa-arrow-left"></i>Prev</button>` : ''}<span style="font-size:.74rem;color:var(--text3)">${idx + 1}/${S.editorLessons.length}</span>${idx < S.editorLessons.length - 1 ? `<button class="btn btn-ghost btn-sm" onclick="S.currentEditLesson=${idx + 1};renderLessonContentEditor()" style="font-size:.74rem">Next<i class="fas fa-arrow-right"></i></button>` : ''}</div></div></div><div class="form-group"><label class="flabel">Lesson Content (Rich Text) — Always Editable</label><div class="quill-wrapper"><div id="${editorId}" style="min-height:250px">${l.content || ''}</div></div></div><div class="form-group"><label class="flabel">Key Notes for Students</label><textarea class="finput" id="lessonNotesInput_${idx}" style="min-height:80px;resize:vertical" placeholder="Key takeaways...">${l.notes || ''}</textarea></div><div class="form-group"><label class="flabel">Video URL (YouTube, Vimeo, or direct MP4)</label><input type="url" class="finput" id="lessonVideoUrlInput" placeholder="https://www.youtube.com/embed/..." value="${l.videoUrl || ''}" /></div><div class="form-group"><label class="flabel">Upload Resources for this Lesson</label><div class="upload-zone" style="padding:1rem"><input type="file" multiple onchange="handleLessonResources(this,${idx})"/><div style="font-size:.8rem;color:var(--text2)"><i class="fas fa-upload" style="margin-right:.3rem"></i>Drop resource files here</div></div><div id="lessonResources_${idx}">${resources.map((r, ridx) => `<div style="display:flex;align-items:center;gap:.4rem;margin-top:.3rem;font-size:.75rem;color:var(--text3)">📎 ${r.title || r}<button class="btn-icon-sm" onclick="removeResource(${idx},${ridx})" style="color:var(--danger);font-size:.6rem;width:22px;height:22px"><i class="fas fa-times"></i></button></div>`).join('')}</div></div><div style="display:flex;gap:.5rem;margin-top:.75rem">${idx > 0 ? `<button class="btn btn-ghost flex-1" onclick="S.currentEditLesson=${idx - 1};renderLessonContentEditor()"><i class="fas fa-arrow-left"></i>Previous</button>' : '<div class="flex-1"></div>'}<button class="btn btn-primary flex-1" onclick="saveLessonContent(${idx})"><i class="fas fa-save"></i>Save &amp; Next</button></div>`;
             setTimeout(() => {
                 if (!S.quillEditors[editorId] && typeof Quill !== 'undefined') {
                     S.quillEditors[editorId] = new Quill('#' + editorId, { theme: 'snow',
@@ -11984,6 +12066,137 @@
             document.getElementById('bookUploadAffiliate').value = '0';
             document.getElementById('bookUploadCoverPreview').style.display = 'none';
             document.getElementById('bookUploadFilePreview').style.display = 'none';
+            document.getElementById('bookCoverFile').value = '';
+            document.getElementById('bookPdfFile').value = '';
+            document.getElementById('bookCoverPreview').style.display = 'none';
+            document.getElementById('bookPdfPreview').style.display = 'none';
+            document.getElementById('bookCoverProgress').style.display = 'none';
+            document.getElementById('bookPdfProgress').style.display = 'none';
+        }
+
+        // ─── UPLOAD BOOK COVER ─────────────────────────────────────────
+        function uploadBookCover(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const preview = document.getElementById('bookCoverPreview');
+            const previewImg = document.getElementById('bookCoverPreviewImg');
+            const progressEl = document.getElementById('bookCoverProgress');
+            const hiddenInput = document.getElementById('bookUploadCover');
+
+            preview.style.display = 'block';
+            progressEl.style.display = 'block';
+            progressEl.textContent = 'Uploading... 0%';
+
+            // Show local preview immediately
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            const token = localStorage.getItem('cx_accessToken');
+            const xhr = new XMLHttpRequest();
+
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const pct = Math.round((event.loaded / event.total) * 100);
+                    progressEl.textContent = `Uploading... ${pct}%`;
+                }
+            };
+
+            xhr.onload = function() {
+                progressEl.style.display = 'none';
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success && response.data && response.data.url) {
+                        hiddenInput.value = response.data.url;
+                        toast('✅ Cover uploaded!', 'success');
+                    } else {
+                        toast('Upload failed: ' + (response.message || 'Unknown error'), 'error');
+                        preview.style.display = 'none';
+                    }
+                } catch (e) {
+                    toast('Invalid server response', 'error');
+                    preview.style.display = 'none';
+                }
+            };
+
+            xhr.onerror = function() {
+                progressEl.style.display = 'none';
+                toast('Network error – please try again', 'error');
+                preview.style.display = 'none';
+            };
+
+            xhr.open('POST', `${API_BASE}/admin/upload`);
+            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+            xhr.send(formData);
+        }
+
+        // ─── UPLOAD BOOK PDF ───────────────────────────────────────────
+        function uploadBookPdf(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // Validate file type
+            if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+                toast('Please select a PDF file', 'error');
+                input.value = '';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const preview = document.getElementById('bookPdfPreview');
+            const nameEl = document.getElementById('bookPdfName');
+            const progressEl = document.getElementById('bookPdfProgress');
+            const hiddenInput = document.getElementById('bookUploadFile');
+
+            preview.style.display = 'block';
+            nameEl.textContent = file.name;
+            progressEl.style.display = 'block';
+            progressEl.textContent = 'Uploading... 0%';
+
+            const token = localStorage.getItem('cx_accessToken');
+            const xhr = new XMLHttpRequest();
+
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const pct = Math.round((event.loaded / event.total) * 100);
+                    progressEl.textContent = `Uploading... ${pct}%`;
+                }
+            };
+
+            xhr.onload = function() {
+                progressEl.style.display = 'none';
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success && response.data && response.data.url) {
+                        hiddenInput.value = response.data.url;
+                        toast('✅ PDF uploaded!', 'success');
+                    } else {
+                        toast('Upload failed: ' + (response.message || 'Unknown error'), 'error');
+                        preview.style.display = 'none';
+                    }
+                } catch (e) {
+                    toast('Invalid server response', 'error');
+                    preview.style.display = 'none';
+                }
+            };
+
+            xhr.onerror = function() {
+                progressEl.style.display = 'none';
+                toast('Network error – please try again', 'error');
+                preview.style.display = 'none';
+            };
+
+            xhr.open('POST', `${API_BASE}/admin/upload-file`);
+            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+            xhr.send(formData);
         }
 
         async function submitBookForApproval() {
@@ -12003,11 +12216,8 @@
 
             if (!title) { toast('Please enter a title', 'error'); return; }
             if (!author) { toast('Please enter an author', 'error'); return; }
-            if (!fileUrl) { toast('Please provide a PDF URL', 'error'); return; }
-            if (!fileUrl.startsWith('http://') && !fileUrl.startsWith('https://')) {
-                toast('Please enter a valid URL (e.g., https://...)', 'error');
-                return;
-            }
+            if (!coverImage) { toast('Please upload a cover image', 'error'); return; }
+            if (!fileUrl) { toast('Please upload the PDF file', 'error'); return; }
             if (price < 0) { toast('Price cannot be negative', 'error'); return; }
 
             const payload = {
@@ -12027,8 +12237,9 @@
                 const res = await apiCall('/books/submit', { method: 'POST', body: payload });
                 if (res.success) {
                     toast('✅ Book submitted for admin approval!', 'success');
-                    document.getElementById('bookUploadStatus').style.display = 'block';
-                    document.getElementById('bookUploadStatus').innerHTML = `
+                    const statusEl = document.getElementById('bookUploadStatus');
+                    statusEl.style.display = 'block';
+                    statusEl.innerHTML = `
                         <div class="d-flex items-center gap-3">
                             <div class="si si-gold"><i class="fas fa-clock"></i></div>
                             <div>
@@ -13022,6 +13233,7 @@
             await loadAds('in-feed');
             loadSidebarAd();
             loadBottomAd();
+            checkForUpdates();
             setTimeout(() => {
                 const hash = window.location.hash.slice(1);
                 if (hash.startsWith('courses/')) { const courseId = hash.split('/')[1]; if (courseId) setTimeout(() =>
@@ -13155,6 +13367,9 @@
         console.log('📌 Facebook-style comments: Nested replies, like comments, reaction picker.');
         console.log('📌 Share modal: Social media sharing with copy link.');
         console.log('📌 Post menu: Edit/Delete for authors and admins.');
+        console.log('🔐 Persistent login: Users stay logged in for 30 days and are auto-redirected to dashboard.');
+        console.log('🔄 Auto-update: Version checking on load — refreshes when new version is detected.');
+        console.log('📦 Service Worker: Registered for offline support and PWA capabilities.');
     </script>
 </body>
 </html>
