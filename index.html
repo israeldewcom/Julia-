@@ -3702,7 +3702,6 @@
            FACEBOOK-STYLE FEED
            ============================================================ */
 
-        /* ─── POST CARD ──────────────────────────────────────────────── */
         .fb-post-card {
             background: var(--card);
             border: 1px solid var(--border);
@@ -3716,7 +3715,6 @@
             box-shadow: var(--shadow2);
         }
 
-        /* ─── POST HEADER ────────────────────────────────────────────── */
         .fb-post-header {
             display: flex;
             align-items: center;
@@ -3796,7 +3794,6 @@
             background: rgba(128, 128, 128, 0.08);
         }
 
-        /* ─── POST CONTENT ────────────────────────────────────────────── */
         .fb-post-content {
             padding: 0 16px 8px 16px;
         }
@@ -3844,7 +3841,6 @@
             border: none;
         }
 
-        /* ─── POST REACTIONS BAR ──────────────────────────────────────── */
         .fb-post-reactions-bar {
             display: flex;
             align-items: center;
@@ -3893,7 +3889,6 @@
             text-decoration: underline;
         }
 
-        /* ─── POST ACTION BUTTONS ────────────────────────────────────── */
         .fb-post-actions {
             display: flex;
             padding: 4px 8px;
@@ -3933,7 +3928,6 @@
             font-size: 1.1rem;
         }
 
-        /* ─── COMMENTS SECTION ────────────────────────────────────────── */
         .fb-comments-section {
             padding: 8px 16px 12px 16px;
             border-top: 1px solid var(--border);
@@ -4077,7 +4071,6 @@
             min-height: 30px;
         }
 
-        /* ─── SHARE MODAL ──────────────────────────────────────────────── */
         .fb-share-modal {
             padding: 1rem;
         }
@@ -4114,7 +4107,6 @@
             outline: none;
         }
 
-        /* ─── REACTION PICKER ──────────────────────────────────────────── */
         .fb-reaction-picker {
             display: none;
             position: absolute;
@@ -4150,42 +4142,33 @@
             background: rgba(128, 128, 128, 0.06);
         }
 
-        /* ─── RESPONSIVE TWEAKS ────────────────────────────────────────── */
         @media (max-width: 600px) {
             .fb-post-header {
                 padding: 10px 12px 6px 12px;
             }
-
             .fb-post-content {
                 padding: 0 12px 6px 12px;
             }
-
             .fb-post-reactions-bar {
                 padding: 4px 12px;
             }
-
             .fb-post-actions {
                 padding: 2px 4px;
             }
-
             .fb-action-btn {
                 font-size: 0.72rem;
             }
-
             .fb-action-btn i {
                 font-size: 0.95rem;
             }
-
             .fb-comments-section {
                 padding: 6px 12px 10px 12px;
             }
-
             .fb-reaction-picker button {
                 font-size: 1.3rem;
             }
         }
 
-        /* ─── DARK THEME ADJUSTMENTS ──────────────────────────────────── */
         [data-theme="dark"] .fb-post-card {
             border-color: var(--border);
         }
@@ -4194,7 +4177,6 @@
             border-color: #E8DCC8;
         }
 
-        /* ─── ANIMATIONS ────────────────────────────────────────────────── */
         @keyframes fbReactionPop {
             0% {
                 transform: scale(0.5);
@@ -6056,8 +6038,6 @@
             border: 1px solid rgba(251, 191, 36, .2);
             font-size: .55rem;
         }
-
-        /* ─── SPONSORSHIP & CAMPAIGN STYLES ──────────────────────────── */
         .sponsor-tab {
             display: none;
         }
@@ -6158,8 +6138,6 @@
             color: var(--violet);
             border: 1px solid rgba(212, 175, 55, .2);
         }
-
-        /* ─── BADGE DISPLAY ───────────────────────────────────────────── */
         .badge-card {
             background: var(--card);
             border: 1px solid var(--border);
@@ -6236,7 +6214,7 @@
     <!-- ============================================================ -->
     <div id="page-login" class="page"><div class="auth-wrap"><div class="auth-bg"></div><div class="auth-box"><div style="text-align:center;margin-bottom:1.5rem"><div class="logo-mark" style="margin:0 auto .6rem;width:40px;height:40px;font-size:1rem;border-radius:12px;overflow:hidden"><img src="/logo.png" alt="ChangeX" style="width:100%;height:100%;object-fit:cover;" /></div><h2 style="font-size:1.6rem">Welcome Back</h2><p style="font-size:.82rem;color:var(--text3)">Sign in to continue earning</p></div><div style="display:flex;gap:.55rem;margin-bottom:.85rem"><button class="social-btn" onclick="handleGoogleLogin()"><i class="fab fa-google" style="color:#ea4335"></i> Google</button><button class="social-btn" onclick="handleGithubLogin()"><i class="fab fa-github"></i> GitHub</button></div><div class="divider-or"><span>or with email</span></div><div class="form-group"><label class="flabel">Email</label><div class="finput-ico"><i class="fas fa-envelope fii"></i><input type="email" class="finput" id="loginEmail" placeholder="you@example.com"/></div></div><div class="form-group"><label class="flabel">Password</label><div class="finput-ico" style="position:relative"><i class="fas fa-lock fii"></i><input type="password" class="finput" id="loginPw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/><button class="pw-toggle" onclick="togglePw('loginPw',this)"><i class="fas fa-eye"></i></button></div></div><div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.85rem"><input type="checkbox" id="rememberMe" style="accent-color:var(--primary)"/><label for="rememberMe" style="font-size:.78rem;color:var(--text2);cursor:pointer">Remember me</label><a style="font-size:.78rem;color:var(--primary);cursor:pointer;margin-left:auto" onclick="handleForgotPassword()">Forgot password?</a></div><button class="btn btn-primary w-full" id="loginBtn" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i>Sign In</button><p style="text-align:center;font-size:.8rem;color:var(--text3);margin-top:.85rem">No account? <a style="color:var(--primary);cursor:pointer" onclick="goPage('register')">Create free →</a></p><p style="text-align:center;margin-top:.4rem"><a style="font-size:.75rem;cursor:pointer;color:var(--text3)" onclick="goPage('landing')">← Back to Home</a></p></div></div></div>
 
-    <div id="page-register" class="page"><div class="auth-wrap"><div class="auth-bg"></div><div class="auth-box" style="max-width:460px"><div style="text-align:center;margin-bottom:1.5rem"><div class="logo-mark" style="margin:0 auto .6rem;width:40px;height:40px;font-size:1rem;border-radius:12px;overflow:hidden"><img src="/logo.png" alt="ChangeX" style="width:100%;height:100%;object-fit:cover;" /></div><h2 style="font-size:1.6rem">Create Free Account</h2><p style="font-size:.82rem;color:var(--text3)">Join thousands of learners &amp; earners worldwide</p></div><div class="row" style="gap:.55rem;margin-bottom:.85rem"><button class="social-btn" style="flex:1" onclick="handleGoogleLogin()"><i class="fab fa-google" style="color:#ea4335"></i> Google</button><button class="social-btn" style="flex:1" onclick="handleGithubLogin()"><i class="fab fa-github"></i> GitHub</button></div><div class="divider-or"><span>or with email</span></div><div class="row"><div class="col-6"><div class="form-group"><label class="flabel">First Name</label><input type="text" class="finput" id="regFirst" placeholder="Amaka"/></div></div><div class="col-6"><div class="form-group"><label class="flabel">Last Name</label><input type="text" class="finput" id="regLast" placeholder="Obi"/></div></div></div><div class="form-group"><label class="flabel">Email</label><div class="finput-ico"><i class="fas fa-envelope fii"></i><input type="email" class="finput" id="regEmail" placeholder="you@example.com"/></div></div><div class="form-group"><label class="flabel">Phone</label><div class="finput-ico"><i class="fas fa-phone fii"></i><input type="tel" class="finput" id="regPhone" placeholder="+234 800 000 0000"/></div></div><div class="form-group"><label class="flabel">Password</label><div class="finput-ico" style="position:relative"><i class="fas fa-lock fii"></i><input type="password" class="finput" id="regPw" placeholder="Min 8 characters" oninput="checkPwStr(this.value)"/><button class="pw-toggle" onclick="togglePw('regPw',this)"><i class="fas fa-eye"></i></button></div><div class="pw-bars"><div class="pw-bar" id="pb1"></div><div class="pw-bar" id="pb2"></div><div class="pw-bar" id="pb3"></div><div class="pw-bar" id="pb4"></div></div></div><div class="form-group"><label class="flabel">Referral Code (optional)</label><div class="finput-ico"><i class="fas fa-users fii"></i><input type="text" class="finput" id="regRef" placeholder="Enter referral code"/></div></div><div style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:1rem;font-size:.79rem"><input type="checkbox" id="termsChk" style="accent-color:var(--primary);margin-top:.15rem"/><label for="termsChk" style="color:var(--text2);cursor:pointer;line-height:1.5">I agree to the <a style="color:var(--primary)">Terms</a> and <a style="color:var(--primary)">Privacy Policy</a></label></div><button class="btn btn-primary w-full" id="registerBtn" onclick="doRegister()"><i class="fas fa-rocket"></i>Create My Free Account</button><div style="background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.14);border-radius:var(--radius-sm);padding:.65rem;margin-top:.85rem;font-size:.76rem;color:var(--text2);text-align:center">🎉 Get <strong style="color:var(--primary)">₦500 welcome bonus</strong> on first profile completion!</div><p style="text-align:center;font-size:.8rem;color:var(--text3);margin-top:.85rem">Already have account? <a style="color:var(--primary);cursor:pointer" onclick="goPage('login')">Sign in →</a></p></div></div></div>
+    <div id="page-register" class="page"><div class="auth-wrap"><div class="auth-bg"></div><div class="auth-box" style="max-width:460px"><div style="text-align:center;margin-bottom:1.5rem"><div class="logo-mark" style="margin:0 auto .6rem;width:40px;height:40px;font-size:1rem;border-radius:12px;overflow:hidden"><img src="/logo.png" alt="ChangeX" style="width:100%;height:100%;object-fit:cover;" /></div><h2 style="font-size:1.6rem">Create Free Account</h2><p style="font-size:.82rem;color:var(--text3)">Join thousands of learners &amp; earners worldwide</p></div><div class="row" style="gap:.55rem;margin-bottom:.85rem"><button class="social-btn" style="flex:1" onclick="handleGoogleLogin()"><i class="fab fa-google" style="color:#ea4335"></i> Google</button><button class="social-btn" style="flex:1" onclick="handleGithubLogin()"><i class="fab fa-github"></i> GitHub</button></div><div class="divider-or"><span>or with email</span></div><div class="row"><div class="col-6"><div class="form-group"><label class="flabel">First Name</label><input type="text" class="finput" id="regFirst" placeholder="Amaka"/></div></div><div class="col-6"><div class="form-group"><label class="flabel">Last Name</label><input type="text" class="finput" id="regLast" placeholder="Obi"/></div></div></div><div class="form-group"><label class="flabel">Email</label><div class="finput-ico"><i class="fas fa-envelope fii"></i><input type="email" class="finput" id="regEmail" placeholder="you@example.com"/></div></div><div class="form-group"><label class="flabel">Phone</label><div class="finput-ico"><i class="fas fa-phone fii"></i><input type="tel" class="finput" id="regPhone" placeholder="+234 800 000 0000"/></div></div><div class="form-group"><label class="flabel">Password</label><div class="finput-ico" style="position:relative"><i class="fas fa-lock fii"></i><input type="password" class="finput" id="regPw" placeholder="Min 8 characters" oninput="checkPwStr(this.value)"/><button class="pw-toggle" onclick="togglePw('regPw',this)"><i class="fas fa-eye"></i></button></div><div class="pw-bars"><div class="pw-bar" id="pb1"></div><div class="pw-bar" id="pb2"></div><div class="pw-bar" id="pb3"></div><div class="pw-bar" id="pb4"></div></div></div><div class="form-group"><label class="flabel">Referral Code (optional)</label><div class="finput-ico"><i class="fas fa-users fii"></i><input type="text" class="finput" id="regRef" placeholder="Enter referral code" value="" /></div></div><div style="display:flex;align-items:flex-start;gap:.5rem;margin-bottom:1rem;font-size:.79rem"><input type="checkbox" id="termsChk" style="accent-color:var(--primary);margin-top:.15rem"/><label for="termsChk" style="color:var(--text2);cursor:pointer;line-height:1.5">I agree to the <a style="color:var(--primary)">Terms</a> and <a style="color:var(--primary)">Privacy Policy</a></label></div><button class="btn btn-primary w-full" id="registerBtn" onclick="doRegister()"><i class="fas fa-rocket"></i>Create My Free Account</button><div style="background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.14);border-radius:var(--radius-sm);padding:.65rem;margin-top:.85rem;font-size:.76rem;color:var(--text2);text-align:center">🎉 Get <strong style="color:var(--primary)">₦500 welcome bonus</strong> on first profile completion!</div><p style="text-align:center;font-size:.8rem;color:var(--text3);margin-top:.85rem">Already have account? <a style="color:var(--primary);cursor:pointer" onclick="goPage('login')">Sign in →</a></p></div></div></div>
 
     <!-- ============================================================ -->
     <!-- SETUP WIZARD -->
@@ -6322,8 +6300,8 @@
                         <li class="nav-sec" style="margin-top:.3rem">Library</li>
                         <li><span class="nav-item" id="nav-books" onclick="setDP('books')"><span class="nav-ico"><i class="fas fa-book"></i></span>Books</span></li>
                         <li><span class="nav-item" id="nav-my-library" onclick="setDP('my-library')"><span class="nav-ico"><i class="fas fa-book-open"></i></span>My Library</span></li>
-                        <!-- ====== CREATE BOOK – PREMIUM ONLY (MOVED TO LIBRARY) ====== -->
-                        <li id="nav-create-book" class="premium-only">
+                        <!-- ====== CREATE BOOK – VISIBLE TO ALL, PREMIUM-GATED ON CLICK ====== -->
+                        <li id="nav-create-book">
                             <span class="nav-item" onclick="setDP('create-book')">
                                 <span class="nav-ico"><i class="fas fa-plus-circle"></i></span>
                                 Upload Book
@@ -6435,9 +6413,9 @@
                     <div id="dash-book-detail" class="dash-sub"><div class="page-hd"><button class="btn btn-ghost btn-sm" onclick="setDP('books')"><i class="fas fa-arrow-left"></i> Back to Library</button></div><div id="bookPageAdContainerDetail" class="ad-container"></div><div id="bookDetailContent"></div><div id="bookSponsorAdContainerDetail" class="ad-container"></div></div>
 
                     <!-- ============================================================ -->
-                    <!-- UPLOAD BOOK – PREMIUM ONLY (FULLY INTEGRATED WITH FILE UPLOADS) -->
+                    <!-- UPLOAD BOOK – VISIBLE TO ALL, PREMIUM-GATED ON CLICK -->
                     <!-- ============================================================ -->
-                    <div id="dash-create-book" class="dash-sub premium-only" style="display:none;">
+                    <div id="dash-create-book" class="dash-sub" style="display:none;">
                         <div class="page-hd">
                             <h2 class="page-title">📚 Upload Book</h2>
                             <p class="page-sub">Publish your book for admin approval. Premium users only.</p>
@@ -6446,31 +6424,22 @@
                         <div id="bookUploadStatus" style="display:none;" class="card card-p mb-3"></div>
 
                         <div class="card card-p">
-                            <!-- Book Title -->
                             <div class="form-group">
                                 <label class="flabel">Book Title *</label>
                                 <input type="text" class="finput" id="bookUploadTitle" placeholder="Enter book title" />
                             </div>
-
-                            <!-- Author -->
                             <div class="form-group">
                                 <label class="flabel">Author *</label>
                                 <input type="text" class="finput" id="bookUploadAuthor" placeholder="Author name" />
                             </div>
-
-                            <!-- Description -->
                             <div class="form-group">
                                 <label class="flabel">Description</label>
                                 <textarea class="finput" id="bookUploadDesc" rows="3" placeholder="Book description..."></textarea>
                             </div>
-
-                            <!-- Price -->
                             <div class="form-group">
                                 <label class="flabel">Price (₦)</label>
                                 <input type="number" class="finput" id="bookUploadPrice" placeholder="0 for free" min="0" value="0" />
                             </div>
-
-                            <!-- Cover Image Upload -->
                             <div class="form-group">
                                 <label class="flabel">Cover Image *</label>
                                 <div class="upload-zone" style="padding:1.5rem; margin-bottom:.5rem;">
@@ -6485,8 +6454,6 @@
                                 </div>
                                 <input type="hidden" id="bookUploadCover" />
                             </div>
-
-                            <!-- PDF File Upload -->
                             <div class="form-group">
                                 <label class="flabel">Book PDF *</label>
                                 <div class="upload-zone" style="padding:1.5rem; margin-bottom:.5rem;">
@@ -6501,18 +6468,14 @@
                                 </div>
                                 <input type="hidden" id="bookUploadFile" />
                             </div>
-
-                            <!-- Affiliate Commission -->
                             <div class="form-group">
                                 <label class="flabel">Affiliate Commission (%)</label>
                                 <input type="number" class="finput" id="bookUploadAffiliate" placeholder="e.g. 15" min="0" max="50" value="0" />
                             </div>
-
                             <div class="info-box">
                                 <i class="fas fa-info-circle" style="color:var(--primary)"></i>
                                 You earn <strong>80%</strong> of each sale. Platform takes 20%. Affiliates earn the percentage you set.
                             </div>
-
                             <button class="btn btn-primary btn-lg w-full mt-3" onclick="submitBookForApproval()">
                                 <i class="fas fa-paper-plane"></i> Submit for Approval
                             </button>
@@ -6711,6 +6674,153 @@
             purchasedArticles: [],
             premCourseLessons: [],
         };
+
+        // ================================================================
+        // ROUTER – SPA Routing with History API
+        // ================================================================
+        const ROUTES = {
+            '/': { page: 'landing', action: null },
+            '/login': { page: 'login', action: null },
+            '/register': { page: 'register', action: null },
+            '/app': { page: 'app', action: null },
+            '/post/:slug': { page: 'app', action: 'loadPost' },
+            '/courses/:id': { page: 'app', action: 'openCourse' },
+            '/aff/:code': { page: null, action: 'trackAffiliate' },
+        };
+
+        const router = {
+            currentPath: window.location.pathname,
+
+            init() {
+                window.addEventListener('popstate', () => {
+                    this.navigate(window.location.pathname + window.location.search, false);
+                });
+
+                document.addEventListener('click', (e) => {
+                    const link = e.target.closest('a[data-route]');
+                    if (link) {
+                        e.preventDefault();
+                        const href = link.getAttribute('href');
+                        this.navigate(href, true);
+                    }
+                });
+
+                this.navigate(window.location.pathname + window.location.search, false);
+            },
+
+            navigate(path, pushState = true) {
+                const [pathname, search] = path.split('?');
+                const params = new URLSearchParams(search);
+
+                let matchedRoute = null;
+                let matchParams = {};
+
+                for (const [route, config] of Object.entries(ROUTES)) {
+                    const routeParts = route.split('/');
+                    const pathParts = pathname.split('/');
+                    if (routeParts.length !== pathParts.length) continue;
+                    let isMatch = true;
+                    const tempParams = {};
+                    for (let i = 0; i < routeParts.length; i++) {
+                        if (routeParts[i].startsWith(':')) {
+                            tempParams[routeParts[i].slice(1)] = pathParts[i];
+                        } else if (routeParts[i] !== pathParts[i]) {
+                            isMatch = false;
+                            break;
+                        }
+                    }
+                    if (isMatch) {
+                        matchedRoute = config;
+                        matchParams = tempParams;
+                        break;
+                    }
+                }
+
+                if (!matchedRoute) {
+                    if (pathname === '/' || pathname === '') {
+                        matchedRoute = ROUTES['/'];
+                    } else {
+                        matchedRoute = ROUTES['/'];
+                        window.history.replaceState(null, '', '/');
+                    }
+                }
+
+                if (matchedRoute.page === 'landing') {
+                    const refCode = params.get('ref');
+                    if (refCode) {
+                        localStorage.setItem('cx_pending_ref', refCode);
+                        toast(`Referral code ${refCode} detected! You'll get a bonus when you sign up.`, 'info');
+                    }
+                }
+
+                if (pushState && pathname !== window.location.pathname + window.location.search) {
+                    window.history.pushState(null, '', path);
+                }
+
+                if (matchedRoute.action) {
+                    this.executeAction(matchedRoute.action, matchParams, params);
+                }
+
+                if (matchedRoute.page) {
+                    goPage(matchedRoute.page);
+                }
+            },
+
+            executeAction(action, routeParams, queryParams) {
+                switch (action) {
+                    case 'loadPost':
+                        const slug = routeParams.slug;
+                        if (!slug) break;
+                        if (!S.loggedIn) {
+                            toast('Please log in to view this post.', 'warning');
+                            goPage('login');
+                            return;
+                        }
+                        loadPostBySlug(slug);
+                        break;
+                    case 'openCourse':
+                        const courseId = routeParams.id;
+                        if (!courseId) break;
+                        if (S.page !== 'app') goPage('app');
+                        setTimeout(() => {
+                            openBuyCourse(courseId);
+                        }, 300);
+                        break;
+                    case 'trackAffiliate':
+                        const code = routeParams.code;
+                        if (!code) { goPage('landing'); return; }
+                        fetch(`${API_BASE}/affiliate/track/${code}`, { method: 'GET', credentials: 'include' })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success && data.redirectUrl) {
+                                    const courseId = data.courseId || data.data?.courseId;
+                                    if (courseId) {
+                                        router.navigate(`/courses/${courseId}`, true);
+                                    } else {
+                                        goPage('landing');
+                                    }
+                                } else {
+                                    goPage('landing');
+                                }
+                            })
+                            .catch(() => { goPage('landing'); });
+                        break;
+                    default:
+                        break;
+                }
+            },
+
+            linkTo(route, params = {}) {
+                let path = route;
+                for (const [key, val] of Object.entries(params)) {
+                    path = path.replace(`:${key}`, val);
+                }
+                return path;
+            }
+        };
+
+        // Expose router globally
+        window.router = router;
 
         // ================================================================
         // UTILITY FUNCTIONS
@@ -7332,7 +7442,7 @@
                 'book-detail': () => { if (!S.isPremium) loadBookPageAds(); },
                 'create-book': () => {
                     if (!S.isPremium) {
-                        toast('Premium required to upload books', 'warning');
+                        toast('Premium subscription required to upload books', 'warning');
                         openModal('premiumModal');
                         setDP('home');
                         return;
@@ -7685,7 +7795,7 @@
 
             // ─── 30-DAY SESSION (like GitHub) ────────────────────────────
             const now = Date.now();
-            const sessionExpiry = now + (30 * 24 * 60 * 60 * 1000); // 30 days from now
+            const sessionExpiry = now + (30 * 24 * 60 * 60 * 1000);
             localStorage.setItem('cx_accessToken', token);
             localStorage.setItem('cx_user', JSON.stringify(user));
             localStorage.setItem('cx_session_expiry', sessionExpiry.toString());
@@ -7792,7 +7902,6 @@
             const userData = localStorage.getItem('cx_user');
             const expiry = localStorage.getItem('cx_session_expiry');
 
-            // If we're already on the app page, don't redirect
             const isAppPage = document.getElementById('page-app')?.classList.contains('active');
             if (isAppPage) return;
 
@@ -7806,7 +7915,6 @@
                         S.loggedIn = true;
                         S.isPremium = user.isPremium || false;
                         S.walletBal = user.walletBalance || 0;
-                        // Redirect to app
                         forceRedirect('app');
                         setTimeout(() => {
                             if (typeof setDP === 'function') setDP(S.dp || 'feed');
@@ -7821,7 +7929,6 @@
                         return false;
                     }
                 } else {
-                    // Session expired – clear and stay on landing/login
                     localStorage.removeItem('cx_accessToken');
                     localStorage.removeItem('cx_user');
                     localStorage.removeItem('cx_session_expiry');
@@ -7831,9 +7938,6 @@
             }
             return false;
         }
-
-        // ─── CALL THIS ON PAGE LOAD ──────────────────────────────────────
-        // We'll invoke it in the DOMContentLoaded event at the bottom.
 
         // ================================================================
         // LANDING PAGE HERO STATS – HARDCODED FOR MARKETING
@@ -7995,8 +8099,8 @@
             document.querySelectorAll('.premium-only').forEach(el => {
                 el.style.display = isPremium ? '' : 'none';
             });
-            const navCreateBook = document.getElementById('nav-create-book');
-            if (navCreateBook) navCreateBook.style.display = isPremium ? '' : 'none';
+            // nav-create-book is no longer premium-only – we show it to all
+            // The create-book page itself is gated in setDP
             if (isPremium && S.dp === 'create-book') {
                 const container = document.getElementById('dash-create-book');
                 if (container) {
@@ -8229,7 +8333,6 @@
         // BOOK UPLOAD – FULLY INTEGRATED WITH FILE UPLOADS (PREMIUM)
         // ================================================================
 
-        // ─── UPLOAD COVER IMAGE ──────────────────────────────────────────
         function uploadBookCover(input) {
             const file = input.files[0];
             if (!file) return;
@@ -8246,7 +8349,6 @@
             progressEl.style.display = 'block';
             progressEl.textContent = 'Uploading... 0%';
 
-            // Show local preview immediately
             const reader = new FileReader();
             reader.onload = (e) => {
                 previewImg.src = e.target.result;
@@ -8296,7 +8398,6 @@
             showLoading('Uploading cover image...');
         }
 
-        // ─── UPLOAD PDF ──────────────────────────────────────────────────
         function uploadBookPdf(input) {
             const file = input.files[0];
             if (!file) return;
@@ -8363,7 +8464,6 @@
             showLoading('Uploading PDF...');
         }
 
-        // ─── SUBMIT BOOK FOR APPROVAL ───────────────────────────────────
         async function submitBookForApproval() {
             if (!S.isPremium) {
                 toast('Premium subscription required to upload books', 'warning');
@@ -8428,7 +8528,6 @@
             }
         }
 
-        // ─── RESET BOOK UPLOAD FORM ──────────────────────────────────────
         function resetBookUploadForm() {
             document.getElementById('bookUploadTitle').value = '';
             document.getElementById('bookUploadAuthor').value = '';
@@ -8449,7 +8548,6 @@
             if (statusEl) statusEl.style.display = 'none';
         }
 
-        // ─── HELPER: previewBookCover (for URL input fallback) ───────────
         function previewBookCover(url) {
             const preview = document.getElementById('bookUploadCoverPreview');
             const img = document.getElementById('bookUploadCoverPreviewImg');
@@ -8604,7 +8702,7 @@
             const isAuthor = S.user?._id === author._id || S.user?._id === post.authorId?._id;
             const isAdmin = S.user?.roles?.includes('admin');
             const slug = post.slug || post._id;
-            const postUrl = `${FRONTEND_URL}/post/${slug}`;
+            const postUrl = router.linkTo('/post/:slug', { slug });
             const earnings = post.earnings || 0;
 
             const reactionEmojis = { like: '👍', love: '❤️', haha: '😄', wow: '😮', sad: '😢', angry: '😡' };
@@ -8980,7 +9078,7 @@
         }
 
         function openShareModal(postId, slug) {
-            const link = `${FRONTEND_URL}/post/${slug}`;
+            const link = router.linkTo('/post/:slug', { slug: slug || postId });
             const modal = document.getElementById('shareModal');
             if (!modal) return;
 
@@ -9813,7 +9911,7 @@
                     <div class="profile-collection">
                         ${posts.length ? posts.map(p => {
                             const slug = p.slug || p._id;
-                            const postUrl = `${FRONTEND_URL}/post/${slug}`;
+                            const postUrl = router.linkTo('/post/:slug', { slug });
                             const isAdmin = S.user?.roles?.includes('admin');
                             const showEarnings = canSeeEarnings && p.earnings > 0;
                             return `<div class="collection-item" onclick="window.location.href='${postUrl}'" style="cursor:pointer"><span class="ci-type">${p.type || 'post'}</span><div class="ci-title">${escapeHtml(p.title)}</div><div class="ci-meta">${new Date(p.publishedAt || p.createdAt).toLocaleDateString()} · ❤️ ${p.likes || 0} · 💬 ${p.commentsCount || 0} · 👁️ ${p.views || 0}${showEarnings ? ` · <span style="color:var(--primary);font-weight:700;">${fmtMoneyAPI(p.earnings || 0)}</span>` : ''}</div>${(S.user?._id === user._id || isAdmin) ? `<div class="ci-actions"><button class="post-delete-btn" onclick="event.stopPropagation();deletePost('${p._id}')"><i class="fas fa-trash"></i> Delete</button></div>` : ''}</div>`;
@@ -9889,7 +9987,7 @@
                 container.innerHTML = S.socialPosts.map(p => {
                     const slug = p.id || p._id || 'post';
                     return `
-                        <div class="social-post-item card card-p" onclick="window.location.href='/post/${slug}'">
+                        <div class="social-post-item card card-p" onclick="window.location.href='${router.linkTo('/post/:slug', { slug: slug })}'">
                             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;flex-wrap:wrap;">
                                 <div style="flex:1;min-width:0;">
                                     <h4 style="font-size:.95rem;margin-bottom:.25rem;">${escapeHtml(p.title)}</h4>
@@ -14201,7 +14299,7 @@
                                 </small>
                             </div>
                             <div style="display:flex;gap:.3rem;flex-wrap:wrap;">
-                                <button class="btn btn-ghost btn-sm" onclick="window.location.href='/post/${p.slug || p._id}'"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-ghost btn-sm" onclick="window.location.href='${router.linkTo('/post/:slug', { slug: p.slug || p._id })}'"><i class="fas fa-eye"></i></button>
                                 ${!p.isPublished ? `<button class="btn btn-success btn-sm" onclick="adminPublishPost('${p._id}')"><i class="fas fa-check"></i> Publish</button>` : ''}
                                 <button class="btn btn-danger btn-sm" onclick="adminDeletePost('${p._id}')"><i class="fas fa-trash"></i></button>
                             </div>
@@ -15935,7 +16033,7 @@
                 if (postMatches.length) {
                     html += postMatches.map(p => {
                         const slug = p.slug || p._id;
-                        return `<div class="search-ri" onclick="window.location.href='/post/${slug}';document.getElementById('globalSearch').value='';dd.classList.remove('open')"><span>📝</span><div><div style="font-size:.81rem;font-weight:600">${escapeHtml(p.title)}</div><div style="font-size:.65rem;color:var(--text3)">Post</div></div></div>`;
+                        return `<div class="search-ri" onclick="window.location.href='${router.linkTo('/post/:slug', { slug: slug })}';document.getElementById('globalSearch').value='';dd.classList.remove('open')"><span>📝</span><div><div style="font-size:.81rem;font-weight:600">${escapeHtml(p.title)}</div><div style="font-size:.65rem;color:var(--text3)">Post</div></div></div>`;
                     }).join('');
                 }
                 if (userMatches.length) {
@@ -16009,17 +16107,14 @@
         // BOOTSTRAP – CHECK SESSION & REDIRECT ON PAGE LOAD (like GitHub)
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user has a valid session and redirect to app
             const isAppPage = document.getElementById('page-app')?.classList.contains('active');
             const isLandingPage = document.getElementById('page-landing')?.classList.contains('active');
 
-            // If already on app page, init app
             if (isAppPage) {
                 if (S.loggedIn) {
                     initApp();
                     setDP(S.dp || 'feed');
                 } else {
-                    // Try to restore session
                     const restored = checkSessionAndRedirect();
                     if (!restored) {
                         goPage('landing');
@@ -16028,16 +16123,13 @@
                 return;
             }
 
-            // Try to restore session from localStorage
             const restored = checkSessionAndRedirect();
 
-            // If no session, stay on landing (or login if explicitly requested)
             if (!restored && !isLandingPage) {
                 const hash = window.location.hash;
                 if (hash === '#app' || hash === '#login' || hash === '#register') {
-                    // Let the page load as normal
+                    // let the page load as normal
                 } else {
-                    // Ensure landing is visible
                     const pages = document.querySelectorAll('.page');
                     const target = document.getElementById('page-landing');
                     if (target) {
@@ -16048,32 +16140,26 @@
                 }
             }
 
-            // Init landing page if not logged in
             if (!S.loggedIn && document.getElementById('page-landing')?.classList.contains('active')) {
                 initLanding();
             }
 
-            // If we're on the app page but not logged in, redirect to landing
             if (isAppPage && !S.loggedIn) {
                 goPage('landing');
             }
 
-            // Theme
             const savedTheme = localStorage.getItem('cx_theme');
             if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeIcons();
 
-            // Currency
             currentCurrency = localStorage.getItem('cx_currency') || 'NGN';
             renderCurrencySelectorUI();
 
-            // Install banner
             const banner = document.getElementById('installBanner');
             if (banner && shouldShowInstallBanner()) {
                 banner.classList.remove('hidden');
             }
 
-            // Check session expiry on each page load
             const expiry = localStorage.getItem('cx_session_expiry');
             if (expiry) {
                 const expiryMs = parseInt(expiry, 10);
@@ -16086,6 +16172,10 @@
                         goPage('landing');
                     }
                 }
+            }
+
+            if (typeof router !== 'undefined') {
+                router.init();
             }
 
             console.log('🚀 ChangeX Academy — Production Ready with All Features');
