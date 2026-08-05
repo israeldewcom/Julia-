@@ -6678,6 +6678,7 @@
         // ================================================================
         // ROUTER – SPA Routing with History API
         // ================================================================
+
         const ROUTES = {
             '/': { page: 'landing', action: null },
             '/login': { page: 'login', action: null },
@@ -8392,7 +8393,7 @@
                 preview.style.display = 'none';
             };
 
-            xhr.open('POST', `${API_BASE}/admin/upload`);
+            xhr.open('POST', `${API_BASE}/upload`);
             xhr.setRequestHeader('Authorization', `Bearer ${token}`);
             xhr.send(formData);
             showLoading('Uploading cover image...');
@@ -8458,7 +8459,7 @@
                 preview.style.display = 'none';
             };
 
-            xhr.open('POST', `${API_BASE}/admin/upload-file`);
+            xhr.open('POST', `${API_BASE}/upload-file`);
             xhr.setRequestHeader('Authorization', `Bearer ${token}`);
             xhr.send(formData);
             showLoading('Uploading PDF...');
@@ -9234,6 +9235,17 @@
                 observeAdImpressions();
             } catch (err) {
                 toast('Failed to load feed: ' + err.message, 'error');
+                const container = document.getElementById('feedContainer');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <h4>Unable to load feed</h4>
+                            <p>${err.message || 'Please refresh the page'}</p>
+                            <button class="btn btn-primary btn-sm" onclick="loadFeed(1)">Retry</button>
+                        </div>
+                    `;
+                }
             } finally {
                 hideLoading();
                 if (loadingEl) loadingEl.style.display = 'none';
@@ -13370,6 +13382,12 @@
             await loadAds('in-feed');
             loadSidebarAd();
             loadBottomAd();
+            // Force feed load after init
+            setTimeout(() => {
+                if (S.loggedIn && S.dp === 'feed') {
+                    loadFeed(1);
+                }
+            }, 1000);
             setTimeout(() => {
                 const hash = window.location.hash.slice(1);
                 if (hash.startsWith('courses/')) { const courseId = hash.split('/')[1]; if (courseId) setTimeout(() =>
