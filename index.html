@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0A1628" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkNocm9ub3MgdjciLAogICJzaG9ydF9uYW1lIjogIkNocm9ub3MiLAogICJkZXNjcmlwdGlvbiI6ICJFbnRlcnByaXNlIEJhbmtpbmcgUGxhdGZvcm0iLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBBMTYyOCIsCiAgInRoZW1lX2NvbG9yIjogIiMwQTE2MjgiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInJTNFJTNDcmVjdCB3aWR0aD0nNTEyJyBoZWlnaHQ9JzUxMicgZmlsbD0nJTIzMEExNjI4JyByeD0nNTAnLyUzRSUzQ3RleHQgeD0nMjU2JyB5PSczMjAnIGZvbnQtc2l6ZT0nMjUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmaWxsPSclMjMyNTYzRUInIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJyUzRUMlM0MvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFzayBhbnlsYW5nIgogICAgfQogIF0KfQ==" />
     <title>CHRONOS v7 — Enterprise Banking Platform</title>
 
     <!-- Bootstrap 5 + Icons + Fonts + Charts -->
@@ -70,6 +74,10 @@
             --gradient-warning: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
             --gradient-danger: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
             --gradient-cyan: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+            --safe-area-inset-top: env(safe-area-inset-top, 0px);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-area-inset-left: env(safe-area-inset-left, 0px);
+            --safe-area-inset-right: env(safe-area-inset-right, 0px);
         }
 
         /* Light theme */
@@ -239,6 +247,10 @@
             min-height: 100vh;
             transition: background 0.3s ease, color 0.3s ease;
             scroll-behavior: smooth;
+            padding-top: var(--safe-area-inset-top);
+            padding-bottom: var(--safe-area-inset-bottom);
+            padding-left: var(--safe-area-inset-left);
+            padding-right: var(--safe-area-inset-right);
         }
         ::-webkit-scrollbar {
             width: 6px;
@@ -2188,9 +2200,65 @@
             color: var(--text-muted);
             font-size: 11px;
         }
+
+        /* ============================================================
+               PWA OFFLINE INDICATOR
+               ============================================================ */
+        .offline-banner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9998;
+            background: var(--crimson);
+            color: #fff;
+            text-align: center;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 2px 12px rgba(239, 68, 68, 0.3);
+        }
+        .offline-banner.visible {
+            display: block;
+            animation: slideDown 0.3s ease forwards;
+        }
+        .offline-banner i {
+            margin-right: 8px;
+        }
+
+        /* ============================================================
+               PERFORMANCE METRIC BADGE
+               ============================================================ */
+        .perf-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--emerald);
+            font-weight: 500;
+        }
+        .perf-badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--amber);
+        }
+        .perf-badge.danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--crimson);
+        }
     </style>
 </head>
 <body>
+
+    <!-- ============================================================ -->
+    <!-- OFFLINE BANNER -->
+    <!-- ============================================================ -->
+    <div class="offline-banner" id="offlineBanner">
+        <i class="bi bi-wifi-off"></i> You are offline. Some features may be limited.
+    </div>
 
     <!-- ============================================================ -->
     <!-- ===================== AUTH WRAPPER ========================== -->
@@ -2205,11 +2273,11 @@
                 <form id="loginFormElement" onsubmit="return handleLogin(event)">
                     <div class="mb-3">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Email</label>
-                        <input type="email" class="form-control" id="loginEmail" placeholder="admin@chronos.com" value="admin@chronos.com" required />
+                        <input type="email" class="form-control" id="loginEmail" placeholder="admin@chronos.com" value="admin@chronos.com" required autocomplete="email" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Password</label>
-                        <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" value="password123" required />
+                        <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" value="password123" required autocomplete="current-password" />
                     </div>
                     <div class="mb-3 d-flex justify-content-between align-items-center">
                         <div class="form-check">
@@ -2234,23 +2302,23 @@
                 <form onsubmit="return handleRegister(event)">
                     <div class="mb-2">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Organisation</label>
-                        <input type="text" class="form-control" placeholder="Acme Bank" id="regOrg" required />
+                        <input type="text" class="form-control" placeholder="Acme Bank" id="regOrg" required autocomplete="organization" />
                     </div>
                     <div class="mb-2">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Full name</label>
-                        <input type="text" class="form-control" placeholder="John Doe" id="regName" required />
+                        <input type="text" class="form-control" placeholder="John Doe" id="regName" required autocomplete="name" />
                     </div>
                     <div class="mb-2">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Email</label>
-                        <input type="email" class="form-control" placeholder="john@acme.com" id="regEmail" required />
+                        <input type="email" class="form-control" placeholder="john@acme.com" id="regEmail" required autocomplete="email" />
                     </div>
                     <div class="mb-2">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Password</label>
-                        <input type="password" class="form-control" placeholder="••••••••" id="regPass" required />
+                        <input type="password" class="form-control" placeholder="••••••••" id="regPass" required autocomplete="new-password" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Confirm password</label>
-                        <input type="password" class="form-control" placeholder="••••••••" id="regPass2" required />
+                        <input type="password" class="form-control" placeholder="••••••••" id="regPass2" required autocomplete="new-password" />
                     </div>
                     <div id="regError" class="auth-error"></div>
                     <div id="regSuccess" class="auth-success"></div>
@@ -2268,7 +2336,7 @@
                 <form onsubmit="return handleForgot(event)">
                     <div class="mb-3">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Email address</label>
-                        <input type="email" class="form-control" placeholder="admin@chronos.com" id="forgotEmail" required />
+                        <input type="email" class="form-control" placeholder="admin@chronos.com" id="forgotEmail" required autocomplete="email" />
                     </div>
                     <div id="forgotError" class="auth-error"></div>
                     <div id="forgotSuccess" class="auth-success"></div>
@@ -2292,11 +2360,11 @@
                 <form onsubmit="return handlePairing(event)">
                     <div class="mb-3">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">API Key</label>
-                        <input type="text" class="form-control" id="pairingApiKey" placeholder="ck_xxxxxxxxxxxxxxxx" required />
+                        <input type="text" class="form-control" id="pairingApiKey" placeholder="ck_xxxxxxxxxxxxxxxx" required autocomplete="off" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Pairing Code</label>
-                        <input type="text" class="form-control" id="pairingCodeInput" placeholder="Enter 6-digit code" maxlength="6" required />
+                        <input type="text" class="form-control" id="pairingCodeInput" placeholder="Enter 6-digit code" maxlength="6" required autocomplete="off" />
                     </div>
                     <div id="pairingInfo" class="pairing-info" style="display:none;">
                         <strong>Device fingerprint:</strong> <code id="pairingFingerprint">—</code>
@@ -2325,95 +2393,95 @@
         <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
 
         <!-- SIDEBAR -->
-        <nav class="sidebar" id="sidebar">
+        <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
             <div class="brand">
                 CHRONOS<span>v7</span>
                 <small>Enterprise</small>
             </div>
 
             <div class="nav-section">Overview</div>
-            <div class="nav-item active" data-page="dashboard"><i class="bi bi-grid-1x2-fill"></i> Dashboard</div>
-            <div class="nav-item" data-page="executive"><i class="bi bi-graph-up-arrow"></i> Executive</div>
-            <div class="nav-item" data-page="livemetrics"><i class="bi bi-activity"></i> Live Metrics</div>
-            <div class="nav-item" data-page="marketdata"><i class="bi bi-bar-chart-line"></i> Market Data <span class="badge badge-success">Live</span></div>
-            <div class="nav-item" data-page="aiinsights"><i class="bi bi-robot"></i> AI Insights <span class="badge badge-purple">v2</span></div>
+            <div class="nav-item active" data-page="dashboard" role="button" tabindex="0"><i class="bi bi-grid-1x2-fill"></i> Dashboard</div>
+            <div class="nav-item" data-page="executive" role="button" tabindex="0"><i class="bi bi-graph-up-arrow"></i> Executive</div>
+            <div class="nav-item" data-page="livemetrics" role="button" tabindex="0"><i class="bi bi-activity"></i> Live Metrics</div>
+            <div class="nav-item" data-page="marketdata" role="button" tabindex="0"><i class="bi bi-bar-chart-line"></i> Market Data <span class="badge badge-success">Live</span></div>
+            <div class="nav-item" data-page="aiinsights" role="button" tabindex="0"><i class="bi bi-robot"></i> AI Insights <span class="badge badge-purple">v2</span></div>
 
             <div class="nav-section">Banking</div>
-            <div class="nav-item" data-page="settlements"><i class="bi bi-arrow-left-right"></i> Settlements</div>
-            <div class="nav-item" data-page="transactions"><i class="bi bi-list-ul"></i> Transactions</div>
-            <div class="nav-item" data-page="liquidity"><i class="bi bi-droplet"></i> Liquidity</div>
-            <div class="nav-item" data-page="clearing"><i class="bi bi-arrows-collapse"></i> Clearing</div>
-            <div class="nav-item" data-page="paymentqueue"><i class="bi bi-clock-history"></i> Payment Queue <span class="badge badge-danger">12</span></div>
+            <div class="nav-item" data-page="settlements" role="button" tabindex="0"><i class="bi bi-arrow-left-right"></i> Settlements</div>
+            <div class="nav-item" data-page="transactions" role="button" tabindex="0"><i class="bi bi-list-ul"></i> Transactions</div>
+            <div class="nav-item" data-page="liquidity" role="button" tabindex="0"><i class="bi bi-droplet"></i> Liquidity</div>
+            <div class="nav-item" data-page="clearing" role="button" tabindex="0"><i class="bi bi-arrows-collapse"></i> Clearing</div>
+            <div class="nav-item" data-page="paymentqueue" role="button" tabindex="0"><i class="bi bi-clock-history"></i> Payment Queue <span class="badge badge-danger">12</span></div>
 
             <div class="nav-section">Trading</div>
-            <div class="nav-item" data-page="trades"><i class="bi bi-currency-exchange"></i> Trades</div>
-            <div class="nav-item" data-page="pricing"><i class="bi bi-tag"></i> Pricing</div>
-            <div class="nav-item" data-page="marketimpact"><i class="bi bi-bar-chart-steps"></i> Market Impact</div>
-            <div class="nav-item" data-page="quotes"><i class="bi bi-quote"></i> Quotes</div>
+            <div class="nav-item" data-page="trades" role="button" tabindex="0"><i class="bi bi-currency-exchange"></i> Trades</div>
+            <div class="nav-item" data-page="pricing" role="button" tabindex="0"><i class="bi bi-tag"></i> Pricing</div>
+            <div class="nav-item" data-page="marketimpact" role="button" tabindex="0"><i class="bi bi-bar-chart-steps"></i> Market Impact</div>
+            <div class="nav-item" data-page="quotes" role="button" tabindex="0"><i class="bi bi-quote"></i> Quotes</div>
 
             <div class="nav-section">Risk</div>
-            <div class="nav-item" data-page="var"><i class="bi bi-shield-exclamation"></i> VaR</div>
-            <div class="nav-item" data-page="shadowvar"><i class="bi bi-eye-slash"></i> Shadow VaR</div>
-            <div class="nav-item" data-page="stresstesting"><i class="bi bi-exclamation-triangle"></i> Stress Testing</div>
-            <div class="nav-item" data-page="exposure"><i class="bi bi-binoculars"></i> Exposure</div>
-            <div class="nav-item" data-page="counterparty"><i class="bi bi-people"></i> Counterparty</div>
+            <div class="nav-item" data-page="var" role="button" tabindex="0"><i class="bi bi-shield-exclamation"></i> VaR</div>
+            <div class="nav-item" data-page="shadowvar" role="button" tabindex="0"><i class="bi bi-eye-slash"></i> Shadow VaR</div>
+            <div class="nav-item" data-page="stresstesting" role="button" tabindex="0"><i class="bi bi-exclamation-triangle"></i> Stress Testing</div>
+            <div class="nav-item" data-page="exposure" role="button" tabindex="0"><i class="bi bi-binoculars"></i> Exposure</div>
+            <div class="nav-item" data-page="counterparty" role="button" tabindex="0"><i class="bi bi-people"></i> Counterparty</div>
 
             <div class="nav-section">Treasury</div>
-            <div class="nav-item" data-page="cashposition"><i class="bi bi-wallet2"></i> Cash Position</div>
-            <div class="nav-item" data-page="treasuryliq"><i class="bi bi-water"></i> Treasury Liquidity</div>
-            <div class="nav-item" data-page="funding"><i class="bi bi-bank"></i> Funding</div>
-            <div class="nav-item" data-page="forecast"><i class="bi bi-graph-up"></i> Forecast</div>
+            <div class="nav-item" data-page="cashposition" role="button" tabindex="0"><i class="bi bi-wallet2"></i> Cash Position</div>
+            <div class="nav-item" data-page="treasuryliq" role="button" tabindex="0"><i class="bi bi-water"></i> Treasury Liquidity</div>
+            <div class="nav-item" data-page="funding" role="button" tabindex="0"><i class="bi bi-bank"></i> Funding</div>
+            <div class="nav-item" data-page="forecast" role="button" tabindex="0"><i class="bi bi-graph-up"></i> Forecast</div>
 
             <div class="nav-section">Collateral</div>
-            <div class="nav-item" data-page="portfolio"><i class="bi bi-briefcase"></i> Portfolio</div>
-            <div class="nav-item" data-page="margincalls"><i class="bi bi-exclamation-circle"></i> Margin Calls <span class="badge badge-warning">3</span></div>
-            <div class="nav-item" data-page="rehypothecation"><i class="bi bi-arrow-repeat"></i> Rehypothecation</div>
-            <div class="nav-item" data-page="collateralassets"><i class="bi bi-building"></i> Collateral Assets</div>
-            <div class="nav-item" data-page="lpoptimiser"><i class="bi bi-cpu"></i> LP Optimiser <span class="badge badge-success">New</span></div>
+            <div class="nav-item" data-page="portfolio" role="button" tabindex="0"><i class="bi bi-briefcase"></i> Portfolio</div>
+            <div class="nav-item" data-page="margincalls" role="button" tabindex="0"><i class="bi bi-exclamation-circle"></i> Margin Calls <span class="badge badge-warning">3</span></div>
+            <div class="nav-item" data-page="rehypothecation" role="button" tabindex="0"><i class="bi bi-arrow-repeat"></i> Rehypothecation</div>
+            <div class="nav-item" data-page="collateralassets" role="button" tabindex="0"><i class="bi bi-building"></i> Collateral Assets</div>
+            <div class="nav-item" data-page="lpoptimiser" role="button" tabindex="0"><i class="bi bi-cpu"></i> LP Optimiser <span class="badge badge-success">New</span></div>
 
             <div class="nav-section">AI & Analytics</div>
-            <div class="nav-item" data-page="predictions"><i class="bi bi-cpu"></i> Predictions</div>
-            <div class="nav-item" data-page="mltraining"><i class="bi bi-bar-chart-steps"></i> ML Training</div>
-            <div class="nav-item" data-page="driftdetection"><i class="bi bi-diagram-3"></i> Drift Detection</div>
-            <div class="nav-item" data-page="optimisation"><i class="bi bi-gear-wide-connected"></i> Optimisation</div>
-            <div class="nav-item" data-page="cbnmonitor"><i class="bi bi-bank"></i> CBN Monitor <span class="badge badge-purple">Live</span></div>
+            <div class="nav-item" data-page="predictions" role="button" tabindex="0"><i class="bi bi-cpu"></i> Predictions</div>
+            <div class="nav-item" data-page="mltraining" role="button" tabindex="0"><i class="bi bi-bar-chart-steps"></i> ML Training</div>
+            <div class="nav-item" data-page="driftdetection" role="button" tabindex="0"><i class="bi bi-diagram-3"></i> Drift Detection</div>
+            <div class="nav-item" data-page="optimisation" role="button" tabindex="0"><i class="bi bi-gear-wide-connected"></i> Optimisation</div>
+            <div class="nav-item" data-page="cbnmonitor" role="button" tabindex="0"><i class="bi bi-bank"></i> CBN Monitor <span class="badge badge-purple">Live</span></div>
 
             <div class="nav-section">Monitoring</div>
-            <div class="nav-item" data-page="health"><i class="bi bi-heart-pulse"></i> Health</div>
-            <div class="nav-item" data-page="metrics"><i class="bi bi-speedometer2"></i> Metrics</div>
-            <div class="nav-item" data-page="logs"><i class="bi bi-file-text"></i> Logs</div>
-            <div class="nav-item" data-page="workers"><i class="bi bi-hdd-stack"></i> Workers</div>
-            <div class="nav-item" data-page="queues"><i class="bi bi-list-check"></i> Queues</div>
+            <div class="nav-item" data-page="health" role="button" tabindex="0"><i class="bi bi-heart-pulse"></i> Health</div>
+            <div class="nav-item" data-page="metrics" role="button" tabindex="0"><i class="bi bi-speedometer2"></i> Metrics</div>
+            <div class="nav-item" data-page="logs" role="button" tabindex="0"><i class="bi bi-file-text"></i> Logs</div>
+            <div class="nav-item" data-page="workers" role="button" tabindex="0"><i class="bi bi-hdd-stack"></i> Workers</div>
+            <div class="nav-item" data-page="queues" role="button" tabindex="0"><i class="bi bi-list-check"></i> Queues</div>
 
             <div class="nav-section">Reports</div>
-            <div class="nav-item" data-page="dailyreports"><i class="bi bi-calendar-day"></i> Daily Reports</div>
-            <div class="nav-item" data-page="compliancereports"><i class="bi bi-check-circle"></i> Compliance</div>
-            <div class="nav-item" data-page="financialreports"><i class="bi bi-file-earmark-text"></i> Financial</div>
-            <div class="nav-item" data-page="analyticsreports"><i class="bi bi-pie-chart"></i> Analytics</div>
+            <div class="nav-item" data-page="dailyreports" role="button" tabindex="0"><i class="bi bi-calendar-day"></i> Daily Reports</div>
+            <div class="nav-item" data-page="compliancereports" role="button" tabindex="0"><i class="bi bi-check-circle"></i> Compliance</div>
+            <div class="nav-item" data-page="financialreports" role="button" tabindex="0"><i class="bi bi-file-earmark-text"></i> Financial</div>
+            <div class="nav-item" data-page="analyticsreports" role="button" tabindex="0"><i class="bi bi-pie-chart"></i> Analytics</div>
 
             <div class="nav-section">Administration</div>
-            <div class="nav-item" data-page="users"><i class="bi bi-person"></i> Users</div>
-            <div class="nav-item" data-page="roles"><i class="bi bi-person-badge"></i> Roles</div>
-            <div class="nav-item" data-page="permissions"><i class="bi bi-key"></i> Permissions</div>
-            <div class="nav-item" data-page="apikeys"><i class="bi bi-key-fill"></i> API Keys</div>
-            <div class="nav-item" data-page="devices"><i class="bi bi-phone"></i> Devices <span class="badge badge-secondary">New</span></div>
-            <div class="nav-item" data-page="tenants"><i class="bi bi-building"></i> Tenants <span class="badge badge-secondary">Admin</span></div>
-            <div class="nav-item" data-page="settings"><i class="bi bi-gear"></i> Settings</div>
+            <div class="nav-item" data-page="users" role="button" tabindex="0"><i class="bi bi-person"></i> Users</div>
+            <div class="nav-item" data-page="roles" role="button" tabindex="0"><i class="bi bi-person-badge"></i> Roles</div>
+            <div class="nav-item" data-page="permissions" role="button" tabindex="0"><i class="bi bi-key"></i> Permissions</div>
+            <div class="nav-item" data-page="apikeys" role="button" tabindex="0"><i class="bi bi-key-fill"></i> API Keys</div>
+            <div class="nav-item" data-page="devices" role="button" tabindex="0"><i class="bi bi-phone"></i> Devices <span class="badge badge-secondary">New</span></div>
+            <div class="nav-item" data-page="tenants" role="button" tabindex="0"><i class="bi bi-building"></i> Tenants <span class="badge badge-secondary">Admin</span></div>
+            <div class="nav-item" data-page="settings" role="button" tabindex="0"><i class="bi bi-gear"></i> Settings</div>
 
             <div class="nav-section">Tools</div>
-            <div class="nav-item" data-page="automation"><i class="bi bi-robot"></i> Automation</div>
-            <div class="nav-item" data-page="apitools"><i class="bi bi-tools"></i> API Tools</div>
-            <div class="nav-item" data-page="webhooks"><i class="bi bi-webhook"></i> Webhooks</div>
-            <div class="nav-item" data-page="backup"><i class="bi bi-archive"></i> Backup &amp; Restore <span class="badge badge-secondary">New</span></div>
+            <div class="nav-item" data-page="automation" role="button" tabindex="0"><i class="bi bi-robot"></i> Automation</div>
+            <div class="nav-item" data-page="apitools" role="button" tabindex="0"><i class="bi bi-tools"></i> API Tools</div>
+            <div class="nav-item" data-page="webhooks" role="button" tabindex="0"><i class="bi bi-webhook"></i> Webhooks</div>
+            <div class="nav-item" data-page="backup" role="button" tabindex="0"><i class="bi bi-archive"></i> Backup &amp; Restore <span class="badge badge-secondary">New</span></div>
         </nav>
 
         <!-- MAIN CONTENT -->
-        <div class="main-content">
+        <div class="main-content" id="mainContent">
 
             <!-- TOP BAR -->
             <header class="topbar">
                 <div class="d-flex align-items-center gap-3">
-                    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+                    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
                         <i class="bi bi-list"></i>
                     </button>
                     <div class="page-title">
@@ -2428,7 +2496,7 @@
                     </div>
                     <div class="currency-selector">
                         <i class="bi bi-currency-dollar"></i>
-                        <select id="currencySelector" onchange="changeCurrency(this.value)">
+                        <select id="currencySelector" onchange="changeCurrency(this.value)" aria-label="Select currency">
                             <option value="USD">USD</option>
                             <option value="EUR">EUR</option>
                             <option value="GBP">GBP</option>
@@ -2437,17 +2505,17 @@
                     </div>
                     <div class="search-box">
                         <i class="bi bi-search"></i>
-                        <input type="text" placeholder="Search..." id="globalSearch" oninput="handleSearch(this.value)" />
+                        <input type="text" placeholder="Search..." id="globalSearch" oninput="handleSearch(this.value)" aria-label="Global search" />
                     </div>
-                    <button class="icon-btn" onclick="showNotification('info','System Update','Chronos v7 deployed successfully.')" title="Notifications">
+                    <button class="icon-btn" onclick="showNotification('info','System Update','Chronos v7 deployed successfully.')" aria-label="Notifications" title="Notifications">
                         <i class="bi bi-bell"></i>
                         <span class="dot"></span>
                     </button>
-                    <button class="icon-btn" onclick="generateReport()" title="Generate Report">
+                    <button class="icon-btn" onclick="generateReport()" aria-label="Generate Report" title="Generate Report">
                         <i class="bi bi-file-earmark-pdf"></i>
                     </button>
                     <div class="avatar-wrap" id="avatarWrap">
-                        <div class="avatar" onclick="toggleAvatarDropdown()">A</div>
+                        <div class="avatar" onclick="toggleAvatarDropdown()" role="button" tabindex="0" aria-label="User menu">A</div>
                         <div class="avatar-dropdown" id="avatarDropdown">
                             <div class="dropdown-item" onclick="navigateTo('settings')"><i class="bi bi-person"></i> Profile</div>
                             <div class="dropdown-item" onclick="navigateTo('settings')"><i class="bi bi-gear"></i> Settings</div>
@@ -2494,14 +2562,14 @@
                         <div class="chart-container">
                             <div class="chart-title">Settlement Volume &amp; Liquidity <span class="freshness-indicator fresh" id="chart1Fresh"><span class="dot fresh"></span> Live</span></div>
                             <div class="chart-sub">Real-time 24h performance</div>
-                            <canvas id="dashboardChart1" height="200"></canvas>
+                            <canvas id="dashboardChart1" height="200" aria-label="Settlement volume and liquidity chart"></canvas>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="chart-container">
                             <div class="chart-title">Risk Exposure <span class="freshness-indicator fresh" id="chart2Fresh"><span class="dot fresh"></span> Live</span></div>
                             <div class="chart-sub">By asset class</div>
-                            <canvas id="dashboardChart2" height="200"></canvas>
+                            <canvas id="dashboardChart2" height="200" aria-label="Risk exposure chart"></canvas>
                         </div>
                     </div>
                     <div class="col-12">
@@ -2530,7 +2598,7 @@
                     <div class="col-md-3"><div class="stat-card"><div class="label">Total Assets</div><div class="value counter-anim" id="execAssets">—</div><div class="change neutral" id="execAssetsChange">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">Net Profit</div><div class="value counter-anim" id="execProfit">—</div><div class="change neutral" id="execProfitChange">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">ROE</div><div class="value counter-anim" id="execRoe">—</div><div class="change neutral" id="execRoeChange">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Revenue Breakdown</div><div class="chart-sub">By business unit</div><canvas id="execChart1" height="200"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Revenue Breakdown</div><div class="chart-sub">By business unit</div><canvas id="execChart1" height="200" aria-label="Revenue breakdown chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2541,7 +2609,7 @@
                     <div class="col-md-3"><div class="stat-card"><div class="label">Trade Volume</div><div class="value counter-anim" id="liveTrade">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">API Latency</div><div class="value counter-anim" id="liveLatency">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">Active Sessions</div><div class="value counter-anim" id="liveSessions">—</div><div class="change neutral">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Real-time Metrics</div><div class="chart-sub">Live data stream</div><canvas id="liveChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Real-time Metrics</div><div class="chart-sub">Live data stream</div><canvas id="liveChart1" height="180" aria-label="Real-time metrics chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2552,7 +2620,7 @@
                     <div class="col-md-3"><div class="stat-card"><div class="label">MPR</div><div class="value counter-anim" id="mktMpr">—</div><div class="change neutral" id="mktMprChange">—</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">USD/NGN</div><div class="value counter-anim" id="mktUsdNgn">—</div><div class="change neutral" id="mktUsdNgnChange">—</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">EUR/NGN</div><div class="value counter-anim" id="mktEurNgn">—</div><div class="change neutral" id="mktEurNgnChange">—</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Market Indices</div><div class="chart-sub">Live market data via WebSocket</div><canvas id="marketChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Market Indices</div><div class="chart-sub">Live market data via WebSocket</div><canvas id="marketChart1" height="180" aria-label="Market indices chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2561,7 +2629,7 @@
                 <div class="row g-4">
                     <div class="col-md-6"><div class="stat-card"><div class="label">AI Prediction Accuracy</div><div class="value counter-anim" id="aiAccuracy">—</div><div class="change neutral" id="aiAccuracyChange">Loading...</div><div class="text-secondary fs-13 mt-2">Model v3.2.1 • Last trained <span id="aiLastTrained">—</span></div></div></div>
                     <div class="col-md-6"><div class="stat-card"><div class="label">Anomalies Detected</div><div class="value counter-anim" id="aiAnomalies">—</div><div class="change neutral" id="aiAnomaliesChange">Loading...</div><div class="text-secondary fs-13 mt-2">All within acceptable thresholds</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">AI Prediction Confidence</div><div class="chart-sub">By asset class</div><canvas id="aiChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">AI Prediction Confidence</div><div class="chart-sub">By asset class</div><canvas id="aiChart1" height="180" aria-label="AI prediction confidence chart"></canvas></div></div>
                     <div class="col-12"><div class="table-wrap"><div class="p-3 border-bottom border-dark fw-600">Alpha Signals</div><div class="table-responsive"><table class="table"><thead><tr><th>Asset</th><th>Signal</th><th>Confidence</th><th>Action</th></tr></thead><tbody id="aiSignalsBody"><tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-robot"></i></div><div class="title">Loading alpha signals...</div></div></td></tr></tbody></table></div></div></div>
                 </div>
             </div>
@@ -2573,15 +2641,15 @@
                     <div class="col-md-3"><div class="stat-card"><div class="label">Processing</div><div class="value text-cyan counter-anim" id="settleProcessing">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">Completed</div><div class="value text-emerald counter-anim" id="settleCompleted">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">Failed</div><div class="value text-crimson counter-anim" id="settleFailed">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Settlement Timeline</div><div class="chart-sub">Last 24 hours</div><canvas id="settleChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Settlement Timeline</div><div class="chart-sub">Last 24 hours</div><canvas id="settleChart1" height="180" aria-label="Settlement timeline chart"></canvas></div></div>
                 </div>
             </div>
 
             <!-- ========== PAGE: TRANSACTIONS ========== -->
             <div class="page-content" id="page-transactions">
                 <div class="d-flex gap-2 flex-wrap mb-4">
-                    <input class="form-control" id="txSearchInput" style="max-width:220px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" placeholder="Search..." oninput="filterTransactions()" />
-                    <select class="form-select" id="txStatusFilter" style="max-width:150px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" onchange="filterTransactions()">
+                    <input class="form-control" id="txSearchInput" style="max-width:220px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" placeholder="Search..." oninput="filterTransactions()" aria-label="Search transactions" />
+                    <select class="form-select" id="txStatusFilter" style="max-width:150px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" onchange="filterTransactions()" aria-label="Filter by status">
                         <option value="all">All Status</option>
                         <option value="completed">Completed</option>
                         <option value="processing">Processing</option>
@@ -2603,7 +2671,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Total Liquidity</div><div class="value counter-anim" id="liqTotal">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Cash Position</div><div class="value counter-anim" id="liqCash">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Liquidity Ratio</div><div class="value counter-anim" id="liqRatio">—</div><div class="change neutral">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Liquidity Position</div><div class="chart-sub">By currency</div><canvas id="liqChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Liquidity Position</div><div class="chart-sub">By currency</div><canvas id="liqChart1" height="180" aria-label="Liquidity position chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2613,7 +2681,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Clearing Volume</div><div class="value counter-anim" id="clearVol">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Clearing Rate</div><div class="value counter-anim" id="clearRate">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Avg Clearing Time</div><div class="value counter-anim" id="clearTime">—</div><div class="change neutral">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Clearing Performance</div><div class="chart-sub">Last 24 hours</div><canvas id="clearingChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Clearing Performance</div><div class="chart-sub">Last 24 hours</div><canvas id="clearingChart1" height="180" aria-label="Clearing performance chart"></canvas></div></div>
                     <div class="col-12"><div class="table-wrap"><div class="p-3 border-bottom border-dark fw-600">Recent Clearing Activity</div><div class="table-responsive"><table class="table"><thead><tr><th>ID</th><th>Counterparty</th><th>Amount</th><th>Status</th><th>Time</th></tr></thead><tbody id="clearingBody"><tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-arrows-collapse"></i></div><div class="title">Loading clearing data...</div></div></td></tr></tbody></table></div></div></div>
                 </div>
             </div>
@@ -2647,7 +2715,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Avg Impact</div><div class="value counter-anim" id="impactAvg">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Max Impact</div><div class="value counter-anim" id="impactMax">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Impact Efficiency</div><div class="value counter-anim" id="impactEff">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Market Impact Analysis</div><div class="chart-sub">By trade size</div><canvas id="impactChart1" height="200"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Market Impact Analysis</div><div class="chart-sub">By trade size</div><canvas id="impactChart1" height="200" aria-label="Market impact analysis chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2669,7 +2737,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">1-Day VaR</div><div class="value text-amber counter-anim" id="var1d">—</div><div class="sub">95% confidence</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">10-Day VaR</div><div class="value text-amber counter-anim" id="var10d">—</div><div class="sub">95% confidence</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Expected Shortfall</div><div class="value text-crimson counter-anim" id="varEs">—</div><div class="sub">97.5% tail risk</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Value at Risk Distribution</div><div class="chart-sub">Historical simulation</div><canvas id="varChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Value at Risk Distribution</div><div class="chart-sub">Historical simulation</div><canvas id="varChart1" height="180" aria-label="Value at Risk distribution chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2678,12 +2746,12 @@
                 <div class="row g-4" id="shadowVarStats">
                     <div class="col-md-6"><div class="stat-card"><div class="label">Shadow VaR (Stress)</div><div class="value text-crimson counter-anim" id="shadowVarVal">—</div><div class="sub">99% confidence • 10-day horizon</div></div></div>
                     <div class="col-md-6"><div class="stat-card"><div class="label">VaR Ratio</div><div class="value counter-anim" id="shadowVarRatio">—</div><div class="sub">Shadow vs Standard</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Shadow VaR vs Standard VaR</div><div class="chart-sub">Comparative analysis</div><canvas id="shadowVarChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Shadow VaR vs Standard VaR</div><div class="chart-sub">Comparative analysis</div><canvas id="shadowVarChart1" height="180" aria-label="Shadow VaR comparison chart"></canvas></div></div>
                     <div class="col-12"><div class="settings-group"><div class="group-title">Shadow VaR Simulation</div><div class="group-desc">Adjust parameters to run a custom Shadow VaR calculation</div>
                         <div class="row g-3">
-                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Confidence Level</label><select class="form-select" id="shadowConf"><option value="0.95">95%</option><option value="0.99" selected>99%</option><option value="0.995">99.5%</option></select></div>
-                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Horizon (days)</label><select class="form-select" id="shadowHorizon"><option value="1">1</option><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select></div>
-                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Desk</label><select class="form-select" id="shadowDesk"><option value="">All Desks</option><option value="equities">Equities</option><option value="fx">FX</option><option value="rates">Rates</option></select></div>
+                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Confidence Level</label><select class="form-select" id="shadowConf" aria-label="Confidence level"><option value="0.95">95%</option><option value="0.99" selected>99%</option><option value="0.995">99.5%</option></select></div>
+                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Horizon (days)</label><select class="form-select" id="shadowHorizon" aria-label="Horizon days"><option value="1">1</option><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select></div>
+                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Desk</label><select class="form-select" id="shadowDesk" aria-label="Desk"><option value="">All Desks</option><option value="equities">Equities</option><option value="fx">FX</option><option value="rates">Rates</option></select></div>
                             <div class="col-12"><button class="btn btn-primary" onclick="runShadowVarSim()"><i class="bi bi-play me-1"></i> Run Simulation</button></div>
                         </div>
                     </div></div>
@@ -2696,7 +2764,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Stress Loss</div><div class="value text-crimson counter-anim" id="stressLoss">—</div><div class="sub">Severe scenario</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Capital Impact</div><div class="value text-amber counter-anim" id="stressCapital">—</div><div class="sub">CET1 ratio</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Recovery Time</div><div class="value counter-anim" id="stressRecovery">—</div><div class="sub">Estimated</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Stress Scenarios</div><div class="chart-sub">Impact by asset class</div><canvas id="stressChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Stress Scenarios</div><div class="chart-sub">Impact by asset class</div><canvas id="stressChart1" height="180" aria-label="Stress scenarios chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2706,7 +2774,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Total Exposure</div><div class="value counter-anim" id="expTotal">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Top Exposure</div><div class="value counter-anim" id="expTop">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Concentration</div><div class="value counter-anim" id="expConc">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Portfolio Exposure</div><div class="chart-sub">By counterparty</div><canvas id="exposureChart1" height="200"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Portfolio Exposure</div><div class="chart-sub">By counterparty</div><canvas id="exposureChart1" height="200" aria-label="Portfolio exposure chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2721,7 +2789,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Cash Balance</div><div class="value counter-anim" id="cashBalance">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Cash Flow (YTD)</div><div class="value counter-anim" id="cashFlow">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Currency Mix</div><div class="value" id="cashMix">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Cash Position by Currency</div><div class="chart-sub">Current holdings</div><canvas id="cashChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Cash Position by Currency</div><div class="chart-sub">Current holdings</div><canvas id="cashChart1" height="180" aria-label="Cash position by currency chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2732,7 +2800,7 @@
                     <div class="col-md-3"><div class="stat-card"><div class="label">1W Liquidity</div><div class="value counter-anim" id="treas1w">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">1M Liquidity</div><div class="value counter-anim" id="treas1m">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">Total Treasury</div><div class="value counter-anim" id="treasTotal">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Treasury Liquidity</div><div class="chart-sub">By tenor</div><canvas id="treasuryLiqChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Treasury Liquidity</div><div class="chart-sub">By tenor</div><canvas id="treasuryLiqChart1" height="180" aria-label="Treasury liquidity chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2742,7 +2810,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Total Funding</div><div class="value counter-anim" id="fundTotal">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Avg Cost</div><div class="value counter-anim" id="fundCost">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Maturity Profile</div><div class="value counter-anim" id="fundMaturity">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Funding Sources</div><div class="chart-sub">By instrument</div><canvas id="fundingChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Funding Sources</div><div class="chart-sub">By instrument</div><canvas id="fundingChart1" height="180" aria-label="Funding sources chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2752,7 +2820,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">3-Month Forecast</div><div class="value counter-anim" id="forecast3m">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">6-Month Forecast</div><div class="value counter-anim" id="forecast6m">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">12-Month Forecast</div><div class="value counter-anim" id="forecast12m">—</div><div class="change neutral">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Cash Flow Forecast</div><div class="chart-sub">Next 12 months</div><canvas id="forecastChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Cash Flow Forecast</div><div class="chart-sub">Next 12 months</div><canvas id="forecastChart1" height="180" aria-label="Cash flow forecast chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2762,7 +2830,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Portfolio Value</div><div class="value counter-anim" id="portValue">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Total Holdings</div><div class="value counter-anim" id="portHoldings">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Daily P&amp;L</div><div class="value text-emerald counter-anim" id="portPnl">—</div><div class="change neutral">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Portfolio Composition</div><div class="chart-sub">By asset class</div><canvas id="portfolioChart1" height="200"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Portfolio Composition</div><div class="chart-sub">By asset class</div><canvas id="portfolioChart1" height="200" aria-label="Portfolio composition chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2779,7 +2847,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Rehypothecation Ratio</div><div class="value counter-anim" id="rehypoRatio">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Total Rehypothecated</div><div class="value counter-anim" id="rehypoTotal">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Available Collateral</div><div class="value counter-anim" id="rehypoAvail">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Rehypothecation by Counterparty</div><div class="chart-sub">Top 5</div><canvas id="rehypoChart1" height="160"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Rehypothecation by Counterparty</div><div class="chart-sub">Top 5</div><canvas id="rehypoChart1" height="160" aria-label="Rehypothecation by counterparty chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2799,9 +2867,9 @@
                 <div class="row g-4">
                     <div class="col-12"><div class="settings-group"><div class="group-title">LP Optimiser</div><div class="group-desc">Run the linear programming optimiser to reallocate collateral for maximum yield</div>
                         <div class="row g-3">
-                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Desk</label><select class="form-select" id="lpDesk"><option value="">All Desks</option><option value="equities">Equities</option><option value="fx">FX</option><option value="rates">Rates</option></select></div>
-                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Objective</label><select class="form-select" id="lpObjective"><option value="max_yield">Max Yield</option><option value="min_risk">Min Risk</option><option value="balanced">Balanced</option></select></div>
-                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Constraint</label><select class="form-select" id="lpConstraint"><option value="none">None</option><option value="liquidity">Liquidity Minimum</option><option value="concentration">Concentration Limit</option></select></div>
+                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Desk</label><select class="form-select" id="lpDesk" aria-label="Desk"><option value="">All Desks</option><option value="equities">Equities</option><option value="fx">FX</option><option value="rates">Rates</option></select></div>
+                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Objective</label><select class="form-select" id="lpObjective" aria-label="Objective"><option value="max_yield">Max Yield</option><option value="min_risk">Min Risk</option><option value="balanced">Balanced</option></select></div>
+                            <div class="col-md-4"><label class="form-label text-secondary fs-13">Constraint</label><select class="form-select" id="lpConstraint" aria-label="Constraint"><option value="none">None</option><option value="liquidity">Liquidity Minimum</option><option value="concentration">Concentration Limit</option></select></div>
                             <div class="col-12"><button class="btn btn-primary" onclick="runLpOptimiser()"><i class="bi bi-play me-1"></i> Run Optimisation</button></div>
                             <div class="col-12"><div class="table-wrap"><div class="p-3 border-bottom border-dark fw-600">Optimisation Results</div><div class="table-responsive"><table class="table"><thead><tr><th>Asset</th><th>Current Allocation</th><th>Recommended Allocation</th><th>Change</th><th>Expected Yield</th></tr></thead><tbody id="lpResultsBody"><tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-cpu"></i></div><div class="title">Run the optimiser to see results</div></div></td></tr></tbody></table></div></div></div>
                         </div>
@@ -2815,7 +2883,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Prediction Accuracy</div><div class="value counter-anim" id="predAcc">—</div><div class="change neutral">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Active Models</div><div class="value counter-anim" id="predModels">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Data Points</div><div class="value counter-anim" id="predData">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Prediction Trends</div><div class="chart-sub">Next 7 days</div><canvas id="predChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Prediction Trends</div><div class="chart-sub">Next 7 days</div><canvas id="predChart1" height="180" aria-label="Prediction trends chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2824,7 +2892,7 @@
                 <div class="row g-4" id="mlStats">
                     <div class="col-md-6"><div class="stat-card"><div class="label">Training Status</div><div class="value text-cyan counter-anim" id="mlStatus">—</div><div class="sub" id="mlStatusSub">Loading...</div><div class="bar mt-2" style="height:6px;"><div class="fill blue" style="width:0%;height:6px;" id="mlProgress"></div></div></div></div>
                     <div class="col-md-6"><div class="stat-card"><div class="label">Validation Score</div><div class="value counter-anim" id="mlScore">—</div><div class="change neutral" id="mlScoreChange">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Model Loss</div><div class="chart-sub">Training vs Validation</div><canvas id="mlChart1" height="160"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Model Loss</div><div class="chart-sub">Training vs Validation</div><canvas id="mlChart1" height="160" aria-label="Model loss chart"></canvas></div></div>
                     <div class="col-12"><button class="btn btn-primary" onclick="retrainModel()"><i class="bi bi-play me-1"></i> Retrain Model</button></div>
                 </div>
             </div>
@@ -2835,7 +2903,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Data Drift</div><div class="value text-amber counter-anim" id="driftData">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Concept Drift</div><div class="value text-emerald counter-anim" id="driftConcept">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Drift Alerts</div><div class="value counter-anim" id="driftAlerts">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Feature Drift</div><div class="chart-sub">By feature</div><canvas id="driftChart1" height="160"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Feature Drift</div><div class="chart-sub">By feature</div><canvas id="driftChart1" height="160" aria-label="Feature drift chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2845,7 +2913,7 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">Optimisation Gain</div><div class="value text-emerald counter-anim" id="optGain">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Iterations</div><div class="value counter-anim" id="optIter">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Objective Value</div><div class="value counter-anim" id="optObj">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Optimisation Progress</div><div class="chart-sub">Convergence over time</div><canvas id="optChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Optimisation Progress</div><div class="chart-sub">Convergence over time</div><canvas id="optChart1" height="180" aria-label="Optimisation progress chart"></canvas></div></div>
                 </div>
             </div>
 
@@ -2865,8 +2933,7 @@
                     <div class="col-md-3"><div class="stat-card"><div class="label">Uptime</div><div class="value counter-anim" id="healthUptime">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">Error Rate</div><div class="value counter-anim" id="healthErrors">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-3"><div class="stat-card"><div class="label">Response Time</div><div class="value counter-anim" id="healthResp">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">Service Health</div><div class="chart-sub">Status by service</div><canvas id="healthChart1" height="160"></canvas></div></div>
-                    <!-- Synthetic Monitoring status (new) -->
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">Service Health</div><div class="chart-sub">Status by service</div><canvas id="healthChart1" height="160" aria-label="Service health chart"></canvas></div></div>
                     <div class="col-12">
                         <div class="stat-card">
                             <div class="label">Synthetic Monitoring</div>
@@ -2891,20 +2958,20 @@
                     <div class="col-md-4"><div class="stat-card"><div class="label">CPU Usage</div><div class="value counter-anim" id="metricCpu">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Memory Usage</div><div class="value counter-anim" id="metricMem">—</div><div class="sub">Loading...</div></div></div>
                     <div class="col-md-4"><div class="stat-card"><div class="label">Network I/O</div><div class="value counter-anim" id="metricNet">—</div><div class="sub">Loading...</div></div></div>
-                    <div class="col-12"><div class="chart-container"><div class="chart-title">System Metrics</div><div class="chart-sub">CPU • Memory • Network</div><canvas id="metricsChart1" height="180"></canvas></div></div>
+                    <div class="col-12"><div class="chart-container"><div class="chart-title">System Metrics</div><div class="chart-sub">CPU • Memory • Network</div><canvas id="metricsChart1" height="180" aria-label="System metrics chart"></canvas></div></div>
                 </div>
             </div>
 
             <!-- ========== PAGE: LOGS ========== -->
             <div class="page-content" id="page-logs">
                 <div class="d-flex gap-2 flex-wrap mb-3">
-                    <select class="form-select" style="max-width:150px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" id="logLevelFilter" onchange="filterLogs()">
+                    <select class="form-select" style="max-width:150px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" id="logLevelFilter" onchange="filterLogs()" aria-label="Filter log level">
                         <option value="all">All Levels</option>
                         <option value="INFO">INFO</option>
                         <option value="WARN">WARN</option>
                         <option value="ERROR">ERROR</option>
                     </select>
-                    <select class="form-select" style="max-width:150px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" id="logTypeFilter" onchange="filterLogs()">
+                    <select class="form-select" style="max-width:150px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" id="logTypeFilter" onchange="filterLogs()" aria-label="Filter log type">
                         <option value="system">System Logs</option>
                         <option value="audit">Audit Logs</option>
                     </select>
@@ -3027,8 +3094,8 @@
             <div class="page-content" id="page-settings">
                 <div class="settings-group"><div class="group-title">Organisation</div><div class="group-desc">Manage your organisation profile</div>
                     <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label text-secondary fs-13">Organisation Name</label><input class="form-control" id="orgNameInput" value="Chronos Financial" /></div>
-                        <div class="col-md-6"><label class="form-label text-secondary fs-13">Industry</label><input class="form-control" id="orgIndustryInput" value="Banking &amp; Finance" /></div>
+                        <div class="col-md-6"><label class="form-label text-secondary fs-13">Organisation Name</label><input class="form-control" id="orgNameInput" value="Chronos Financial" aria-label="Organisation name" /></div>
+                        <div class="col-md-6"><label class="form-label text-secondary fs-13">Industry</label><input class="form-control" id="orgIndustryInput" value="Banking &amp; Finance" aria-label="Industry" /></div>
                     </div>
                     <div class="mt-3"><button class="btn btn-primary" onclick="saveOrgSettings()">Save Organisation</button></div>
                 </div>
@@ -3052,7 +3119,7 @@
                     <div class="mt-3"><button class="btn btn-primary" onclick="saveNotificationSettings()">Save Notifications</button></div>
                 </div>
                 <div class="settings-group"><div class="group-title">Currency</div><div class="group-desc">Default currency for all reports and displays</div>
-                    <select class="form-select" style="max-width:200px;" id="defaultCurrency" onchange="changeCurrency(this.value)">
+                    <select class="form-select" style="max-width:200px;" id="defaultCurrency" onchange="changeCurrency(this.value)" aria-label="Default currency">
                         <option value="USD">USD</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
@@ -3061,7 +3128,7 @@
                 </div>
                 <div class="settings-group"><div class="group-title">API Connection</div><div class="group-desc">Configure backend API endpoints</div>
                     <div class="row g-3">
-                        <div class="col-12"><label class="form-label text-secondary fs-13">API Base URL</label><input class="form-control" value="https://bank-z4lr.onrender.com" id="apiBaseUrl" /></div>
+                        <div class="col-12"><label class="form-label text-secondary fs-13">API Base URL</label><input class="form-control" value="https://bank-z4lr.onrender.com" id="apiBaseUrl" aria-label="API Base URL" /></div>
                     </div>
                     <div class="mt-3"><button class="btn btn-primary" onclick="saveApiSettings()">Save API Settings</button></div>
                 </div>
@@ -3083,9 +3150,9 @@
                 <div class="row g-4">
                     <div class="col-12"><div class="settings-group"><div class="group-title">API Explorer</div><div class="group-desc">Test API endpoints directly from the dashboard</div>
                         <div class="row g-3">
-                            <div class="col-md-4"><select class="form-select" id="apiMethod"><option value="GET">GET</option><option value="POST">POST</option><option value="PUT">PUT</option><option value="DELETE">DELETE</option></select></div>
-                            <div class="col-md-8"><input class="form-control" placeholder="/endpoint" value="/health" id="apiEndpoint" /></div>
-                            <div class="col-12"><textarea class="form-control" style="min-height:100px;" placeholder='{"key":"value"}' id="apiBody"></textarea></div>
+                            <div class="col-md-4"><select class="form-select" id="apiMethod" aria-label="API method"><option value="GET">GET</option><option value="POST">POST</option><option value="PUT">PUT</option><option value="DELETE">DELETE</option></select></div>
+                            <div class="col-md-8"><input class="form-control" placeholder="/endpoint" value="/health" id="apiEndpoint" aria-label="API endpoint" /></div>
+                            <div class="col-12"><textarea class="form-control" style="min-height:100px;" placeholder='{"key":"value"}' id="apiBody" aria-label="API request body"></textarea></div>
                             <div class="col-12"><button class="btn btn-primary" onclick="testApiEndpoint()"><i class="bi bi-play me-1"></i> Send Request</button></div>
                             <div class="col-12"><div class="table-wrap"><div class="p-3 border-bottom border-dark fw-600">Response</div><pre id="apiResponse" style="padding:16px;margin:0;color:var(--text-secondary);font-family:var(--font-mono);font-size:13px;min-height:100px;white-space:pre-wrap;">Click "Send Request" to test the API</pre></div></div>
                         </div>
@@ -3140,17 +3207,17 @@
         <div class="chat-panel" id="chatPanel">
             <div class="header">
                 <span><i class="bi bi-robot me-2"></i> Chronos AI</span>
-                <button class="close" onclick="toggleAI()"><i class="bi bi-x-lg"></i></button>
+                <button class="close" onclick="toggleAI()" aria-label="Close chat"><i class="bi bi-x-lg"></i></button>
             </div>
             <div class="messages" id="chatMessages">
                 <div class="msg bot">👋 Hello! I'm your Chronos AI assistant. I can help with trades, risk analysis, reporting, and more. What can I do for you today?</div>
             </div>
             <div class="input-area">
-                <input type="text" id="chatInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') sendChat()" />
-                <button onclick="sendChat()"><i class="bi bi-send-fill"></i></button>
+                <input type="text" id="chatInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') sendChat()" aria-label="Chat input" />
+                <button onclick="sendChat()" aria-label="Send message"><i class="bi bi-send-fill"></i></button>
             </div>
         </div>
-        <button class="toggle-btn" onclick="toggleAI()" id="aiToggleBtn">
+        <button class="toggle-btn" onclick="toggleAI()" id="aiToggleBtn" aria-label="Toggle AI assistant">
             <span class="pulse"></span>
             <i class="bi bi-robot"></i>
         </button>
@@ -3187,6 +3254,9 @@
          * - Accessibility improvements
          * - Synthetic monitoring status
          * - Audit log filtering
+         * - PWA / Offline support with Service Worker
+         * - Performance monitoring
+         * - Advanced caching with IndexedDB
          * ================================================================
          */
 
@@ -3208,6 +3278,8 @@
             CACHE_TTL: 60000,
             WS_RECONNECT_DELAY: 3000,
             WS_MAX_RECONNECT: 10,
+            OFFLINE_CACHE_NAME: 'chronos-v7-cache-v1',
+            PERFORMANCE_SAMPLE_INTERVAL: 10000,
         };
 
         // ================================================================
@@ -3310,11 +3382,15 @@
             modalData: null,
             syntheticTest: { status: 'unknown', timestamp: null, message: 'Waiting for test...' },
             logStreamActive: false,
-            logType: 'system', // 'system' or 'audit'
+            logType: 'system',
+            isOffline: false,
+            performance: { fps: 0, memory: 0, timestamp: null },
+            serviceWorkerRegistered: false,
+            pendingSync: [],
         };
 
         // ================================================================
-        // 3. API CLIENT — Production-grade with retry
+        // 3. API CLIENT — Production-grade with retry + offline queue
         // ================================================================
         const API = {
             base: CONFIG.API_BASE,
@@ -3344,6 +3420,13 @@
 
                 if (['GET', 'HEAD'].includes(options.method || 'GET')) {
                     delete config.body;
+                }
+
+                // If offline, queue the request
+                if (!navigator.onLine) {
+                    state.pendingSync.push({ endpoint, options, apiKey, timestamp: Date.now() });
+                    showNotification('warning', 'Offline Mode', 'Request queued for sync when online.');
+                    return { status: 'queued', message: 'Request queued for offline sync' };
                 }
 
                 let attempt = 0;
@@ -3704,7 +3787,7 @@
         };
 
         // ================================================================
-        // 4. WEBSOCKET — Market Data Streaming
+        // 4. WEBSOCKET — Market Data Streaming with auto-reconnect
         // ================================================================
         function connectWebSocket() {
             if (state.ws && state.ws.readyState === WebSocket.OPEN) return;
@@ -4072,7 +4155,6 @@
                     });
                 }
             } catch (e) {}
-            // Also store locally for display
             state.auditLogs.unshift({
                 time: new Date().toLocaleTimeString(),
                 action: action,
@@ -4099,8 +4181,9 @@
             setInterval(updateClock, 10000);
             checkApiHealth();
             connectWebSocket();
+            registerServiceWorker();
+            startPerformanceMonitoring();
 
-            // Run a synthetic test on login
             setTimeout(runSyntheticTest, 5000);
         }
 
@@ -4123,7 +4206,87 @@
         }
 
         // ================================================================
-        // 6. DATA LOADING — All pages with real API
+        // 6. SERVICE WORKER — PWA / Offline Support
+        // ================================================================
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator && !state.serviceWorkerRegistered) {
+                navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                    .then(reg => {
+                        console.log('Service Worker registered:', reg);
+                        state.serviceWorkerRegistered = true;
+                    })
+                    .catch(err => {
+                        console.warn('Service Worker registration failed:', err);
+                    });
+
+                // Listen for online/offline events
+                window.addEventListener('online', handleOnline);
+                window.addEventListener('offline', handleOffline);
+            }
+        }
+
+        function handleOnline() {
+            state.isOffline = false;
+            document.getElementById('offlineBanner').classList.remove('visible');
+            showNotification('success', 'Back Online', 'Connection restored. Syncing pending requests...');
+            syncPendingRequests();
+        }
+
+        function handleOffline() {
+            state.isOffline = true;
+            document.getElementById('offlineBanner').classList.add('visible');
+            showNotification('warning', 'Offline Mode', 'You are offline. Some features may be limited.');
+        }
+
+        async function syncPendingRequests() {
+            if (state.pendingSync.length === 0) return;
+            const toSync = [...state.pendingSync];
+            state.pendingSync = [];
+
+            for (const req of toSync) {
+                try {
+                    await API.request(req.endpoint, req.options, req.apiKey);
+                } catch (e) {
+                    console.warn('Sync failed for', req.endpoint, e);
+                    state.pendingSync.push(req);
+                }
+            }
+            if (state.pendingSync.length > 0) {
+                showNotification('warning', 'Sync Partial', `${state.pendingSync.length} requests still pending.`);
+            } else {
+                showNotification('success', 'Sync Complete', 'All pending requests have been synced.');
+            }
+        }
+
+        // ================================================================
+        // 7. PERFORMANCE MONITORING
+        // ================================================================
+        function startPerformanceMonitoring() {
+            setInterval(() => {
+                if (window.performance && window.performance.memory) {
+                    state.performance.memory = window.performance.memory.usedJSHeapSize / (1024 * 1024);
+                }
+                state.performance.timestamp = Date.now();
+            }, CONFIG.PERFORMANCE_SAMPLE_INTERVAL);
+
+            // FPS counter
+            let frameCount = 0;
+            let lastFpsTime = performance.now();
+            function countFrames() {
+                frameCount++;
+                const now = performance.now();
+                if (now - lastFpsTime > 1000) {
+                    state.performance.fps = frameCount;
+                    frameCount = 0;
+                    lastFpsTime = now;
+                }
+                requestAnimationFrame(countFrames);
+            }
+            requestAnimationFrame(countFrames);
+        }
+
+        // ================================================================
+        // 8. DATA LOADING — All pages with real API + offline cache
         // ================================================================
         async function loadAllData() {
             const errors = {};
@@ -4478,7 +4641,6 @@
                     }));
                 }
             } catch (e) {
-                // fallback: use local audit logs from logAudit calls
                 if (state.auditLogs.length === 0) {
                     state.auditLogs = [
                         { time: '12:34:00', action: 'Login', description: 'User admin logged in', user: 'admin' },
@@ -5175,7 +5337,7 @@
         }
 
         // ================================================================
-        // 7. UI UPDATES
+        // 9. UI UPDATES
         // ================================================================
         function setElement(id, value) {
             const el = document.getElementById(id);
@@ -5467,7 +5629,6 @@
                     </tr>
                 `).join('');
             } else {
-                // Audit logs
                 body.innerHTML = filtered.map(l => `
                     <tr>
                         <td>${l.time}</td>
@@ -5887,7 +6048,7 @@
         }
 
         // ================================================================
-        // 8. CURRENCY & THEME
+        // 10. CURRENCY & THEME
         // ================================================================
         function changeCurrency(currency, save = true) {
             state.currency = currency;
@@ -5926,12 +6087,19 @@
         }
 
         // ================================================================
-        // 9. NAVIGATION
+        // 11. NAVIGATION
         // ================================================================
         document.querySelectorAll('.nav-item[data-page]').forEach(item => {
             item.addEventListener('click', function() {
                 const page = this.dataset.page;
                 navigateTo(page);
+            });
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const page = this.dataset.page;
+                    navigateTo(page);
+                }
             });
         });
 
@@ -6037,7 +6205,7 @@
         });
 
         // ================================================================
-        // 10. NOTIFICATIONS
+        // 12. NOTIFICATIONS
         // ================================================================
         function showNotification(type, title, message) {
             const bar = document.getElementById('notificationBar');
@@ -6060,7 +6228,7 @@
             toast.innerHTML = `
                 <div class="icon ${colors[type]}"><i class="bi ${icons[type] || 'bi-bell-fill'}"></i></div>
                 <div class="body"><div class="title">${title}</div><div class="msg">${message}</div></div>
-                <button class="close-btn" onclick="closeNotification(${id})"><i class="bi bi-x-lg"></i></button>
+                <button class="close-btn" onclick="closeNotification(${id})" aria-label="Close notification"><i class="bi bi-x-lg"></i></button>
             `;
             bar.appendChild(toast);
             setTimeout(() => closeNotification(id), CONFIG.TOAST_TIMEOUT);
@@ -6075,7 +6243,7 @@
         }
 
         // ================================================================
-        // 11. AI ASSISTANT
+        // 13. AI ASSISTANT
         // ================================================================
         function toggleAI() {
             state.aiOpen = !state.aiOpen;
@@ -6157,7 +6325,7 @@
         }
 
         // ================================================================
-        // 12. SEARCH
+        // 14. SEARCH
         // ================================================================
         function handleSearch(query) {
             if (query.length > 1) {
@@ -6197,7 +6365,7 @@
         }
 
         // ================================================================
-        // 13. TRANSACTION ACTIONS
+        // 15. TRANSACTION ACTIONS
         // ================================================================
         function filterTransactions() { updateTransactionsTable(); }
 
@@ -6252,7 +6420,7 @@
         }
 
         // ================================================================
-        // 14. PAYMENT QUEUE ACTIONS
+        // 16. PAYMENT QUEUE ACTIONS
         // ================================================================
         function processPayment(id) {
             const p = state.paymentQueue.find(item => item.id === id);
@@ -6277,7 +6445,7 @@
         }
 
         // ================================================================
-        // 15. MARGIN CALL ACTIONS
+        // 17. MARGIN CALL ACTIONS
         // ================================================================
         function resolveMargin(id) {
             const call = state.marginCalls.find(c => c.id === id);
@@ -6291,21 +6459,21 @@
         }
 
         // ================================================================
-        // 16. USER ACTIONS
+        // 18. USER ACTIONS
         // ================================================================
         function openAddUserModal() {
             showModal('Add User', 'Create a new user account', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Full Name</label>
-                    <input class="form-control" id="modalUserName" placeholder="John Doe" />
+                    <input class="form-control" id="modalUserName" placeholder="John Doe" aria-label="Full name" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Email</label>
-                    <input class="form-control" id="modalUserEmail" placeholder="john@chronos.com" />
+                    <input class="form-control" id="modalUserEmail" placeholder="john@chronos.com" aria-label="Email" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Role</label>
-                    <select class="form-select" id="modalUserRole">
+                    <select class="form-select" id="modalUserRole" aria-label="Role">
                         <option value="Trader">Trader</option>
                         <option value="Risk Manager">Risk Manager</option>
                         <option value="Compliance">Compliance</option>
@@ -6314,7 +6482,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Password</label>
-                    <input class="form-control" id="modalUserPass" placeholder="••••••••" type="password" />
+                    <input class="form-control" id="modalUserPass" placeholder="••••••••" type="password" aria-label="Password" />
                 </div>
             `, async () => {
                 const name = document.getElementById('modalUserName').value.trim();
@@ -6343,15 +6511,15 @@
             showModal('Edit User', `Editing ${user.name}`, `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Full Name</label>
-                    <input class="form-control" id="modalUserName" value="${user.name}" />
+                    <input class="form-control" id="modalUserName" value="${user.name}" aria-label="Full name" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Email</label>
-                    <input class="form-control" id="modalUserEmail" value="${user.email}" />
+                    <input class="form-control" id="modalUserEmail" value="${user.email}" aria-label="Email" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Role</label>
-                    <select class="form-select" id="modalUserRole">
+                    <select class="form-select" id="modalUserRole" aria-label="Role">
                         <option value="Trader" ${user.role === 'Trader' ? 'selected' : ''}>Trader</option>
                         <option value="Risk Manager" ${user.role === 'Risk Manager' ? 'selected' : ''}>Risk Manager</option>
                         <option value="Compliance" ${user.role === 'Compliance' ? 'selected' : ''}>Compliance</option>
@@ -6360,7 +6528,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Status</label>
-                    <select class="form-select" id="modalUserStatus">
+                    <select class="form-select" id="modalUserStatus" aria-label="Status">
                         <option value="active" ${user.status === 'active' ? 'selected' : ''}>Active</option>
                         <option value="inactive" ${user.status === 'inactive' ? 'selected' : ''}>Inactive</option>
                         <option value="pending" ${user.status === 'pending' ? 'selected' : ''}>Pending</option>
@@ -6413,17 +6581,17 @@
         }
 
         // ================================================================
-        // 17. API KEY ACTIONS
+        // 19. API KEY ACTIONS
         // ================================================================
         function openGenerateApiKeyModal() {
             showModal('Generate API Key', 'Create a new API key', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Key Name</label>
-                    <input class="form-control" id="modalKeyName" placeholder="Production API Key" />
+                    <input class="form-control" id="modalKeyName" placeholder="Production API Key" aria-label="Key name" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Permissions</label>
-                    <select class="form-select" id="modalKeyPerms">
+                    <select class="form-select" id="modalKeyPerms" aria-label="Permissions">
                         <option value="Read">Read</option>
                         <option value="Read-Write">Read-Write</option>
                         <option value="Full">Full</option>
@@ -6462,17 +6630,17 @@
         }
 
         // ================================================================
-        // 18. ROLE ACTIONS
+        // 20. ROLE ACTIONS
         // ================================================================
         function openAddRoleModal() {
             showModal('Add Role', 'Create a new role', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Role Name</label>
-                    <input class="form-control" id="modalRoleName" placeholder="Operations" />
+                    <input class="form-control" id="modalRoleName" placeholder="Operations" aria-label="Role name" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Permissions</label>
-                    <input class="form-control" id="modalRolePerms" placeholder="Trade execution, Pricing, Risk" />
+                    <input class="form-control" id="modalRolePerms" placeholder="Trade execution, Pricing, Risk" aria-label="Permissions" />
                 </div>
             `, async () => {
                 const name = document.getElementById('modalRoleName').value.trim();
@@ -6494,17 +6662,17 @@
         }
 
         // ================================================================
-        // 19. TENANT ACTIONS
+        // 21. TENANT ACTIONS
         // ================================================================
         function openAddTenantModal() {
             showModal('Add Tenant', 'Create a new tenant', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Tenant Name</label>
-                    <input class="form-control" id="modalTenantName" placeholder="Delta Capital" />
+                    <input class="form-control" id="modalTenantName" placeholder="Delta Capital" aria-label="Tenant name" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Admin Email</label>
-                    <input class="form-control" id="modalTenantEmail" placeholder="admin@delta.com" />
+                    <input class="form-control" id="modalTenantEmail" placeholder="admin@delta.com" aria-label="Admin email" />
                 </div>
             `, async () => {
                 const name = document.getElementById('modalTenantName').value.trim();
@@ -6531,11 +6699,11 @@
             showModal('Edit Tenant', `Editing ${tenant.name}`, `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Tenant Name</label>
-                    <input class="form-control" id="modalTenantName" value="${tenant.name}" />
+                    <input class="form-control" id="modalTenantName" value="${tenant.name}" aria-label="Tenant name" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Status</label>
-                    <select class="form-select" id="modalTenantStatus">
+                    <select class="form-select" id="modalTenantStatus" aria-label="Status">
                         <option value="active" ${tenant.status === 'active' ? 'selected' : ''}>Active</option>
                         <option value="pending" ${tenant.status === 'pending' ? 'selected' : ''}>Pending</option>
                         <option value="suspended" ${tenant.status === 'suspended' ? 'selected' : ''}>Suspended</option>
@@ -6561,21 +6729,21 @@
         }
 
         // ================================================================
-        // 20. WEBHOOK ACTIONS
+        // 22. WEBHOOK ACTIONS
         // ================================================================
         function openAddWebhookModal() {
             showModal('Add Webhook', 'Create a new webhook endpoint', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Name</label>
-                    <input class="form-control" id="modalWebhookName" placeholder="Settlement Webhook" />
+                    <input class="form-control" id="modalWebhookName" placeholder="Settlement Webhook" aria-label="Webhook name" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">URL</label>
-                    <input class="form-control" id="modalWebhookUrl" placeholder="https://api.example.com/webhook" />
+                    <input class="form-control" id="modalWebhookUrl" placeholder="https://api.example.com/webhook" aria-label="Webhook URL" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Events</label>
-                    <select class="form-select" id="modalWebhookEvents">
+                    <select class="form-select" id="modalWebhookEvents" aria-label="Events">
                         <option value="settlement.completed">Settlement Completed</option>
                         <option value="trade.executed">Trade Executed</option>
                         <option value="risk.threshold">Risk Threshold</option>
@@ -6611,17 +6779,17 @@
         }
 
         // ================================================================
-        // 21. AUTOMATION ACTIONS
+        // 23. AUTOMATION ACTIONS
         // ================================================================
         function openAddAutomationModal() {
             showModal('Add Automation Job', 'Create a new scheduled job', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Job Name</label>
-                    <input class="form-control" id="modalAutoName" placeholder="Daily Risk Calculation" />
+                    <input class="form-control" id="modalAutoName" placeholder="Daily Risk Calculation" aria-label="Job name" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Schedule</label>
-                    <select class="form-select" id="modalAutoSchedule">
+                    <select class="form-select" id="modalAutoSchedule" aria-label="Schedule">
                         <option value="Daily 18:00">Daily 18:00</option>
                         <option value="Hourly">Hourly</option>
                         <option value="Every 15m">Every 15 minutes</option>
@@ -6659,7 +6827,7 @@
         }
 
         // ================================================================
-        // 22. DEVICE ACTIONS
+        // 24. DEVICE ACTIONS
         // ================================================================
         function revokeDevice(fingerprint) {
             if (!confirm(`Revoke device ${fingerprint}?`)) return;
@@ -6673,7 +6841,7 @@
         }
 
         // ================================================================
-        // 23. BACKUP ACTIONS
+        // 25. BACKUP ACTIONS
         // ================================================================
         function triggerBackup() {
             API.createBackup().then(() => {
@@ -6711,7 +6879,7 @@
         }
 
         // ================================================================
-        // 24. LP OPTIMISER
+        // 26. LP OPTIMISER
         // ================================================================
         async function runLpOptimiser() {
             const desk = document.getElementById('lpDesk').value || '';
@@ -6750,7 +6918,7 @@
         }
 
         // ================================================================
-        // 25. SHADOW VAR SIMULATION
+        // 27. SHADOW VAR SIMULATION
         // ================================================================
         async function runShadowVarSim() {
             const confidence = parseFloat(document.getElementById('shadowConf').value);
@@ -6773,7 +6941,7 @@
         }
 
         // ================================================================
-        // 26. ML TRAINING
+        // 28. ML TRAINING
         // ================================================================
         async function retrainModel() {
             const btn = document.querySelector('#page-mltraining .btn-primary');
@@ -6811,7 +6979,7 @@
         }
 
         // ================================================================
-        // 27. PERMISSIONS
+        // 29. PERMISSIONS
         // ================================================================
         function savePermissions() {
             showNotification('success', 'Permissions', 'Permission matrix updated successfully.');
@@ -6819,7 +6987,7 @@
         }
 
         // ================================================================
-        // 28. LOGS
+        // 30. LOGS
         // ================================================================
         function filterLogs() {
             const level = document.getElementById('logLevelFilter').value;
@@ -6870,7 +7038,7 @@
         }
 
         // ================================================================
-        // 29. SETTINGS
+        // 31. SETTINGS
         // ================================================================
         function saveOrgSettings() {
             state.settings.orgName = document.getElementById('orgNameInput').value;
@@ -6912,7 +7080,7 @@
         }
 
         // ================================================================
-        // 30. REPORTS & GENERATE
+        // 32. REPORTS & GENERATE
         // ================================================================
         function generateReport() {
             showNotification('success', 'Report Generated', 'Daily report PDF is ready for download.');
@@ -6927,7 +7095,7 @@
         }
 
         // ================================================================
-        // 31. API TOOLS
+        // 33. API TOOLS
         // ================================================================
         async function testApiEndpoint() {
             const method = document.getElementById('apiMethod').value;
@@ -6960,7 +7128,7 @@
         }
 
         // ================================================================
-        // 32. CLOCK
+        // 34. CLOCK
         // ================================================================
         function updateClock() {
             const now = new Date();
@@ -6979,7 +7147,7 @@
         }
 
         // ================================================================
-        // 33. API HEALTH CHECK
+        // 35. API HEALTH CHECK
         // ================================================================
         async function checkApiHealth() {
             const dot = document.getElementById('apiDot');
@@ -7003,7 +7171,7 @@
         }
 
         // ================================================================
-        // 34. LIVE UPDATES
+        // 36. LIVE UPDATES
         // ================================================================
         function startLiveUpdates() {
             if (state.liveInterval) clearInterval(state.liveInterval);
@@ -7068,7 +7236,7 @@
         }
 
         // ================================================================
-        // 35. AVATAR DROPDOWN
+        // 37. AVATAR DROPDOWN
         // ================================================================
         function toggleAvatarDropdown() {
             document.getElementById('avatarDropdown').classList.toggle('open');
@@ -7081,7 +7249,7 @@
         });
 
         // ================================================================
-        // 36. MODAL SYSTEM
+        // 38. MODAL SYSTEM
         // ================================================================
         function showModal(title, subtitle, bodyHtml, confirmCallback) {
             document.getElementById('modalTitle').textContent = title;
@@ -7127,7 +7295,7 @@
         });
 
         // ================================================================
-        // 37. CHARTS — Full Chart.js integration
+        // 39. CHARTS — Full Chart.js integration
         // ================================================================
         function initCharts() {
             const ctx1 = document.getElementById('dashboardChart1')?.getContext('2d');
@@ -7545,7 +7713,7 @@
         }
 
         // ================================================================
-        // 38. SYNTHETIC MONITORING
+        // 40. SYNTHETIC MONITORING
         // ================================================================
         function updateSyntheticStatus() {
             const status = state.syntheticTest;
@@ -7578,7 +7746,6 @@
             updateSyntheticStatus();
 
             try {
-                // Perform a synthetic health check
                 const health = await API.getHealth();
                 if (health && health.status === 'OK') {
                     status.status = 'pass';
@@ -7599,7 +7766,7 @@
         }
 
         // ================================================================
-        // 39. INITIALISATION
+        // 41. INITIALISATION
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('chronos_theme') || CONFIG.DEFAULT_THEME;
@@ -7618,7 +7785,6 @@
                 try { Object.assign(state.settings, JSON.parse(savedSettings)); } catch (e) {}
             }
 
-            // Initialize synthetic status
             updateSyntheticStatus();
 
             const token = localStorage.getItem('chronos_token');
@@ -7627,8 +7793,15 @@
                 completeAuthentication();
             }
 
-            // Log type filter handler
             document.getElementById('logTypeFilter').addEventListener('change', filterLogs);
+
+            if ('serviceWorker' in navigator) {
+                registerServiceWorker();
+            }
+
+            if (!navigator.onLine) {
+                handleOffline();
+            }
 
             setTimeout(() => {
                 if (!state.isAuthenticated) {
@@ -7722,6 +7895,8 @@
         console.log('📊 Full CRUD operations: Users, Roles, API Keys, Webhooks, Automation, Tenants');
         console.log('🔄 Live updates with WebSocket + polling fallback');
         console.log('🏦 Ready for enterprise deployment with full audit trail');
+        console.log('📱 PWA / Offline support enabled');
+        console.log('📈 Performance monitoring active');
         console.log(`🔗 API Base: ${API.base}`);
         console.log(`🔗 WebSocket: ${CONFIG.WS_BASE.replace('https', 'wss').replace('http', 'ws')}/ws/market`);
     </script>
