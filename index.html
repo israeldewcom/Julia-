@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -2277,7 +2277,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-secondary" style="font-size:13px;font-weight:500;">Password</label>
-                        <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" value="password123" required autocomplete="current-password" />
+                        <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" value="Admin123!" required autocomplete="current-password" />
                     </div>
                     <div class="mb-3 d-flex justify-content-between align-items-center">
                         <div class="form-check">
@@ -3261,11 +3261,23 @@
          */
 
         // ================================================================
-        // 1. CONFIGURATION
+        // 1. CONFIGURATION — Production-ready dynamic API base
         // ================================================================
         const CONFIG = {
-            API_BASE: 'https://bank-z4lr.onrender.com',
-            WS_BASE: 'wss://bank-z4lr.onrender.com',
+            API_BASE: (function() {
+                const host = window.location.hostname;
+                if (host === 'localhost' || host === '127.0.0.1') {
+                    return 'http://localhost:8000';
+                }
+                return 'https://bank-z4lr.onrender.com';
+            })(),
+            WS_BASE: (function() {
+                const host = window.location.hostname;
+                if (host === 'localhost' || host === '127.0.0.1') {
+                    return 'ws://localhost:8000';
+                }
+                return 'wss://bank-z4lr.onrender.com';
+            })(),
             DEFAULT_CURRENCY: 'USD',
             DEFAULT_THEME: 'dark',
             TOAST_TIMEOUT: 6000,
@@ -3390,7 +3402,7 @@
         };
 
         // ================================================================
-        // 3. API CLIENT — Production-grade with retry + offline queue
+        // 3. API CLIENT — Production-grade with retry + offline queue + robust error handling
         // ================================================================
         const API = {
             base: CONFIG.API_BASE,
@@ -3435,16 +3447,21 @@
                         const response = await fetch(url, config);
 
                         if (response.status === 401) {
-                            const error = await response.json().catch(() => ({}));
-                            if (error.detail === 'Token expired' || error.detail === 'Invalid token') {
+                            let errorDetail = '';
+                            try {
+                                const errorData = await response.json();
+                                errorDetail = errorData.detail || errorData.message || '';
+                            } catch (_) {}
+                            if (errorDetail === 'Token expired' || errorDetail === 'Invalid token' || errorDetail
+                                .includes('expired')) {
                                 showNotification('warning', 'Session Expired', 'Please log in again.');
                                 handleLogout();
                                 throw new Error('Session expired');
                             }
-                            if (error.detail && error.detail.includes('Device not approved')) {
+                            if (errorDetail && errorDetail.includes('Device not approved')) {
                                 throw new Error('DEVICE_NOT_APPROVED');
                             }
-                            if (error.detail && error.detail.includes('Invalid API key')) {
+                            if (errorDetail && errorDetail.includes('Invalid API key')) {
                                 throw new Error('INVALID_API_KEY');
                             }
                         }
@@ -3453,10 +3470,19 @@
                             return null;
                         }
 
-                        const data = await response.json().catch(() => ({}));
+                        let data = {};
+                        try {
+                            data = await response.json();
+                        } catch (_) {
+                            data = {};
+                        }
 
                         if (!response.ok) {
-                            const errorMsg = data.detail || data.message || response.statusText || 'Unknown error';
+                            let errorMsg = data.detail || data.message || data.error || response.statusText ||
+                                `HTTP ${response.status}`;
+                            if (!errorMsg || errorMsg.trim() === '' || errorMsg === 'Unknown error') {
+                                errorMsg = `Server error (${response.status}) – please check console for details.`;
+                            }
                             throw new Error(errorMsg);
                         }
 
@@ -3467,7 +3493,9 @@
                             if (error.message === 'DEVICE_NOT_APPROVED' || error.message === 'INVALID_API_KEY') {
                                 throw error;
                             }
-                            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') ||
+                                error.message.includes('Network request failed')) {
+                                console.warn('Network error connecting to API:', error);
                                 showNotification('warning', 'Connection Issue',
                                     'Cannot reach the API server. Using cached data where available.');
                             }
@@ -3792,7 +3820,7 @@
         function connectWebSocket() {
             if (state.ws && state.ws.readyState === WebSocket.OPEN) return;
 
-            const wsUrl = CONFIG.WS_BASE.replace('https', 'wss').replace('http', 'ws') + '/ws/market';
+            const wsUrl = CONFIG.WS_BASE + '/ws/market';
 
             try {
                 state.ws = new WebSocket(wsUrl);
@@ -3958,7 +3986,9 @@
                 const fingerprint = localStorage.getItem('device_fingerprint') ||
                     'web-' + Math.random().toString(36).substring(2, 10);
 
+                console.log('Attempting login for:', email);
                 const response = await API.login(email, password, fingerprint);
+                console.log('Login response:', response);
 
                 if (response.access_token) {
                     state.token = response.access_token;
@@ -3972,6 +4002,7 @@
                     showAuthError('loginError', 'Login failed. Please check your credentials.');
                 }
             } catch (error) {
+                console.error('Login error details:', error);
                 if (error.message === 'DEVICE_NOT_APPROVED') {
                     showPairing(email);
                     showAuthSuccess('loginSuccess',
@@ -4272,6 +4303,7 @@
             // FPS counter
             let frameCount = 0;
             let lastFpsTime = performance.now();
+
             function countFrames() {
                 frameCount++;
                 const now = performance.now();
@@ -7593,7 +7625,8 @@
             const pageCharts = [
                 ['shadowVarChart1', 'bar', ['Standard VaR', 'Shadow VaR'], [12.4, 42.8], ['#2563EB', '#EF4444']],
                 ['exposureChart1', 'bar', ['Goldman', 'JPM', 'BNP', 'HSBC', 'Deutsche'], [124, 98, 56, 42, 38],
-                    ['#2563EB', '#10B981', '#F59E0B', '#06B6D4', '#EF4444']],
+                    ['#2563EB', '#10B981', '#F59E0B', '#06B6D4', '#EF4444']
+                ],
                 ['treasuryLiqChart1', 'line', ['O/N', '1W', '1M', '3M', '6M', '1Y'], [1.2, 1.8, 2.4, 3.2, 4.1, 4.8],
                     ['#2563EB']],
                 ['forecastChart1', 'line', ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [2.1, 2.4, 2.8, 3.2, 3.6, 4.2],
@@ -7898,7 +7931,7 @@
         console.log('📱 PWA / Offline support enabled');
         console.log('📈 Performance monitoring active');
         console.log(`🔗 API Base: ${API.base}`);
-        console.log(`🔗 WebSocket: ${CONFIG.WS_BASE.replace('https', 'wss').replace('http', 'ws')}/ws/market`);
+        console.log(`🔗 WebSocket: ${CONFIG.WS_BASE}/ws/market`);
     </script>
 </body>
 </html>
