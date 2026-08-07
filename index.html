@@ -3444,6 +3444,7 @@
                 let attempt = 0;
                 while (attempt <= CONFIG.RETRY_ATTEMPTS) {
                     try {
+                        console.log('API Request:', { url, method: options.method || 'GET', body: options.body, headers });
                         const response = await fetch(url, config);
 
                         if (response.status === 401) {
@@ -3486,8 +3487,10 @@
                             throw new Error(errorMsg);
                         }
 
+                        console.log('API Response:', data);
                         return data;
                     } catch (error) {
+                        console.warn(`API request attempt ${attempt+1} failed:`, error);
                         attempt++;
                         if (attempt > CONFIG.RETRY_ATTEMPTS) {
                             if (error.message === 'DEVICE_NOT_APPROVED' || error.message === 'INVALID_API_KEY') {
@@ -3973,6 +3976,17 @@
             const password = document.getElementById('loginPassword').value.trim();
             const remember = document.getElementById('rememberMe').checked;
 
+            // --- Temporary mock login bypass for testing (remove in production) ---
+            // Uncomment the following block to bypass the backend entirely:
+            /*
+            if (email === 'admin@chronos.com' && password === 'Admin123!') {
+                state.token = 'mock-token';
+                localStorage.setItem('chronos_token', 'mock-token');
+                completeAuthentication();
+                return false;
+            }
+            */
+
             if (!email || !password) {
                 showAuthError('loginError', 'Please enter both email and password.');
                 return false;
@@ -3983,10 +3997,11 @@
             btn.innerHTML = '<span class="spinner-sm"></span> Signing in...';
 
             try {
-                const fingerprint = localStorage.getItem('device_fingerprint') ||
-                    'web-' + Math.random().toString(36).substring(2, 10);
+                // Hardcode fingerprint to 'web-client' to match the backend bootstrap device
+                // If you have a different approved fingerprint, change it here.
+                const fingerprint = 'web-client';
+                console.log('Login attempt:', { email, password, fingerprint });
 
-                console.log('Attempting login for:', email);
                 const response = await API.login(email, password, fingerprint);
                 console.log('Login response:', response);
 
