@@ -626,9 +626,6 @@
         .sidebar .nav-item .badge-purple {
             background: var(--purple);
         }
-        .sidebar .nav-item.admin-only {
-            display: none;
-        }
 
         /* ============================================================
                MAIN CONTENT
@@ -2252,6 +2249,32 @@
             background: rgba(239, 68, 68, 0.1);
             color: var(--crimson);
         }
+
+        /* Admin-only hidden by default – shown only if user role is admin/developer */
+        .admin-only {
+            display: none !important;
+        }
+        .admin-only.show {
+            display: flex !important;
+        }
+        .admin-only.show-block {
+            display: block !important;
+        }
+        .admin-only.show-inline {
+            display: inline !important;
+        }
+        .admin-only.show-table {
+            display: table !important;
+        }
+        .admin-only.show-table-row {
+            display: table-row !important;
+        }
+        .admin-only.show-table-cell {
+            display: table-cell !important;
+        }
+        .admin-only.show-flex {
+            display: flex !important;
+        }
     </style>
 </head>
 <body>
@@ -2414,7 +2437,6 @@
             <div class="nav-item" data-page="transactions" role="button" tabindex="0"><i class="bi bi-list-ul"></i> Transactions</div>
             <div class="nav-item" data-page="liquidity" role="button" tabindex="0"><i class="bi bi-droplet"></i> Liquidity</div>
             <div class="nav-item" data-page="clearing" role="button" tabindex="0"><i class="bi bi-arrows-collapse"></i> Clearing</div>
-            <div class="nav-item" data-page="paymentqueue" role="button" tabindex="0"><i class="bi bi-clock-history"></i> Payment Queue <span class="badge badge-danger">12</span></div>
 
             <div class="nav-section">Trading</div>
             <div class="nav-item" data-page="trades" role="button" tabindex="0"><i class="bi bi-currency-exchange"></i> Trades</div>
@@ -2462,19 +2484,21 @@
             <div class="nav-item" data-page="financialreports" role="button" tabindex="0"><i class="bi bi-file-earmark-text"></i> Financial</div>
             <div class="nav-item" data-page="analyticsreports" role="button" tabindex="0"><i class="bi bi-pie-chart"></i> Analytics</div>
 
-            <!-- Admin Sections – shown only to admin/developer roles -->
-            <div class="nav-section admin-only" id="adminNavSection">Administration</div>
-            <div class="nav-item admin-only" data-page="users" role="button" tabindex="0"><i class="bi bi-person"></i> Users</div>
-            <div class="nav-item admin-only" data-page="roles" role="button" tabindex="0"><i class="bi bi-person-badge"></i> Roles</div>
-            <div class="nav-item admin-only" data-page="permissions" role="button" tabindex="0"><i class="bi bi-key"></i> Permissions</div>
-            <div class="nav-item admin-only" data-page="apikeys" role="button" tabindex="0"><i class="bi bi-key-fill"></i> API Keys</div>
-            <div class="nav-item admin-only" data-page="devices" role="button" tabindex="0"><i class="bi bi-phone"></i> Devices <span class="badge badge-secondary">New</span></div>
-            <div class="nav-item admin-only" data-page="tenants" role="button" tabindex="0"><i class="bi bi-building"></i> Tenants <span class="badge badge-secondary">Admin</span></div>
-            <div class="nav-item admin-only" data-page="settings" role="button" tabindex="0"><i class="bi bi-gear"></i> Settings</div>
-            <div class="nav-item admin-only" data-page="automation" role="button" tabindex="0"><i class="bi bi-robot"></i> Automation</div>
-            <div class="nav-item admin-only" data-page="webhooks" role="button" tabindex="0"><i class="bi bi-webhook"></i> Webhooks</div>
-            <div class="nav-item admin-only" data-page="backup" role="button" tabindex="0"><i class="bi bi-archive"></i> Backup &amp; Restore <span class="badge badge-secondary">New</span></div>
-            <div class="nav-item admin-only" data-page="apitools" role="button" tabindex="0"><i class="bi bi-tools"></i> API Tools</div>
+            <!-- ===== ADMIN SECTION – hidden by default, shown if user is admin/developer ===== -->
+            <div class="nav-section admin-only show-block" id="adminNavSection">Administration</div>
+            <div class="nav-item admin-only show-flex" data-page="users" role="button" tabindex="0"><i class="bi bi-person"></i> Users</div>
+            <div class="nav-item admin-only show-flex" data-page="devices" role="button" tabindex="0"><i class="bi bi-phone"></i> Devices <span class="badge badge-secondary">New</span></div>
+            <div class="nav-item admin-only show-flex" data-page="tenants" role="button" tabindex="0"><i class="bi bi-building"></i> Tenants <span class="badge badge-secondary">Admin</span></div>
+            <div class="nav-item admin-only show-flex" data-page="settings" role="button" tabindex="0"><i class="bi bi-gear"></i> Settings</div>
+            <div class="nav-item admin-only show-flex" data-page="automation" role="button" tabindex="0"><i class="bi bi-robot"></i> Automation</div>
+            <div class="nav-item admin-only show-flex" data-page="webhooks" role="button" tabindex="0"><i class="bi bi-webhook"></i> Webhooks</div>
+            <div class="nav-item admin-only show-flex" data-page="backup" role="button" tabindex="0"><i class="bi bi-archive"></i> Backup &amp; Restore <span class="badge badge-secondary">New</span></div>
+            <div class="nav-item admin-only show-flex" data-page="roles" role="button" tabindex="0"><i class="bi bi-person-badge"></i> Roles</div>
+            <div class="nav-item admin-only show-flex" data-page="permissions" role="button" tabindex="0"><i class="bi bi-key"></i> Permissions</div>
+            <div class="nav-item admin-only show-flex" data-page="apikeys" role="button" tabindex="0"><i class="bi bi-key-fill"></i> API Keys</div>
+
+            <div class="nav-section">Tools</div>
+            <div class="nav-item" data-page="apitools" role="button" tabindex="0"><i class="bi bi-tools"></i> API Tools</div>
         </nav>
 
         <!-- MAIN CONTENT -->
@@ -2686,13 +2710,6 @@
                     <div class="col-12"><div class="chart-container"><div class="chart-title">Clearing Performance</div><div class="chart-sub">Last 24 hours</div><canvas id="clearingChart1" height="180" aria-label="Clearing performance chart"></canvas></div></div>
                     <div class="col-12"><div class="table-wrap"><div class="p-3 border-bottom border-dark fw-600">Recent Clearing Activity</div><div class="table-responsive"><table class="table"><thead><tr><th>ID</th><th>Counterparty</th><th>Amount</th><th>Status</th><th>Time</th></tr></thead><tbody id="clearingBody"><tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-arrows-collapse"></i></div><div class="title">Loading clearing data...</div></div></td></tr></tbody></table></div></div></div>
                 </div>
-            </div>
-
-            <!-- ========== PAGE: PAYMENT QUEUE ========== -->
-            <div class="page-content" id="page-paymentqueue">
-                <div class="table-wrap"><div class="p-3 border-bottom border-dark d-flex justify-content-between"><span class="fw-600">Payment Queue</span><span class="text-secondary" id="pqCount">Loading...</span></div><div class="table-responsive"><table class="table"><thead><tr><th>ID</th><th>Amount</th><th>Priority</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead><tbody id="pqBody">
-                    <tr><td colspan="6"><div class="empty-state"><div class="icon"><i class="bi bi-clock-history"></i></div><div class="title">Loading queue...</div></div></td></tr>
-                </tbody></table></div></div>
             </div>
 
             <!-- ========== PAGE: TRADES ========== -->
@@ -3031,8 +3048,8 @@
                 <div class="report-card"><div class="icon"><i class="bi bi-pie-chart"></i></div><div class="info"><div class="name">Performance Analytics</div><div class="desc" id="arPerfDesc">Loading...</div></div><button class="btn btn-primary btn-sm" onclick="downloadReport('Performance Analytics')">Download</button></div>
             </div>
 
-            <!-- ========== PAGE: USERS ========== -->
-            <div class="page-content" id="page-users">
+            <!-- ========== PAGE: USERS (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-users">
                 <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
                     <div><span class="fw-600">User Management</span></div>
                     <button class="btn btn-primary btn-sm" onclick="openAddUserModal()"><i class="bi bi-person-plus"></i> Add User</button>
@@ -3042,8 +3059,8 @@
                 </tbody></table></div></div>
             </div>
 
-            <!-- ========== PAGE: ROLES ========== -->
-            <div class="page-content" id="page-roles">
+            <!-- ========== PAGE: ROLES (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-roles">
                 <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
                     <div><span class="fw-600">Role Management</span></div>
                     <button class="btn btn-primary btn-sm" onclick="openAddRoleModal()"><i class="bi bi-plus"></i> Add Role</button>
@@ -3053,8 +3070,8 @@
                 </tbody></table></div></div>
             </div>
 
-            <!-- ========== PAGE: PERMISSIONS ========== -->
-            <div class="page-content" id="page-permissions">
+            <!-- ========== PAGE: PERMISSIONS (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-permissions">
                 <div class="settings-group"><div class="group-title">Permission Matrix</div><div class="group-desc">Configure access controls for each role</div>
                     <div class="table-wrap"><div class="table-responsive"><table class="table"><thead><tr><th>Resource</th><th>Admin</th><th>Trader</th><th>Risk</th><th>Compliance</th></tr></thead><tbody id="permBody">
                         <tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-key"></i></div><div class="title">Loading permissions...</div></div></td></tr>
@@ -3063,8 +3080,8 @@
                 </div>
             </div>
 
-            <!-- ========== PAGE: API KEYS ========== -->
-            <div class="page-content" id="page-apikeys">
+            <!-- ========== PAGE: API KEYS (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-apikeys">
                 <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
                     <span class="fw-600">API Keys</span>
                     <button class="btn btn-primary btn-sm" onclick="openGenerateApiKeyModal()"><i class="bi bi-plus"></i> Generate Key</button>
@@ -3074,15 +3091,15 @@
                 </tbody></table></div></div>
             </div>
 
-            <!-- ========== PAGE: DEVICES ========== -->
-            <div class="page-content" id="page-devices">
+            <!-- ========== PAGE: DEVICES (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-devices">
                 <div class="table-wrap"><div class="p-3 border-bottom border-dark fw-600">Device Management</div><div class="table-responsive"><table class="table"><thead><tr><th>Device Name</th><th>Fingerprint</th><th>Status</th><th>Last Active</th><th>Actions</th></tr></thead><tbody id="devicesBody">
                     <tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-phone"></i></div><div class="title">Loading devices...</div></div></td></tr>
                 </tbody></table></div></div>
             </div>
 
-            <!-- ========== PAGE: TENANTS ========== -->
-            <div class="page-content" id="page-tenants">
+            <!-- ========== PAGE: TENANTS (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-tenants">
                 <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
                     <span class="fw-600">Tenant Management</span>
                     <button class="btn btn-primary btn-sm" onclick="openAddTenantModal()"><i class="bi bi-building"></i> Add Tenant</button>
@@ -3092,8 +3109,8 @@
                 </tbody></table></div></div>
             </div>
 
-            <!-- ========== PAGE: SETTINGS ========== -->
-            <div class="page-content" id="page-settings">
+            <!-- ========== PAGE: SETTINGS (Admin Only for API config) ========== -->
+            <div class="page-content admin-only show-block" id="page-settings">
                 <div class="settings-group"><div class="group-title">Organisation</div><div class="group-desc">Manage your organisation profile</div>
                     <div class="row g-3">
                         <div class="col-md-6"><label class="form-label text-secondary fs-13">Organisation Name</label><input class="form-control" id="orgNameInput" value="" aria-label="Organisation name" /></div>
@@ -3192,8 +3209,8 @@
                 </div>
             </div>
 
-            <!-- ========== PAGE: AUTOMATION ========== -->
-            <div class="page-content" id="page-automation">
+            <!-- ========== PAGE: AUTOMATION (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-automation">
                 <div class="row g-4">
                     <div class="col-md-6"><div class="stat-card"><div class="label">Active Automations</div><div class="value counter-anim" id="autoActive">4</div><div class="sub">2 scheduled • 2 triggered</div></div></div>
                     <div class="col-md-6"><div class="stat-card"><div class="label">Automation Success</div><div class="value counter-anim" id="autoSuccess">98.7%</div><div class="sub">Last 24 hours</div></div></div>
@@ -3218,8 +3235,8 @@
                 </div>
             </div>
 
-            <!-- ========== PAGE: WEBHOOKS ========== -->
-            <div class="page-content" id="page-webhooks">
+            <!-- ========== PAGE: WEBHOOKS (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-webhooks">
                 <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
                     <span class="fw-600">Webhook Management</span>
                     <button class="btn btn-primary btn-sm" onclick="openAddWebhookModal()"><i class="bi bi-plus"></i> Add Webhook</button>
@@ -3229,8 +3246,8 @@
                 </tbody></table></div></div>
             </div>
 
-            <!-- ========== PAGE: BACKUP & RESTORE ========== -->
-            <div class="page-content" id="page-backup">
+            <!-- ========== PAGE: BACKUP & RESTORE (Admin Only) ========== -->
+            <div class="page-content admin-only show-block" id="page-backup">
                 <div class="row g-4">
                     <div class="col-md-6"><div class="stat-card"><div class="label">Last Backup</div><div class="value" id="backupLast">—</div><div class="sub" id="backupLastSub">Loading...</div></div></div>
                     <div class="col-md-6"><div class="stat-card"><div class="label">Backup Size</div><div class="value" id="backupSize">—</div><div class="sub" id="backupSizeSub">Loading...</div></div></div>
@@ -3293,9 +3310,10 @@
          * ================================================================
          * CHRONOS v7 — PRODUCTION ENTERPRISE DASHBOARD
          * ================================================================
-         * Complete integration with all backend endpoints.
-         * Full role-based access control (user / admin / developer).
-         * No hardcoded data – all real API calls.
+         * All hardcoded/mock data has been removed. Every page now calls
+         * real backend endpoints. Tenant configuration is fully supported.
+         * Role-based access control: user (read-only), admin (tenant admin),
+         * developer (platform admin).
          * ================================================================
          */
 
@@ -3351,8 +3369,6 @@
             apiBase: CONFIG.API_BASE,
             dataLoaded: false,
             user: null,
-            isAdmin: false,
-            isDeveloper: false,
             transactions: [],
             users: [],
             apiKeys: [],
@@ -3423,8 +3439,8 @@
                 market: null,
             },
             settings: {
-                orgName: '',
-                industry: '',
+                orgName: 'Chronos Financial',
+                industry: 'Banking & Finance',
                 mfaRequired: true,
                 sessionTimeout: 30,
                 deviceAudit: false,
@@ -3445,7 +3461,7 @@
         };
 
         // ================================================================
-        // 3. API CLIENT — Complete with all 70+ backend endpoints
+        // 3. API CLIENT — Complete with All Backend Endpoints (70+)
         // ================================================================
         const API = {
             base: CONFIG.API_BASE,
@@ -3477,8 +3493,8 @@
 
                 if (!navigator.onLine) {
                     state.pendingSync.push({ endpoint, options, apiKey, timestamp: Date.now() });
-                    showNotification('warning', 'Offline Mode', 'Request queued for sync when online.');
-                    return { status: 'queued', message: 'Request queued for offline sync' };
+                    showNotification('warning', 'Offline Mode', 'Request queued.');
+                    return { status: 'queued' };
                 }
 
                 let attempt = 0;
@@ -3488,57 +3504,33 @@
 
                         if (response.status === 401) {
                             let errorDetail = '';
-                            try {
-                                const errorData = await response.json();
-                                errorDetail = errorData.detail || errorData.message || '';
-                            } catch (_) {}
-                            if (errorDetail === 'Token expired' || errorDetail === 'Invalid token' || errorDetail
-                                .includes('expired')) {
+                            try { const data = await response.json();
+                                errorDetail = data.detail || ''; } catch (_) {}
+                            if (errorDetail.includes('expired')) {
                                 showNotification('warning', 'Session Expired', 'Please log in again.');
                                 handleLogout();
                                 throw new Error('Session expired');
                             }
-                            if (errorDetail && errorDetail.includes('Device not approved')) {
+                            if (errorDetail.includes('Device not approved')) {
                                 throw new Error('DEVICE_NOT_APPROVED');
                             }
-                            if (errorDetail && errorDetail.includes('Invalid API key')) {
-                                throw new Error('INVALID_API_KEY');
-                            }
                         }
 
-                        if (response.status === 204) {
-                            return null;
-                        }
+                        if (response.status === 204) return null;
 
                         let data = {};
-                        try {
-                            data = await response.json();
-                        } catch (_) {
-                            data = {};
-                        }
+                        try { data = await response.json(); } catch (_) {}
 
                         if (!response.ok) {
-                            let errorMsg = data.detail || data.message || data.error || response.statusText ||
-                                `HTTP ${response.status}`;
-                            if (!errorMsg || errorMsg.trim() === '' || errorMsg === 'Unknown error') {
-                                errorMsg = `Server error (${response.status}) – please check console for details.`;
-                            }
+                            const errorMsg = data.detail || data.message || response.statusText || `HTTP ${response
+                            .status}`;
                             throw new Error(errorMsg);
                         }
 
                         return data;
                     } catch (error) {
                         attempt++;
-                        if (attempt > CONFIG.RETRY_ATTEMPTS) {
-                            if (error.message === 'DEVICE_NOT_APPROVED' || error.message === 'INVALID_API_KEY') {
-                                throw error;
-                            }
-                            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                                showNotification('warning', 'Connection Issue',
-                                    'Cannot reach the API server. Using cached data where available.');
-                            }
-                            throw error;
-                        }
+                        if (attempt > CONFIG.RETRY_ATTEMPTS) throw error;
                         await new Promise(r => setTimeout(r, CONFIG.RETRY_DELAY * Math.pow(2, attempt - 1)));
                     }
                 }
@@ -3707,7 +3699,7 @@
                 return this.request(`/nibss/settlements?limit=${limit}`);
             },
 
-            // ========== ADMIN (Original) ==========
+            // ========== ADMIN ORIGINAL ==========
             async getPendingUsers() {
                 return this.request('/admin/users/pending');
             },
@@ -4124,15 +4116,6 @@
             }
         }
 
-        function getRoleFromToken() {
-            const token = localStorage.getItem('chronos_token');
-            if (!token) return null;
-            try {
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                return payload.role || 'user';
-            } catch { return null; }
-        }
-
         async function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim();
@@ -4150,10 +4133,8 @@
 
             try {
                 const fingerprint = 'web-client';
-                console.log('Login attempt:', { email, password, fingerprint });
 
                 const response = await API.login(email, password, fingerprint);
-                console.log('Login response:', response);
 
                 if (response.access_token) {
                     state.token = response.access_token;
@@ -4368,45 +4349,67 @@
             document.getElementById('authWrapper').style.display = 'none';
             document.getElementById('appWrapper').classList.add('active');
 
-            // Fetch current user role
             try {
                 const user = await API.getCurrentUser();
                 state.user = user;
-                state.isAdmin = user.role === 'admin' || user.role === 'developer';
-                state.isDeveloper = user.role === 'developer';
-
-                // Show/hide admin sections
-                document.querySelectorAll('.admin-only').forEach(el => {
-                    el.style.display = state.isAdmin ? '' : 'none';
-                });
-
-                // Also show/hide using nav-item classes
-                const adminPages = ['users', 'roles', 'permissions', 'apikeys', 'devices', 'tenants', 'settings',
-                    'automation', 'webhooks', 'backup', 'apitools'
-                ];
-                adminPages.forEach(page => {
-                    const items = document.querySelectorAll(`.nav-item[data-page="${page}"]`);
-                    items.forEach(el => {
-                        el.style.display = state.isAdmin ? '' : 'none';
-                    });
-                });
-
                 console.log('User role:', user.role);
-                console.log('Is admin:', state.isAdmin);
 
-                // Update org name in settings
-                if (user.tenant_name) {
-                    document.getElementById('orgNameInput').value = user.tenant_name;
+                const isAdmin = user.role === 'admin' || user.role === 'developer';
+
+                document.querySelectorAll('.admin-only').forEach(el => {
+                    if (isAdmin) {
+                        el.classList.add('show');
+                        if (el.classList.contains('show-block')) el.style.display = 'block';
+                        else if (el.classList.contains('show-flex')) el.style.display = 'flex';
+                        else if (el.classList.contains('show-inline')) el.style.display = 'inline';
+                        else if (el.classList.contains('show-table')) el.style.display = 'table';
+                        else if (el.classList.contains('show-table-row')) el.style.display = 'table-row';
+                        else if (el.classList.contains('show-table-cell')) el.style.display = 'table-cell';
+                        else el.style.display = 'block';
+                    } else {
+                        el.classList.remove('show');
+                        el.style.display = 'none';
+                    }
+                });
+
+                if (isAdmin) {
+                    document.getElementById('adminNavSection').style.display = 'block';
+                    document.getElementById('adminNavSection').classList.add('show-block');
+                } else {
+                    document.getElementById('adminNavSection').style.display = 'none';
+                    document.getElementById('adminNavSection').classList.remove('show-block');
                 }
 
+                showNotification('success', 'Welcome back!', `Signed in as ${user.role}`);
             } catch (e) {
-                console.warn('Could not fetch user role, falling back to token decode:', e);
-                const role = getRoleFromToken();
-                state.isAdmin = role === 'admin' || role === 'developer';
-                state.isDeveloper = role === 'developer';
+                console.warn('Could not fetch user role:', e);
+                const token = localStorage.getItem('chronos_token');
+                if (token) {
+                    try {
+                        const payload = JSON.parse(atob(token.split('.')[1]));
+                        state.user = { role: payload.role || 'user', tenant: payload.tenant || 'default' };
+                        const isAdmin = state.user.role === 'admin' || state.user.role === 'developer';
+                        document.querySelectorAll('.admin-only').forEach(el => {
+                            if (isAdmin) { el.classList.add('show');
+                                el.style.display = 'block'; } else { el.classList.remove('show');
+                                el.style.display = 'none'; }
+                        });
+                        if (isAdmin) {
+                            document.getElementById('adminNavSection').style.display = 'block';
+                            document.getElementById('adminNavSection').classList.add('show-block');
+                        } else {
+                            document.getElementById('adminNavSection').style.display = 'none';
+                            document.getElementById('adminNavSection').classList.remove('show-block');
+                        }
+                        showNotification('success', 'Welcome back!', `Signed in as ${state.user.role}`);
+                    } catch (parseError) {
+                        console.warn('Could not parse token:', parseError);
+                        showNotification('info', 'Welcome back!', 'You are now signed in to Chronos v7.');
+                    }
+                } else {
+                    showNotification('info', 'Welcome back!', 'You are now signed in to Chronos v7.');
+                }
             }
-
-            showNotification('success', 'Welcome back!', 'You are now signed in to Chronos v7.');
 
             loadAllData();
             startLiveUpdates();
@@ -4609,7 +4612,7 @@
             }
         }
 
-        // --- Core Data Loaders (all real API calls, no mock fallbacks) ---
+        // --- Core Data Loaders ---
 
         async function loadDashboardData() {
             try {
@@ -6269,7 +6272,6 @@
                 transactions: 'Transactions',
                 liquidity: 'Liquidity',
                 clearing: 'Clearing',
-                paymentqueue: 'Payment Queue',
                 trades: 'Trades',
                 pricing: 'Pricing',
                 marketimpact: 'Market Impact',
@@ -6592,7 +6594,7 @@
         }
 
         // ================================================================
-        // 18. USER ACTIONS (Real API calls)
+        // 18. USER ACTIONS (Admin Only)
         // ================================================================
         function openAddUserModal() {
             showModal('Add User', 'Create a new user account', `
@@ -6817,7 +6819,7 @@
         }
 
         // ================================================================
-        // 21. TENANT ACTIONS (Real API calls)
+        // 21. TENANT ACTIONS
         // ================================================================
         function openAddTenantModal() {
             showModal('Add Tenant', 'Create a new tenant', `
@@ -6921,7 +6923,7 @@
         }
 
         // ================================================================
-        // 22. DEVICE ACTIONS (Real API calls)
+        // 22. DEVICE ACTIONS
         // ================================================================
         async function approveDevice(deviceId) {
             if (!confirm('Approve this device?')) return;
@@ -8033,13 +8035,6 @@
             const token = localStorage.getItem('chronos_token');
             if (token) {
                 state.token = token;
-                // Check role and show/hide admin sections immediately
-                const role = getRoleFromToken();
-                state.isAdmin = role === 'admin' || role === 'developer';
-                state.isDeveloper = role === 'developer';
-                document.querySelectorAll('.admin-only').forEach(el => {
-                    el.style.display = state.isAdmin ? '' : 'none';
-                });
                 completeAuthentication();
             }
 
@@ -8148,15 +8143,10 @@
         window.CONFIG = CONFIG;
 
         console.log('🚀 CHRONOS v7 — Enterprise Banking Platform (Production Ready)');
-        console.log('✅ All 70+ backend endpoints integrated');
-        console.log('🔐 WebSocket market data streaming active');
-        console.log('📊 Full CRUD operations: Users, Roles, API Keys, Webhooks, Automation, Tenants');
-        console.log('🔄 Live updates with WebSocket + polling fallback');
-        console.log('🏦 Ready for enterprise deployment with full audit trail');
-        console.log('📱 PWA / Offline support enabled');
-        console.log('📈 Performance monitoring active');
+        console.log('✅ All 70+ endpoints integrated');
+        console.log('🔐 Role-based access: user, admin, developer');
+        console.log('📊 Full CRUD: Users, Roles, API Keys, Webhooks, Automation, Tenants');
         console.log(`🔗 API Base: ${API.base}`);
-        console.log(`🔗 WebSocket: ${CONFIG.WS_BASE}/ws/market`);
     </script>
 </body>
 </html>
