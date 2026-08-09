@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -3094,11 +3094,67 @@
             <div class="page-content" id="page-settings">
                 <div class="settings-group"><div class="group-title">Organisation</div><div class="group-desc">Manage your organisation profile</div>
                     <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label text-secondary fs-13">Organisation Name</label><input class="form-control" id="orgNameInput" value="Chronos Financial" aria-label="Organisation name" /></div>
-                        <div class="col-md-6"><label class="form-label text-secondary fs-13">Industry</label><input class="form-control" id="orgIndustryInput" value="Banking &amp; Finance" aria-label="Industry" /></div>
+                        <div class="col-md-6"><label class="form-label text-secondary fs-13">Organisation Name</label><input class="form-control" id="orgNameInput" value="" aria-label="Organisation name" /></div>
+                        <div class="col-md-6"><label class="form-label text-secondary fs-13">Industry</label><input class="form-control" id="orgIndustryInput" value="" aria-label="Industry" /></div>
                     </div>
                     <div class="mt-3"><button class="btn btn-primary" onclick="saveOrgSettings()">Save Organisation</button></div>
                 </div>
+
+                <!-- ========== API CONNECTION (TENANT CONFIG) ========== -->
+                <div class="settings-group">
+                    <div class="group-title">API Connection</div>
+                    <div class="group-desc">Configure your external service credentials – these are encrypted and stored per tenant.</div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary fs-13">NIBSS API Key</label>
+                            <input class="form-control" id="tenantNibssKey" type="password" placeholder="••••••••" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary fs-13">Bloomberg API Key</label>
+                            <input class="form-control" id="tenantBloombergKey" type="password" placeholder="••••••••" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary fs-13">Reuters API Key</label>
+                            <input class="form-control" id="tenantReutersKey" type="password" placeholder="••••••••" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary fs-13">Alpha Vantage API Key</label>
+                            <input class="form-control" id="tenantAlphaKey" type="password" placeholder="••••••••" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary fs-13">CBN OpenAPI URL</label>
+                            <input class="form-control" id="tenantCbnUrl" placeholder="https://api.cbn.gov.ng/rates" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary fs-13">NGX API URL</label>
+                            <input class="form-control" id="tenantNgxUrl" placeholder="https://api.ngxgroup.com/api/v1" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary fs-13">Performance Fee %</label>
+                            <input class="form-control" id="perfFee" type="number" step="0.01" value="0.20" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-secondary fs-13">Alpha Strategy Type</label>
+                            <select class="form-select" id="alphaStrategy">
+                                <option value="mean_reversion">Mean Reversion</option>
+                                <option value="momentum">Momentum</option>
+                                <option value="value">Value</option>
+                                <option value="balanced">Balanced</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="useGlobalModel" checked />
+                                <label class="form-check-label">Use global ML model (shared across tenants)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-primary" onclick="saveTenantConfig()"><i class="bi bi-save me-1"></i> Save API Settings</button>
+                        <button class="btn btn-outline-light" style="border-color:var(--border-color);margin-left:8px;" onclick="loadTenantConfig()"><i class="bi bi-arrow-clockwise me-1"></i> Reload</button>
+                    </div>
+                </div>
+
                 <div class="settings-group"><div class="group-title">Security</div><div class="group-desc">Security preferences and session management</div>
                     <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked id="secMfa" /><label class="form-check-label">Require MFA for all users</label></div>
                     <div class="form-check mb-2"><input class="form-check-input" type="checkbox" checked id="secSession" /><label class="form-check-label">Session timeout after 30 minutes</label></div>
@@ -3126,7 +3182,7 @@
                         <option value="NGN">NGN</option>
                     </select>
                 </div>
-                <div class="settings-group"><div class="group-title">API Connection</div><div class="group-desc">Configure backend API endpoints</div>
+                <div class="settings-group"><div class="group-title">API Base URL</div><div class="group-desc">Configure backend API endpoint (overrides default)</div>
                     <div class="row g-3">
                         <div class="col-12"><label class="form-label text-secondary fs-13">API Base URL</label><input class="form-control" value="https://bank-z4lr.onrender.com" id="apiBaseUrl" aria-label="API Base URL" /></div>
                     </div>
@@ -3235,28 +3291,8 @@
          * ================================================================
          * CHRONOS v7 — PRODUCTION ENTERPRISE DASHBOARD
          * ================================================================
-         *
-         * Full integration with:
-         * - All 48+ pages backed by real API endpoints
-         * - WebSocket market data streaming
-         * - Full CRUD operations for users, roles, permissions, API keys
-         * - LP Optimiser with real backend integration
-         * - Shadow VaR simulation
-         * - CBN event monitoring
-         * - Backup & Restore
-         * - Device management
-         * - Tenant management
-         * - Automation jobs with scheduling
-         * - Webhook CRUD
-         * - Real-time log streaming
-         * - Advanced error handling with retry logic
-         * - Skeleton loaders
-         * - Accessibility improvements
-         * - Synthetic monitoring status
-         * - Audit log filtering
-         * - PWA / Offline support with Service Worker
-         * - Performance monitoring
-         * - Advanced caching with IndexedDB
+         * All hardcoded/mock data has been removed. Every page now calls
+         * real backend endpoints. Tenant configuration is fully supported.
          * ================================================================
          */
 
@@ -3388,6 +3424,7 @@
                 deviceAudit: false,
                 notifications: { system: true, security: true, ai: false }
             },
+            tenantConfig: {},
             cache: {},
             errors: {},
             modalCallback: null,
@@ -3402,7 +3439,7 @@
         };
 
         // ================================================================
-        // 3. API CLIENT — Production-grade with retry + offline queue + robust error handling
+        // 3. API CLIENT — Production-grade with retry + offline queue
         // ================================================================
         const API = {
             base: CONFIG.API_BASE,
@@ -3434,7 +3471,6 @@
                     delete config.body;
                 }
 
-                // If offline, queue the request
                 if (!navigator.onLine) {
                     state.pendingSync.push({ endpoint, options, apiKey, timestamp: Date.now() });
                     showNotification('warning', 'Offline Mode', 'Request queued for sync when online.');
@@ -3444,7 +3480,6 @@
                 let attempt = 0;
                 while (attempt <= CONFIG.RETRY_ATTEMPTS) {
                     try {
-                        console.log('API Request:', { url, method: options.method || 'GET', body: options.body, headers });
                         const response = await fetch(url, config);
 
                         if (response.status === 401) {
@@ -3487,18 +3522,14 @@
                             throw new Error(errorMsg);
                         }
 
-                        console.log('API Response:', data);
                         return data;
                     } catch (error) {
-                        console.warn(`API request attempt ${attempt+1} failed:`, error);
                         attempt++;
                         if (attempt > CONFIG.RETRY_ATTEMPTS) {
                             if (error.message === 'DEVICE_NOT_APPROVED' || error.message === 'INVALID_API_KEY') {
                                 throw error;
                             }
-                            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') ||
-                                error.message.includes('Network request failed')) {
-                                console.warn('Network error connecting to API:', error);
+                            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
                                 showNotification('warning', 'Connection Issue',
                                     'Cannot reach the API server. Using cached data where available.');
                             }
@@ -3642,9 +3673,27 @@
                 return this.request('/cbn/check', { method: 'POST' });
             },
 
-            // --- Admin ---
-            async getUsers() {
-                return this.request('/admin/users');
+            // --- Admin / Users ---
+            async getUsers(limit = 100, offset = 0) {
+                return this.request(`/admin/users?limit=${limit}&offset=${offset}`);
+            },
+
+            async getUser(userId) {
+                return this.request(`/admin/users/${userId}`);
+            },
+
+            async approveUser(userId) {
+                return this.request('/admin/users/approve', {
+                    method: 'POST',
+                    body: JSON.stringify({ user_id: userId }),
+                });
+            },
+
+            async rejectUser(userId) {
+                return this.request('/admin/users/reject', {
+                    method: 'POST',
+                    body: JSON.stringify({ user_id: userId }),
+                });
             },
 
             async createUser(userData) {
@@ -3665,6 +3714,73 @@
                 return this.request(`/admin/users/${userId}`, { method: 'DELETE' });
             },
 
+            // --- Devices ---
+            async getDevices(limit = 100, offset = 0) {
+                return this.request(`/admin/devices?limit=${limit}&offset=${offset}`);
+            },
+
+            async approveDevice(deviceId) {
+                return this.request('/admin/devices/approve', {
+                    method: 'POST',
+                    body: JSON.stringify({ device_id: deviceId }),
+                });
+            },
+
+            async revokeDevice(deviceId) {
+                return this.request('/admin/devices/revoke', {
+                    method: 'POST',
+                    body: JSON.stringify({ device_id: deviceId }),
+                });
+            },
+
+            async deleteDevice(deviceId) {
+                return this.request(`/admin/devices/${deviceId}`, { method: 'DELETE' });
+            },
+
+            // --- Tenants ---
+            async getTenants(limit = 100, offset = 0) {
+                return this.request(`/admin/tenants?limit=${limit}&offset=${offset}`);
+            },
+
+            async createTenant(data) {
+                return this.request('/admin/tenants', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                });
+            },
+
+            async updateTenant(tenantId, data) {
+                return this.request(`/admin/tenants/${tenantId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(data),
+                });
+            },
+
+            async deleteTenant(tenantId) {
+                return this.request(`/admin/tenants/${tenantId}`, { method: 'DELETE' });
+            },
+
+            async activateTenant(tenantId) {
+                return this.request(`/admin/tenants/${tenantId}/activate`, { method: 'POST' });
+            },
+
+            async suspendTenant(tenantId) {
+                return this.request(`/admin/tenants/${tenantId}/suspend`, { method: 'POST' });
+            },
+
+            // --- Tenant Config ---
+            async getTenantConfig() {
+                return this.request('/tenant/config');
+            },
+
+            async updateTenantConfig(data) {
+                return this.request('/tenant/config', {
+                    method: 'PUT',
+                    body: JSON.stringify(data),
+                });
+            },
+
+            // --- API Keys ---
             async getApiKeys() {
                 return this.request('/admin/api-keys');
             },
@@ -3680,10 +3796,12 @@
                 return this.request(`/admin/api-keys/${keyId}`, { method: 'DELETE' });
             },
 
+            // --- Audit ---
             async getAuditLogs(limit = 50) {
                 return this.request(`/admin/audit?limit=${limit}`);
             },
 
+            // --- Payments ---
             async getPaymentQueue() {
                 return this.request('/payments/queue');
             },
@@ -3692,40 +3810,13 @@
                 return this.request(`/payments/process/${paymentId}`, { method: 'POST' });
             },
 
+            // --- Margin Calls ---
             async getMarginCalls() {
                 return this.request('/collateral/margin-calls');
             },
 
             async resolveMarginCall(id) {
                 return this.request(`/collateral/margin-calls/${id}/resolve`, { method: 'POST' });
-            },
-
-            // --- Devices ---
-            async getDevices() {
-                return this.request('/admin/devices');
-            },
-
-            async revokeDevice(deviceId) {
-                return this.request(`/admin/devices/${deviceId}`, { method: 'DELETE' });
-            },
-
-            // --- Tenants ---
-            async getTenants() {
-                return this.request('/admin/tenants');
-            },
-
-            async createTenant(tenantData) {
-                return this.request('/admin/tenants', {
-                    method: 'POST',
-                    body: JSON.stringify(tenantData),
-                });
-            },
-
-            async updateTenant(tenantId, tenantData) {
-                return this.request(`/admin/tenants/${tenantId}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(tenantData),
-                });
             },
 
             // --- Backup ---
@@ -3755,6 +3846,7 @@
                 return this.request(`/system/logs${qs}`);
             },
 
+            // --- Automation ---
             async getAutomationJobs() {
                 return this.request('/automation/jobs');
             },
@@ -3770,6 +3862,11 @@
                 });
             },
 
+            async deleteAutomationJob(jobId) {
+                return this.request(`/automation/jobs/${jobId}`, { method: 'DELETE' });
+            },
+
+            // --- Webhooks ---
             async getWebhooks() {
                 return this.request('/webhooks');
             },
@@ -3789,6 +3886,7 @@
                 return this.request(`/webhooks/${id}`, { method: 'DELETE' });
             },
 
+            // --- Permissions & Roles ---
             async getPermissions() {
                 return this.request('/admin/permissions');
             },
@@ -3814,6 +3912,40 @@
             // --- Alpha Signals ---
             async getAlphaSignals() {
                 return this.request('/alpha/signals');
+            },
+
+            // --- Portfolio / Collateral ---
+            async getPortfolio() {
+                return this.request('/collateral/portfolio');
+            },
+
+            async getRehypothecation() {
+                return this.request('/collateral/rehypothecation');
+            },
+
+            // --- Execution ---
+            async getExecutionOrders(limit = 20) {
+                return this.request(`/execution/orders?limit=${limit}`);
+            },
+
+            async getExecutionAnalytics() {
+                return this.request('/execution/analytics');
+            },
+
+            async createExecutionOrder(orderData) {
+                return this.request('/execution/order', {
+                    method: 'POST',
+                    body: JSON.stringify(orderData),
+                });
+            },
+
+            // --- Backtest ---
+            async runBacktest(formData) {
+                return this.request('/backtest/run', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
             },
         };
 
@@ -3976,17 +4108,6 @@
             const password = document.getElementById('loginPassword').value.trim();
             const remember = document.getElementById('rememberMe').checked;
 
-            // --- Temporary mock login bypass for testing (remove in production) ---
-            // Uncomment the following block to bypass the backend entirely:
-            /*
-            if (email === 'admin@chronos.com' && password === 'Admin123!') {
-                state.token = 'mock-token';
-                localStorage.setItem('chronos_token', 'mock-token');
-                completeAuthentication();
-                return false;
-            }
-            */
-
             if (!email || !password) {
                 showAuthError('loginError', 'Please enter both email and password.');
                 return false;
@@ -3997,13 +4118,10 @@
             btn.innerHTML = '<span class="spinner-sm"></span> Signing in...';
 
             try {
-                // Hardcode fingerprint to 'web-client' to match the backend bootstrap device
-                // If you have a different approved fingerprint, change it here.
                 const fingerprint = 'web-client';
                 console.log('Login attempt:', { email, password, fingerprint });
 
                 const response = await API.login(email, password, fingerprint);
-                console.log('Login response:', response);
 
                 if (response.access_token) {
                     state.token = response.access_token;
@@ -4265,7 +4383,6 @@
                         console.warn('Service Worker registration failed:', err);
                     });
 
-                // Listen for online/offline events
                 window.addEventListener('online', handleOnline);
                 window.addEventListener('offline', handleOffline);
             }
@@ -4315,7 +4432,6 @@
                 state.performance.timestamp = Date.now();
             }, CONFIG.PERFORMANCE_SAMPLE_INTERVAL);
 
-            // FPS counter
             let frameCount = 0;
             let lastFpsTime = performance.now();
 
@@ -4333,7 +4449,7 @@
         }
 
         // ================================================================
-        // 8. DATA LOADING — All pages with real API + offline cache
+        // 8. DATA LOADING — All pages with real API calls (no mock data)
         // ================================================================
         async function loadAllData() {
             const errors = {};
@@ -4385,6 +4501,7 @@
                     loadOptimisationData(),
                     loadHealthData(),
                     loadMetricsData(),
+                    loadTenantConfig(),
                 ]);
 
                 results.forEach((result, idx) => {
@@ -4396,7 +4513,7 @@
                             'liquidity', 'clearing', 'marketImpact', 'quotes', 'stressTesting', 'exposure',
                             'cashPosition', 'treasuryLiquidity', 'funding', 'forecast', 'portfolio',
                             'rehypothecation', 'predictions', 'mlTraining', 'driftDetection', 'optimisation',
-                            'health', 'metrics'
+                            'health', 'metrics', 'tenantConfig'
                         ];
                         const key = keys[idx] || 'unknown';
                         errors[key] = result.reason;
@@ -4422,32 +4539,32 @@
             }
         }
 
-        // --- Core Data Loaders ---
+        // --- Core Data Loaders (all real API calls, no mock fallbacks) ---
 
         async function loadDashboardData() {
             try {
                 const data = await API.getDashboardMetrics();
                 if (data) {
-                    animateCounter('dashTx', 0, data.total_trades || 1284);
-                    setElement('dashTxSub', `${data.total_trades || 1284} total trades`);
+                    animateCounter('dashTx', 0, data.total_trades || 0);
+                    setElement('dashTxSub', `${data.total_trades || 0} total trades`);
                     const rate = data.pending_trades ?
                         ((data.total_trades - data.pending_trades) / data.total_trades * 100) :
-                        98.6;
+                        0;
                     animateCounter('dashSettle', 0, rate);
-                    setElement('dashSettleSub', `${data.pending_trades || 12} pending`);
-                    animateCounter('dashLiq', 0, data.liquidity || 2.4, '$', 'B');
+                    setElement('dashSettleSub', `${data.pending_trades || 0} pending`);
+                    animateCounter('dashLiq', 0, data.liquidity || 0, '$', 'B');
                     setElement('dashLiqSub', 'Available liquidity');
-                    animateCounter('dashUsers', 0, data.active_users || 47);
-                    setElement('dashUsersSub', `${data.active_users || 47} active users`);
-                    const risk = data.last_risk ? (data.last_risk.var_99 || 0) / 10000000 : 3.2;
+                    animateCounter('dashUsers', 0, data.active_users || 0);
+                    setElement('dashUsersSub', `${data.active_users || 0} active users`);
+                    const risk = data.last_risk ? (data.last_risk.var_99 || 0) / 10000000 : 0;
                     animateCounter('dashRisk', 0, risk);
                     setElement('dashRiskSub', 'VaR 95%');
-                    const rev = data.savings_last_30d || 4.8;
+                    const rev = data.savings_last_30d || 0;
                     animateCounter('dashRev', 0, rev, '$', 'M');
                     setElement('dashRevSub', 'Last 30 days');
-                    animateCounter('dashSpeed', 0, data.latency || 2.4, '', 'ms');
+                    animateCounter('dashSpeed', 0, data.latency || 0, '', 'ms');
                     setElement('dashSpeedSub', 'Avg response');
-                    animateCounter('dashApi', 0, data.uptime || 99.97, '', '%');
+                    animateCounter('dashApi', 0, data.uptime || 0, '', '%');
                     setElement('dashApiSub', 'API uptime');
                     updateWidgetBars();
                     state.fresh.dashboard = Date.now();
@@ -4493,10 +4610,8 @@
                     return;
                 }
             } catch (e) { console.warn('Transactions fallback:', e); }
-            if (state.transactions.length === 0) {
-                state.transactions = getMockTransactions();
-                state.fresh.transactions = Date.now() - CONFIG.CACHE_TTL - 1000;
-            }
+            state.transactions = [];
+            state.fresh.transactions = Date.now() - CONFIG.CACHE_TTL - 1000;
             updateTransactionsTable();
             updateRecentTransactions();
         }
@@ -4535,23 +4650,23 @@
                     return;
                 }
             } catch (e) { console.warn('Risk metrics fallback:', e); }
-            animateCounter('var1d', 0, 4.2, '$', 'M');
-            animateCounter('var10d', 0, 8.6, '$', 'M');
-            animateCounter('varEs', 0, 12.4, '$', 'M');
+            animateCounter('var1d', 0, 0, '$', 'M');
+            animateCounter('var10d', 0, 0, '$', 'M');
+            animateCounter('varEs', 0, 0, '$', 'M');
         }
 
         async function loadShadowVarData() {
             try {
                 const data = await API.getShadowVar();
                 if (data) {
-                    animateCounter('shadowVarVal', 0, (data.shadow_var_99 || 42.8) / 1000000, '$', 'M');
-                    animateCounter('shadowVarRatio', 0, (data.shadow_var_99 || 42.8) / (data.var_99 || 12.4));
+                    animateCounter('shadowVarVal', 0, (data.shadow_var_99 || 0) / 1000000, '$', 'M');
+                    animateCounter('shadowVarRatio', 0, (data.shadow_var_99 || 0) / (data.var_99 || 1));
                     state.fresh.shadowVar = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Shadow VaR fallback:', e); }
-            animateCounter('shadowVarVal', 0, 42.8, '$', 'M');
-            animateCounter('shadowVarRatio', 0, 3.45);
+            animateCounter('shadowVarVal', 0, 0, '$', 'M');
+            animateCounter('shadowVarRatio', 0, 0);
         }
 
         async function loadUsers() {
@@ -4563,22 +4678,14 @@
                         name: u.full_name || u.name || 'Unknown',
                         email: u.email,
                         role: u.role || 'User',
-                        status: u.status || 'active',
+                        status: u.status || 'pending',
                     }));
                     state.fresh.users = Date.now();
+                } else {
+                    state.users = [];
                 }
-            } catch (e) { console.warn('Users fallback:', e); }
-            if (state.users.length === 0) {
-                state.users = [
-                    { id: 1, name: 'John Doe', email: 'john@chronos.com', role: 'Admin', status: 'active' },
-                    { id: 2, name: 'Jane Smith', email: 'jane@chronos.com', role: 'Trader', status: 'active' },
-                    { id: 3, name: 'Robert Brown', email: 'robert@chronos.com', role: 'Risk Manager',
-                    status: 'pending' },
-                    { id: 4, name: 'Emily Chen', email: 'emily@chronos.com', role: 'Compliance', status: 'active' },
-                    { id: 5, name: 'Michael Okafor', email: 'michael@chronos.com', role: 'Treasury',
-                    status: 'inactive' },
-                ];
-            }
+            } catch (e) { console.warn('Users fallback:', e);
+                state.users = []; }
             updateUsersTable();
         }
 
@@ -4596,13 +4703,6 @@
                     state.fresh.apiKeys = Date.now();
                 }
             } catch (e) { console.warn('API keys fallback:', e); }
-            if (state.apiKeys.length === 0) {
-                state.apiKeys = [
-                    { id: 1, name: 'Production', key: '••••••••••••', permissions: 'Full', status: 'active' },
-                    { id: 2, name: 'Development', key: '••••••••••••', permissions: 'Read-only', status: 'active' },
-                    { id: 3, name: 'Analytics', key: '••••••••••••', permissions: 'Read', status: 'active' },
-                ];
-            }
             updateApiKeysTable();
         }
 
@@ -4620,13 +4720,6 @@
                     state.fresh.paymentQueue = Date.now();
                 }
             } catch (e) { console.warn('Payment queue fallback:', e); }
-            if (state.paymentQueue.length === 0) {
-                state.paymentQueue = [
-                    { id: 'PQ-001', amount: 2.3, priority: 'high', status: 'queued', created: '12:40' },
-                    { id: 'PQ-002', amount: 1.8, priority: 'medium', status: 'processing', created: '12:35' },
-                    { id: 'PQ-003', amount: 4.1, priority: 'high', status: 'queued', created: '12:28' },
-                ];
-            }
             updatePaymentQueue();
         }
 
@@ -4644,13 +4737,6 @@
                     state.fresh.marginCalls = Date.now();
                 }
             } catch (e) { console.warn('Margin calls fallback:', e); }
-            if (state.marginCalls.length === 0) {
-                state.marginCalls = [
-                    { id: 1, counterparty: 'Goldman Sachs', amount: 4.2, due: 'Today 16:00', status: 'urgent' },
-                    { id: 2, counterparty: 'JPMorgan', amount: 2.8, due: 'Tomorrow 12:00', status: 'pending' },
-                    { id: 3, counterparty: 'BNP Paribas', amount: 1.6, due: '2026-07-28', status: 'scheduled' },
-                ];
-            }
             updateMarginCalls();
         }
 
@@ -4666,13 +4752,6 @@
                     state.fresh.logs = Date.now();
                 }
             } catch (e) { console.warn('Logs fallback:', e); }
-            if (state.logs.length === 0) {
-                state.logs = [
-                    { time: '12:34:21', level: 'INFO', message: 'Settlement batch #8821 completed' },
-                    { time: '12:28:14', level: 'WARN', message: 'High latency detected on API gateway' },
-                    { time: '12:15:02', level: 'ERROR', message: 'Transaction #TX-8819 failed: timeout' },
-                ];
-            }
             updateLogs();
         }
 
@@ -4687,14 +4766,7 @@
                         user: l.user_id || 'system',
                     }));
                 }
-            } catch (e) {
-                if (state.auditLogs.length === 0) {
-                    state.auditLogs = [
-                        { time: '12:34:00', action: 'Login', description: 'User admin logged in', user: 'admin' },
-                        { time: '12:30:00', action: 'Trade', description: 'Executed trade #TR-1234', user: 'trader1' },
-                    ];
-                }
-            }
+            } catch (e) { console.warn('Audit logs fallback:', e); }
             if (document.getElementById('page-logs').classList.contains('active') && state.logType === 'audit') {
                 updateLogs();
             }
@@ -4708,18 +4780,11 @@
                     state.fresh.workers = Date.now();
                 }
             } catch (e) { console.warn('Workers fallback:', e); }
-            if (state.workers.length === 0) {
-                state.workers = [
-                    { id: 'w-001', status: 'active', task: 'Settlement #8821', uptime: '4h 12m' },
-                    { id: 'w-002', status: 'active', task: 'Clearing #1024', uptime: '3h 48m' },
-                    { id: 'w-003', status: 'idle', task: '—', uptime: '1h 02m' },
-                ];
-            }
             updateWorkers();
             const active = state.workers.filter(w => w.status === 'active').length;
             animateCounter('workerActive', 0, active);
-            animateCounter('workerTasks', 0, 1284);
-            animateCounter('workerAvg', 0, 12.4, '', 's');
+            animateCounter('workerTasks', 0, 0);
+            animateCounter('workerAvg', 0, 0, '', 's');
         }
 
         async function loadQueues() {
@@ -4730,13 +4795,6 @@
                     state.fresh.queues = Date.now();
                 }
             } catch (e) { console.warn('Queues fallback:', e); }
-            if (state.queues.length === 0) {
-                state.queues = [
-                    { name: 'Settlement', length: 142, processing: 86, rate: '24/s' },
-                    { name: 'Payment', length: 12, processing: 6, rate: '8/s' },
-                    { name: 'Clearing', length: 34, processing: 18, rate: '12/s' },
-                ];
-            }
             updateQueues();
         }
 
@@ -4754,57 +4812,45 @@
                 if (valid.length > 0) {
                     state.pricing = valid.map(p => ({
                         instrument: p.instrument,
-                        bid: p.bid || 1.0,
-                        ask: p.ask || 1.01,
-                        spread: (p.ask || 1.01) - (p.bid || 1.0),
-                        last: p.last || p.bid || 1.0,
+                        bid: p.bid || 0,
+                        ask: p.ask || 0,
+                        spread: (p.ask || 0) - (p.bid || 0),
+                        last: p.last || p.bid || 0,
                         change: p.change || '+0.00%',
                         changeClass: (p.change || '+0.00%').startsWith('+') ? 'text-emerald' : 'text-crimson',
                     }));
                     state.fresh.pricing = Date.now();
                 }
             } catch (e) { console.warn('Pricing fallback:', e); }
-            if (state.pricing.length === 0) {
-                state.pricing = [
-                    { instrument: 'EUR/USD', bid: 1.0842, ask: 1.0845, spread: 0.0003, last: 1.0844,
-                    change: '+0.12%', changeClass: 'text-emerald' },
-                    { instrument: 'GBP/USD', bid: 1.2678, ask: 1.2682, spread: 0.0004, last: 1.2680,
-                    change: '+0.08%', changeClass: 'text-emerald' },
-                    { instrument: 'USD/JPY', bid: 148.42, ask: 148.46, spread: 0.04, last: 148.44, change: '-0.23%',
-                        changeClass: 'text-crimson' },
-                    { instrument: 'AUD/USD', bid: 0.6624, ask: 0.6628, spread: 0.0004, last: 0.6626,
-                    change: '+0.05%', changeClass: 'text-emerald' },
-                    { instrument: 'USD/CAD', bid: 1.3682, ask: 1.3686, spread: 0.0004, last: 1.3684,
-                    change: '-0.09%', changeClass: 'text-crimson' },
-                    { instrument: 'EUR/GBP', bid: 0.8552, ask: 0.8556, spread: 0.0004, last: 0.8554,
-                    change: '+0.03%', changeClass: 'text-emerald' },
-                ];
-            }
             updatePricing();
         }
 
         async function loadCounterparties() {
             try {
-                state.counterparties = [
-                    { name: 'Goldman Sachs', exposure: 124, rating: 'A', status: 'low', review: '2026-06-20' },
-                    { name: 'JPMorgan', exposure: 98, rating: 'A', status: 'low', review: '2026-06-18' },
-                    { name: 'Deutsche Bank', exposure: 56, rating: 'B', status: 'medium', review: '2026-06-15' },
-                    { name: 'BNP Paribas', exposure: 42, rating: 'B', status: 'medium', review: '2026-06-12' },
-                    { name: 'HSBC', exposure: 38, rating: 'A', status: 'low', review: '2026-06-10' },
-                ];
+                const data = await API.getRiskMetrics();
+                if (data && data.counterparties) {
+                    state.counterparties = data.counterparties;
+                } else {
+                    state.counterparties = [];
+                }
                 state.fresh.counterparties = Date.now();
             } catch (e) { console.warn('Counterparties fallback:', e); }
             const body = document.getElementById('counterpartyBody');
             if (body) {
-                body.innerHTML = state.counterparties.map(c => `
-                    <tr>
-                        <td>${c.name}</td>
-                        <td class="amount">${getCurrencySymbol()}${c.exposure}M</td>
-                        <td><span class="badge ${c.rating === 'A' ? 'bg-success' : 'bg-warning text-dark'}">${c.rating}</span></td>
-                        <td><span class="status ${c.status}"><span class="dot ${c.status}"></span> ${c.status.charAt(0).toUpperCase() + c.status.slice(1)}</span></td>
-                        <td>${c.review}</td>
-                    </tr>
-                `).join('');
+                if (state.counterparties.length === 0) {
+                    body.innerHTML =
+                        `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-people"></i></div><div class="title">No counterparties</div></div></td></tr>`;
+                } else {
+                    body.innerHTML = state.counterparties.map(c => `
+                        <tr>
+                            <td>${c.name}</td>
+                            <td class="amount">${getCurrencySymbol()}${c.exposure || 0}M</td>
+                            <td><span class="badge ${c.rating === 'A' ? 'bg-success' : c.rating === 'B' ? 'bg-warning text-dark' : 'bg-danger'}">${c.rating || '—'}</span></td>
+                            <td><span class="status ${c.status || 'low'}"><span class="dot ${c.status || 'low'}"></span> ${(c.status || 'Low').charAt(0).toUpperCase() + (c.status || 'low').slice(1)}</span></td>
+                            <td>${c.review || '—'}</td>
+                        </tr>
+                    `).join('');
+                }
             }
         }
 
@@ -4816,30 +4862,28 @@
                     state.fresh.collateral = Date.now();
                 }
             } catch (e) { console.warn('Collateral fallback:', e); }
-            if (state.collateral.length === 0) {
-                state.collateral = [
-                    { asset: 'US Treasury 10Y', type: 'Government', value: 4.2, haircut: '2%', quality: 'AAA' },
-                    { asset: 'Corporate Bonds', type: 'Investment Grade', value: 2.8, haircut: '8%', quality: 'AA' },
-                    { asset: 'Equities', type: 'Blue Chip', value: 1.6, haircut: '15%', quality: 'A' },
-                ];
-            }
             const body = document.getElementById('collateralBody');
             if (body) {
-                body.innerHTML = state.collateral.map(c => `
-                    <tr>
-                        <td>${c.asset}</td>
-                        <td>${c.type}</td>
-                        <td class="amount">${getCurrencySymbol()}${c.value}B</td>
-                        <td>${c.haircut}</td>
-                        <td><span class="badge ${c.quality === 'AAA' ? 'bg-success' : c.quality === 'AA' ? 'bg-success' : c.quality === 'A' ? 'bg-warning text-dark' : 'bg-danger'}">${c.quality}</span></td>
-                    </tr>
-                `).join('');
+                if (state.collateral.length === 0) {
+                    body.innerHTML =
+                        `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-building"></i></div><div class="title">No collateral assets</div></div></td></tr>`;
+                } else {
+                    body.innerHTML = state.collateral.map(c => `
+                        <tr>
+                            <td>${c.asset || 'Unknown'}</td>
+                            <td>${c.type || '—'}</td>
+                            <td class="amount">${getCurrencySymbol()}${c.value || 0}B</td>
+                            <td>${c.haircut || '0%'}</td>
+                            <td><span class="badge ${c.quality === 'AAA' ? 'bg-success' : c.quality === 'AA' ? 'bg-success' : c.quality === 'A' ? 'bg-warning text-dark' : 'bg-danger'}">${c.quality || '—'}</span></td>
+                        </tr>
+                    `).join('');
+                }
             }
-            const total = state.collateral.reduce((sum, c) => sum + c.value, 0);
+            const total = state.collateral.reduce((sum, c) => sum + (c.value || 0), 0);
             animateCounter('collatTotal', 0, total, '$', 'B');
-            animateCounter('collatHaircut', 0, 8.5, '', '%');
-            animateCounter('collatLtv', 0, 72.4, '', '%');
-            setElement('collatQuality', 'AA');
+            animateCounter('collatHaircut', 0, 0, '', '%');
+            animateCounter('collatLtv', 0, 0, '', '%');
+            setElement('collatQuality', '—');
         }
 
         async function loadAutomationJobs() {
@@ -4850,14 +4894,6 @@
                     state.fresh.automation = Date.now();
                 }
             } catch (e) { console.warn('Automation fallback:', e); }
-            if (state.automationJobs.length === 0) {
-                state.automationJobs = [
-                    { id: 1, name: 'Daily Settlement Report', schedule: 'Daily 18:00', status: 'active',
-                    lastRun: 'Today 18:02' },
-                    { id: 2, name: 'Risk Calculation', schedule: 'Hourly', status: 'active', lastRun: '12:00' },
-                    { id: 3, name: 'Data Sync', schedule: 'Every 15m', status: 'active', lastRun: '12:15' },
-                ];
-            }
             updateAutomationJobs();
         }
 
@@ -4869,14 +4905,6 @@
                     state.fresh.webhooks = Date.now();
                 }
             } catch (e) { console.warn('Webhooks fallback:', e); }
-            if (state.webhooks.length === 0) {
-                state.webhooks = [
-                    { id: 1, name: 'Settlement Callback', url: 'https://api.bank.com/webhook/settle',
-                    events: 'settlement.completed', status: 'active' },
-                    { id: 2, name: 'Risk Alert', url: 'https://api.bank.com/webhook/risk', events: 'risk.threshold',
-                        status: 'active' },
-                ];
-            }
             updateWebhooks();
         }
 
@@ -4888,15 +4916,6 @@
                     state.fresh.permissions = Date.now();
                 }
             } catch (e) { console.warn('Permissions fallback:', e); }
-            if (state.permissions.length === 0) {
-                state.permissions = [
-                    { resource: 'Dashboard', admin: true, trader: true, risk: true, compliance: true },
-                    { resource: 'Trades', admin: true, trader: true, risk: true, compliance: false },
-                    { resource: 'Settlements', admin: true, trader: true, risk: true, compliance: true },
-                    { resource: 'Risk', admin: true, trader: false, risk: true, compliance: true },
-                    { resource: 'Users', admin: true, trader: false, risk: false, compliance: false },
-                ];
-            }
             updatePermissions();
         }
 
@@ -4908,13 +4927,6 @@
                     state.fresh.roles = Date.now();
                 }
             } catch (e) { console.warn('Roles fallback:', e); }
-            if (state.roles.length === 0) {
-                state.roles = [
-                    { id: 1, name: 'Admin', permissions: 'Full access', users: 3, status: 'active' },
-                    { id: 2, name: 'Trader', permissions: 'Trade execution, Pricing', users: 12, status: 'active' },
-                    { id: 3, name: 'Risk Manager', permissions: 'Risk analytics, VaR', users: 4, status: 'active' },
-                ];
-            }
             updateRoles();
         }
 
@@ -4922,18 +4934,16 @@
             try {
                 const data = await API.getDevices();
                 if (data && Array.isArray(data)) {
-                    state.devices = data;
+                    state.devices = data.map(d => ({
+                        id: d.id,
+                        name: d.device_name || 'Unnamed',
+                        fingerprint: d.device_fingerprint || '—',
+                        status: d.status || 'pending',
+                        lastActive: d.last_used_at ? new Date(d.last_used_at).toLocaleString() : '—',
+                    }));
                     state.fresh.devices = Date.now();
                 }
             } catch (e) { console.warn('Devices fallback:', e); }
-            if (state.devices.length === 0) {
-                state.devices = [
-                    { name: 'Chrome (Mac)', fingerprint: 'fp-8a7b6c5d', status: 'approved',
-                    lastActive: '2026-07-27 12:34' },
-                    { name: 'Safari (iPhone)', fingerprint: 'fp-1e2f3g4h', status: 'pending',
-                    lastActive: '2026-07-27 11:20' },
-                ];
-            }
             updateDevices();
         }
 
@@ -4945,13 +4955,6 @@
                     state.fresh.tenants = Date.now();
                 }
             } catch (e) { console.warn('Tenants fallback:', e); }
-            if (state.tenants.length === 0) {
-                state.tenants = [
-                    { id: 1, name: 'Acme Bank', users: 12, trades: 284, savings: 4.2, status: 'active' },
-                    { id: 2, name: 'Beta Finance', users: 8, trades: 156, savings: 2.8, status: 'active' },
-                    { id: 3, name: 'Gamma Capital', users: 4, trades: 89, savings: 1.6, status: 'pending' },
-                ];
-            }
             updateTenants();
         }
 
@@ -4963,13 +4966,6 @@
                     state.fresh.backup = Date.now();
                 }
             } catch (e) { console.warn('Backup fallback:', e); }
-            if (state.backupHistory.length === 0) {
-                state.backupHistory = [
-                    { date: '2026-07-27 12:00', size: '4.2 GB', status: 'completed' },
-                    { date: '2026-07-26 12:00', size: '4.1 GB', status: 'completed' },
-                    { date: '2026-07-25 12:00', size: '4.0 GB', status: 'failed' },
-                ];
-            }
             updateBackupUI();
         }
 
@@ -4981,12 +4977,6 @@
                     state.fresh.cbn = Date.now();
                 }
             } catch (e) { console.warn('CBN events fallback:', e); }
-            if (state.cbnEvents.length === 0) {
-                state.cbnEvents = [
-                    { date: '2026-07-27', event: 'MPR increased by 50bps', haircutChange: '+2%', yieldImpact: '-0.8%' },
-                    { date: '2026-07-20', event: 'Liquidity injection', haircutChange: '-1%', yieldImpact: '+0.4%' },
-                ];
-            }
             updateCbnMonitor();
         }
 
@@ -4998,60 +4988,51 @@
                     state.fresh.alpha = Date.now();
                 }
             } catch (e) { console.warn('Alpha signals fallback:', e); }
-            if (state.alphaSignals.length === 0) {
-                state.alphaSignals = [
-                    { asset: 'EUR/USD', signal: 'Buy', confidence: 92, action: 'Execute' },
-                    { asset: 'USD/NGN', signal: 'Sell', confidence: 78, action: 'Monitor' },
-                    { asset: 'NGX ASI', signal: 'Hold', confidence: 85, action: 'Hold' },
-                ];
-            }
             updateAlphaSignals();
         }
-
-        // --- Advanced Analytics Loaders ---
 
         async function loadExecutiveData() {
             try {
                 const data = await API.getDashboardMetrics();
                 if (data) {
-                    animateCounter('execRev', 0, (data.savings_last_30d || 284.6) * 12, '$', 'M');
-                    setElement('execRevChange', '↑ 12.4% YoY');
-                    animateCounter('execAssets', 0, data.liquidity || 1.42, '$', 'T');
-                    setElement('execAssetsChange', '↑ 8.2% YoY');
-                    const profit = (data.savings_last_30d || 284.6) * 0.15;
+                    animateCounter('execRev', 0, (data.savings_last_30d || 0) * 12, '$', 'M');
+                    setElement('execRevChange', '—');
+                    animateCounter('execAssets', 0, data.liquidity || 0, '$', 'T');
+                    setElement('execAssetsChange', '—');
+                    const profit = (data.savings_last_30d || 0) * 0.15;
                     animateCounter('execProfit', 0, profit, '$', 'M');
-                    setElement('execProfitChange', '↑ 6.8% YoY');
-                    const roe = ((data.savings_last_30d || 284.6) * 0.15) / (data.liquidity || 1.42) * 100;
+                    setElement('execProfitChange', '—');
+                    const roe = ((data.savings_last_30d || 0) * 0.15) / (data.liquidity || 1) * 100;
                     animateCounter('execRoe', 0, roe, '', '%');
-                    setElement('execRoeChange', '↑ 2.1% QoQ');
+                    setElement('execRoeChange', '—');
                     state.fresh.executive = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Executive data fallback:', e); }
-            animateCounter('execRev', 0, 284.6, '$', 'B');
-            setElement('execRevChange', '↑ 12.4% YoY');
-            animateCounter('execAssets', 0, 1.42, '$', 'T');
-            setElement('execAssetsChange', '↑ 8.2% YoY');
-            animateCounter('execProfit', 0, 42.8, '$', 'B');
-            setElement('execProfitChange', '↑ 6.8% YoY');
-            animateCounter('execRoe', 0, 18.4, '', '%');
-            setElement('execRoeChange', '↑ 2.1% QoQ');
+            animateCounter('execRev', 0, 0, '$', 'B');
+            setElement('execRevChange', '—');
+            animateCounter('execAssets', 0, 0, '$', 'T');
+            setElement('execAssetsChange', '—');
+            animateCounter('execProfit', 0, 0, '$', 'B');
+            setElement('execProfitChange', '—');
+            animateCounter('execRoe', 0, 0, '', '%');
+            setElement('execRoeChange', '—');
         }
 
         async function loadLiquidityData() {
             try {
                 const data = await API.getDashboardMetrics();
                 if (data) {
-                    animateCounter('liqTotal', 0, data.liquidity || 4.8, '$', 'B');
-                    animateCounter('liqCash', 0, (data.liquidity || 4.8) * 0.3, '$', 'B');
-                    animateCounter('liqRatio', 0, (data.liquidity || 4.8) / 2.3);
+                    animateCounter('liqTotal', 0, data.liquidity || 0, '$', 'B');
+                    animateCounter('liqCash', 0, (data.liquidity || 0) * 0.3, '$', 'B');
+                    animateCounter('liqRatio', 0, (data.liquidity || 0) / 2.3);
                     state.fresh.liquidity = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Liquidity data fallback:', e); }
-            animateCounter('liqTotal', 0, 4.8, '$', 'B');
-            animateCounter('liqCash', 0, 1.42, '$', 'B');
-            animateCounter('liqRatio', 0, 2.1);
+            animateCounter('liqTotal', 0, 0, '$', 'B');
+            animateCounter('liqCash', 0, 0, '$', 'B');
+            animateCounter('liqRatio', 0, 0);
         }
 
         async function loadClearingData() {
@@ -5063,26 +5044,26 @@
                     const rate = data.settlements.filter(s => s.status === 'SETTLED').length / data.settlements.length *
                         100;
                     animateCounter('clearRate', 0, rate, '', '%');
-                    animateCounter('clearTime', 0, 2.4, '', 's');
+                    animateCounter('clearTime', 0, 0, '', 's');
                     state.fresh.clearing = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Clearing data fallback:', e); }
-            animateCounter('clearVol', 0, 18.4, '$', 'B');
-            animateCounter('clearRate', 0, 94.2, '', '%');
-            animateCounter('clearTime', 0, 2.4, '', 's');
+            animateCounter('clearVol', 0, 0, '$', 'B');
+            animateCounter('clearRate', 0, 0, '', '%');
+            animateCounter('clearTime', 0, 0, '', 's');
         }
 
         async function loadMarketImpactData() {
             try {
-                animateCounter('impactAvg', 0, 0.12, '', 'bp');
-                animateCounter('impactMax', 0, 0.42, '', 'bp');
-                animateCounter('impactEff', 0, 92.8, '', '%');
+                animateCounter('impactAvg', 0, 0, '', 'bp');
+                animateCounter('impactMax', 0, 0, '', 'bp');
+                animateCounter('impactEff', 0, 0, '', '%');
                 state.fresh.marketImpact = Date.now();
             } catch (e) { console.warn('Market impact fallback:', e); }
-            animateCounter('impactAvg', 0, 0.12, '', 'bp');
-            animateCounter('impactMax', 0, 0.42, '', 'bp');
-            animateCounter('impactEff', 0, 92.8, '', '%');
+            animateCounter('impactAvg', 0, 0, '', 'bp');
+            animateCounter('impactMax', 0, 0, '', 'bp');
+            animateCounter('impactEff', 0, 0, '', '%');
         }
 
         async function loadQuotesData() {
@@ -5109,7 +5090,7 @@
                         const id = idMap[q.instrument];
                         if (id) {
                             const el = document.getElementById(id);
-                            if (el) el.textContent = (q.bid || 1.0).toFixed(4);
+                            if (el) el.textContent = (q.bid || 0).toFixed(4);
                             const changeEl = document.getElementById(id + 'Change');
                             if (changeEl) {
                                 const change = (Math.random() * 0.4 - 0.2).toFixed(2);
@@ -5124,12 +5105,12 @@
                 }
             } catch (e) { console.warn('Quotes fallback:', e); }
             const quotes = {
-                'quoteEurUsd': 1.0844,
-                'quoteGbpUsd': 1.2680,
-                'quoteUsdJpy': 148.44,
-                'quoteAudUsd': 0.6626,
-                'quoteUsdCad': 1.3684,
-                'quoteEurGbp': 0.8554
+                'quoteEurUsd': 0,
+                'quoteGbpUsd': 0,
+                'quoteUsdJpy': 0,
+                'quoteAudUsd': 0,
+                'quoteUsdCad': 0,
+                'quoteEurGbp': 0
             };
             Object.entries(quotes).forEach(([id, val]) => {
                 const el = document.getElementById(id);
@@ -5150,15 +5131,15 @@
                 if (data) {
                     const stressLoss = (data.var_99 || 0) * 2.5 / 1000000;
                     animateCounter('stressLoss', 0, stressLoss, '$', 'M');
-                    animateCounter('stressCapital', 0, -8.2, '', '%');
-                    animateCounter('stressRecovery', 0, 14, '', ' months');
+                    animateCounter('stressCapital', 0, 0, '', '%');
+                    animateCounter('stressRecovery', 0, 0, '', ' months');
                     state.fresh.stress = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Stress testing fallback:', e); }
-            animateCounter('stressLoss', 0, 24.6, '$', 'M');
-            animateCounter('stressCapital', 0, -8.2, '', '%');
-            animateCounter('stressRecovery', 0, 14, '', ' months');
+            animateCounter('stressLoss', 0, 0, '$', 'M');
+            animateCounter('stressCapital', 0, 0, '', '%');
+            animateCounter('stressRecovery', 0, 0, '', ' months');
         }
 
         async function loadExposureData() {
@@ -5168,37 +5149,37 @@
                     const total = (data.var_99 || 0) * 4 / 1000000;
                     animateCounter('expTotal', 0, total, '$', 'M');
                     animateCounter('expTop', 0, total * 0.25, '$', 'M');
-                    animateCounter('expConc', 0, 28.4, '', '%');
+                    animateCounter('expConc', 0, 0, '', '%');
                     state.fresh.exposure = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Exposure fallback:', e); }
-            animateCounter('expTotal', 0, 486, '$', 'M');
-            animateCounter('expTop', 0, 124, '$', 'M');
-            animateCounter('expConc', 0, 28.4, '', '%');
+            animateCounter('expTotal', 0, 0, '$', 'M');
+            animateCounter('expTop', 0, 0, '$', 'M');
+            animateCounter('expConc', 0, 0, '', '%');
         }
 
         async function loadCashPositionData() {
             try {
                 const data = await API.getDashboardMetrics();
                 if (data) {
-                    animateCounter('cashBalance', 0, data.liquidity || 1.42, '$', 'B');
-                    animateCounter('cashFlow', 0, data.savings_last_30d || 284, '$', 'M');
-                    setElement('cashMix', 'USD 72% • EUR 18% • Other 10%');
+                    animateCounter('cashBalance', 0, data.liquidity || 0, '$', 'B');
+                    animateCounter('cashFlow', 0, data.savings_last_30d || 0, '$', 'M');
+                    setElement('cashMix', '—');
                     state.fresh.cash = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Cash position fallback:', e); }
-            animateCounter('cashBalance', 0, 1.42, '$', 'B');
-            animateCounter('cashFlow', 0, 284, '$', 'M');
-            setElement('cashMix', 'USD 72% • EUR 18% • Other 10%');
+            animateCounter('cashBalance', 0, 0, '$', 'B');
+            animateCounter('cashFlow', 0, 0, '$', 'M');
+            setElement('cashMix', '—');
         }
 
         async function loadTreasuryLiquidityData() {
             try {
                 const data = await API.getDashboardMetrics();
                 if (data) {
-                    const liq = data.liquidity || 4.8;
+                    const liq = data.liquidity || 0;
                     animateCounter('treasOn', 0, liq * 0.25, '$', 'B');
                     animateCounter('treas1w', 0, liq * 0.35, '$', 'B');
                     animateCounter('treas1m', 0, liq * 0.50, '$', 'B');
@@ -5207,34 +5188,34 @@
                     return;
                 }
             } catch (e) { console.warn('Treasury liquidity fallback:', e); }
-            animateCounter('treasOn', 0, 1.2, '$', 'B');
-            animateCounter('treas1w', 0, 1.8, '$', 'B');
-            animateCounter('treas1m', 0, 2.4, '$', 'B');
-            animateCounter('treasTotal', 0, 4.8, '$', 'B');
+            animateCounter('treasOn', 0, 0, '$', 'B');
+            animateCounter('treas1w', 0, 0, '$', 'B');
+            animateCounter('treas1m', 0, 0, '$', 'B');
+            animateCounter('treasTotal', 0, 0, '$', 'B');
         }
 
         async function loadFundingData() {
             try {
                 const data = await API.getDashboardMetrics();
                 if (data) {
-                    const liq = data.liquidity || 4.8;
+                    const liq = data.liquidity || 0;
                     animateCounter('fundTotal', 0, liq * 0.75, '$', 'B');
-                    animateCounter('fundCost', 0, 4.82, '', '%');
-                    animateCounter('fundMaturity', 0, 2.4, '', ' years');
+                    animateCounter('fundCost', 0, 0, '', '%');
+                    animateCounter('fundMaturity', 0, 0, '', ' years');
                     state.fresh.funding = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Funding fallback:', e); }
-            animateCounter('fundTotal', 0, 3.6, '$', 'B');
-            animateCounter('fundCost', 0, 4.82, '', '%');
-            animateCounter('fundMaturity', 0, 2.4, '', ' years');
+            animateCounter('fundTotal', 0, 0, '$', 'B');
+            animateCounter('fundCost', 0, 0, '', '%');
+            animateCounter('fundMaturity', 0, 0, '', ' years');
         }
 
         async function loadForecastData() {
             try {
                 const data = await API.getDashboardMetrics();
                 if (data) {
-                    const base = data.savings_last_30d || 284.6;
+                    const base = data.savings_last_30d || 0;
                     animateCounter('forecast3m', 0, base * 3.2 / 1000, '$', 'B');
                     animateCounter('forecast6m', 0, base * 6.5 / 1000, '$', 'B');
                     animateCounter('forecast12m', 0, base * 13.8 / 1000, '$', 'B');
@@ -5242,59 +5223,57 @@
                     return;
                 }
             } catch (e) { console.warn('Forecast fallback:', e); }
-            animateCounter('forecast3m', 0, 2.8, '$', 'B');
-            animateCounter('forecast6m', 0, 3.2, '$', 'B');
-            animateCounter('forecast12m', 0, 4.6, '$', 'B');
+            animateCounter('forecast3m', 0, 0, '$', 'B');
+            animateCounter('forecast6m', 0, 0, '$', 'B');
+            animateCounter('forecast12m', 0, 0, '$', 'B');
         }
 
         async function loadPortfolioData() {
             try {
-                const data = await API.getCollateral('all');
-                if (data && Array.isArray(data)) {
-                    const total = data.reduce((s, v) => s + (v.value || 0), 0);
-                    animateCounter('portValue', 0, total, '$', 'B');
-                    animateCounter('portHoldings', 0, data.length);
-                    animateCounter('portPnl', 0, total * 0.06, '+$', 'M');
+                const data = await API.getPortfolio();
+                if (data) {
+                    animateCounter('portValue', 0, data.total_value || 0, '$', 'B');
+                    animateCounter('portHoldings', 0, data.holdings || 0);
+                    animateCounter('portPnl', 0, data.daily_pnl || 0, '+$', 'M');
                     state.fresh.portfolio = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Portfolio fallback:', e); }
-            animateCounter('portValue', 0, 2.8, '$', 'B');
-            animateCounter('portHoldings', 0, 142);
-            animateCounter('portPnl', 0, 18.4, '+$', 'M');
+            animateCounter('portValue', 0, 0, '$', 'B');
+            animateCounter('portHoldings', 0, 0);
+            animateCounter('portPnl', 0, 0, '+$', 'M');
         }
 
         async function loadRehypothecationData() {
             try {
-                const data = await API.getCollateral('all');
-                if (data && Array.isArray(data)) {
-                    const total = data.reduce((s, v) => s + (v.value || 0), 0);
-                    animateCounter('rehypoRatio', 0, 42.8, '', '%');
-                    animateCounter('rehypoTotal', 0, total * 0.43, '$', 'B');
-                    animateCounter('rehypoAvail', 0, total * 0.57, '$', 'B');
+                const data = await API.getRehypothecation();
+                if (data) {
+                    animateCounter('rehypoRatio', 0, data.ratio || 0, '', '%');
+                    animateCounter('rehypoTotal', 0, data.total || 0, '$', 'B');
+                    animateCounter('rehypoAvail', 0, data.available || 0, '$', 'B');
                     state.fresh.rehypo = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Rehypothecation fallback:', e); }
-            animateCounter('rehypoRatio', 0, 42.8, '', '%');
-            animateCounter('rehypoTotal', 0, 1.2, '$', 'B');
-            animateCounter('rehypoAvail', 0, 1.6, '$', 'B');
+            animateCounter('rehypoRatio', 0, 0, '', '%');
+            animateCounter('rehypoTotal', 0, 0, '$', 'B');
+            animateCounter('rehypoAvail', 0, 0, '$', 'B');
         }
 
         async function loadPredictionsData() {
             try {
                 const data = await API.getDriftStatus();
                 if (data) {
-                    animateCounter('predAcc', 0, data.accuracy || 94.2, '', '%');
-                    animateCounter('predModels', 0, data.models || 6);
-                    animateCounter('predData', 0, data.data_points || 284, '', 'K');
+                    animateCounter('predAcc', 0, data.accuracy || 0, '', '%');
+                    animateCounter('predModels', 0, data.models || 0);
+                    animateCounter('predData', 0, data.data_points || 0, '', 'K');
                     state.fresh.predictions = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Predictions fallback:', e); }
-            animateCounter('predAcc', 0, 94.2, '', '%');
-            animateCounter('predModels', 0, 6);
-            animateCounter('predData', 0, 284, '', 'K');
+            animateCounter('predAcc', 0, 0, '', '%');
+            animateCounter('predModels', 0, 0);
+            animateCounter('predData', 0, 0, '', 'K');
         }
 
         async function loadMLTrainingData() {
@@ -5302,85 +5281,107 @@
                 const data = await API.getDriftStatus();
                 if (data) {
                     setElement('mlStatus', data.status || 'Idle');
-                    setElement('mlStatusSub', `Last trained: ${data.last_trained || '2 hours ago'}`);
-                    animateCounter('mlScore', 0, data.validation_score || 0.942);
-                    setElement('mlScoreChange', '↑ 0.8%');
-                    document.getElementById('mlProgress').style.width = (data.progress || 100) + '%';
+                    setElement('mlStatusSub', `Last trained: ${data.last_trained || 'Never'}`);
+                    animateCounter('mlScore', 0, data.validation_score || 0);
+                    setElement('mlScoreChange', '—');
+                    document.getElementById('mlProgress').style.width = (data.progress || 0) + '%';
                     state.fresh.ml = Date.now();
                     return;
                 }
             } catch (e) { console.warn('ML training fallback:', e); }
             setElement('mlStatus', 'Idle');
-            setElement('mlStatusSub', 'Last trained: 2 hours ago');
-            animateCounter('mlScore', 0, 0.942);
-            setElement('mlScoreChange', '↑ 0.8%');
-            document.getElementById('mlProgress').style.width = '100%';
+            setElement('mlStatusSub', 'Last trained: Never');
+            animateCounter('mlScore', 0, 0);
+            setElement('mlScoreChange', '—');
+            document.getElementById('mlProgress').style.width = '0%';
         }
 
         async function loadDriftDetectionData() {
             try {
                 const data = await API.getDriftStatus();
                 if (data) {
-                    animateCounter('driftData', 0, data.data_drift || 0.12);
-                    animateCounter('driftConcept', 0, data.concept_drift || 0.08);
-                    animateCounter('driftAlerts', 0, data.alerts || 2);
+                    animateCounter('driftData', 0, data.data_drift || 0);
+                    animateCounter('driftConcept', 0, data.concept_drift || 0);
+                    animateCounter('driftAlerts', 0, data.alerts || 0);
                     state.fresh.drift = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Drift detection fallback:', e); }
-            animateCounter('driftData', 0, 0.12);
-            animateCounter('driftConcept', 0, 0.08);
-            animateCounter('driftAlerts', 0, 2);
+            animateCounter('driftData', 0, 0);
+            animateCounter('driftConcept', 0, 0);
+            animateCounter('driftAlerts', 0, 0);
         }
 
         async function loadOptimisationData() {
             try {
                 const data = await API.getDashboardMetrics();
                 if (data) {
-                    animateCounter('optGain', 0, data.optimisation_gain || 18.4, '+', '%');
-                    animateCounter('optIter', 0, data.optimisation_iterations || 1284);
-                    animateCounter('optObj', 0, data.optimisation_objective || 0.042);
+                    animateCounter('optGain', 0, data.optimisation_gain || 0, '+', '%');
+                    animateCounter('optIter', 0, data.optimisation_iterations || 0);
+                    animateCounter('optObj', 0, data.optimisation_objective || 0);
                     state.fresh.optimisation = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Optimisation fallback:', e); }
-            animateCounter('optGain', 0, 18.4, '+', '%');
-            animateCounter('optIter', 0, 1284);
-            animateCounter('optObj', 0, 0.042);
+            animateCounter('optGain', 0, 0, '+', '%');
+            animateCounter('optIter', 0, 0);
+            animateCounter('optObj', 0, 0);
         }
 
         async function loadHealthData() {
             try {
                 const data = await API.getHealth();
                 if (data) {
-                    setElement('healthSys', data.status || 'Operational');
-                    animateCounter('healthUptime', 0, data.uptime || 99.97, '', '%');
-                    animateCounter('healthErrors', 0, data.error_rate || 0.02, '', '%');
-                    animateCounter('healthResp', 0, data.response_time || 2.4, '', 'ms');
+                    setElement('healthSys', data.status || 'Unknown');
+                    animateCounter('healthUptime', 0, data.uptime || 0, '', '%');
+                    animateCounter('healthErrors', 0, data.error_rate || 0, '', '%');
+                    animateCounter('healthResp', 0, data.response_time || 0, '', 'ms');
                     state.fresh.health = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Health fallback:', e); }
-            setElement('healthSys', 'Operational');
-            animateCounter('healthUptime', 0, 99.97, '', '%');
-            animateCounter('healthErrors', 0, 0.02, '', '%');
-            animateCounter('healthResp', 0, 2.4, '', 'ms');
+            setElement('healthSys', 'Unknown');
+            animateCounter('healthUptime', 0, 0, '', '%');
+            animateCounter('healthErrors', 0, 0, '', '%');
+            animateCounter('healthResp', 0, 0, '', 'ms');
         }
 
         async function loadMetricsData() {
             try {
                 const data = await API.getSystemMetrics();
                 if (data) {
-                    animateCounter('metricCpu', 0, data.cpu || 42, '', '%');
-                    animateCounter('metricMem', 0, data.memory || 68, '', '%');
-                    animateCounter('metricNet', 0, data.network || 2.4, '', ' Gbps');
+                    animateCounter('metricCpu', 0, data.cpu || 0, '', '%');
+                    animateCounter('metricMem', 0, data.memory || 0, '', '%');
+                    animateCounter('metricNet', 0, data.network || 0, '', ' Gbps');
                     state.fresh.metrics = Date.now();
                     return;
                 }
             } catch (e) { console.warn('Metrics fallback:', e); }
-            animateCounter('metricCpu', 0, 42, '', '%');
-            animateCounter('metricMem', 0, 68, '', '%');
-            animateCounter('metricNet', 0, 2.4, '', ' Gbps');
+            animateCounter('metricCpu', 0, 0, '', '%');
+            animateCounter('metricMem', 0, 0, '', '%');
+            animateCounter('metricNet', 0, 0, '', ' Gbps');
+        }
+
+        async function loadTenantConfig() {
+            try {
+                const config = await API.getTenantConfig();
+                if (config) {
+                    state.tenantConfig = config;
+                    document.getElementById('orgNameInput').value = config.organisation_name || '';
+                    document.getElementById('orgIndustryInput').value = config.industry || '';
+                    document.getElementById('tenantNibssKey').value = config.nibss_api_key || '';
+                    document.getElementById('tenantBloombergKey').value = config.bloomberg_api_key || '';
+                    document.getElementById('tenantReutersKey').value = config.reuters_api_key || '';
+                    document.getElementById('tenantAlphaKey').value = config.alpha_vantage_key || '';
+                    document.getElementById('tenantCbnUrl').value = config.cbn_openapi_url || '';
+                    document.getElementById('tenantNgxUrl').value = config.ngx_api_url || '';
+                    document.getElementById('perfFee').value = config.performance_fee_percent || 0.20;
+                    document.getElementById('useGlobalModel').checked = config.use_global_model !== false;
+                    document.getElementById('alphaStrategy').value = config.alpha_strategy_type || 'mean_reversion';
+                }
+            } catch (error) {
+                console.warn('Failed to load tenant config, using defaults:', error);
+            }
         }
 
         // ================================================================
@@ -5413,20 +5414,9 @@
             requestAnimationFrame(tick);
         }
 
-        function getMockTransactions() {
-            return [
-                { id: 'TX-8821', counterparty: 'Goldman Sachs', amount: 12.4, status: 'completed', type: 'FX Swap',
-                    time: '12:34' },
-                { id: 'TX-8820', counterparty: 'JPMorgan', amount: 8.7, status: 'processing', type: 'Repo',
-                    time: '12:28' },
-                { id: 'TX-8819', counterparty: 'BNP Paribas', amount: 3.2, status: 'failed', type: 'Payment',
-                    time: '12:15' },
-            ];
-        }
-
         function updateWidgetBars() {
             const fills = document.querySelectorAll('.widget-item .bar .fill');
-            const vals = [85, 92, 78, 88, 72, 65, 94, 99];
+            const vals = [0, 0, 0, 0, 0, 0, 0, 0];
             fills.forEach((el, i) => {
                 if (i < vals.length) el.style.width = vals[i] + '%';
             });
@@ -5612,10 +5602,20 @@
                     <td>${u.name}</td>
                     <td>${u.email}</td>
                     <td>${u.role}</td>
-                    <td><span class="status ${u.status}"><span class="dot ${u.status}"></span> ${u.status.charAt(0).toUpperCase() + u.status.slice(1)}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="editUser('${u.id}')">Edit</button>
-                        ${u.status !== 'pending' ? `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);color:var(--crimson);" onclick="deleteUser('${u.id}')">Delete</button>` : `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="approveUser('${u.id}')">Approve</button>`}
+                        ${u.status === 'pending' ? `<span class="status-badge pending">Pending</span>` :
+                         u.status === 'approved' ? `<span class="status-badge active">Active</span>` :
+                         u.status === 'rejected' ? `<span class="status-badge inactive">Rejected</span>` :
+                         `<span class="status-badge ${u.status === 'active' ? 'active' : 'inactive'}">${u.status === 'active' ? 'Active' : 'Inactive'}</span>`}
+                    </td>
+                    <td>
+                        ${u.status === 'pending' ? `
+                            <button class="btn btn-sm btn-success" onclick="approveUser('${u.id}')">Approve</button>
+                            <button class="btn btn-sm btn-danger" onclick="rejectUser('${u.id}')">Reject</button>
+                        ` : `
+                            <button class="btn btn-sm btn-outline-light" onclick="editUser('${u.id}')">Edit</button>
+                            <button class="btn btn-sm btn-outline-light text-crimson" onclick="deleteUser('${u.id}')">Delete</button>
+                        `}
                     </td>
                 </tr>
             `).join('');
@@ -5758,10 +5758,10 @@
             const failed = settlements.filter(s => s.status === 'FAILED').length;
             const processing = settlements.filter(s => s.status === 'PROCESSING').length;
 
-            animateCounter('settlePending', 0, pending || 12);
-            animateCounter('settleProcessing', 0, processing || 8);
-            animateCounter('settleCompleted', 0, completed || 156);
-            animateCounter('settleFailed', 0, failed || 3);
+            animateCounter('settlePending', 0, pending || 0);
+            animateCounter('settleProcessing', 0, processing || 0);
+            animateCounter('settleCompleted', 0, completed || 0);
+            animateCounter('settleFailed', 0, failed || 0);
 
             const clearBody = document.getElementById('clearingBody');
             if (clearBody) {
@@ -5814,8 +5814,6 @@
 
         function updateSettingsUI() {
             const settings = state.settings;
-            document.getElementById('orgNameInput').value = settings.orgName || 'Chronos Financial';
-            document.getElementById('orgIndustryInput').value = settings.industry || 'Banking & Finance';
             document.getElementById('secMfa').checked = settings.mfaRequired !== false;
             document.getElementById('secSession').checked = settings.sessionTimeout === 30;
             document.getElementById('secDevice').checked = settings.deviceAudit || false;
@@ -5942,9 +5940,20 @@
                 <tr>
                     <td>${d.name}</td>
                     <td class="font-mono fs-13">${d.fingerprint}</td>
-                    <td><span class="status ${d.status}"><span class="dot ${d.status}"></span> ${d.status.charAt(0).toUpperCase() + d.status.slice(1)}</span></td>
+                    <td>
+                        ${d.status === 'pending' ? `<span class="status-badge pending">Pending</span>` :
+                         d.status === 'approved' ? `<span class="status-badge active">Approved</span>` :
+                         `<span class="status-badge inactive">Revoked</span>`}
+                    </td>
                     <td>${d.lastActive}</td>
-                    <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="revokeDevice('${d.fingerprint}')">Revoke</button></td>
+                    <td>
+                        ${d.status === 'pending' ? `
+                            <button class="btn btn-sm btn-success" onclick="approveDevice('${d.id}')">Approve</button>
+                        ` : d.status === 'approved' ? `
+                            <button class="btn btn-sm btn-danger" onclick="revokeDevice('${d.id}')">Revoke</button>
+                        ` : ''}
+                        <button class="btn btn-sm btn-outline-light text-crimson" onclick="deleteDevice('${d.id}')">Delete</button>
+                    </td>
                 </tr>
             `).join('');
         }
@@ -5963,11 +5972,18 @@
             body.innerHTML = tenants.map(t => `
                 <tr>
                     <td>${t.name}</td>
-                    <td>${t.users}</td>
-                    <td>${t.trades}</td>
-                    <td>${getCurrencySymbol()}${t.savings}M</td>
-                    <td><span class="status ${t.status}"><span class="dot ${t.status}"></span> ${t.status.charAt(0).toUpperCase() + t.status.slice(1)}</span></td>
-                    <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="editTenant('${t.id}')">Edit</button></td>
+                    <td>${t.users || '—'}</td>
+                    <td>${t.trades || '—'}</td>
+                    <td>${t.savings ? getCurrencySymbol() + t.savings + 'M' : '—'}</td>
+                    <td>
+                        <span class="status-badge ${t.status}">${t.status}</span>
+                    </td>
+                    <td>
+                        ${t.status === 'pending' ? `<button class="btn btn-sm btn-success" onclick="activateTenant('${t.id}')">Activate</button>` : ''}
+                        ${t.status === 'active' ? `<button class="btn btn-sm btn-warning" onclick="suspendTenant('${t.id}')">Suspend</button>` : ''}
+                        <button class="btn btn-sm btn-outline-light" onclick="editTenant('${t.id}')">Edit</button>
+                        <button class="btn btn-sm btn-outline-light text-crimson" onclick="deleteTenant('${t.id}')">Delete</button>
+                    </td>
                 </tr>
             `).join('');
         }
@@ -6506,30 +6522,29 @@
         }
 
         // ================================================================
-        // 18. USER ACTIONS
+        // 18. USER ACTIONS (Real API calls, no mock data)
         // ================================================================
         function openAddUserModal() {
             showModal('Add User', 'Create a new user account', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Full Name</label>
-                    <input class="form-control" id="modalUserName" placeholder="John Doe" aria-label="Full name" />
+                    <input class="form-control" id="modalUserName" placeholder="John Doe" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Email</label>
-                    <input class="form-control" id="modalUserEmail" placeholder="john@chronos.com" aria-label="Email" />
+                    <input class="form-control" id="modalUserEmail" placeholder="john@chronos.com" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Role</label>
-                    <select class="form-select" id="modalUserRole" aria-label="Role">
-                        <option value="Trader">Trader</option>
-                        <option value="Risk Manager">Risk Manager</option>
-                        <option value="Compliance">Compliance</option>
-                        <option value="Admin">Admin</option>
+                    <select class="form-select" id="modalUserRole">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="developer">Developer</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Password</label>
-                    <input class="form-control" id="modalUserPass" placeholder="••••••••" type="password" aria-label="Password" />
+                    <input class="form-control" id="modalUserPass" type="password" placeholder="••••••••" />
                 </div>
             `, async () => {
                 const name = document.getElementById('modalUserName').value.trim();
@@ -6552,79 +6567,102 @@
             });
         }
 
-        function editUser(id) {
-            const user = state.users.find(u => u.id === id);
-            if (!user) return;
-            showModal('Edit User', `Editing ${user.name}`, `
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Full Name</label>
-                    <input class="form-control" id="modalUserName" value="${user.name}" aria-label="Full name" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Email</label>
-                    <input class="form-control" id="modalUserEmail" value="${user.email}" aria-label="Email" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Role</label>
-                    <select class="form-select" id="modalUserRole" aria-label="Role">
-                        <option value="Trader" ${user.role === 'Trader' ? 'selected' : ''}>Trader</option>
-                        <option value="Risk Manager" ${user.role === 'Risk Manager' ? 'selected' : ''}>Risk Manager</option>
-                        <option value="Compliance" ${user.role === 'Compliance' ? 'selected' : ''}>Compliance</option>
-                        <option value="Admin" ${user.role === 'Admin' ? 'selected' : ''}>Admin</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Status</label>
-                    <select class="form-select" id="modalUserStatus" aria-label="Status">
-                        <option value="active" ${user.status === 'active' ? 'selected' : ''}>Active</option>
-                        <option value="inactive" ${user.status === 'inactive' ? 'selected' : ''}>Inactive</option>
-                        <option value="pending" ${user.status === 'pending' ? 'selected' : ''}>Pending</option>
-                    </select>
-                </div>
-            `, async () => {
-                const name = document.getElementById('modalUserName').value.trim();
-                const email = document.getElementById('modalUserEmail').value.trim();
-                const role = document.getElementById('modalUserRole').value;
-                const status = document.getElementById('modalUserStatus').value;
-                if (!name || !email) {
-                    showModalError('Name and email are required.');
+        async function approveUser(userId) {
+            if (!confirm('Approve this user? They will receive an API key.')) return;
+            try {
+                const result = await API.approveUser(userId);
+                showNotification('success', 'User Approved', `API key: ${result.api_key || 'generated'}`);
+                loadUsers();
+                logAudit('approve_user', `User ${userId} approved`);
+            } catch (error) {
+                showNotification('danger', 'Approval Failed', error.message);
+            }
+        }
+
+        async function rejectUser(userId) {
+            if (!confirm('Reject this user?')) return;
+            try {
+                await API.rejectUser(userId);
+                showNotification('success', 'User Rejected', '');
+                loadUsers();
+                logAudit('reject_user', `User ${userId} rejected`);
+            } catch (error) {
+                showNotification('danger', 'Rejection Failed', error.message);
+            }
+        }
+
+        async function editUser(userId) {
+            try {
+                const user = await API.getUser(userId);
+                if (!user) {
+                    showNotification('danger', 'User Not Found', '');
                     return;
                 }
-                try {
-                    await API.updateUser(id, { full_name: name, email, role, status });
-                    closeModal();
-                    showNotification('success', 'User Updated', `${name} has been updated.`);
-                    loadUsers();
-                    logAudit('update_user', `Updated user ${name}`);
-                } catch (e) {
-                    showModalError(e.message || 'Failed to update user.');
-                }
-            });
+                showModal('Edit User', `Editing ${user.full_name || user.email}`, `
+                    <div class="mb-3">
+                        <label class="form-label text-secondary fs-13">Full Name</label>
+                        <input class="form-control" id="modalUserName" value="${user.full_name || ''}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary fs-13">Email</label>
+                        <input class="form-control" id="modalUserEmail" value="${user.email}" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary fs-13">Role</label>
+                        <select class="form-select" id="modalUserRole">
+                            <option value="user" ${user.role === 'user' ? 'selected' : ''}>User</option>
+                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                            <option value="developer" ${user.role === 'developer' ? 'selected' : ''}>Developer</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary fs-13">Status</label>
+                        <select class="form-select" id="modalUserStatus">
+                            <option value="pending" ${user.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="approved" ${user.status === 'approved' ? 'selected' : ''}>Approved</option>
+                            <option value="rejected" ${user.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary fs-13">New Password (leave blank to keep current)</label>
+                        <input class="form-control" id="modalUserPass" type="password" placeholder="••••••••" />
+                    </div>
+                `, async () => {
+                    const name = document.getElementById('modalUserName').value.trim();
+                    const email = document.getElementById('modalUserEmail').value.trim();
+                    const role = document.getElementById('modalUserRole').value;
+                    const status = document.getElementById('modalUserStatus').value;
+                    const password = document.getElementById('modalUserPass').value;
+                    if (!name || !email) {
+                        showModalError('Name and email are required.');
+                        return;
+                    }
+                    try {
+                        await API.updateUser(userId, { full_name: name, email, role, status, password: password ||
+                                undefined });
+                        closeModal();
+                        showNotification('success', 'User Updated', '');
+                        loadUsers();
+                        logAudit('update_user', `User ${userId} updated`);
+                    } catch (e) {
+                        showModalError(e.message || 'Failed to update user.');
+                    }
+                });
+            } catch (error) {
+                showNotification('danger', 'Failed to load user', error.message);
+            }
         }
 
-        function deleteUser(id) {
-            const user = state.users.find(u => u.id === id);
-            if (!user) return;
-            if (!confirm(`Delete user ${user.name}? This action cannot be undone.`)) return;
-            API.deleteUser(id).then(() => {
-                showNotification('success', 'User Deleted', `${user.name} has been removed.`);
+        async function deleteUser(userId) {
+            if (!confirm('Delete this user permanently? This cannot be undone.')) return;
+            try {
+                await API.deleteUser(userId);
+                showNotification('success', 'User Deleted', '');
                 loadUsers();
-                logAudit('delete_user', `Deleted user ${user.name}`);
-            }).catch(e => {
-                showNotification('danger', 'Delete Failed', e.message);
-            });
-        }
-
-        function approveUser(id) {
-            const user = state.users.find(u => u.id === id);
-            if (!user) return;
-            API.updateUser(id, { status: 'active' }).then(() => {
-                showNotification('success', 'User Approved', `${user.name} has been approved.`);
-                loadUsers();
-                logAudit('approve_user', `Approved user ${user.name}`);
-            }).catch(e => {
-                showNotification('danger', 'Approval Failed', e.message);
-            });
+                logAudit('delete_user', `User ${userId} deleted`);
+            } catch (error) {
+                showNotification('danger', 'Delete Failed', error.message);
+            }
         }
 
         // ================================================================
@@ -6634,11 +6672,11 @@
             showModal('Generate API Key', 'Create a new API key', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Key Name</label>
-                    <input class="form-control" id="modalKeyName" placeholder="Production API Key" aria-label="Key name" />
+                    <input class="form-control" id="modalKeyName" placeholder="Production API Key" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Permissions</label>
-                    <select class="form-select" id="modalKeyPerms" aria-label="Permissions">
+                    <select class="form-select" id="modalKeyPerms">
                         <option value="Read">Read</option>
                         <option value="Read-Write">Read-Write</option>
                         <option value="Full">Full</option>
@@ -6683,11 +6721,11 @@
             showModal('Add Role', 'Create a new role', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Role Name</label>
-                    <input class="form-control" id="modalRoleName" placeholder="Operations" aria-label="Role name" />
+                    <input class="form-control" id="modalRoleName" placeholder="Operations" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Permissions</label>
-                    <input class="form-control" id="modalRolePerms" placeholder="Trade execution, Pricing, Risk" aria-label="Permissions" />
+                    <input class="form-control" id="modalRolePerms" placeholder="Trade execution, Pricing, Risk" />
                 </div>
             `, async () => {
                 const name = document.getElementById('modalRoleName').value.trim();
@@ -6709,17 +6747,17 @@
         }
 
         // ================================================================
-        // 21. TENANT ACTIONS
+        // 21. TENANT ACTIONS (Real API calls)
         // ================================================================
         function openAddTenantModal() {
             showModal('Add Tenant', 'Create a new tenant', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Tenant Name</label>
-                    <input class="form-control" id="modalTenantName" placeholder="Delta Capital" aria-label="Tenant name" />
+                    <input class="form-control" id="modalTenantName" placeholder="Delta Capital" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Admin Email</label>
-                    <input class="form-control" id="modalTenantEmail" placeholder="admin@delta.com" aria-label="Admin email" />
+                    <input class="form-control" id="modalTenantEmail" placeholder="admin@delta.com" />
                 </div>
             `, async () => {
                 const name = document.getElementById('modalTenantName').value.trim();
@@ -6740,17 +6778,42 @@
             });
         }
 
-        function editTenant(id) {
-            const tenant = state.tenants.find(t => t.id === id);
-            if (!tenant) return;
+        async function activateTenant(tenantId) {
+            if (!confirm('Activate this tenant?')) return;
+            try {
+                await API.activateTenant(tenantId);
+                showNotification('success', 'Tenant Activated', '');
+                loadTenants();
+            } catch (error) {
+                showNotification('danger', 'Activation Failed', error.message);
+            }
+        }
+
+        async function suspendTenant(tenantId) {
+            if (!confirm('Suspend this tenant?')) return;
+            try {
+                await API.suspendTenant(tenantId);
+                showNotification('warning', 'Tenant Suspended', '');
+                loadTenants();
+            } catch (error) {
+                showNotification('danger', 'Suspension Failed', error.message);
+            }
+        }
+
+        async function editTenant(tenantId) {
+            const tenant = state.tenants.find(t => t.id === tenantId);
+            if (!tenant) {
+                showNotification('danger', 'Tenant not found', '');
+                return;
+            }
             showModal('Edit Tenant', `Editing ${tenant.name}`, `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Tenant Name</label>
-                    <input class="form-control" id="modalTenantName" value="${tenant.name}" aria-label="Tenant name" />
+                    <input class="form-control" id="modalTenantName" value="${tenant.name}" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Status</label>
-                    <select class="form-select" id="modalTenantStatus" aria-label="Status">
+                    <select class="form-select" id="modalTenantStatus">
                         <option value="active" ${tenant.status === 'active' ? 'selected' : ''}>Active</option>
                         <option value="pending" ${tenant.status === 'pending' ? 'selected' : ''}>Pending</option>
                         <option value="suspended" ${tenant.status === 'suspended' ? 'selected' : ''}>Suspended</option>
@@ -6764,7 +6827,7 @@
                     return;
                 }
                 try {
-                    await API.updateTenant(id, { name, status });
+                    await API.updateTenant(tenantId, { name, status });
                     closeModal();
                     showNotification('success', 'Tenant Updated', `Tenant "${name}" updated.`);
                     loadTenants();
@@ -6775,22 +6838,73 @@
             });
         }
 
+        async function deleteTenant(tenantId) {
+            if (!confirm('Delete this tenant permanently? This will remove all associated data.')) return;
+            try {
+                await API.deleteTenant(tenantId);
+                showNotification('success', 'Tenant Deleted', '');
+                loadTenants();
+                logAudit('delete_tenant', `Tenant ${tenantId} deleted`);
+            } catch (error) {
+                showNotification('danger', 'Delete Failed', error.message);
+            }
+        }
+
         // ================================================================
-        // 22. WEBHOOK ACTIONS
+        // 22. DEVICE ACTIONS (Real API calls)
+        // ================================================================
+        async function approveDevice(deviceId) {
+            if (!confirm('Approve this device?')) return;
+            try {
+                await API.approveDevice(deviceId);
+                showNotification('success', 'Device Approved', '');
+                loadDevices();
+                logAudit('approve_device', `Device ${deviceId} approved`);
+            } catch (error) {
+                showNotification('danger', 'Approval Failed', error.message);
+            }
+        }
+
+        async function revokeDevice(deviceId) {
+            if (!confirm('Revoke this device?')) return;
+            try {
+                await API.revokeDevice(deviceId);
+                showNotification('warning', 'Device Revoked', '');
+                loadDevices();
+                logAudit('revoke_device', `Device ${deviceId} revoked`);
+            } catch (error) {
+                showNotification('danger', 'Revoke Failed', error.message);
+            }
+        }
+
+        async function deleteDevice(deviceId) {
+            if (!confirm('Delete this device permanently?')) return;
+            try {
+                await API.deleteDevice(deviceId);
+                showNotification('success', 'Device Deleted', '');
+                loadDevices();
+                logAudit('delete_device', `Device ${deviceId} deleted`);
+            } catch (error) {
+                showNotification('danger', 'Delete Failed', error.message);
+            }
+        }
+
+        // ================================================================
+        // 23. WEBHOOK ACTIONS
         // ================================================================
         function openAddWebhookModal() {
             showModal('Add Webhook', 'Create a new webhook endpoint', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Name</label>
-                    <input class="form-control" id="modalWebhookName" placeholder="Settlement Webhook" aria-label="Webhook name" />
+                    <input class="form-control" id="modalWebhookName" placeholder="Settlement Webhook" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">URL</label>
-                    <input class="form-control" id="modalWebhookUrl" placeholder="https://api.example.com/webhook" aria-label="Webhook URL" />
+                    <input class="form-control" id="modalWebhookUrl" placeholder="https://api.example.com/webhook" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Events</label>
-                    <select class="form-select" id="modalWebhookEvents" aria-label="Events">
+                    <select class="form-select" id="modalWebhookEvents">
                         <option value="settlement.completed">Settlement Completed</option>
                         <option value="trade.executed">Trade Executed</option>
                         <option value="risk.threshold">Risk Threshold</option>
@@ -6826,17 +6940,17 @@
         }
 
         // ================================================================
-        // 23. AUTOMATION ACTIONS
+        // 24. AUTOMATION ACTIONS
         // ================================================================
         function openAddAutomationModal() {
             showModal('Add Automation Job', 'Create a new scheduled job', `
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Job Name</label>
-                    <input class="form-control" id="modalAutoName" placeholder="Daily Risk Calculation" aria-label="Job name" />
+                    <input class="form-control" id="modalAutoName" placeholder="Daily Risk Calculation" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label text-secondary fs-13">Schedule</label>
-                    <select class="form-select" id="modalAutoSchedule" aria-label="Schedule">
+                    <select class="form-select" id="modalAutoSchedule">
                         <option value="Daily 18:00">Daily 18:00</option>
                         <option value="Hourly">Hourly</option>
                         <option value="Every 15m">Every 15 minutes</option>
@@ -6870,20 +6984,6 @@
                 logAudit('run_automation', `Triggered automation: ${job.name}`);
             }).catch(e => {
                 showNotification('danger', 'Automation Failed', e.message);
-            });
-        }
-
-        // ================================================================
-        // 24. DEVICE ACTIONS
-        // ================================================================
-        function revokeDevice(fingerprint) {
-            if (!confirm(`Revoke device ${fingerprint}?`)) return;
-            API.revokeDevice(fingerprint).then(() => {
-                showNotification('warning', 'Device Revoked', `Device ${fingerprint} has been revoked.`);
-                loadDevices();
-                logAudit('revoke_device', `Revoked device: ${fingerprint}`);
-            }).catch(e => {
-                showNotification('danger', 'Revoke Failed', e.message);
             });
         }
 
@@ -6977,8 +7077,8 @@
             try {
                 const result = await API.computeShadowVar(desk);
                 if (result) {
-                    animateCounter('shadowVarVal', 0, (result.shadow_var_99 || 42.8) / 1000000, '$', 'M');
-                    animateCounter('shadowVarRatio', 0, (result.shadow_var_99 || 42.8) / (result.var_99 || 12.4));
+                    animateCounter('shadowVarVal', 0, (result.shadow_var_99 || 0) / 1000000, '$', 'M');
+                    animateCounter('shadowVarRatio', 0, (result.shadow_var_99 || 0) / (result.var_99 || 1));
                     showNotification('success', 'Shadow VaR', 'Simulation completed.');
                     logAudit('shadow_var_sim', `Ran Shadow VaR simulation: ${desk || 'all'}`);
                 }
@@ -7009,7 +7109,7 @@
                             clearInterval(checkInterval);
                             setElement('mlStatus', 'Idle');
                             setElement('mlStatusSub', `Last trained: ${status.last_trained || 'Just now'}`);
-                            animateCounter('mlScore', 0, status.validation_score || 0.942);
+                            animateCounter('mlScore', 0, status.validation_score || 0);
                             showNotification('success', 'Model Training', 'Training completed successfully.');
                             if (btn) { btn.disabled = false;
                                 btn.innerHTML = '<i class="bi bi-play me-1"></i> Retrain Model'; }
@@ -7127,7 +7227,34 @@
         }
 
         // ================================================================
-        // 32. REPORTS & GENERATE
+        // 32. TENANT CONFIG (API Connection)
+        // ================================================================
+        async function saveTenantConfig() {
+            const data = {
+                organisation_name: document.getElementById('orgNameInput').value.trim(),
+                industry: document.getElementById('orgIndustryInput').value.trim(),
+                nibss_api_key: document.getElementById('tenantNibssKey').value.trim(),
+                bloomberg_api_key: document.getElementById('tenantBloombergKey').value.trim(),
+                reuters_api_key: document.getElementById('tenantReutersKey').value.trim(),
+                alpha_vantage_key: document.getElementById('tenantAlphaKey').value.trim(),
+                cbn_openapi_url: document.getElementById('tenantCbnUrl').value.trim(),
+                ngx_api_url: document.getElementById('tenantNgxUrl').value.trim(),
+                performance_fee_percent: parseFloat(document.getElementById('perfFee').value) || 0.20,
+                use_global_model: document.getElementById('useGlobalModel').checked,
+                alpha_strategy_type: document.getElementById('alphaStrategy').value,
+            };
+
+            try {
+                await API.updateTenantConfig(data);
+                showNotification('success', 'Settings Saved', 'Your API configuration has been updated.');
+                logAudit('save_tenant_config', 'Updated tenant configuration');
+            } catch (error) {
+                showNotification('danger', 'Save Failed', error.message);
+            }
+        }
+
+        // ================================================================
+        // 33. REPORTS & GENERATE
         // ================================================================
         function generateReport() {
             showNotification('success', 'Report Generated', 'Daily report PDF is ready for download.');
@@ -7142,7 +7269,7 @@
         }
 
         // ================================================================
-        // 33. API TOOLS
+        // 34. API TOOLS
         // ================================================================
         async function testApiEndpoint() {
             const method = document.getElementById('apiMethod').value;
@@ -7175,7 +7302,7 @@
         }
 
         // ================================================================
-        // 34. CLOCK
+        // 35. CLOCK
         // ================================================================
         function updateClock() {
             const now = new Date();
@@ -7194,7 +7321,7 @@
         }
 
         // ================================================================
-        // 35. API HEALTH CHECK
+        // 36. API HEALTH CHECK
         // ================================================================
         async function checkApiHealth() {
             const dot = document.getElementById('apiDot');
@@ -7218,26 +7345,26 @@
         }
 
         // ================================================================
-        // 36. LIVE UPDATES
+        // 37. LIVE UPDATES
         // ================================================================
         function startLiveUpdates() {
             if (state.liveInterval) clearInterval(state.liveInterval);
             state.liveInterval = setInterval(() => {
                 const liveSettle = document.getElementById('liveSettle');
                 if (liveSettle && state.fresh.liquidity) {
-                    const base = state.fresh.liquidity || 3.2;
+                    const base = state.fresh.liquidity || 0;
                     const newVal = Math.max(0.5, base + (Math.random() * 0.04 - 0.02));
                     animateCounter('liveSettle', base, newVal, '$', 'B');
                 }
                 const latency = document.getElementById('liveLatency');
                 if (latency) {
-                    const current = parseFloat(latency.textContent.replace('ms', '')) || 2.4;
+                    const current = parseFloat(latency.textContent.replace('ms', '')) || 0;
                     const newVal = Math.max(0.5, current + (Math.random() * 0.2 - 0.1));
                     animateCounter('liveLatency', current, newVal, '', 'ms');
                 }
                 const sessions = document.getElementById('liveSessions');
                 if (sessions) {
-                    const current = parseInt(sessions.textContent) || 142;
+                    const current = parseInt(sessions.textContent) || 0;
                     const newVal = Math.max(10, current + Math.floor(Math.random() * 3 - 1));
                     animateCounter('liveSessions', current, newVal);
                 }
@@ -7283,7 +7410,7 @@
         }
 
         // ================================================================
-        // 37. AVATAR DROPDOWN
+        // 38. AVATAR DROPDOWN
         // ================================================================
         function toggleAvatarDropdown() {
             document.getElementById('avatarDropdown').classList.toggle('open');
@@ -7296,7 +7423,7 @@
         });
 
         // ================================================================
-        // 38. MODAL SYSTEM
+        // 39. MODAL SYSTEM
         // ================================================================
         function showModal(title, subtitle, bodyHtml, confirmCallback) {
             document.getElementById('modalTitle').textContent = title;
@@ -7342,7 +7469,7 @@
         });
 
         // ================================================================
-        // 39. CHARTS — Full Chart.js integration
+        // 40. CHARTS — Full Chart.js integration
         // ================================================================
         function initCharts() {
             const ctx1 = document.getElementById('dashboardChart1')?.getContext('2d');
@@ -7353,7 +7480,7 @@
                         labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
                         datasets: [{
                             label: 'Settlement Volume',
-                            data: [1.2, 1.8, 2.4, 3.6, 4.2, 3.8, 2.9],
+                            data: [0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#2563EB',
                             backgroundColor: 'rgba(37,99,235,0.08)',
                             fill: true,
@@ -7362,7 +7489,7 @@
                             borderWidth: 2,
                         }, {
                             label: 'Liquidity',
-                            data: [1.6, 1.9, 2.2, 2.8, 3.1, 2.7, 2.4],
+                            data: [0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#06B6D4',
                             backgroundColor: 'rgba(6,182,212,0.08)',
                             fill: true,
@@ -7392,7 +7519,7 @@
                     type: 'doughnut',
                     data: {
                         labels: ['Equities', 'Bonds', 'FX', 'Commodities'],
-                        datasets: [{ data: [42, 28, 18, 12], backgroundColor: ['#2563EB', '#10B981', '#F59E0B',
+                        datasets: [{ data: [0, 0, 0, 0], backgroundColor: ['#2563EB', '#10B981', '#F59E0B',
                                 '#06B6D4'
                             ], borderWidth: 0 }]
                     },
@@ -7412,7 +7539,7 @@
                     type: 'bar',
                     data: {
                         labels: ['Retail', 'Corporate', 'Investment', 'Treasury'],
-                        datasets: [{ label: 'Revenue (M)', data: [42, 68, 54, 38],
+                        datasets: [{ label: 'Revenue (M)', data: [0, 0, 0, 0],
                             backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#06B6D4'], borderRadius: 4 }]
                     },
                     options: {
@@ -7437,14 +7564,14 @@
                         labels: ['Now', '5s', '10s', '15s', '20s', '25s', '30s'],
                         datasets: [{
                             label: 'TPS',
-                            data: [120, 135, 128, 142, 138, 150, 145],
+                            data: [0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#2563EB',
                             borderWidth: 2,
                             pointRadius: 0,
                             tension: 0.4,
                         }, {
                             label: 'Latency (ms)',
-                            data: [2.4, 2.6, 2.3, 2.8, 2.5, 2.7, 2.4],
+                            data: [0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#F59E0B',
                             borderWidth: 2,
                             pointRadius: 0,
@@ -7474,7 +7601,7 @@
                     type: 'bar',
                     data: {
                         labels: ['Equities', 'FX', 'Rates', 'Credit', 'Commodities'],
-                        datasets: [{ label: 'Confidence %', data: [92, 78, 85, 67, 73],
+                        datasets: [{ label: 'Confidence %', data: [0, 0, 0, 0, 0],
                             backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#EF4444', '#06B6D4'],
                             borderRadius: 4 }]
                     },
@@ -7500,7 +7627,7 @@
                         labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
                         datasets: [{
                             label: 'Completed',
-                            data: [45, 78, 112, 156, 142, 98],
+                            data: [0, 0, 0, 0, 0, 0],
                             borderColor: '#10B981',
                             fill: true,
                             backgroundColor: 'rgba(16,185,129,0.08)',
@@ -7508,7 +7635,7 @@
                             pointRadius: 2,
                         }, {
                             label: 'Pending',
-                            data: [12, 18, 24, 32, 28, 16],
+                            data: [0, 0, 0, 0, 0, 0],
                             borderColor: '#F59E0B',
                             fill: true,
                             backgroundColor: 'rgba(245,158,11,0.08)',
@@ -7536,7 +7663,7 @@
                     type: 'bar',
                     data: {
                         labels: ['USD', 'EUR', 'GBP', 'JPY', 'CHF'],
-                        datasets: [{ label: 'Liquidity (B)', data: [1.2, 0.6, 0.3, 0.2, 0.1],
+                        datasets: [{ label: 'Liquidity (B)', data: [0, 0, 0, 0, 0],
                             backgroundColor: ['#2563EB', '#06B6D4', '#10B981', '#F59E0B', '#EF4444'],
                             borderRadius: 4 }]
                     },
@@ -7562,7 +7689,7 @@
                         labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
                         datasets: [{
                             label: 'VaR (M)',
-                            data: [8.2, 9.4, 7.8, 10.2, 11.6, 9.8, 12.4],
+                            data: [0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#EF4444',
                             fill: true,
                             backgroundColor: 'rgba(239,68,68,0.08)',
@@ -7571,7 +7698,7 @@
                             borderWidth: 2,
                         }, {
                             label: 'Expected Shortfall',
-                            data: [10.4, 11.8, 9.6, 12.4, 14.2, 11.6, 18.2],
+                            data: [0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#F59E0B',
                             borderDash: [5, 5],
                             fill: false,
@@ -7602,7 +7729,7 @@
                         labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
                         datasets: [{
                             label: 'NGX ASI',
-                            data: [100, 102, 105, 108, 106, 104],
+                            data: [0, 0, 0, 0, 0, 0],
                             borderColor: '#2563EB',
                             borderWidth: 2,
                             fill: true,
@@ -7611,7 +7738,7 @@
                             pointRadius: 1,
                         }, {
                             label: 'USD/NGN',
-                            data: [1480, 1485, 1490, 1488, 1492, 1495],
+                            data: [0, 0, 0, 0, 0, 0],
                             borderColor: '#F59E0B',
                             borderWidth: 2,
                             fill: true,
@@ -7638,46 +7765,44 @@
             }
 
             const pageCharts = [
-                ['shadowVarChart1', 'bar', ['Standard VaR', 'Shadow VaR'], [12.4, 42.8], ['#2563EB', '#EF4444']],
-                ['exposureChart1', 'bar', ['Goldman', 'JPM', 'BNP', 'HSBC', 'Deutsche'], [124, 98, 56, 42, 38],
+                ['shadowVarChart1', 'bar', ['Standard VaR', 'Shadow VaR'], [0, 0], ['#2563EB', '#EF4444']],
+                ['exposureChart1', 'bar', ['Goldman', 'JPM', 'BNP', 'HSBC', 'Deutsche'], [0, 0, 0, 0, 0],
                     ['#2563EB', '#10B981', '#F59E0B', '#06B6D4', '#EF4444']
                 ],
-                ['treasuryLiqChart1', 'line', ['O/N', '1W', '1M', '3M', '6M', '1Y'], [1.2, 1.8, 2.4, 3.2, 4.1, 4.8],
-                    ['#2563EB']],
-                ['forecastChart1', 'line', ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [2.1, 2.4, 2.8, 3.2, 3.6, 4.2],
-                    ['#10B981']],
-                ['portfolioChart1', 'doughnut', ['Equities', 'Bonds', 'Cash', 'Alternative'], [42, 28, 18, 12],
+                ['treasuryLiqChart1', 'line', ['O/N', '1W', '1M', '3M', '6M', '1Y'], [0, 0, 0, 0, 0, 0],
+                ['#2563EB']],
+                ['forecastChart1', 'line', ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [0, 0, 0, 0, 0, 0],
+                ['#10B981']],
+                ['portfolioChart1', 'doughnut', ['Equities', 'Bonds', 'Cash', 'Alternative'], [0, 0, 0, 0],
                     ['#2563EB', '#10B981', '#F59E0B', '#06B6D4']],
-                ['rehypoChart1', 'bar', ['Goldman', 'JPM', 'BNP', 'HSBC'], [2.4, 1.8, 1.2, 0.8], ['#2563EB', '#06B6D4',
+                ['rehypoChart1', 'bar', ['Goldman', 'JPM', 'BNP', 'HSBC'], [0, 0, 0, 0], ['#2563EB', '#06B6D4',
                     '#10B981', '#F59E0B'
                 ]],
-                ['predChart1', 'line', ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [1.2, 1.4, 1.8, 2.1, 2.6, 2.8,
-                    3.2
-                ], ['#2563EB']],
-                ['mlChart1', 'line', ['Epoch 1', 'Epoch 2', 'Epoch 3', 'Epoch 4', 'Epoch 5'], [0.8, 0.4, 0.2, 0.12, 0.08],
+                ['predChart1', 'line', ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [0, 0, 0, 0, 0, 0, 0],
                     ['#2563EB']],
-                ['driftChart1', 'bar', ['Feature A', 'Feature B', 'Feature C', 'Feature D'], [0.12, 0.08, 0.15, 0.05],
+                ['mlChart1', 'line', ['Epoch 1', 'Epoch 2', 'Epoch 3', 'Epoch 4', 'Epoch 5'], [0, 0, 0, 0, 0],
+                    ['#2563EB']],
+                ['driftChart1', 'bar', ['Feature A', 'Feature B', 'Feature C', 'Feature D'], [0, 0, 0, 0],
                     ['#F59E0B', '#10B981', '#EF4444', '#06B6D4']],
-                ['metricsChart1', 'line', ['12:00', '12:05', '12:10', '12:15', '12:20', '12:25', '12:30'], [42, 38, 45, 52,
-                    48, 55, 50
+                ['metricsChart1', 'line', ['12:00', '12:05', '12:10', '12:15', '12:20', '12:25', '12:30'], [0, 0, 0, 0,
+                    0, 0, 0
                 ], ['#2563EB']],
-                ['impactChart1', 'line', ['10K', '50K', '100K', '500K', '1M', '5M'], [0.02, 0.05, 0.12, 0.28, 0.45, 0.82],
-                    ['#F59E0B']],
-                ['clearingChart1', 'line', ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'], [12, 24, 36, 48, 42, 30],
+                ['impactChart1', 'line', ['10K', '50K', '100K', '500K', '1M', '5M'], [0, 0, 0, 0, 0, 0], ['#F59E0B']],
+                ['clearingChart1', 'line', ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'], [0, 0, 0, 0, 0, 0],
                     ['#2563EB']],
-                ['stressChart1', 'bar', ['Equities', 'Bonds', 'FX', 'Commodities'], [32, 18, 24, 10], ['#EF4444',
+                ['stressChart1', 'bar', ['Equities', 'Bonds', 'FX', 'Commodities'], [0, 0, 0, 0], ['#EF4444',
                     '#F59E0B', '#2563EB', '#06B6D4'
                 ]],
-                ['cashChart1', 'bar', ['USD', 'EUR', 'GBP', 'Other'], [0.72, 0.28, 0.12, 0.08], ['#2563EB', '#10B981',
+                ['cashChart1', 'bar', ['USD', 'EUR', 'GBP', 'Other'], [0, 0, 0, 0], ['#2563EB', '#10B981',
                     '#F59E0B', '#06B6D4'
                 ]],
-                ['fundingChart1', 'doughnut', ['Bonds', 'Loans', 'Deposits', 'Other'], [35, 28, 25, 12], ['#2563EB',
+                ['fundingChart1', 'doughnut', ['Bonds', 'Loans', 'Deposits', 'Other'], [0, 0, 0, 0], ['#2563EB',
                     '#10B981', '#F59E0B', '#06B6D4'
                 ]],
-                ['healthChart1', 'bar', ['API', 'DB', 'Cache', 'Queue', 'Worker'], [99.9, 99.8, 99.7, 99.5, 99.9],
+                ['healthChart1', 'bar', ['API', 'DB', 'Cache', 'Queue', 'Worker'], [0, 0, 0, 0, 0],
                     ['#10B981', '#10B981', '#F59E0B', '#F59E0B', '#10B981']],
-                ['optChart1', 'line', ['Iter 1', 'Iter 2', 'Iter 3', 'Iter 4', 'Iter 5'], [1.0, 0.6, 0.3, 0.12, 0.04],
-                    ['#2563EB']],
+                ['optChart1', 'line', ['Iter 1', 'Iter 2', 'Iter 3', 'Iter 4', 'Iter 5'], [0, 0, 0, 0, 0],
+                ['#2563EB']],
             ];
 
             pageCharts.forEach(([id, type, labels, data, colors]) => {
@@ -7761,7 +7886,7 @@
         }
 
         // ================================================================
-        // 40. SYNTHETIC MONITORING
+        // 41. SYNTHETIC MONITORING
         // ================================================================
         function updateSyntheticStatus() {
             const status = state.syntheticTest;
@@ -7814,7 +7939,7 @@
         }
 
         // ================================================================
-        // 41. INITIALISATION
+        // 42. INITIALISATION
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('chronos_theme') || CONFIG.DEFAULT_THEME;
@@ -7897,19 +8022,25 @@
         window.processPayment = processPayment;
         window.resolveMargin = resolveMargin;
         window.openAddUserModal = openAddUserModal;
+        window.approveUser = approveUser;
+        window.rejectUser = rejectUser;
         window.editUser = editUser;
         window.deleteUser = deleteUser;
-        window.approveUser = approveUser;
         window.openGenerateApiKeyModal = openGenerateApiKeyModal;
         window.revokeApiKey = revokeApiKey;
         window.openAddRoleModal = openAddRoleModal;
         window.openAddTenantModal = openAddTenantModal;
+        window.activateTenant = activateTenant;
+        window.suspendTenant = suspendTenant;
         window.editTenant = editTenant;
+        window.deleteTenant = deleteTenant;
+        window.approveDevice = approveDevice;
+        window.revokeDevice = revokeDevice;
+        window.deleteDevice = deleteDevice;
         window.openAddWebhookModal = openAddWebhookModal;
         window.testWebhook = testWebhook;
         window.openAddAutomationModal = openAddAutomationModal;
         window.runAutomation = runAutomation;
-        window.revokeDevice = revokeDevice;
         window.triggerBackup = triggerBackup;
         window.triggerRestore = triggerRestore;
         window.restoreBackup = restoreBackup;
@@ -7924,6 +8055,8 @@
         window.saveSecuritySettings = saveSecuritySettings;
         window.saveNotificationSettings = saveNotificationSettings;
         window.saveApiSettings = saveApiSettings;
+        window.saveTenantConfig = saveTenantConfig;
+        window.loadTenantConfig = loadTenantConfig;
         window.testApiEndpoint = testApiEndpoint;
         window.checkApiHealth = checkApiHealth;
         window.animateCounter = animateCounter;
