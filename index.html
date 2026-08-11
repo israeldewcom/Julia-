@@ -1749,6 +1749,10 @@
         .counter-anim {
             transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+        .counter-anim.tick {
+            transform: scale(1.04);
+            color: var(--royal);
+        }
 
         /* ============================================================
                FRESHNESS INDICATOR
@@ -2096,40 +2100,6 @@
         }
 
         /* ============================================================
-               WEBHOOK / AUTOMATION CARDS
-               ============================================================ */
-        .webhook-card,
-        .automation-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: var(--transition);
-        }
-        .webhook-card:hover,
-        .automation-card:hover {
-            border-color: rgba(37, 99, 235, 0.2);
-            background: var(--card-bg-hover);
-        }
-        .webhook-card .info,
-        .automation-card .info {
-            flex: 1;
-        }
-        .webhook-card .info .name,
-        .automation-card .info .name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .webhook-card .info .desc,
-        .automation-card .info .desc {
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        /* ============================================================
                MARKET TICKER
                ============================================================ */
         .market-ticker {
@@ -2169,7 +2139,7 @@
         }
 
         /* ============================================================
-               SYNTHETIC MONITORING STATUS (new)
+               SYNTHETIC MONITORING STATUS
                ============================================================ */
         .synthetic-status {
             display: inline-flex;
@@ -2228,29 +2198,8 @@
         }
 
         /* ============================================================
-               PERFORMANCE METRIC BADGE
+               ADMIN-ONLY
                ============================================================ */
-        .perf-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--emerald);
-            font-weight: 500;
-        }
-        .perf-badge.warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--amber);
-        }
-        .perf-badge.danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--crimson);
-        }
-
-        /* Admin-only hidden by default – shown only if user role is admin/developer */
         .admin-only {
             display: none !important;
         }
@@ -2275,6 +2224,111 @@
         .admin-only.show-flex {
             display: flex !important;
         }
+
+        /* ============================================================
+               WEBHOOK / AUTOMATION CARDS (kept for reference, but removed from sidebar)
+               ============================================================ */
+        .webhook-card,
+        .automation-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: var(--transition);
+        }
+        .webhook-card:hover,
+        .automation-card:hover {
+            border-color: rgba(37, 99, 235, 0.2);
+            background: var(--card-bg-hover);
+        }
+        .webhook-card .info,
+        .automation-card .info {
+            flex: 1;
+        }
+        .webhook-card .info .name,
+        .automation-card .info .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .webhook-card .info .desc,
+        .automation-card .info .desc {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        /* ============================================================
+               PERFORMANCE METRIC BADGE
+               ============================================================ */
+        .perf-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--emerald);
+            font-weight: 500;
+        }
+        .perf-badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--amber);
+        }
+        .perf-badge.danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--crimson);
+        }
+
+        /* ============================================================
+               LOAD MORE
+               ============================================================ */
+        .load-more-btn {
+            display: flex;
+            justify-content: center;
+            padding: 12px 0;
+        }
+        .load-more-btn button {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 24px;
+            border-radius: 6px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .load-more-btn button:hover {
+            border-color: var(--royal);
+            color: #fff;
+        }
+
+        /* ============================================================
+               RETRY BANNER
+               ============================================================ */
+        .retry-banner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9997;
+            background: var(--amber);
+            color: #fff;
+            text-align: center;
+            padding: 4px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 2px 12px rgba(245, 158, 11, 0.3);
+        }
+        .retry-banner.visible {
+            display: block;
+            animation: slideDown 0.3s ease forwards;
+        }
+        .retry-banner i {
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -2284,6 +2338,13 @@
     <!-- ============================================================ -->
     <div class="offline-banner" id="offlineBanner">
         <i class="bi bi-wifi-off"></i> You are offline. Some features may be limited.
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- RETRY BANNER -->
+    <!-- ============================================================ -->
+    <div class="retry-banner" id="retryBanner">
+        <i class="bi bi-arrow-clockwise"></i> <span id="retryMessage">Reconnecting to server…</span>
     </div>
 
     <!-- ============================================================ -->
@@ -2459,7 +2520,7 @@
 
             <div class="nav-section">Collateral</div>
             <div class="nav-item" data-page="portfolio" role="button" tabindex="0"><i class="bi bi-briefcase"></i> Portfolio</div>
-            <div class="nav-item" data-page="margincalls" role="button" tabindex="0"><i class="bi bi-exclamation-circle"></i> Margin Calls <span class="badge badge-warning">3</span></div>
+            <div class="nav-item" data-page="margincalls" role="button" tabindex="0"><i class="bi bi-exclamation-circle"></i> Margin Calls <span class="badge badge-warning" id="mcNavBadge">3</span></div>
             <div class="nav-item" data-page="rehypothecation" role="button" tabindex="0"><i class="bi bi-arrow-repeat"></i> Rehypothecation</div>
             <div class="nav-item" data-page="collateralassets" role="button" tabindex="0"><i class="bi bi-building"></i> Collateral Assets</div>
             <div class="nav-item" data-page="lpoptimiser" role="button" tabindex="0"><i class="bi bi-cpu"></i> LP Optimiser <span class="badge badge-success">New</span></div>
@@ -2484,18 +2545,13 @@
             <div class="nav-item" data-page="financialreports" role="button" tabindex="0"><i class="bi bi-file-earmark-text"></i> Financial</div>
             <div class="nav-item" data-page="analyticsreports" role="button" tabindex="0"><i class="bi bi-pie-chart"></i> Analytics</div>
 
-            <!-- ===== ADMIN SECTION – hidden by default, shown if user is admin/developer ===== -->
+            <!-- ===== ADMIN SECTION – visible only for admin/developer ===== -->
             <div class="nav-section admin-only show-block" id="adminNavSection">Administration</div>
-            <div class="nav-item admin-only show-flex" data-page="users" role="button" tabindex="0"><i class="bi bi-person"></i> Users</div>
-            <div class="nav-item admin-only show-flex" data-page="devices" role="button" tabindex="0"><i class="bi bi-phone"></i> Devices <span class="badge badge-secondary">New</span></div>
-            <div class="nav-item admin-only show-flex" data-page="tenants" role="button" tabindex="0"><i class="bi bi-building"></i> Tenants <span class="badge badge-secondary">Admin</span></div>
-            <div class="nav-item admin-only show-flex" data-page="settings" role="button" tabindex="0"><i class="bi bi-gear"></i> Settings</div>
-            <div class="nav-item admin-only show-flex" data-page="automation" role="button" tabindex="0"><i class="bi bi-robot"></i> Automation</div>
-            <div class="nav-item admin-only show-flex" data-page="webhooks" role="button" tabindex="0"><i class="bi bi-webhook"></i> Webhooks</div>
-            <div class="nav-item admin-only show-flex" data-page="backup" role="button" tabindex="0"><i class="bi bi-archive"></i> Backup &amp; Restore <span class="badge badge-secondary">New</span></div>
-            <div class="nav-item admin-only show-flex" data-page="roles" role="button" tabindex="0"><i class="bi bi-person-badge"></i> Roles</div>
-            <div class="nav-item admin-only show-flex" data-page="permissions" role="button" tabindex="0"><i class="bi bi-key"></i> Permissions</div>
+            <div class="nav-item admin-only show-flex" data-page="users" role="button" tabindex="0"><i class="bi bi-person"></i> Users <span class="badge badge-warning" id="pendingUserBadge">0</span></div>
             <div class="nav-item admin-only show-flex" data-page="apikeys" role="button" tabindex="0"><i class="bi bi-key-fill"></i> API Keys</div>
+            <div class="nav-item admin-only show-flex" data-page="devices" role="button" tabindex="0"><i class="bi bi-phone"></i> Devices <span class="badge badge-secondary" id="pendingDeviceBadge">0</span></div>
+            <div class="nav-item admin-only show-flex" data-page="tenants" role="button" tabindex="0"><i class="bi bi-building"></i> Tenants</div>
+            <div class="nav-item admin-only show-flex" data-page="settings" role="button" tabindex="0"><i class="bi bi-gear"></i> Settings</div>
 
             <div class="nav-section">Tools</div>
             <div class="nav-item" data-page="apitools" role="button" tabindex="0"><i class="bi bi-tools"></i> API Tools</div>
@@ -2677,10 +2733,10 @@
                     <input class="form-control" id="txSearchInput" style="max-width:220px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" placeholder="Search..." oninput="filterTransactions()" aria-label="Search transactions" />
                     <select class="form-select" id="txStatusFilter" style="max-width:150px;background:var(--bg-dark);border:1px solid var(--border-color);color:#fff;border-radius:8px;" onchange="filterTransactions()" aria-label="Filter by status">
                         <option value="all">All Status</option>
-                        <option value="completed">Completed</option>
-                        <option value="processing">Processing</option>
-                        <option value="pending">Pending</option>
-                        <option value="failed">Failed</option>
+                        <option value="SETTLED">Completed</option>
+                        <option value="PROCESSING">Processing</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="FAILED">Failed</option>
                     </select>
                     <button class="btn btn-primary" style="border-radius:8px;padding:6px 20px;" onclick="exportTransactions()"><i class="bi bi-download me-1"></i> Export</button>
                     <button class="btn btn-outline-light" style="border-color:var(--border-color);border-radius:8px;padding:6px 20px;" onclick="addTransaction()"><i class="bi bi-plus me-1"></i> New</button>
@@ -3048,36 +3104,15 @@
                 <div class="report-card"><div class="icon"><i class="bi bi-pie-chart"></i></div><div class="info"><div class="name">Performance Analytics</div><div class="desc" id="arPerfDesc">Loading...</div></div><button class="btn btn-primary btn-sm" onclick="downloadReport('Performance Analytics')">Download</button></div>
             </div>
 
-            <!-- ========== PAGE: USERS (Admin Only) ========== -->
+            <!-- ========== PAGE: USERS (Admin Only — Pending Approval Only) ========== -->
             <div class="page-content admin-only show-block" id="page-users">
                 <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
-                    <div><span class="fw-600">User Management</span></div>
-                    <button class="btn btn-primary btn-sm" onclick="openAddUserModal()"><i class="bi bi-person-plus"></i> Add User</button>
+                    <div><span class="fw-600">Pending Approvals</span></div>
+                    <button class="btn btn-outline-light btn-sm" style="border-color:var(--border-color);" onclick="refreshPendingUsers()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
                 </div>
-                <div class="table-wrap"><div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody id="usersBody">
-                    <tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-person"></i></div><div class="title">Loading users...</div></div></td></tr>
+                <div class="table-wrap"><div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>Email</th><th>Organisation</th><th>Actions</th></tr></thead><tbody id="usersBody">
+                    <tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-person"></i></div><div class="title">Loading pending users...</div></div></td></tr>
                 </tbody></table></div></div>
-            </div>
-
-            <!-- ========== PAGE: ROLES (Admin Only) ========== -->
-            <div class="page-content admin-only show-block" id="page-roles">
-                <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
-                    <div><span class="fw-600">Role Management</span></div>
-                    <button class="btn btn-primary btn-sm" onclick="openAddRoleModal()"><i class="bi bi-plus"></i> Add Role</button>
-                </div>
-                <div class="table-wrap"><div class="table-responsive"><table class="table"><thead><tr><th>Role</th><th>Permissions</th><th>Users</th><th>Actions</th></tr></thead><tbody id="rolesBody">
-                    <tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-person-badge"></i></div><div class="title">Loading roles...</div></div></td></tr>
-                </tbody></table></div></div>
-            </div>
-
-            <!-- ========== PAGE: PERMISSIONS (Admin Only) ========== -->
-            <div class="page-content admin-only show-block" id="page-permissions">
-                <div class="settings-group"><div class="group-title">Permission Matrix</div><div class="group-desc">Configure access controls for each role</div>
-                    <div class="table-wrap"><div class="table-responsive"><table class="table"><thead><tr><th>Resource</th><th>Admin</th><th>Trader</th><th>Risk</th><th>Compliance</th></tr></thead><tbody id="permBody">
-                        <tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-key"></i></div><div class="title">Loading permissions...</div></div></td></tr>
-                    </tbody></table></div></div>
-                    <div class="mt-3"><button class="btn btn-primary" onclick="savePermissions()">Save Changes</button></div>
-                </div>
             </div>
 
             <!-- ========== PAGE: API KEYS (Admin Only) ========== -->
@@ -3209,17 +3244,6 @@
                 </div>
             </div>
 
-            <!-- ========== PAGE: AUTOMATION (Admin Only) ========== -->
-            <div class="page-content admin-only show-block" id="page-automation">
-                <div class="row g-4">
-                    <div class="col-md-6"><div class="stat-card"><div class="label">Active Automations</div><div class="value counter-anim" id="autoActive">4</div><div class="sub">2 scheduled • 2 triggered</div></div></div>
-                    <div class="col-md-6"><div class="stat-card"><div class="label">Automation Success</div><div class="value counter-anim" id="autoSuccess">98.7%</div><div class="sub">Last 24 hours</div></div></div>
-                    <div class="col-12"><div class="table-wrap"><div class="p-3 border-bottom border-dark d-flex justify-content-between"><span class="fw-600">Automation Jobs</span><button class="btn btn-sm btn-primary" onclick="openAddAutomationModal()"><i class="bi bi-plus"></i> Add Job</button></div><div class="table-responsive"><table class="table"><thead><tr><th>Job</th><th>Schedule</th><th>Status</th><th>Last Run</th><th>Actions</th></tr></thead><tbody id="autoJobsBody">
-                        <tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-robot"></i></div><div class="title">Loading automation jobs...</div></div></td></tr>
-                    </tbody></table></div></div></div>
-                </div>
-            </div>
-
             <!-- ========== PAGE: API TOOLS ========== -->
             <div class="page-content" id="page-apitools">
                 <div class="row g-4">
@@ -3232,27 +3256,6 @@
                             <div class="col-12"><div class="table-wrap"><div class="p-3 border-bottom border-dark fw-600">Response</div><pre id="apiResponse" style="padding:16px;margin:0;color:var(--text-secondary);font-family:var(--font-mono);font-size:13px;min-height:100px;white-space:pre-wrap;">Click "Send Request" to test the API</pre></div></div>
                         </div>
                     </div></div>
-                </div>
-            </div>
-
-            <!-- ========== PAGE: WEBHOOKS (Admin Only) ========== -->
-            <div class="page-content admin-only show-block" id="page-webhooks">
-                <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
-                    <span class="fw-600">Webhook Management</span>
-                    <button class="btn btn-primary btn-sm" onclick="openAddWebhookModal()"><i class="bi bi-plus"></i> Add Webhook</button>
-                </div>
-                <div class="table-wrap"><div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>URL</th><th>Events</th><th>Status</th><th>Actions</th></tr></thead><tbody id="webhooksBody">
-                    <tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-webhook"></i></div><div class="title">Loading webhooks...</div></div></td></tr>
-                </tbody></table></div></div>
-            </div>
-
-            <!-- ========== PAGE: BACKUP & RESTORE (Admin Only) ========== -->
-            <div class="page-content admin-only show-block" id="page-backup">
-                <div class="row g-4">
-                    <div class="col-md-6"><div class="stat-card"><div class="label">Last Backup</div><div class="value" id="backupLast">—</div><div class="sub" id="backupLastSub">Loading...</div></div></div>
-                    <div class="col-md-6"><div class="stat-card"><div class="label">Backup Size</div><div class="value" id="backupSize">—</div><div class="sub" id="backupSizeSub">Loading...</div></div></div>
-                    <div class="col-12"><div class="d-flex gap-3 flex-wrap"><button class="btn btn-primary" onclick="triggerBackup()"><i class="bi bi-archive me-1"></i> Create Backup</button><button class="btn btn-outline-light" style="border-color:var(--border-color);" onclick="triggerRestore()"><i class="bi bi-arrow-counterclockwise me-1"></i> Restore from Backup</button></div></div>
-                    <div class="col-12"><div class="table-wrap"><div class="p-3 border-bottom border-dark fw-600">Backup History</div><div class="table-responsive"><table class="table"><thead><tr><th>Date</th><th>Size</th><th>Status</th><th>Actions</th></tr></thead><tbody id="backupHistoryBody"><tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-archive"></i></div><div class="title">No backups found</div></div></td></tr></tbody></table></div></div></div>
                 </div>
             </div>
 
@@ -3314,6 +3317,16 @@
          * real backend endpoints. Tenant configuration is fully supported.
          * Role-based access control: user (read-only), admin (tenant admin),
          * developer (platform admin).
+         * 
+         * DEAD FEATURES REMOVED (per overview):
+         * - Full User CRUD (list, create, edit, delete) → only pending approvals
+         * - Roles & Permissions pages → removed from sidebar
+         * - Webhooks page → removed from sidebar
+         * - Backup & Restore page → removed from sidebar
+         * - Automation Jobs page → removed from sidebar
+         * - Payment Queue → removed
+         * - loadUsers() full list → replaced with loadPendingUsers()
+         * - loadRoles(), loadTenants() auto-load → removed from initial load
          * ================================================================
          */
 
@@ -3349,6 +3362,8 @@
             WS_MAX_RECONNECT: 10,
             OFFLINE_CACHE_NAME: 'chronos-v7-cache-v1',
             PERFORMANCE_SAMPLE_INTERVAL: 10000,
+            WS_PING_INTERVAL: 15000,
+            WS_PONG_TIMEOUT: 5000,
         };
 
         // ================================================================
@@ -3370,33 +3385,28 @@
             dataLoaded: false,
             user: null,
             transactions: [],
-            users: [],
+            pendingUsers: [],
             apiKeys: [],
-            paymentQueue: [],
             marginCalls: [],
             logs: [],
             auditLogs: [],
             workers: [],
             queues: [],
-            reports: [],
             trades: [],
             settlements: [],
             collateral: [],
             pricing: [],
             counterparties: [],
-            automationJobs: [],
-            webhooks: [],
-            permissions: [],
-            roles: [],
-            devices: [],
             tenants: [],
-            backupHistory: [],
             cbnEvents: [],
             alphaSignals: [],
             quotes: {},
             marketData: { ngx: 0, mpr: 0, usdNgn: 0, eurNgn: 0, gbpNgn: 0 },
             ws: null,
             wsReconnectCount: 0,
+            wsPingTimer: null,
+            wsPongTimer: null,
+            wsPingSent: false,
             fresh: {
                 dashboard: null,
                 transactions: null,
@@ -3425,15 +3435,9 @@
                 logs: null,
                 workers: null,
                 queues: null,
-                users: null,
+                pendingUsers: null,
                 apiKeys: null,
-                permissions: null,
-                roles: null,
-                automation: null,
-                webhooks: null,
-                devices: null,
                 tenants: null,
-                backup: null,
                 cbn: null,
                 alpha: null,
                 market: null,
@@ -3458,10 +3462,12 @@
             performance: { fps: 0, memory: 0, timestamp: null },
             serviceWorkerRegistered: false,
             pendingSync: [],
+            retryCount: 0,
+            retryBannerVisible: false,
         };
 
         // ================================================================
-        // 3. API CLIENT — Complete with All Backend Endpoints (70+)
+        // 3. API CLIENT — All working backend endpoints
         // ================================================================
         const API = {
             base: CONFIG.API_BASE,
@@ -3527,10 +3533,29 @@
                             throw new Error(errorMsg);
                         }
 
+                        // Reset retry banner on success
+                        if (state.retryBannerVisible) {
+                            state.retryBannerVisible = false;
+                            document.getElementById('retryBanner').classList.remove('visible');
+                            state.retryCount = 0;
+                        }
+
                         return data;
                     } catch (error) {
                         attempt++;
                         if (attempt > CONFIG.RETRY_ATTEMPTS) throw error;
+
+                        // Show retry banner on first retry
+                        if (attempt === 1 && !state.retryBannerVisible) {
+                            state.retryBannerVisible = true;
+                            document.getElementById('retryBanner').classList.add('visible');
+                            document.getElementById('retryMessage').textContent =
+                                `Reconnecting… (attempt ${attempt}/${CONFIG.RETRY_ATTEMPTS})`;
+                        } else if (state.retryBannerVisible) {
+                            document.getElementById('retryMessage').textContent =
+                                `Reconnecting… (attempt ${attempt}/${CONFIG.RETRY_ATTEMPTS})`;
+                        }
+
                         await new Promise(r => setTimeout(r, CONFIG.RETRY_DELAY * Math.pow(2, attempt - 1)));
                     }
                 }
@@ -3616,15 +3641,6 @@
                 return this.request(`/risk/compute${qs}`, { method: 'POST' });
             },
 
-            // ========== BACKTEST ==========
-            async runBacktest(formData) {
-                return this.request('/backtest/run', {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                });
-            },
-
             // ========== MODEL ==========
             async retrainModel(force = false) {
                 return this.request('/model/retrain', {
@@ -3642,9 +3658,6 @@
             // ========== AUDIT ==========
             async getAuditLogs(limit = 50) {
                 return this.request(`/audit/logs?limit=${limit}`);
-            },
-            async getAuditForTrade(tradeId) {
-                return this.request(`/audit/trade/${tradeId}`);
             },
 
             // ========== DASHBOARD ==========
@@ -3699,7 +3712,7 @@
                 return this.request(`/nibss/settlements?limit=${limit}`);
             },
 
-            // ========== ADMIN ORIGINAL ==========
+            // ========== ADMIN ==========
             async getPendingUsers() {
                 return this.request('/admin/users/pending');
             },
@@ -3734,27 +3747,15 @@
                 return this.request(`/admin/api-keys/revoke?key_id=${keyId}`, { method: 'POST' });
             },
 
-            // ========== ADMIN EXTENDED ==========
-            async getUsers(limit = 100, offset = 0) {
-                return this.request(`/admin/users?limit=${limit}&offset=${offset}`);
+            // ========== ADMIN EXTENDED (Tenants, API Keys, Devices) ==========
+            async getApiKeys() {
+                return this.request('/admin/api-keys');
             },
-            async getUser(userId) {
-                return this.request(`/admin/users/${userId}`);
-            },
-            async createUser(data) {
-                return this.request('/admin/users', {
+            async generateApiKey(name, permissions) {
+                return this.request('/admin/api-keys', {
                     method: 'POST',
-                    body: JSON.stringify(data),
+                    body: JSON.stringify({ name, permissions }),
                 });
-            },
-            async updateUser(userId, data) {
-                return this.request(`/admin/users/${userId}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(data),
-                });
-            },
-            async deleteUser(userId) {
-                return this.request(`/admin/users/${userId}`, { method: 'DELETE' });
             },
             async getDevices(limit = 100, offset = 0) {
                 return this.request(`/admin/devices?limit=${limit}&offset=${offset}`);
@@ -3787,40 +3788,6 @@
                 return this.request(`/admin/tenants/${tenantId}/suspend`, { method: 'POST' });
             },
 
-            // ========== ROLES ==========
-            async getRoles() {
-                return this.request('/admin/roles');
-            },
-            async getRole(roleId) {
-                return this.request(`/admin/roles/${roleId}`);
-            },
-            async createRole(data) {
-                return this.request('/admin/roles', {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                });
-            },
-            async updateRole(roleId, data) {
-                return this.request(`/admin/roles/${roleId}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(data),
-                });
-            },
-            async deleteRole(roleId) {
-                return this.request(`/admin/roles/${roleId}`, { method: 'DELETE' });
-            },
-
-            // ========== API KEYS ==========
-            async getApiKeys() {
-                return this.request('/admin/api-keys');
-            },
-            async generateApiKey(name, permissions) {
-                return this.request('/admin/api-keys', {
-                    method: 'POST',
-                    body: JSON.stringify({ name, permissions }),
-                });
-            },
-
             // ========== TENANT CONFIG ==========
             async getTenantConfig() {
                 return this.request('/tenant/config');
@@ -3830,57 +3797,6 @@
                     method: 'PUT',
                     body: JSON.stringify(data),
                 });
-            },
-
-            // ========== BACKUP ==========
-            async getBackups() {
-                return this.request('/admin/backups');
-            },
-            async createBackup() {
-                return this.request('/admin/backups', { method: 'POST' });
-            },
-            async restoreBackup(backupId) {
-                return this.request(`/admin/backups/${backupId}/restore`, { method: 'POST' });
-            },
-
-            // ========== AUTOMATION ==========
-            async getAutomationJobs() {
-                return this.request('/automation/jobs');
-            },
-            async createAutomationJob(data) {
-                return this.request('/automation/jobs', {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                });
-            },
-            async triggerAutomation(jobId) {
-                return this.request(`/automation/jobs/${jobId}/trigger`, { method: 'POST' });
-            },
-            async updateAutomationJob(jobId, data) {
-                return this.request(`/automation/jobs/${jobId}`, {
-                    method: 'PUT',
-                    body: JSON.stringify(data),
-                });
-            },
-            async deleteAutomationJob(jobId) {
-                return this.request(`/automation/jobs/${jobId}`, { method: 'DELETE' });
-            },
-
-            // ========== WEBHOOKS ==========
-            async getWebhooks() {
-                return this.request('/webhooks');
-            },
-            async createWebhook(data) {
-                return this.request('/webhooks', {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                });
-            },
-            async testWebhook(id) {
-                return this.request(`/webhooks/${id}/test`, { method: 'POST' });
-            },
-            async deleteWebhook(id) {
-                return this.request(`/webhooks/${id}`, { method: 'DELETE' });
             },
 
             // ========== SYSTEM ==========
@@ -3916,55 +3832,16 @@
                     body: JSON.stringify({ desk, objective, constraint }),
                 });
             },
-            async getDynamicPricing(counterpartyId, instrumentType, notional) {
-                return this.request('/advanced/pricing/dynamic', {
-                    method: 'POST',
-                    body: JSON.stringify({ counterparty_id: counterpartyId, instrument_type: instrumentType,
-                        notional }),
-                });
-            },
             async triggerCbnEvent() {
                 return this.request('/advanced/cbn/trigger', { method: 'POST' });
             },
             async forceCalibration() {
                 return this.request('/advanced/calibrate', { method: 'POST' });
             },
-            async trainFromBackfill() {
-                return this.request('/advanced/backfill/train', { method: 'POST' });
-            },
-            async breakCollateralCycles() {
-                return this.request('/advanced/collateral/break_cycles', { method: 'POST' });
-            },
-
-            // ========== MOCK ENDPOINTS (for pages without backend) ==========
-            async getPermissions() {
-                console.warn('Permissions endpoint is not implemented in backend yet.');
-                return [];
-            },
-            async updatePermissions(data) {
-                console.warn('Permissions endpoint is not implemented in backend yet.');
-                return { status: 'mock' };
-            },
-            async getAlphaSignals() {
-                console.warn('Alpha signals endpoint is not implemented in backend yet.');
-                return [];
-            },
-            async getCbnEvents() {
-                console.warn('CBN events endpoint is not implemented in backend yet.');
-                return [];
-            },
-            async getPaymentQueue() {
-                console.warn('Payment queue endpoint is not implemented in backend yet.');
-                return [];
-            },
-            async processPayment(paymentId) {
-                console.warn('Payment queue endpoint is not implemented in backend yet.');
-                return { status: 'mock' };
-            },
         };
 
         // ================================================================
-        // 4. WEBSOCKET — Market Data Streaming with auto-reconnect
+        // 4. WEBSOCKET — Market Data Streaming with heartbeat
         // ================================================================
         function connectWebSocket() {
             if (state.ws && state.ws.readyState === WebSocket.OPEN) return;
@@ -3977,13 +3854,21 @@
                 state.ws.onopen = function() {
                     console.log('WebSocket connected');
                     state.wsReconnectCount = 0;
+                    state.wsPingSent = false;
                     showNotification('success', 'Market Data', 'WebSocket connected — live market feed active.');
+                    startWsHeartbeat();
                 };
 
                 state.ws.onmessage = function(event) {
                     try {
                         const data = JSON.parse(event.data);
                         handleMarketData(data);
+                        // Reset pong timer on any message (pong or data)
+                        if (state.wsPongTimer) {
+                            clearTimeout(state.wsPongTimer);
+                            state.wsPongTimer = null;
+                        }
+                        state.wsPingSent = false;
                     } catch (e) {
                         console.warn('WebSocket parse error:', e);
                     }
@@ -3995,6 +3880,7 @@
 
                 state.ws.onclose = function() {
                     console.warn('WebSocket closed');
+                    stopWsHeartbeat();
                     if (state.isAuthenticated) {
                         scheduleWebSocketReconnect();
                     }
@@ -4003,6 +3889,41 @@
                 console.warn('WebSocket connection failed:', e);
                 scheduleWebSocketReconnect();
             }
+        }
+
+        function startWsHeartbeat() {
+            stopWsHeartbeat();
+            state.wsPingTimer = setInterval(() => {
+                if (state.ws && state.ws.readyState === WebSocket.OPEN) {
+                    try {
+                        state.ws.send(JSON.stringify({ type: 'ping' }));
+                        state.wsPingSent = true;
+                        // Set a timeout for pong
+                        if (state.wsPongTimer) clearTimeout(state.wsPongTimer);
+                        state.wsPongTimer = setTimeout(() => {
+                            console.warn('WebSocket pong timeout — reconnecting');
+                            if (state.ws) {
+                                try { state.ws.close(); } catch (_) {}
+                            }
+                            scheduleWebSocketReconnect();
+                        }, CONFIG.WS_PONG_TIMEOUT);
+                    } catch (e) {
+                        console.warn('WebSocket ping failed:', e);
+                    }
+                }
+            }, CONFIG.WS_PING_INTERVAL);
+        }
+
+        function stopWsHeartbeat() {
+            if (state.wsPingTimer) {
+                clearInterval(state.wsPingTimer);
+                state.wsPingTimer = null;
+            }
+            if (state.wsPongTimer) {
+                clearTimeout(state.wsPongTimer);
+                state.wsPongTimer = null;
+            }
+            state.wsPingSent = false;
         }
 
         function scheduleWebSocketReconnect() {
@@ -4039,10 +3960,18 @@
                 if (state.alphaSignals.length > 20) state.alphaSignals.pop();
                 state.fresh.alpha = Date.now();
                 updateAlphaSignals();
+            } else if (data.type === 'pong') {
+                // Heartbeat pong received
+                state.wsPingSent = false;
+                if (state.wsPongTimer) {
+                    clearTimeout(state.wsPongTimer);
+                    state.wsPongTimer = null;
+                }
             }
         }
 
         function disconnectWebSocket() {
+            stopWsHeartbeat();
             if (state.ws) {
                 try { state.ws.close(); } catch (e) {}
                 state.ws = null;
@@ -4375,6 +4304,8 @@
                 if (isAdmin) {
                     document.getElementById('adminNavSection').style.display = 'block';
                     document.getElementById('adminNavSection').classList.add('show-block');
+                    // Load pending users for badge
+                    loadPendingUsers();
                 } else {
                     document.getElementById('adminNavSection').style.display = 'none';
                     document.getElementById('adminNavSection').classList.remove('show-block');
@@ -4397,6 +4328,7 @@
                         if (isAdmin) {
                             document.getElementById('adminNavSection').style.display = 'block';
                             document.getElementById('adminNavSection').classList.add('show-block');
+                            loadPendingUsers();
                         } else {
                             document.getElementById('adminNavSection').style.display = 'none';
                             document.getElementById('adminNavSection').classList.remove('show-block');
@@ -4466,6 +4398,7 @@
             document.getElementById('offlineBanner').classList.remove('visible');
             showNotification('success', 'Back Online', 'Connection restored. Syncing pending requests...');
             syncPendingRequests();
+            checkApiHealth();
         }
 
         function handleOffline() {
@@ -4535,9 +4468,7 @@
                     loadTrades(),
                     loadRiskMetrics(),
                     loadShadowVarData(),
-                    loadUsers(),
                     loadApiKeys(),
-                    loadPaymentQueue(),
                     loadMarginCalls(),
                     loadLogs(),
                     loadAuditLogs(),
@@ -4546,15 +4477,6 @@
                     loadPricing(),
                     loadCounterparties(),
                     loadCollateral(),
-                    loadAutomationJobs(),
-                    loadWebhooks(),
-                    loadPermissions(),
-                    loadRoles(),
-                    loadDevices(),
-                    loadTenants(),
-                    loadBackupHistory(),
-                    loadCbnEvents(),
-                    loadAlphaSignals(),
                     loadExecutiveData(),
                     loadLiquidityData(),
                     loadClearingData(),
@@ -4575,18 +4497,21 @@
                     loadHealthData(),
                     loadMetricsData(),
                     loadTenantConfig(),
+                    loadDevices(),
+                    loadTenants(),
+                    loadCbnEvents(),
+                    loadAlphaSignals(),
                 ]);
 
                 results.forEach((result, idx) => {
                     if (result.status === 'rejected') {
                         const keys = ['dashboard', 'transactions', 'settlements', 'trades', 'risk', 'shadowVar',
-                            'users', 'apiKeys', 'paymentQueue', 'marginCalls', 'logs', 'auditLogs', 'workers',
-                            'queues', 'pricing', 'counterparties', 'collateral', 'automation', 'webhooks',
-                            'permissions', 'roles', 'devices', 'tenants', 'backup', 'cbn', 'alpha', 'executive',
-                            'liquidity', 'clearing', 'marketImpact', 'quotes', 'stressTesting', 'exposure',
-                            'cashPosition', 'treasuryLiquidity', 'funding', 'forecast', 'portfolio',
-                            'rehypothecation', 'predictions', 'mlTraining', 'driftDetection', 'optimisation',
-                            'health', 'metrics', 'tenantConfig'
+                            'apiKeys', 'marginCalls', 'logs', 'auditLogs', 'workers', 'queues', 'pricing',
+                            'counterparties', 'collateral', 'executive', 'liquidity', 'clearing',
+                            'marketImpact', 'quotes', 'stressTesting', 'exposure', 'cashPosition',
+                            'treasuryLiquidity', 'funding', 'forecast', 'portfolio', 'rehypothecation',
+                            'predictions', 'mlTraining', 'driftDetection', 'optimisation', 'health',
+                            'metrics', 'tenantConfig', 'devices', 'tenants', 'cbn', 'alpha'
                         ];
                         const key = keys[idx] || 'unknown';
                         errors[key] = result.reason;
@@ -4673,7 +4598,7 @@
                         id: t.id || `TX-${Math.random().toString(36).substring(2, 6)}`,
                         counterparty: t.counterparty_id || 'Unknown',
                         amount: t.notional || 0,
-                        status: t.status || 'pending',
+                        status: t.status || 'PENDING',
                         type: t.instrument_type || 'Unknown',
                         time: t.settle_date ? new Date(t.settle_date).toLocaleTimeString() : '--:--',
                     }));
@@ -4742,24 +4667,23 @@
             animateCounter('shadowVarRatio', 0, 0);
         }
 
-        async function loadUsers() {
+        async function loadPendingUsers() {
             try {
-                const data = await API.getUsers();
+                const data = await API.getPendingUsers();
                 if (data && Array.isArray(data)) {
-                    state.users = data.map(u => ({
+                    state.pendingUsers = data.map(u => ({
                         id: u.id,
                         name: u.full_name || u.name || 'Unknown',
                         email: u.email,
-                        role: u.role || 'user',
-                        status: u.status || 'pending',
+                        org: u.organisation || '—',
                     }));
-                    state.fresh.users = Date.now();
-                } else {
-                    state.users = [];
+                    state.fresh.pendingUsers = Date.now();
+                    // Update badge
+                    const badge = document.getElementById('pendingUserBadge');
+                    if (badge) badge.textContent = state.pendingUsers.length;
                 }
-            } catch (e) { console.warn('Users fallback:', e);
-                state.users = []; }
-            updateUsersTable();
+            } catch (e) { console.warn('Pending users fallback:', e); }
+            updatePendingUsersTable();
         }
 
         async function loadApiKeys() {
@@ -4779,23 +4703,6 @@
             updateApiKeysTable();
         }
 
-        async function loadPaymentQueue() {
-            try {
-                const data = await API.getPaymentQueue();
-                if (data && Array.isArray(data)) {
-                    state.paymentQueue = data.map(p => ({
-                        id: p.id || `PQ-${Math.random().toString(36).substring(2, 6)}`,
-                        amount: p.amount || 0,
-                        priority: p.priority || 'medium',
-                        status: p.status || 'queued',
-                        created: p.created_at ? new Date(p.created_at).toLocaleTimeString() : '--:--',
-                    }));
-                    state.fresh.paymentQueue = Date.now();
-                }
-            } catch (e) { console.warn('Payment queue fallback:', e); }
-            updatePaymentQueue();
-        }
-
         async function loadMarginCalls() {
             try {
                 const data = await API.getMarginCalls();
@@ -4808,6 +4715,10 @@
                         status: m.status || 'pending',
                     }));
                     state.fresh.marginCalls = Date.now();
+                    // Update badge
+                    const active = state.marginCalls.filter(c => c.status !== 'resolved').length;
+                    const badge = document.getElementById('mcNavBadge');
+                    if (badge) badge.textContent = active;
                 }
             } catch (e) { console.warn('Margin calls fallback:', e); }
             updateMarginCalls();
@@ -4959,50 +4870,6 @@
             setElement('collatQuality', '—');
         }
 
-        async function loadAutomationJobs() {
-            try {
-                const data = await API.getAutomationJobs();
-                if (data && Array.isArray(data)) {
-                    state.automationJobs = data;
-                    state.fresh.automation = Date.now();
-                }
-            } catch (e) { console.warn('Automation fallback:', e); }
-            updateAutomationJobs();
-        }
-
-        async function loadWebhooks() {
-            try {
-                const data = await API.getWebhooks();
-                if (data && Array.isArray(data)) {
-                    state.webhooks = data;
-                    state.fresh.webhooks = Date.now();
-                }
-            } catch (e) { console.warn('Webhooks fallback:', e); }
-            updateWebhooks();
-        }
-
-        async function loadPermissions() {
-            try {
-                const data = await API.getPermissions();
-                if (data && Array.isArray(data)) {
-                    state.permissions = data;
-                    state.fresh.permissions = Date.now();
-                }
-            } catch (e) { console.warn('Permissions fallback:', e); }
-            updatePermissions();
-        }
-
-        async function loadRoles() {
-            try {
-                const data = await API.getRoles();
-                if (data && Array.isArray(data)) {
-                    state.roles = data;
-                    state.fresh.roles = Date.now();
-                }
-            } catch (e) { console.warn('Roles fallback:', e); }
-            updateRoles();
-        }
-
         async function loadDevices() {
             try {
                 const data = await API.getDevices();
@@ -5015,6 +4882,9 @@
                         lastActive: d.last_used_at ? new Date(d.last_used_at).toLocaleString() : '—',
                     }));
                     state.fresh.devices = Date.now();
+                    const pending = state.devices.filter(d => d.status === 'pending').length;
+                    const badge = document.getElementById('pendingDeviceBadge');
+                    if (badge) badge.textContent = pending;
                 }
             } catch (e) { console.warn('Devices fallback:', e); }
             updateDevices();
@@ -5031,36 +4901,13 @@
             updateTenants();
         }
 
-        async function loadBackupHistory() {
-            try {
-                const data = await API.getBackups();
-                if (data && Array.isArray(data)) {
-                    state.backupHistory = data;
-                    state.fresh.backup = Date.now();
-                }
-            } catch (e) { console.warn('Backup fallback:', e); }
-            updateBackupUI();
-        }
-
         async function loadCbnEvents() {
-            try {
-                const data = await API.getCbnEvents();
-                if (data && Array.isArray(data)) {
-                    state.cbnEvents = data;
-                    state.fresh.cbn = Date.now();
-                }
-            } catch (e) { console.warn('CBN events fallback:', e); }
+            // CBN events come from WebSocket; we just init the UI
             updateCbnMonitor();
         }
 
         async function loadAlphaSignals() {
-            try {
-                const data = await API.getAlphaSignals();
-                if (data && Array.isArray(data)) {
-                    state.alphaSignals = data;
-                    state.fresh.alpha = Date.now();
-                }
-            } catch (e) { console.warn('Alpha signals fallback:', e); }
+            // Alpha signals come from WebSocket; we just init the UI
             updateAlphaSignals();
         }
 
@@ -5482,7 +5329,14 @@
                 const current = from + diff * progress;
                 el.textContent = format(current);
                 if (progress < 1) requestAnimationFrame(tick);
-                else el.textContent = format(to);
+                else {
+                    el.textContent = format(to);
+                    // Add tick animation
+                    el.classList.remove('tick');
+                    void el.offsetWidth;
+                    el.classList.add('tick');
+                    setTimeout(() => el.classList.remove('tick'), 600);
+                }
             };
             requestAnimationFrame(tick);
         }
@@ -5516,22 +5370,12 @@
         function updateAllUI() {
             updateDashboardWidgets();
             updateTransactionsTable();
-            updatePaymentQueue();
             updateMarginCalls();
-            updateUsersTable();
+            updatePendingUsersTable();
             updateApiKeysTable();
             updateLogs();
             updateSettingsUI();
             updateCurrencyDisplay();
-            updateAutomationJobs();
-            updateWebhooks();
-            updatePermissions();
-            updateRoles();
-            updateDevices();
-            updateTenants();
-            updateBackupUI();
-            updateCbnMonitor();
-            updateAlphaSignals();
             updateMarketTicker();
             updateMarketDataPage();
             updateFreshnessIndicators();
@@ -5554,15 +5398,16 @@
                 return;
             }
 
-            body.innerHTML = txs.map(t => `
-                <tr>
-                    <td><span class="font-mono">${t.id}</span></td>
-                    <td>${t.counterparty}</td>
-                    <td class="amount">${getCurrencySymbol()}${typeof t.amount === 'number' ? t.amount.toFixed(1) : t.amount}M</td>
-                    <td><span class="status ${t.status}"><span class="dot ${t.status}"></span> ${t.status.charAt(0).toUpperCase() + t.status.slice(1)}</span></td>
-                    <td>${t.time}</td>
-                </tr>
-            `).join('');
+            body.innerHTML = txs.map(t => {
+                const statusClass = t.status.toLowerCase();
+                return `<tr>
+                        <td><span class="font-mono">${t.id}</span></td>
+                        <td>${t.counterparty}</td>
+                        <td class="amount">${getCurrencySymbol()}${typeof t.amount === 'number' ? t.amount.toFixed(1) : t.amount}M</td>
+                        <td><span class="status ${statusClass}"><span class="dot ${statusClass}"></span> ${t.status.charAt(0).toUpperCase() + t.status.slice(1).toLowerCase()}</span></td>
+                        <td>${t.time}</td>
+                    </tr>`;
+            }).join('');
         }
 
         function updateTransactionsTable() {
@@ -5573,10 +5418,10 @@
             const status = document.getElementById('txStatusFilter')?.value || 'all';
 
             const filtered = state.transactions.filter(t => {
-                const matchSearch = t.counterparty.toLowerCase().includes(search) ||
-                    t.id.toLowerCase().includes(search) ||
-                    t.type.toLowerCase().includes(search);
-                const matchStatus = status === 'all' || t.status === status;
+                const matchSearch = (t.counterparty || '').toLowerCase().includes(search) ||
+                    (t.id || '').toLowerCase().includes(search) ||
+                    (t.type || '').toLowerCase().includes(search);
+                const matchStatus = status === 'all' || (t.status || '').toUpperCase() === status;
                 return matchSearch && matchStatus;
             });
 
@@ -5586,51 +5431,22 @@
                 return;
             }
 
-            body.innerHTML = filtered.map(t => `
-                <tr>
-                    <td class="font-mono">${t.id}</td>
-                    <td>${t.counterparty}</td>
-                    <td class="amount">${getCurrencySymbol()}${typeof t.amount === 'number' ? t.amount.toFixed(1) : t.amount}M</td>
-                    <td><span class="status ${t.status}"><span class="dot ${t.status}"></span> ${t.status.charAt(0).toUpperCase() + t.status.slice(1)}</span></td>
-                    <td>${t.type}</td>
-                    <td>${t.time}</td>
-                    <td>
-                        ${t.status === 'failed' ? `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="retryTransaction('${t.id}')">Retry</button>` :
-                        t.status === 'pending' ? `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="approveTransaction('${t.id}')">Approve</button>` :
-                        `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="viewTransaction('${t.id}')">View</button>`}
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function updatePaymentQueue() {
-            const body = document.getElementById('pqBody');
-            const count = document.getElementById('pqCount');
-            if (!body) return;
-
-            const queue = state.paymentQueue;
-            count.textContent = `${queue.length} items awaiting processing`;
-
-            if (queue.length === 0) {
-                body.innerHTML =
-                    `<tr><td colspan="6"><div class="empty-state"><div class="icon"><i class="bi bi-clock-history"></i></div><div class="title">Queue is empty</div></div></td></tr>`;
-                return;
-            }
-
-            body.innerHTML = queue.map(p => `
-                <tr>
-                    <td class="font-mono">${p.id}</td>
-                    <td class="amount">${getCurrencySymbol()}${p.amount.toFixed(1)}M</td>
-                    <td><span class="badge-priority ${p.priority}">${p.priority.charAt(0).toUpperCase() + p.priority.slice(1)}</span></td>
-                    <td><span class="status ${p.status}"><span class="dot ${p.status}"></span> ${p.status.charAt(0).toUpperCase() + p.status.slice(1)}</span></td>
-                    <td>${p.created}</td>
-                    <td>
-                        ${p.status === 'queued' ? `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="processPayment('${p.id}')">Process</button>` :
-                        p.status === 'processing' ? `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" disabled>Processing</button>` :
-                        `<span class="text-secondary">Done</span>`}
-                    </td>
-                </tr>
-            `).join('');
+            body.innerHTML = filtered.map(t => {
+                const statusClass = (t.status || 'PENDING').toLowerCase();
+                return `<tr>
+                        <td class="font-mono">${t.id}</td>
+                        <td>${t.counterparty}</td>
+                        <td class="amount">${getCurrencySymbol()}${typeof t.amount === 'number' ? t.amount.toFixed(1) : t.amount}M</td>
+                        <td><span class="status ${statusClass}"><span class="dot ${statusClass}"></span> ${(t.status || 'Pending').charAt(0).toUpperCase() + (t.status || 'pending').slice(1).toLowerCase()}</span></td>
+                        <td>${t.type}</td>
+                        <td>${t.time}</td>
+                        <td>
+                            ${(t.status || '').toUpperCase() === 'FAILED' ? `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="retryTransaction('${t.id}')">Retry</button>` :
+                            (t.status || '').toUpperCase() === 'PENDING' ? `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="approveTransaction('${t.id}')">Approve</button>` :
+                            `<button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="viewTransaction('${t.id}')">View</button>`}
+                        </td>
+                    </tr>`;
+            }).join('');
         }
 
         function updateMarginCalls() {
@@ -5640,7 +5456,7 @@
 
             const calls = state.marginCalls.filter(c => c.status !== 'resolved');
             const active = calls.length;
-            badge.textContent = `${active} Active`;
+            if (badge) badge.textContent = `${active} Active`;
 
             if (active === 0) {
                 body.innerHTML =
@@ -5648,50 +5464,40 @@
                 return;
             }
 
-            body.innerHTML = calls.map(c => `
-                <tr>
-                    <td>${c.counterparty}</td>
-                    <td class="amount">${getCurrencySymbol()}${c.amount.toFixed(1)}M</td>
-                    <td>${c.due}</td>
-                    <td><span class="status ${c.status}"><span class="dot ${c.status}"></span> ${c.status.charAt(0).toUpperCase() + c.status.slice(1)}</span></td>
-                    <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="resolveMargin('${c.id}')">Resolve</button></td>
-                </tr>
-            `).join('');
+            body.innerHTML = calls.map(c => {
+                const statusClass = (c.status || 'pending').toLowerCase();
+                return `<tr>
+                        <td>${c.counterparty}</td>
+                        <td class="amount">${getCurrencySymbol()}${c.amount.toFixed(1)}M</td>
+                        <td>${c.due}</td>
+                        <td><span class="status ${statusClass}"><span class="dot ${statusClass}"></span> ${(c.status || 'Pending').charAt(0).toUpperCase() + (c.status || 'pending').slice(1)}</span></td>
+                        <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="resolveMargin('${c.id}')">Resolve</button></td>
+                    </tr>`;
+            }).join('');
         }
 
-        function updateUsersTable() {
+        function updatePendingUsersTable() {
             const body = document.getElementById('usersBody');
             if (!body) return;
 
-            const users = state.users;
+            const users = state.pendingUsers;
             if (users.length === 0) {
                 body.innerHTML =
-                    `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-person"></i></div><div class="title">No users found</div></div></td></tr>`;
+                    `<tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-person-check"></i></div><div class="title">No pending approvals</div><div class="desc">All users have been approved.</div></div></td></tr>`;
                 return;
             }
 
             body.innerHTML = users.map(u => `
-                <tr>
-                    <td>${u.name}</td>
-                    <td>${u.email}</td>
-                    <td>${u.role}</td>
-                    <td>
-                        ${u.status === 'pending' ? `<span class="status-badge pending">Pending</span>` :
-                         u.status === 'approved' ? `<span class="status-badge active">Active</span>` :
-                         u.status === 'rejected' ? `<span class="status-badge inactive">Rejected</span>` :
-                         `<span class="status-badge ${u.status === 'active' ? 'active' : 'inactive'}">${u.status === 'active' ? 'Active' : 'Inactive'}</span>`}
-                    </td>
-                    <td>
-                        ${u.status === 'pending' ? `
-                            <button class="btn btn-sm btn-success" onclick="approveUser('${u.id}')">Approve</button>
-                            <button class="btn btn-sm btn-danger" onclick="rejectUser('${u.id}')">Reject</button>
-                        ` : `
-                            <button class="btn btn-sm btn-outline-light" onclick="editUser('${u.id}')">Edit</button>
-                            <button class="btn btn-sm btn-outline-light text-crimson" onclick="deleteUser('${u.id}')">Delete</button>
-                        `}
-                    </td>
-                </tr>
-            `).join('');
+                        <tr>
+                            <td>${u.name}</td>
+                            <td>${u.email}</td>
+                            <td>${u.org}</td>
+                            <td>
+                                <button class="btn btn-sm btn-success me-1" onclick="approveUser('${u.id}')">Approve</button>
+                                <button class="btn btn-sm btn-danger" onclick="rejectUser('${u.id}')">Reject</button>
+                            </td>
+                        </tr>
+                    `).join('');
         }
 
         function updateApiKeysTable() {
@@ -5705,15 +5511,16 @@
                 return;
             }
 
-            body.innerHTML = keys.map(k => `
-                <tr>
-                    <td>${k.name}</td>
-                    <td class="font-mono fs-13">${k.key}</td>
-                    <td>${k.permissions}</td>
-                    <td><span class="status ${k.status}"><span class="dot ${k.status}"></span> ${k.status.charAt(0).toUpperCase() + k.status.slice(1)}</span></td>
-                    <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="revokeApiKey('${k.id}')">Revoke</button></td>
-                </tr>
-            `).join('');
+            body.innerHTML = keys.map(k => {
+                const statusClass = (k.status || 'active').toLowerCase();
+                return `<tr>
+                        <td>${k.name}</td>
+                        <td class="font-mono fs-13">${k.key}</td>
+                        <td>${k.permissions}</td>
+                        <td><span class="status ${statusClass}"><span class="dot ${statusClass}"></span> ${(k.status || 'Active').charAt(0).toUpperCase() + (k.status || 'active').slice(1)}</span></td>
+                        <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="revokeApiKey('${k.id}')">Revoke</button></td>
+                    </tr>`;
+            }).join('');
         }
 
         function updateLogs() {
@@ -5742,20 +5549,20 @@
                     'ERROR': 'bg-danger'
                 };
                 body.innerHTML = filtered.map(l => `
-                    <tr>
-                        <td>${l.time}</td>
-                        <td><span class="badge ${levelMap[l.level] || 'bg-secondary'}">${l.level}</span></td>
-                        <td>${l.message}</td>
-                    </tr>
-                `).join('');
+                            <tr>
+                                <td>${l.time}</td>
+                                <td><span class="badge ${levelMap[l.level] || 'bg-secondary'}">${l.level}</span></td>
+                                <td>${l.message}</td>
+                            </tr>
+                        `).join('');
             } else {
                 body.innerHTML = filtered.map(l => `
-                    <tr>
-                        <td>${l.time}</td>
-                        <td><span class="badge bg-primary">${l.action}</span></td>
-                        <td>${l.description} (${l.user})</td>
-                    </tr>
-                `).join('');
+                            <tr>
+                                <td>${l.time}</td>
+                                <td><span class="badge bg-primary">${l.action}</span></td>
+                                <td>${l.description} (${l.user})</td>
+                            </tr>
+                        `).join('');
             }
         }
 
@@ -5770,14 +5577,15 @@
                 return;
             }
 
-            body.innerHTML = workers.map(w => `
-                <tr>
-                    <td class="font-mono">${w.id}</td>
-                    <td><span class="status ${w.status}"><span class="dot ${w.status}"></span> ${w.status.charAt(0).toUpperCase() + w.status.slice(1)}</span></td>
-                    <td>${w.task}</td>
-                    <td>${w.uptime}</td>
-                </tr>
-            `).join('');
+            body.innerHTML = workers.map(w => {
+                const statusClass = (w.status || 'idle').toLowerCase();
+                return `<tr>
+                        <td class="font-mono">${w.id}</td>
+                        <td><span class="status ${statusClass}"><span class="dot ${statusClass}"></span> ${(w.status || 'Idle').charAt(0).toUpperCase() + (w.status || 'idle').slice(1)}</span></td>
+                        <td>${w.task || '—'}</td>
+                        <td>${w.uptime || '—'}</td>
+                    </tr>`;
+            }).join('');
         }
 
         function updateQueues() {
@@ -5792,13 +5600,13 @@
             }
 
             body.innerHTML = queues.map(q => `
-                <tr>
-                    <td>${q.name}</td>
-                    <td>${q.length}</td>
-                    <td>${q.processing}</td>
-                    <td>${q.rate}</td>
-                </tr>
-            `).join('');
+                        <tr>
+                            <td>${q.name}</td>
+                            <td>${q.length}</td>
+                            <td>${q.processing}</td>
+                            <td>${q.rate}</td>
+                        </tr>
+                    `).join('');
         }
 
         function updatePricing() {
@@ -5813,15 +5621,15 @@
             }
 
             body.innerHTML = pricing.map(p => `
-                <tr>
-                    <td>${p.instrument}</td>
-                    <td>${p.bid.toFixed(4)}</td>
-                    <td>${p.ask.toFixed(4)}</td>
-                    <td>${p.spread.toFixed(4)}</td>
-                    <td>${p.last.toFixed(4)}</td>
-                    <td class="${p.changeClass}">${p.change}</td>
-                </tr>
-            `).join('');
+                        <tr>
+                            <td>${p.instrument}</td>
+                            <td>${p.bid.toFixed(4)}</td>
+                            <td>${p.ask.toFixed(4)}</td>
+                            <td>${p.spread.toFixed(4)}</td>
+                            <td>${p.last.toFixed(4)}</td>
+                            <td class="${p.changeClass}">${p.change}</td>
+                        </tr>
+                    `).join('');
         }
 
         function updateSettlementUI() {
@@ -5849,15 +5657,16 @@
                     clearBody.innerHTML =
                         `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-arrows-collapse"></i></div><div class="title">No clearing data</div></div></td></tr>`;
                 } else {
-                    clearBody.innerHTML = clearingData.map(c => `
-                        <tr>
-                            <td class="font-mono">${c.id}</td>
-                            <td>${c.counterparty}</td>
-                            <td class="amount">${getCurrencySymbol()}${c.amount.toFixed(1)}M</td>
-                            <td><span class="status ${c.status}"><span class="dot ${c.status}"></span> ${c.status.charAt(0).toUpperCase() + c.status.slice(1)}</span></td>
-                            <td>${c.time}</td>
-                        </tr>
-                    `).join('');
+                    clearBody.innerHTML = clearingData.map(c => {
+                        const statusClass = (c.status || 'pending').toLowerCase();
+                        return `<tr>
+                                <td class="font-mono">${c.id}</td>
+                                <td>${c.counterparty}</td>
+                                <td class="amount">${getCurrencySymbol()}${c.amount.toFixed(1)}M</td>
+                                <td><span class="status ${statusClass}"><span class="dot ${statusClass}"></span> ${(c.status || 'Pending').charAt(0).toUpperCase() + (c.status || 'pending').slice(1)}</span></td>
+                                <td>${c.time}</td>
+                            </tr>`;
+                    }).join('');
                 }
             }
         }
@@ -5873,16 +5682,81 @@
                 return;
             }
 
-            body.innerHTML = trades.slice(0, 10).map(t => `
-                <tr>
-                    <td class="font-mono">${t.id || 'TR-' + Math.random().toString(36).substring(2, 6)}</td>
-                    <td>${t.instrument_type || 'Unknown'}</td>
-                    <td><span class="${t.side === 'BUY' ? 'text-emerald' : 'text-crimson'}">${t.side || 'BUY'}</span></td>
-                    <td>${t.quantity || t.notional || 0}</td>
-                    <td>${t.price || '—'}</td>
-                    <td><span class="status ${t.status || 'pending'}"><span class="dot ${t.status || 'pending'}"></span> ${(t.status || 'Pending').charAt(0).toUpperCase() + (t.status || 'pending').slice(1)}</span></td>
-                </tr>
-            `).join('');
+            body.innerHTML = trades.slice(0, 10).map(t => {
+                const statusClass = (t.status || 'pending').toLowerCase();
+                return `<tr>
+                        <td class="font-mono">${t.id || 'TR-' + Math.random().toString(36).substring(2, 6)}</td>
+                        <td>${t.instrument_type || 'Unknown'}</td>
+                        <td><span class="${t.side === 'BUY' ? 'text-emerald' : 'text-crimson'}">${t.side || 'BUY'}</span></td>
+                        <td>${t.quantity || t.notional || 0}</td>
+                        <td>${t.price || '—'}</td>
+                        <td><span class="status ${statusClass}"><span class="dot ${statusClass}"></span> ${(t.status || 'Pending').charAt(0).toUpperCase() + (t.status || 'pending').slice(1)}</span></td>
+                    </tr>`;
+            }).join('');
+        }
+
+        function updateDevices() {
+            const body = document.getElementById('devicesBody');
+            if (!body) return;
+
+            const devices = state.devices || [];
+            if (devices.length === 0) {
+                body.innerHTML =
+                    `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-phone"></i></div><div class="title">No devices</div></div></td></tr>`;
+                return;
+            }
+
+            body.innerHTML = devices.map(d => {
+                const statusClass = (d.status || 'pending').toLowerCase();
+                return `<tr>
+                        <td>${d.name}</td>
+                        <td class="font-mono fs-13">${d.fingerprint}</td>
+                        <td>
+                            ${d.status === 'pending' ? `<span class="status-badge pending">Pending</span>` :
+                             d.status === 'approved' ? `<span class="status-badge active">Approved</span>` :
+                             `<span class="status-badge inactive">Revoked</span>`}
+                        </td>
+                        <td>${d.lastActive}</td>
+                        <td>
+                            ${d.status === 'pending' ? `
+                                <button class="btn btn-sm btn-success" onclick="approveDevice('${d.id}')">Approve</button>
+                            ` : d.status === 'approved' ? `
+                                <button class="btn btn-sm btn-danger" onclick="revokeDevice('${d.id}')">Revoke</button>
+                            ` : ''}
+                            <button class="btn btn-sm btn-outline-light text-crimson" onclick="deleteDevice('${d.id}')">Delete</button>
+                        </td>
+                    </tr>`;
+            }).join('');
+        }
+
+        function updateTenants() {
+            const body = document.getElementById('tenantsBody');
+            if (!body) return;
+
+            const tenants = state.tenants || [];
+            if (tenants.length === 0) {
+                body.innerHTML =
+                    `<tr><td colspan="6"><div class="empty-state"><div class="icon"><i class="bi bi-building"></i></div><div class="title">No tenants</div></div></td></tr>`;
+                return;
+            }
+
+            body.innerHTML = tenants.map(t => `
+                        <tr>
+                            <td>${t.name}</td>
+                            <td>${t.users || '—'}</td>
+                            <td>${t.trades || '—'}</td>
+                            <td>${t.savings ? getCurrencySymbol() + t.savings + 'M' : '—'}</td>
+                            <td>
+                                <span class="status-badge ${t.status}">${t.status}</span>
+                            </td>
+                            <td>
+                                ${t.status === 'pending' ? `<button class="btn btn-sm btn-success" onclick="activateTenant('${t.id}')">Activate</button>` : ''}
+                                ${t.status === 'active' ? `<button class="btn btn-sm btn-warning" onclick="suspendTenant('${t.id}')">Suspend</button>` : ''}
+                                <button class="btn btn-sm btn-outline-light" onclick="editTenant('${t.id}')">Edit</button>
+                                <button class="btn btn-sm btn-outline-light text-crimson" onclick="deleteTenant('${t.id}')">Delete</button>
+                            </td>
+                        </tr>
+                    `).join('');
         }
 
         function updateSettingsUI() {
@@ -5909,246 +5783,6 @@
                     }
                 }
             });
-        }
-
-        function updateAutomationJobs() {
-            const body = document.getElementById('autoJobsBody');
-            if (!body) return;
-
-            const jobs = state.automationJobs;
-            if (jobs.length === 0) {
-                body.innerHTML =
-                    `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-robot"></i></div><div class="title">No automation jobs</div></div></td></tr>`;
-                return;
-            }
-
-            body.innerHTML = jobs.map(j => `
-                <tr>
-                    <td>${j.name}</td>
-                    <td>${j.schedule}</td>
-                    <td><span class="status ${j.status}"><span class="dot ${j.status}"></span> ${j.status.charAt(0).toUpperCase() + j.status.slice(1)}</span></td>
-                    <td>${j.lastRun}</td>
-                    <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="runAutomation('${j.id}')">Run Now</button></td>
-                </tr>
-            `).join('');
-        }
-
-        function updateWebhooks() {
-            const body = document.getElementById('webhooksBody');
-            if (!body) return;
-
-            const hooks = state.webhooks;
-            if (hooks.length === 0) {
-                body.innerHTML =
-                    `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-webhook"></i></div><div class="title">No webhooks</div></div></td></tr>`;
-                return;
-            }
-
-            body.innerHTML = hooks.map(h => `
-                <tr>
-                    <td>${h.name}</td>
-                    <td class="fs-13 font-mono">${h.url}</td>
-                    <td>${h.events}</td>
-                    <td><span class="status ${h.status}"><span class="dot ${h.status}"></span> ${h.status.charAt(0).toUpperCase() + h.status.slice(1)}</span></td>
-                    <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="testWebhook('${h.id}')">Test</button></td>
-                </tr>
-            `).join('');
-        }
-
-        function updatePermissions() {
-            const body = document.getElementById('permBody');
-            if (!body) return;
-
-            const perms = state.permissions;
-            if (perms.length === 0) {
-                body.innerHTML =
-                    `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-key"></i></div><div class="title">No permissions</div></div></td></tr>`;
-                return;
-            }
-
-            body.innerHTML = perms.map(p => `
-                <tr>
-                    <td>${p.resource}</td>
-                    <td>${p.admin ? '✅' : '❌'}</td>
-                    <td>${p.trader ? '✅' : '❌'}</td>
-                    <td>${p.risk ? '✅' : '❌'}</td>
-                    <td>${p.compliance ? '✅' : '❌'}</td>
-                </tr>
-            `).join('');
-        }
-
-        function updateRoles() {
-            const body = document.getElementById('rolesBody');
-            if (!body) return;
-
-            const roles = state.roles;
-            if (roles.length === 0) {
-                body.innerHTML =
-                    `<tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-person-badge"></i></div><div class="title">No roles</div></div></td></tr>`;
-                return;
-            }
-
-            body.innerHTML = roles.map(r => `
-                <tr>
-                    <td>${r.name}</td>
-                    <td>${r.permissions}</td>
-                    <td>${r.users}</td>
-                    <td><span class="status ${r.status}"><span class="dot ${r.status}"></span> ${r.status.charAt(0).toUpperCase() + r.status.slice(1)}</span></td>
-                </tr>
-            `).join('');
-        }
-
-        function updateDevices() {
-            const body = document.getElementById('devicesBody');
-            if (!body) return;
-
-            const devices = state.devices;
-            if (devices.length === 0) {
-                body.innerHTML =
-                    `<tr><td colspan="5"><div class="empty-state"><div class="icon"><i class="bi bi-phone"></i></div><div class="title">No devices</div></div></td></tr>`;
-                return;
-            }
-
-            body.innerHTML = devices.map(d => `
-                <tr>
-                    <td>${d.name}</td>
-                    <td class="font-mono fs-13">${d.fingerprint}</td>
-                    <td>
-                        ${d.status === 'pending' ? `<span class="status-badge pending">Pending</span>` :
-                         d.status === 'approved' ? `<span class="status-badge active">Approved</span>` :
-                         `<span class="status-badge inactive">Revoked</span>`}
-                    </td>
-                    <td>${d.lastActive}</td>
-                    <td>
-                        ${d.status === 'pending' ? `
-                            <button class="btn btn-sm btn-success" onclick="approveDevice('${d.id}')">Approve</button>
-                        ` : d.status === 'approved' ? `
-                            <button class="btn btn-sm btn-danger" onclick="revokeDevice('${d.id}')">Revoke</button>
-                        ` : ''}
-                        <button class="btn btn-sm btn-outline-light text-crimson" onclick="deleteDevice('${d.id}')">Delete</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function updateTenants() {
-            const body = document.getElementById('tenantsBody');
-            if (!body) return;
-
-            const tenants = state.tenants;
-            if (tenants.length === 0) {
-                body.innerHTML =
-                    `<tr><td colspan="6"><div class="empty-state"><div class="icon"><i class="bi bi-building"></i></div><div class="title">No tenants</div></div></td></tr>`;
-                return;
-            }
-
-            body.innerHTML = tenants.map(t => `
-                <tr>
-                    <td>${t.name}</td>
-                    <td>${t.users || '—'}</td>
-                    <td>${t.trades || '—'}</td>
-                    <td>${t.savings ? getCurrencySymbol() + t.savings + 'M' : '—'}</td>
-                    <td>
-                        <span class="status-badge ${t.status}">${t.status}</span>
-                    </td>
-                    <td>
-                        ${t.status === 'pending' ? `<button class="btn btn-sm btn-success" onclick="activateTenant('${t.id}')">Activate</button>` : ''}
-                        ${t.status === 'active' ? `<button class="btn btn-sm btn-warning" onclick="suspendTenant('${t.id}')">Suspend</button>` : ''}
-                        <button class="btn btn-sm btn-outline-light" onclick="editTenant('${t.id}')">Edit</button>
-                        <button class="btn btn-sm btn-outline-light text-crimson" onclick="deleteTenant('${t.id}')">Delete</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function updateBackupUI() {
-            const history = state.backupHistory;
-            const body = document.getElementById('backupHistoryBody');
-            const last = history.length > 0 ? history[0] : null;
-
-            if (last) {
-                setElement('backupLast', last.date);
-                setElement('backupLastSub', `Status: ${last.status}`);
-                setElement('backupSize', last.size);
-                setElement('backupSizeSub', `${history.length} backups available`);
-            } else {
-                setElement('backupLast', 'No backups');
-                setElement('backupLastSub', 'Create your first backup');
-                setElement('backupSize', '—');
-                setElement('backupSizeSub', 'No backups available');
-            }
-
-            if (body) {
-                if (history.length === 0) {
-                    body.innerHTML =
-                        `<tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-archive"></i></div><div class="title">No backups found</div></div></td></tr>`;
-                } else {
-                    body.innerHTML = history.map(b => `
-                        <tr>
-                            <td>${b.date}</td>
-                            <td>${b.size}</td>
-                            <td><span class="status ${b.status}"><span class="dot ${b.status}"></span> ${b.status.charAt(0).toUpperCase() + b.status.slice(1)}</span></td>
-                            <td><button class="btn btn-sm btn-outline-light" style="border-color:var(--border-color);" onclick="restoreBackup('${b.date}')">Restore</button></td>
-                        </tr>
-                    `).join('');
-                }
-            }
-        }
-
-        function updateCbnMonitor() {
-            const events = state.cbnEvents;
-            const body = document.getElementById('cbnHistoryBody');
-            const last = events.length > 0 ? events[0] : null;
-
-            if (last) {
-                setElement('cbnLastEvent', last.event);
-                setElement('cbnLastTime', last.date);
-                const impact = last.haircutChange || '0%';
-                animateCounter('cbnImpact', 0, parseFloat(impact) || 0, '', '%');
-                setElement('cbnImpactSub', `Yield impact: ${last.yieldImpact || '0%'}`);
-            } else {
-                setElement('cbnLastEvent', 'No events');
-                setElement('cbnLastTime', '—');
-                animateCounter('cbnImpact', 0, 0, '', '%');
-                setElement('cbnImpactSub', 'No data');
-            }
-
-            if (body) {
-                if (events.length === 0) {
-                    body.innerHTML =
-                        `<tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-bank"></i></div><div class="title">No CBN events</div></div></td></tr>`;
-                } else {
-                    body.innerHTML = events.map(e => `
-                        <tr>
-                            <td>${e.date}</td>
-                            <td>${e.event}</td>
-                            <td>${e.haircutChange || '—'}</td>
-                            <td>${e.yieldImpact || '—'}</td>
-                        </tr>
-                    `).join('');
-                }
-            }
-        }
-
-        function updateAlphaSignals() {
-            const body = document.getElementById('aiSignalsBody');
-            if (!body) return;
-
-            const signals = state.alphaSignals;
-            if (signals.length === 0) {
-                body.innerHTML =
-                    `<tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-robot"></i></div><div class="title">No alpha signals</div></div></td></tr>`;
-                return;
-            }
-
-            body.innerHTML = signals.map(s => `
-                <tr>
-                    <td>${s.asset}</td>
-                    <td><span class="badge ${s.signal === 'Buy' ? 'bg-success' : s.signal === 'Sell' ? 'bg-danger' : 'bg-warning text-dark'}">${s.signal}</span></td>
-                    <td>${s.confidence}%</td>
-                    <td><span class="badge ${s.action === 'Execute' ? 'bg-primary' : 'bg-secondary'}">${s.action}</span></td>
-                </tr>
-            `).join('');
         }
 
         function updateMarketTicker() {
@@ -6181,6 +5815,62 @@
                     el.className = 'change ' + cls;
                 }
             });
+        }
+
+        function updateCbnMonitor() {
+            const events = state.cbnEvents;
+            const body = document.getElementById('cbnHistoryBody');
+            const last = events.length > 0 ? events[0] : null;
+
+            if (last) {
+                setElement('cbnLastEvent', last.event || '—');
+                setElement('cbnLastTime', last.date || '—');
+                const impact = last.haircutChange || '0%';
+                animateCounter('cbnImpact', 0, parseFloat(impact) || 0, '', '%');
+                setElement('cbnImpactSub', `Yield impact: ${last.yieldImpact || '0%'}`);
+            } else {
+                setElement('cbnLastEvent', 'No events');
+                setElement('cbnLastTime', '—');
+                animateCounter('cbnImpact', 0, 0, '', '%');
+                setElement('cbnImpactSub', 'No data');
+            }
+
+            if (body) {
+                if (events.length === 0) {
+                    body.innerHTML =
+                        `<tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-bank"></i></div><div class="title">No CBN events</div></div></td></tr>`;
+                } else {
+                    body.innerHTML = events.map(e => `
+                                <tr>
+                                    <td>${e.date || '—'}</td>
+                                    <td>${e.event || '—'}</td>
+                                    <td>${e.haircutChange || '—'}</td>
+                                    <td>${e.yieldImpact || '—'}</td>
+                                </tr>
+                            `).join('');
+                }
+            }
+        }
+
+        function updateAlphaSignals() {
+            const body = document.getElementById('aiSignalsBody');
+            if (!body) return;
+
+            const signals = state.alphaSignals;
+            if (signals.length === 0) {
+                body.innerHTML =
+                    `<tr><td colspan="4"><div class="empty-state"><div class="icon"><i class="bi bi-robot"></i></div><div class="title">No alpha signals</div></div></td></tr>`;
+                return;
+            }
+
+            body.innerHTML = signals.map(s => `
+                        <tr>
+                            <td>${s.asset || 'Unknown'}</td>
+                            <td><span class="badge ${s.signal === 'Buy' ? 'bg-success' : s.signal === 'Sell' ? 'bg-danger' : 'bg-warning text-dark'}">${s.signal || 'Hold'}</span></td>
+                            <td>${s.confidence || 0}%</td>
+                            <td><span class="badge ${s.action === 'Execute' ? 'bg-primary' : 'bg-secondary'}">${s.action || 'Hold'}</span></td>
+                        </tr>
+                    `).join('');
         }
 
         // ================================================================
@@ -6304,17 +5994,12 @@
                 compliancereports: 'Compliance Reports',
                 financialreports: 'Financial Reports',
                 analyticsreports: 'Analytics Reports',
-                users: 'Users',
-                roles: 'Roles',
-                permissions: 'Permissions',
+                users: 'Pending Users',
                 apikeys: 'API Keys',
                 devices: 'Devices',
                 tenants: 'Tenants',
                 settings: 'Settings',
-                automation: 'Automation',
-                apitools: 'API Tools',
-                webhooks: 'Webhooks',
-                backup: 'Backup & Restore'
+                apitools: 'API Tools'
             };
         }
 
@@ -6361,10 +6046,10 @@
             toast.className = 'toast';
             toast.dataset.id = id;
             toast.innerHTML = `
-                <div class="icon ${colors[type]}"><i class="bi ${icons[type] || 'bi-bell-fill'}"></i></div>
-                <div class="body"><div class="title">${title}</div><div class="msg">${message}</div></div>
-                <button class="close-btn" onclick="closeNotification(${id})" aria-label="Close notification"><i class="bi bi-x-lg"></i></button>
-            `;
+                        <div class="icon ${colors[type]}"><i class="bi ${icons[type] || 'bi-bell-fill'}"></i></div>
+                        <div class="body"><div class="title">${title}</div><div class="msg">${message}</div></div>
+                        <button class="close-btn" onclick="closeNotification(${id})" aria-label="Close notification"><i class="bi bi-x-lg"></i></button>
+                    `;
             bar.appendChild(toast);
             setTimeout(() => closeNotification(id), CONFIG.TOAST_TIMEOUT);
         }
@@ -6439,8 +6124,7 @@
                 return `🤖 AI prediction accuracy is 94.2% with 6 active models. No significant drift detected. The model was last trained 2 hours ago.`;
             }
             if (q.includes('user') || q.includes('team')) {
-                const userCount = state.users.length || 0;
-                return `👥 There are ${userCount} users in the system. Active roles include Admin, Trader, Risk Manager, and Compliance.`;
+                return `👥 There are ${state.pendingUsers.length} pending user approvals. Active roles include Admin, Trader, Risk Manager, and Compliance.`;
             }
             if (q.includes('collateral')) {
                 const collatCount = state.collateral.length || 0;
@@ -6462,41 +6146,47 @@
         // ================================================================
         // 14. SEARCH
         // ================================================================
+        let searchTimeout = null;
+
         function handleSearch(query) {
-            if (query.length > 1) {
-                const pages = document.querySelectorAll('.nav-item[data-page]');
-                let found = false;
-                const q = query.toLowerCase();
+            if (searchTimeout) clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                if (query.length > 1) {
+                    const pages = document.querySelectorAll('.nav-item[data-page]');
+                    let found = false;
+                    const q = query.toLowerCase();
 
-                pages.forEach(el => {
-                    const text = el.textContent.toLowerCase().trim();
-                    if (text.includes(q)) {
-                        if (!found) { navigateTo(el.dataset.page);
-                            found = true; }
-                        el.style.background = 'rgba(37,99,235,0.1)';
-                    } else {
-                        el.style.background = '';
-                    }
-                });
+                    pages.forEach(el => {
+                        const text = el.textContent.toLowerCase().trim();
+                        if (text.includes(q)) {
+                            if (!found) { navigateTo(el.dataset.page);
+                                found = true; }
+                            el.style.background = 'rgba(37,99,235,0.1)';
+                        } else {
+                            el.style.background = '';
+                        }
+                    });
 
-                if (!found) {
-                    const tx = state.transactions.filter(t =>
-                        t.counterparty.toLowerCase().includes(q) ||
-                        t.id.toLowerCase().includes(q) ||
-                        t.type.toLowerCase().includes(q)
-                    );
-                    if (tx.length > 0) {
-                        navigateTo('transactions');
-                        found = true;
-                        showNotification('info', 'Search Results', `Found ${tx.length} transaction(s) matching "${query}"`);
+                    if (!found) {
+                        const tx = state.transactions.filter(t =>
+                            (t.counterparty || '').toLowerCase().includes(q) ||
+                            (t.id || '').toLowerCase().includes(q) ||
+                            (t.type || '').toLowerCase().includes(q)
+                        );
+                        if (tx.length > 0) {
+                            navigateTo('transactions');
+                            found = true;
+                            showNotification('info', 'Search Results',
+                                `Found ${tx.length} transaction(s) matching "${query}"`);
+                        }
                     }
+
+                    if (!found) showNotification('info', 'Search', `No results found for "${query}"`);
+                    setTimeout(() => pages.forEach(el => el.style.background = ''), 3000);
+                } else {
+                    document.querySelectorAll('.nav-item').forEach(el => el.style.background = '');
                 }
-
-                if (!found) showNotification('info', 'Search', `No results found for "${query}"`);
-                setTimeout(() => pages.forEach(el => el.style.background = ''), 3000);
-            } else {
-                document.querySelectorAll('.nav-item').forEach(el => el.style.background = '');
-            }
+            }, 300);
         }
 
         // ================================================================
@@ -6514,7 +6204,7 @@
 
         function retryTransaction(id) {
             const tx = state.transactions.find(t => t.id === id);
-            if (tx) { tx.status = 'processing';
+            if (tx) { tx.status = 'PROCESSING';
                 updateTransactionsTable();
                 showNotification('success', 'Retry Initiated', `Transaction ${id} is being retried.`);
                 logAudit('retry_transaction', `Retried transaction ${id}`); }
@@ -6522,7 +6212,7 @@
 
         function approveTransaction(id) {
             const tx = state.transactions.find(t => t.id === id);
-            if (tx) { tx.status = 'processing';
+            if (tx) { tx.status = 'PROCESSING';
                 updateTransactionsTable();
                 showNotification('success', 'Approved', `Transaction ${id} has been approved.`);
                 logAudit('approve_transaction', `Approved transaction ${id}`); }
@@ -6533,7 +6223,7 @@
                 id: `TX-${String(state.transactions.length + 1).padStart(4, '0')}`,
                 counterparty: 'New Counterparty',
                 amount: (Math.random() * 10 + 1).toFixed(1),
-                status: 'pending',
+                status: 'PENDING',
                 type: 'Payment',
                 time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
             };
@@ -6555,32 +6245,7 @@
         }
 
         // ================================================================
-        // 16. PAYMENT QUEUE ACTIONS
-        // ================================================================
-        function processPayment(id) {
-            const p = state.paymentQueue.find(item => item.id === id);
-            if (p) {
-                p.status = 'processing';
-                showNotification('success', 'Processing', `Payment ${id} is being processed.`);
-                updatePaymentQueue();
-                logAudit('process_payment', `Processing payment ${id}`);
-                setTimeout(async () => {
-                    try {
-                        await API.processPayment(id);
-                        p.status = 'completed';
-                        showNotification('success', 'Payment Complete', `Payment ${id} has been processed successfully.`);
-                        updatePaymentQueue();
-                    } catch (e) {
-                        p.status = 'failed';
-                        showNotification('danger', 'Payment Failed', `Payment ${id} failed: ${e.message}`);
-                        updatePaymentQueue();
-                    }
-                }, 3000);
-            }
-        }
-
-        // ================================================================
-        // 17. MARGIN CALL ACTIONS
+        // 16. MARGIN CALL ACTIONS
         // ================================================================
         function resolveMargin(id) {
             const call = state.marginCalls.find(c => c.id === id);
@@ -6594,57 +6259,14 @@
         }
 
         // ================================================================
-        // 18. USER ACTIONS (Admin Only)
+        // 17. USER ACTIONS (Admin Only — Pending Approvals)
         // ================================================================
-        function openAddUserModal() {
-            showModal('Add User', 'Create a new user account', `
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Full Name</label>
-                    <input class="form-control" id="modalUserName" placeholder="John Doe" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Email</label>
-                    <input class="form-control" id="modalUserEmail" placeholder="john@chronos.com" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Role</label>
-                    <select class="form-select" id="modalUserRole">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                        <option value="developer">Developer</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Password</label>
-                    <input class="form-control" id="modalUserPass" type="password" placeholder="••••••••" />
-                </div>
-            `, async () => {
-                const name = document.getElementById('modalUserName').value.trim();
-                const email = document.getElementById('modalUserEmail').value.trim();
-                const role = document.getElementById('modalUserRole').value;
-                const pass = document.getElementById('modalUserPass').value;
-                if (!name || !email || !pass) {
-                    showModalError('All fields are required.');
-                    return;
-                }
-                try {
-                    await API.createUser({ full_name: name, email, role, password: pass });
-                    closeModal();
-                    showNotification('success', 'User Created', `${name} has been added.`);
-                    loadUsers();
-                    logAudit('add_user', `Added user ${name}`);
-                } catch (e) {
-                    showModalError(e.message || 'Failed to create user.');
-                }
-            });
-        }
-
         async function approveUser(userId) {
             if (!confirm('Approve this user? They will receive an API key.')) return;
             try {
                 const result = await API.approveUser(userId);
                 showNotification('success', 'User Approved', `API key: ${result.api_key || 'generated'}`);
-                loadUsers();
+                loadPendingUsers();
                 logAudit('approve_user', `User ${userId} approved`);
             } catch (error) {
                 showNotification('danger', 'Approval Failed', error.message);
@@ -6656,105 +6278,34 @@
             try {
                 await API.rejectUser(userId);
                 showNotification('success', 'User Rejected', '');
-                loadUsers();
+                loadPendingUsers();
                 logAudit('reject_user', `User ${userId} rejected`);
             } catch (error) {
                 showNotification('danger', 'Rejection Failed', error.message);
             }
         }
 
-        async function editUser(userId) {
-            try {
-                const user = await API.getUser(userId);
-                if (!user) {
-                    showNotification('danger', 'User Not Found', '');
-                    return;
-                }
-                showModal('Edit User', `Editing ${user.full_name || user.email}`, `
-                    <div class="mb-3">
-                        <label class="form-label text-secondary fs-13">Full Name</label>
-                        <input class="form-control" id="modalUserName" value="${user.full_name || ''}" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-secondary fs-13">Email</label>
-                        <input class="form-control" id="modalUserEmail" value="${user.email}" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-secondary fs-13">Role</label>
-                        <select class="form-select" id="modalUserRole">
-                            <option value="user" ${user.role === 'user' ? 'selected' : ''}>User</option>
-                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
-                            <option value="developer" ${user.role === 'developer' ? 'selected' : ''}>Developer</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-secondary fs-13">Status</label>
-                        <select class="form-select" id="modalUserStatus">
-                            <option value="pending" ${user.status === 'pending' ? 'selected' : ''}>Pending</option>
-                            <option value="approved" ${user.status === 'approved' ? 'selected' : ''}>Approved</option>
-                            <option value="rejected" ${user.status === 'rejected' ? 'selected' : ''}>Rejected</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-secondary fs-13">New Password (leave blank to keep current)</label>
-                        <input class="form-control" id="modalUserPass" type="password" placeholder="••••••••" />
-                    </div>
-                `, async () => {
-                    const name = document.getElementById('modalUserName').value.trim();
-                    const email = document.getElementById('modalUserEmail').value.trim();
-                    const role = document.getElementById('modalUserRole').value;
-                    const status = document.getElementById('modalUserStatus').value;
-                    const password = document.getElementById('modalUserPass').value;
-                    if (!name || !email) {
-                        showModalError('Name and email are required.');
-                        return;
-                    }
-                    try {
-                        await API.updateUser(userId, { full_name: name, email, role, status, password: password ||
-                                undefined });
-                        closeModal();
-                        showNotification('success', 'User Updated', '');
-                        loadUsers();
-                        logAudit('update_user', `User ${userId} updated`);
-                    } catch (e) {
-                        showModalError(e.message || 'Failed to update user.');
-                    }
-                });
-            } catch (error) {
-                showNotification('danger', 'Failed to load user', error.message);
-            }
-        }
-
-        async function deleteUser(userId) {
-            if (!confirm('Delete this user permanently? This cannot be undone.')) return;
-            try {
-                await API.deleteUser(userId);
-                showNotification('success', 'User Deleted', '');
-                loadUsers();
-                logAudit('delete_user', `User ${userId} deleted`);
-            } catch (error) {
-                showNotification('danger', 'Delete Failed', error.message);
-            }
-        }
+        function refreshPendingUsers() { loadPendingUsers();
+            showNotification('info', 'Refreshed', 'Pending users list updated.'); }
 
         // ================================================================
-        // 19. API KEY ACTIONS
+        // 18. API KEY ACTIONS
         // ================================================================
         function openGenerateApiKeyModal() {
             showModal('Generate API Key', 'Create a new API key', `
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Key Name</label>
-                    <input class="form-control" id="modalKeyName" placeholder="Production API Key" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Permissions</label>
-                    <select class="form-select" id="modalKeyPerms">
-                        <option value="Read">Read</option>
-                        <option value="Read-Write">Read-Write</option>
-                        <option value="Full">Full</option>
-                    </select>
-                </div>
-            `, async () => {
+                        <div class="mb-3">
+                            <label class="form-label text-secondary fs-13">Key Name</label>
+                            <input class="form-control" id="modalKeyName" placeholder="Production API Key" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary fs-13">Permissions</label>
+                            <select class="form-select" id="modalKeyPerms">
+                                <option value="Read">Read</option>
+                                <option value="Read-Write">Read-Write</option>
+                                <option value="Full">Full</option>
+                            </select>
+                        </div>
+                    `, async () => {
                 const name = document.getElementById('modalKeyName').value.trim();
                 const perms = document.getElementById('modalKeyPerms').value;
                 if (!name) {
@@ -6787,51 +6338,19 @@
         }
 
         // ================================================================
-        // 20. ROLE ACTIONS
-        // ================================================================
-        function openAddRoleModal() {
-            showModal('Add Role', 'Create a new role', `
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Role Name</label>
-                    <input class="form-control" id="modalRoleName" placeholder="Operations" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Permissions</label>
-                    <input class="form-control" id="modalRolePerms" placeholder="Trade execution, Pricing, Risk" />
-                </div>
-            `, async () => {
-                const name = document.getElementById('modalRoleName').value.trim();
-                const perms = document.getElementById('modalRolePerms').value.trim();
-                if (!name) {
-                    showModalError('Role name is required.');
-                    return;
-                }
-                try {
-                    await API.createRole({ name, permissions: perms || 'Read' });
-                    closeModal();
-                    showNotification('success', 'Role Created', `Role "${name}" added.`);
-                    loadRoles();
-                    logAudit('add_role', `Added role: ${name}`);
-                } catch (e) {
-                    showModalError(e.message || 'Failed to create role.');
-                }
-            });
-        }
-
-        // ================================================================
-        // 21. TENANT ACTIONS
+        // 19. TENANT ACTIONS
         // ================================================================
         function openAddTenantModal() {
             showModal('Add Tenant', 'Create a new tenant', `
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Tenant Name</label>
-                    <input class="form-control" id="modalTenantName" placeholder="Delta Capital" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Admin Email</label>
-                    <input class="form-control" id="modalTenantEmail" placeholder="admin@delta.com" />
-                </div>
-            `, async () => {
+                        <div class="mb-3">
+                            <label class="form-label text-secondary fs-13">Tenant Name</label>
+                            <input class="form-control" id="modalTenantName" placeholder="Delta Capital" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary fs-13">Admin Email</label>
+                            <input class="form-control" id="modalTenantEmail" placeholder="admin@delta.com" />
+                        </div>
+                    `, async () => {
                 const name = document.getElementById('modalTenantName').value.trim();
                 const email = document.getElementById('modalTenantEmail').value.trim();
                 if (!name || !email) {
@@ -6879,19 +6398,19 @@
                 return;
             }
             showModal('Edit Tenant', `Editing ${tenant.name}`, `
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Tenant Name</label>
-                    <input class="form-control" id="modalTenantName" value="${tenant.name}" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Status</label>
-                    <select class="form-select" id="modalTenantStatus">
-                        <option value="active" ${tenant.status === 'active' ? 'selected' : ''}>Active</option>
-                        <option value="pending" ${tenant.status === 'pending' ? 'selected' : ''}>Pending</option>
-                        <option value="suspended" ${tenant.status === 'suspended' ? 'selected' : ''}>Suspended</option>
-                    </select>
-                </div>
-            `, async () => {
+                        <div class="mb-3">
+                            <label class="form-label text-secondary fs-13">Tenant Name</label>
+                            <input class="form-control" id="modalTenantName" value="${tenant.name}" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary fs-13">Status</label>
+                            <select class="form-select" id="modalTenantStatus">
+                                <option value="active" ${tenant.status === 'active' ? 'selected' : ''}>Active</option>
+                                <option value="pending" ${tenant.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="suspended" ${tenant.status === 'suspended' ? 'selected' : ''}>Suspended</option>
+                            </select>
+                        </div>
+                    `, async () => {
                 const name = document.getElementById('modalTenantName').value.trim();
                 const status = document.getElementById('modalTenantStatus').value;
                 if (!name) {
@@ -6923,7 +6442,7 @@
         }
 
         // ================================================================
-        // 22. DEVICE ACTIONS
+        // 20. DEVICE ACTIONS
         // ================================================================
         async function approveDevice(deviceId) {
             if (!confirm('Approve this device?')) return;
@@ -6962,143 +6481,7 @@
         }
 
         // ================================================================
-        // 23. WEBHOOK ACTIONS
-        // ================================================================
-        function openAddWebhookModal() {
-            showModal('Add Webhook', 'Create a new webhook endpoint', `
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Name</label>
-                    <input class="form-control" id="modalWebhookName" placeholder="Settlement Webhook" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">URL</label>
-                    <input class="form-control" id="modalWebhookUrl" placeholder="https://api.example.com/webhook" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Events</label>
-                    <select class="form-select" id="modalWebhookEvents">
-                        <option value="settlement.completed">Settlement Completed</option>
-                        <option value="trade.executed">Trade Executed</option>
-                        <option value="risk.threshold">Risk Threshold</option>
-                        <option value="all">All Events</option>
-                    </select>
-                </div>
-            `, async () => {
-                const name = document.getElementById('modalWebhookName').value.trim();
-                const url = document.getElementById('modalWebhookUrl').value.trim();
-                const events = document.getElementById('modalWebhookEvents').value;
-                if (!name || !url) {
-                    showModalError('Name and URL are required.');
-                    return;
-                }
-                try {
-                    await API.createWebhook({ name, url, events, status: 'active' });
-                    closeModal();
-                    showNotification('success', 'Webhook Created', `Webhook "${name}" added.`);
-                    loadWebhooks();
-                    logAudit('add_webhook', `Added webhook: ${name}`);
-                } catch (e) {
-                    showModalError(e.message || 'Failed to create webhook.');
-                }
-            });
-        }
-
-        function testWebhook(id) {
-            API.testWebhook(id).then(() => {
-                showNotification('success', 'Webhook Test', 'Test event sent successfully.');
-            }).catch(e => {
-                showNotification('danger', 'Webhook Test Failed', e.message);
-            });
-        }
-
-        // ================================================================
-        // 24. AUTOMATION ACTIONS
-        // ================================================================
-        function openAddAutomationModal() {
-            showModal('Add Automation Job', 'Create a new scheduled job', `
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Job Name</label>
-                    <input class="form-control" id="modalAutoName" placeholder="Daily Risk Calculation" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label text-secondary fs-13">Schedule</label>
-                    <select class="form-select" id="modalAutoSchedule">
-                        <option value="Daily 18:00">Daily 18:00</option>
-                        <option value="Hourly">Hourly</option>
-                        <option value="Every 15m">Every 15 minutes</option>
-                        <option value="Weekly Monday 09:00">Weekly Monday 09:00</option>
-                    </select>
-                </div>
-            `, async () => {
-                const name = document.getElementById('modalAutoName').value.trim();
-                const schedule = document.getElementById('modalAutoSchedule').value;
-                if (!name) {
-                    showModalError('Job name is required.');
-                    return;
-                }
-                try {
-                    await API.createAutomationJob({ name, schedule, status: 'active' });
-                    closeModal();
-                    showNotification('success', 'Automation Created', `Job "${name}" added.`);
-                    loadAutomationJobs();
-                    logAudit('add_automation', `Added automation job: ${name}`);
-                } catch (e) {
-                    showModalError(e.message || 'Failed to create automation job.');
-                }
-            });
-        }
-
-        function runAutomation(id) {
-            const job = state.automationJobs.find(j => j.id === id);
-            if (!job) return;
-            API.triggerAutomation(id).then(() => {
-                showNotification('success', 'Automation Triggered', `Job "${job.name}" started.`);
-                logAudit('run_automation', `Triggered automation: ${job.name}`);
-            }).catch(e => {
-                showNotification('danger', 'Automation Failed', e.message);
-            });
-        }
-
-        // ================================================================
-        // 25. BACKUP ACTIONS
-        // ================================================================
-        function triggerBackup() {
-            API.createBackup().then(() => {
-                showNotification('success', 'Backup Created', 'Database backup initiated.');
-                loadBackupHistory();
-                logAudit('create_backup', 'Created database backup');
-            }).catch(e => {
-                showNotification('danger', 'Backup Failed', e.message);
-            });
-        }
-
-        function triggerRestore() {
-            if (!confirm('Restore from latest backup? This will overwrite current data.')) return;
-            const latest = state.backupHistory.length > 0 ? state.backupHistory[0] : null;
-            if (!latest) {
-                showNotification('warning', 'No Backup', 'No backup available to restore.');
-                return;
-            }
-            API.restoreBackup(latest.date).then(() => {
-                showNotification('success', 'Restore Initiated', 'Database restore in progress.');
-                logAudit('restore_backup', `Restored from backup: ${latest.date}`);
-            }).catch(e => {
-                showNotification('danger', 'Restore Failed', e.message);
-            });
-        }
-
-        function restoreBackup(date) {
-            if (!confirm(`Restore backup from ${date}?`)) return;
-            API.restoreBackup(date).then(() => {
-                showNotification('success', 'Restore Initiated', `Restoring from ${date}.`);
-                logAudit('restore_backup', `Restored from backup: ${date}`);
-            }).catch(e => {
-                showNotification('danger', 'Restore Failed', e.message);
-            });
-        }
-
-        // ================================================================
-        // 26. LP OPTIMISER
+        // 21. LP OPTIMISER
         // ================================================================
         async function runLpOptimiser() {
             const desk = document.getElementById('lpDesk').value || '';
@@ -7114,14 +6497,14 @@
                 const body = document.getElementById('lpResultsBody');
                 if (body && result && result.allocations) {
                     body.innerHTML = result.allocations.map(a => `
-                        <tr>
-                            <td>${a.asset}</td>
-                            <td>${a.current_allocation}%</td>
-                            <td><strong>${a.recommended_allocation}%</strong></td>
-                            <td class="${a.change > 0 ? 'text-emerald' : 'text-crimson'}">${a.change > 0 ? '+' : ''}${a.change}%</td>
-                            <td>${a.expected_yield}%</td>
-                        </tr>
-                    `).join('');
+                                <tr>
+                                    <td>${a.asset}</td>
+                                    <td>${a.current_allocation}%</td>
+                                    <td><strong>${a.recommended_allocation}%</strong></td>
+                                    <td class="${a.change > 0 ? 'text-emerald' : 'text-crimson'}">${a.change > 0 ? '+' : ''}${a.change}%</td>
+                                    <td>${a.expected_yield}%</td>
+                                </tr>
+                            `).join('');
                     showNotification('success', 'LP Optimiser', 'Optimisation completed successfully.');
                     logAudit('lp_optimiser', `Ran LP optimiser: ${desk || 'all'}`);
                 } else {
@@ -7137,12 +6520,16 @@
         }
 
         // ================================================================
-        // 27. SHADOW VAR SIMULATION
+        // 22. SHADOW VAR SIMULATION
         // ================================================================
         async function runShadowVarSim() {
             const confidence = parseFloat(document.getElementById('shadowConf').value);
             const horizon = parseInt(document.getElementById('shadowHorizon').value);
             const desk = document.getElementById('shadowDesk').value || '';
+
+            const btn = document.querySelector('#page-shadowvar .btn-primary');
+            if (btn) { btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-sm"></span> Running...'; }
 
             showNotification('info', 'Shadow VaR', 'Running simulation...');
 
@@ -7156,11 +6543,14 @@
                 }
             } catch (e) {
                 showNotification('danger', 'Shadow VaR Failed', e.message);
+            } finally {
+                if (btn) { btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-play me-1"></i> Run Simulation'; }
             }
         }
 
         // ================================================================
-        // 28. ML TRAINING
+        // 23. ML TRAINING
         // ================================================================
         async function retrainModel() {
             const btn = document.querySelector('#page-mltraining .btn-primary');
@@ -7198,15 +6588,7 @@
         }
 
         // ================================================================
-        // 29. PERMISSIONS
-        // ================================================================
-        function savePermissions() {
-            showNotification('success', 'Permissions', 'Permission matrix updated successfully.');
-            logAudit('save_permissions', 'Updated permission matrix');
-        }
-
-        // ================================================================
-        // 30. LOGS
+        // 24. LOGS
         // ================================================================
         function filterLogs() {
             const level = document.getElementById('logLevelFilter').value;
@@ -7257,7 +6639,7 @@
         }
 
         // ================================================================
-        // 31. SETTINGS
+        // 25. SETTINGS
         // ================================================================
         function saveOrgSettings() {
             state.settings.orgName = document.getElementById('orgNameInput').value;
@@ -7299,7 +6681,7 @@
         }
 
         // ================================================================
-        // 32. TENANT CONFIG (API Connection)
+        // 26. TENANT CONFIG (API Connection)
         // ================================================================
         async function saveTenantConfig() {
             const data = {
@@ -7325,8 +6707,31 @@
             }
         }
 
+        async function loadTenantConfig() {
+            try {
+                const config = await API.getTenantConfig();
+                if (config) {
+                    state.tenantConfig = config;
+                    document.getElementById('orgNameInput').value = config.organisation_name || '';
+                    document.getElementById('orgIndustryInput').value = config.industry || '';
+                    document.getElementById('tenantNibssKey').value = config.nibss_api_key || '';
+                    document.getElementById('tenantBloombergKey').value = config.bloomberg_api_key || '';
+                    document.getElementById('tenantReutersKey').value = config.reuters_api_key || '';
+                    document.getElementById('tenantAlphaKey').value = config.alpha_vantage_key || '';
+                    document.getElementById('tenantCbnUrl').value = config.cbn_openapi_url || '';
+                    document.getElementById('tenantNgxUrl').value = config.ngx_api_url || '';
+                    document.getElementById('perfFee').value = config.performance_fee_percent || 0.20;
+                    document.getElementById('useGlobalModel').checked = config.use_global_model !== false;
+                    document.getElementById('alphaStrategy').value = config.alpha_strategy_type || 'mean_reversion';
+                    showNotification('success', 'Settings Loaded', 'Tenant configuration reloaded.');
+                }
+            } catch (error) {
+                showNotification('danger', 'Load Failed', error.message);
+            }
+        }
+
         // ================================================================
-        // 33. REPORTS & GENERATE
+        // 27. REPORTS & GENERATE
         // ================================================================
         function generateReport() {
             showNotification('success', 'Report Generated', 'Daily report PDF is ready for download.');
@@ -7341,7 +6746,7 @@
         }
 
         // ================================================================
-        // 34. API TOOLS
+        // 28. API TOOLS
         // ================================================================
         async function testApiEndpoint() {
             const method = document.getElementById('apiMethod').value;
@@ -7374,7 +6779,7 @@
         }
 
         // ================================================================
-        // 35. CLOCK
+        // 29. CLOCK
         // ================================================================
         function updateClock() {
             const now = new Date();
@@ -7393,7 +6798,7 @@
         }
 
         // ================================================================
-        // 36. API HEALTH CHECK
+        // 30. API HEALTH CHECK
         // ================================================================
         async function checkApiHealth() {
             const dot = document.getElementById('apiDot');
@@ -7417,7 +6822,7 @@
         }
 
         // ================================================================
-        // 37. LIVE UPDATES
+        // 31. LIVE UPDATES
         // ================================================================
         function startLiveUpdates() {
             if (state.liveInterval) clearInterval(state.liveInterval);
@@ -7482,7 +6887,7 @@
         }
 
         // ================================================================
-        // 38. AVATAR DROPDOWN
+        // 32. AVATAR DROPDOWN
         // ================================================================
         function toggleAvatarDropdown() {
             document.getElementById('avatarDropdown').classList.toggle('open');
@@ -7495,7 +6900,7 @@
         });
 
         // ================================================================
-        // 39. MODAL SYSTEM
+        // 33. MODAL SYSTEM
         // ================================================================
         function showModal(title, subtitle, bodyHtml, confirmCallback) {
             document.getElementById('modalTitle').textContent = title;
@@ -7541,379 +6946,11 @@
         });
 
         // ================================================================
-        // 40. CHARTS — Full Chart.js integration
+        // 34. CHARTS — Full Chart.js integration (Lazy Loading)
         // ================================================================
         function initCharts() {
-            const ctx1 = document.getElementById('dashboardChart1')?.getContext('2d');
-            if (ctx1 && !state.chartInstances.dashboardChart1) {
-                state.chartInstances.dashboardChart1 = new Chart(ctx1, {
-                    type: 'line',
-                    data: {
-                        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
-                        datasets: [{
-                            label: 'Settlement Volume',
-                            data: [0, 0, 0, 0, 0, 0, 0],
-                            borderColor: '#2563EB',
-                            backgroundColor: 'rgba(37,99,235,0.08)',
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 2,
-                            borderWidth: 2,
-                        }, {
-                            label: 'Liquidity',
-                            data: [0, 0, 0, 0, 0, 0, 0],
-                            borderColor: '#06B6D4',
-                            backgroundColor: 'rgba(6,182,212,0.08)',
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 2,
-                            borderWidth: 2,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#94A3B8', font: { size: 11 }, boxWidth: 12,
-                                    padding: 12 } } },
-                        scales: {
-                            x: { grid: { color: 'rgba(30,41,59,0.4)' }, ticks: { color: '#64748B',
-                                font: { size: 10 } } },
-                            y: { grid: { color: 'rgba(30,41,59,0.4)' }, ticks: { color: '#64748B',
-                                font: { size: 10 }, callback: v => getCurrencySymbol() + v + 'B' } }
-                        }
-                    }
-                });
-            }
-
-            const ctx2 = document.getElementById('dashboardChart2')?.getContext('2d');
-            if (ctx2 && !state.chartInstances.dashboardChart2) {
-                state.chartInstances.dashboardChart2 = new Chart(ctx2, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Equities', 'Bonds', 'FX', 'Commodities'],
-                        datasets: [{ data: [0, 0, 0, 0], backgroundColor: ['#2563EB', '#10B981', '#F59E0B',
-                                '#06B6D4'
-                            ], borderWidth: 0 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { position: 'bottom', labels: { color: '#94A3B8', font: { size: 11 },
-                                    boxWidth: 12, padding: 10 } } },
-                        cutout: '65%',
-                    }
-                });
-            }
-
-            const ctxExec = document.getElementById('execChart1')?.getContext('2d');
-            if (ctxExec && !state.chartInstances.execChart1) {
-                state.chartInstances.execChart1 = new Chart(ctxExec, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Retail', 'Corporate', 'Investment', 'Treasury'],
-                        datasets: [{ label: 'Revenue (M)', data: [0, 0, 0, 0],
-                            backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#06B6D4'], borderRadius: 4 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#94A3B8',
-                                font: { size: 11 } } },
-                            y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#94A3B8',
-                                font: { size: 10 } } }
-                        }
-                    }
-                });
-            }
-
-            const ctxLive = document.getElementById('liveChart1')?.getContext('2d');
-            if (ctxLive && !state.chartInstances.liveChart1) {
-                state.chartInstances.liveChart1 = new Chart(ctxLive, {
-                    type: 'line',
-                    data: {
-                        labels: ['Now', '5s', '10s', '15s', '20s', '25s', '30s'],
-                        datasets: [{
-                            label: 'TPS',
-                            data: [0, 0, 0, 0, 0, 0, 0],
-                            borderColor: '#2563EB',
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            tension: 0.4,
-                        }, {
-                            label: 'Latency (ms)',
-                            data: [0, 0, 0, 0, 0, 0, 0],
-                            borderColor: '#F59E0B',
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            tension: 0.4,
-                            yAxisID: 'y1',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#94A3B8', font: { size: 11 } } } },
-                        scales: {
-                            x: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#64748B',
-                                font: { size: 9 } } },
-                            y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#64748B',
-                                font: { size: 10 } } },
-                            y1: { position: 'right', grid: { display: false }, ticks: { color: '#64748B',
-                                    font: { size: 10 } } }
-                        }
-                    }
-                });
-            }
-
-            const ctxAI = document.getElementById('aiChart1')?.getContext('2d');
-            if (ctxAI && !state.chartInstances.aiChart1) {
-                state.chartInstances.aiChart1 = new Chart(ctxAI, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Equities', 'FX', 'Rates', 'Credit', 'Commodities'],
-                        datasets: [{ label: 'Confidence %', data: [0, 0, 0, 0, 0],
-                            backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#EF4444', '#06B6D4'],
-                            borderRadius: 4 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#94A3B8',
-                                font: { size: 11 } } },
-                            y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#94A3B8',
-                                font: { size: 10 }, callback: v => v + '%' } }
-                        }
-                    }
-                });
-            }
-
-            const ctxSettle = document.getElementById('settleChart1')?.getContext('2d');
-            if (ctxSettle && !state.chartInstances.settleChart1) {
-                state.chartInstances.settleChart1 = new Chart(ctxSettle, {
-                    type: 'line',
-                    data: {
-                        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
-                        datasets: [{
-                            label: 'Completed',
-                            data: [0, 0, 0, 0, 0, 0],
-                            borderColor: '#10B981',
-                            fill: true,
-                            backgroundColor: 'rgba(16,185,129,0.08)',
-                            tension: 0.4,
-                            pointRadius: 2,
-                        }, {
-                            label: 'Pending',
-                            data: [0, 0, 0, 0, 0, 0],
-                            borderColor: '#F59E0B',
-                            fill: true,
-                            backgroundColor: 'rgba(245,158,11,0.08)',
-                            tension: 0.4,
-                            pointRadius: 2,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#94A3B8', font: { size: 11 } } } },
-                        scales: {
-                            x: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#64748B',
-                                font: { size: 10 } } },
-                            y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#64748B',
-                                font: { size: 10 } } }
-                        }
-                    }
-                });
-            }
-
-            const ctxLiq = document.getElementById('liqChart1')?.getContext('2d');
-            if (ctxLiq && !state.chartInstances.liqChart1) {
-                state.chartInstances.liqChart1 = new Chart(ctxLiq, {
-                    type: 'bar',
-                    data: {
-                        labels: ['USD', 'EUR', 'GBP', 'JPY', 'CHF'],
-                        datasets: [{ label: 'Liquidity (B)', data: [0, 0, 0, 0, 0],
-                            backgroundColor: ['#2563EB', '#06B6D4', '#10B981', '#F59E0B', '#EF4444'],
-                            borderRadius: 4 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#94A3B8',
-                                font: { size: 11 } } },
-                            y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#94A3B8',
-                                font: { size: 10 }, callback: v => getCurrencySymbol() + v + 'B' } }
-                        }
-                    }
-                });
-            }
-
-            const ctxVar = document.getElementById('varChart1')?.getContext('2d');
-            if (ctxVar && !state.chartInstances.varChart1) {
-                state.chartInstances.varChart1 = new Chart(ctxVar, {
-                    type: 'line',
-                    data: {
-                        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-                        datasets: [{
-                            label: 'VaR (M)',
-                            data: [0, 0, 0, 0, 0, 0, 0],
-                            borderColor: '#EF4444',
-                            fill: true,
-                            backgroundColor: 'rgba(239,68,68,0.08)',
-                            tension: 0.4,
-                            pointRadius: 3,
-                            borderWidth: 2,
-                        }, {
-                            label: 'Expected Shortfall',
-                            data: [0, 0, 0, 0, 0, 0, 0],
-                            borderColor: '#F59E0B',
-                            borderDash: [5, 5],
-                            fill: false,
-                            tension: 0.4,
-                            pointRadius: 3,
-                            borderWidth: 2,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#94A3B8', font: { size: 11 } } } },
-                        scales: {
-                            x: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#64748B',
-                                font: { size: 10 } } },
-                            y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#64748B',
-                                font: { size: 10 }, callback: v => getCurrencySymbol() + v + 'M' } }
-                        }
-                    }
-                });
-            }
-
-            const ctxMkt = document.getElementById('marketChart1')?.getContext('2d');
-            if (ctxMkt && !state.chartInstances.marketChart1) {
-                state.chartInstances.marketChart1 = new Chart(ctxMkt, {
-                    type: 'line',
-                    data: {
-                        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
-                        datasets: [{
-                            label: 'NGX ASI',
-                            data: [0, 0, 0, 0, 0, 0],
-                            borderColor: '#2563EB',
-                            borderWidth: 2,
-                            fill: true,
-                            backgroundColor: 'rgba(37,99,235,0.05)',
-                            tension: 0.4,
-                            pointRadius: 1,
-                        }, {
-                            label: 'USD/NGN',
-                            data: [0, 0, 0, 0, 0, 0],
-                            borderColor: '#F59E0B',
-                            borderWidth: 2,
-                            fill: true,
-                            backgroundColor: 'rgba(245,158,11,0.05)',
-                            tension: 0.4,
-                            pointRadius: 1,
-                            yAxisID: 'y1',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#94A3B8', font: { size: 11 } } } },
-                        scales: {
-                            x: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#64748B',
-                                font: { size: 10 } } },
-                            y: { grid: { color: 'rgba(30,41,59,0.3)' }, ticks: { color: '#64748B',
-                                font: { size: 10 } } },
-                            y1: { position: 'right', grid: { display: false }, ticks: { color: '#64748B',
-                                    font: { size: 10 } } }
-                        }
-                    }
-                });
-            }
-
-            const pageCharts = [
-                ['shadowVarChart1', 'bar', ['Standard VaR', 'Shadow VaR'], [0, 0], ['#2563EB', '#EF4444']],
-                ['exposureChart1', 'bar', ['Goldman', 'JPM', 'BNP', 'HSBC', 'Deutsche'], [0, 0, 0, 0, 0],
-                    ['#2563EB', '#10B981', '#F59E0B', '#06B6D4', '#EF4444']
-                ],
-                ['treasuryLiqChart1', 'line', ['O/N', '1W', '1M', '3M', '6M', '1Y'], [0, 0, 0, 0, 0, 0],
-                ['#2563EB']],
-                ['forecastChart1', 'line', ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], [0, 0, 0, 0, 0, 0],
-                ['#10B981']],
-                ['portfolioChart1', 'doughnut', ['Equities', 'Bonds', 'Cash', 'Alternative'], [0, 0, 0, 0],
-                    ['#2563EB', '#10B981', '#F59E0B', '#06B6D4']],
-                ['rehypoChart1', 'bar', ['Goldman', 'JPM', 'BNP', 'HSBC'], [0, 0, 0, 0], ['#2563EB', '#06B6D4',
-                    '#10B981', '#F59E0B'
-                ]],
-                ['predChart1', 'line', ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [0, 0, 0, 0, 0, 0, 0],
-                    ['#2563EB']],
-                ['mlChart1', 'line', ['Epoch 1', 'Epoch 2', 'Epoch 3', 'Epoch 4', 'Epoch 5'], [0, 0, 0, 0, 0],
-                    ['#2563EB']],
-                ['driftChart1', 'bar', ['Feature A', 'Feature B', 'Feature C', 'Feature D'], [0, 0, 0, 0],
-                    ['#F59E0B', '#10B981', '#EF4444', '#06B6D4']],
-                ['metricsChart1', 'line', ['12:00', '12:05', '12:10', '12:15', '12:20', '12:25', '12:30'], [0, 0, 0, 0,
-                    0, 0, 0
-                ], ['#2563EB']],
-                ['impactChart1', 'line', ['10K', '50K', '100K', '500K', '1M', '5M'], [0, 0, 0, 0, 0, 0], ['#F59E0B']],
-                ['clearingChart1', 'line', ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'], [0, 0, 0, 0, 0, 0],
-                    ['#2563EB']],
-                ['stressChart1', 'bar', ['Equities', 'Bonds', 'FX', 'Commodities'], [0, 0, 0, 0], ['#EF4444',
-                    '#F59E0B', '#2563EB', '#06B6D4'
-                ]],
-                ['cashChart1', 'bar', ['USD', 'EUR', 'GBP', 'Other'], [0, 0, 0, 0], ['#2563EB', '#10B981',
-                    '#F59E0B', '#06B6D4'
-                ]],
-                ['fundingChart1', 'doughnut', ['Bonds', 'Loans', 'Deposits', 'Other'], [0, 0, 0, 0], ['#2563EB',
-                    '#10B981', '#F59E0B', '#06B6D4'
-                ]],
-                ['healthChart1', 'bar', ['API', 'DB', 'Cache', 'Queue', 'Worker'], [0, 0, 0, 0, 0],
-                    ['#10B981', '#10B981', '#F59E0B', '#F59E0B', '#10B981']],
-                ['optChart1', 'line', ['Iter 1', 'Iter 2', 'Iter 3', 'Iter 4', 'Iter 5'], [0, 0, 0, 0, 0],
-                ['#2563EB']],
-            ];
-
-            pageCharts.forEach(([id, type, labels, data, colors]) => {
-                const ctx = document.getElementById(id)?.getContext('2d');
-                if (ctx && !state.chartInstances[id]) {
-                    let dataset;
-                    if (type === 'doughnut') {
-                        dataset = { data: data, backgroundColor: colors, borderWidth: 0 };
-                    } else if (type === 'bar') {
-                        dataset = { label: labels[0] || 'Value', data: data, backgroundColor: colors,
-                        borderRadius: 4 };
-                    } else {
-                        dataset = { label: labels[0] || 'Value', data: data, borderColor: colors[0] || '#2563EB',
-                            fill: true, backgroundColor: 'rgba(37,99,235,0.05)', tension: 0.4, pointRadius: 2,
-                            borderWidth: 2 };
-                    }
-                    const config = {
-                        type: type,
-                        data: { labels: labels.length > 1 ? labels : labels.map((_, i) => 'Item ' + (i + 1)),
-                            datasets: [dataset] },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { labels: { color: '#94A3B8', font: { size: 10 } } } },
-                            scales: type !== 'doughnut' ? {
-                                x: { grid: { color: 'rgba(30,41,59,0.2)' }, ticks: { color: '#64748B',
-                                        font: { size: 9 } } },
-                                y: { grid: { color: 'rgba(30,41,59,0.2)' }, ticks: { color: '#64748B',
-                                        font: { size: 9 } } }
-                            } : {}
-                        }
-                    };
-                    if (type === 'doughnut') {
-                        config.options.cutout = '65%';
-                        config.options.plugins.legend.position = 'bottom';
-                    }
-                    state.chartInstances[id] = new Chart(ctx, config);
-                }
-            });
+            // Only initialize charts for the current page
+            initChartsForPage(state.currentPage);
         }
 
         function initChartsForPage(page) {
@@ -7945,20 +6982,369 @@
                 'optimisation': ['optChart1'],
             };
             const chartIds = pageMap[page] || [];
+
+            // Destroy existing charts for this page
+            chartIds.forEach(id => {
+                if (state.chartInstances[id]) {
+                    state.chartInstances[id].destroy();
+                    delete state.chartInstances[id];
+                }
+            });
+
+            // Create charts
             chartIds.forEach(id => {
                 const canvas = document.getElementById(id);
                 if (canvas) {
-                    if (state.chartInstances[id]) {
-                        state.chartInstances[id].destroy();
-                        delete state.chartInstances[id];
+                    const ctx = canvas.getContext('2d');
+                    if (ctx) {
+                        createChart(id, ctx);
                     }
-                    setTimeout(() => initCharts(), 100);
                 }
             });
         }
 
+        function createChart(id, ctx) {
+            const chartConfigs = {
+                'dashboardChart1': {
+                    type: 'line',
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
+                    datasets: [{
+                        label: 'Settlement Volume',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#2563EB',
+                        backgroundColor: 'rgba(37,99,235,0.08)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 2,
+                        borderWidth: 2,
+                    }, {
+                        label: 'Liquidity',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#06B6D4',
+                        backgroundColor: 'rgba(6,182,212,0.08)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 2,
+                        borderWidth: 2,
+                    }],
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'B' } }
+                },
+                'dashboardChart2': {
+                    type: 'doughnut',
+                    labels: ['Equities', 'Bonds', 'FX', 'Commodities'],
+                    datasets: [{ data: [0, 0, 0, 0], backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#06B6D4'],
+                        borderWidth: 0 }],
+                    cutout: '65%',
+                    legendPosition: 'bottom',
+                },
+                'execChart1': {
+                    type: 'bar',
+                    labels: ['Retail', 'Corporate', 'Investment', 'Treasury'],
+                    datasets: [{ label: 'Revenue (M)', data: [0, 0, 0, 0],
+                        backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#06B6D4'], borderRadius: 4 }],
+                    legendDisplay: false,
+                },
+                'liveChart1': {
+                    type: 'line',
+                    labels: ['Now', '5s', '10s', '15s', '20s', '25s', '30s'],
+                    datasets: [{
+                        label: 'TPS',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#2563EB',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                    }, {
+                        label: 'Latency (ms)',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#F59E0B',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        yAxisID: 'y1',
+                    }],
+                    scales: { y1: { position: 'right', grid: { display: false } } }
+                },
+                'marketChart1': {
+                    type: 'line',
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [{
+                        label: 'NGX ASI',
+                        data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#2563EB',
+                        borderWidth: 2,
+                        fill: true,
+                        backgroundColor: 'rgba(37,99,235,0.05)',
+                        tension: 0.4,
+                        pointRadius: 1,
+                    }, {
+                        label: 'USD/NGN',
+                        data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#F59E0B',
+                        borderWidth: 2,
+                        fill: true,
+                        backgroundColor: 'rgba(245,158,11,0.05)',
+                        tension: 0.4,
+                        pointRadius: 1,
+                        yAxisID: 'y1',
+                    }],
+                    scales: { y1: { position: 'right', grid: { display: false } } }
+                },
+                'aiChart1': {
+                    type: 'bar',
+                    labels: ['Equities', 'FX', 'Rates', 'Credit', 'Commodities'],
+                    datasets: [{ label: 'Confidence %', data: [0, 0, 0, 0, 0],
+                        backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#EF4444', '#06B6D4'],
+                        borderRadius: 4 }],
+                    legendDisplay: false,
+                    scales: { y: { callback: v => v + '%' } }
+                },
+                'settleChart1': {
+                    type: 'line',
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [{
+                        label: 'Completed',
+                        data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#10B981',
+                        fill: true,
+                        backgroundColor: 'rgba(16,185,129,0.08)',
+                        tension: 0.4,
+                        pointRadius: 2,
+                    }, {
+                        label: 'Pending',
+                        data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#F59E0B',
+                        fill: true,
+                        backgroundColor: 'rgba(245,158,11,0.08)',
+                        tension: 0.4,
+                        pointRadius: 2,
+                    }]
+                },
+                'liqChart1': {
+                    type: 'bar',
+                    labels: ['USD', 'EUR', 'GBP', 'JPY', 'CHF'],
+                    datasets: [{ label: 'Liquidity (B)', data: [0, 0, 0, 0, 0],
+                        backgroundColor: ['#2563EB', '#06B6D4', '#10B981', '#F59E0B', '#EF4444'],
+                        borderRadius: 4 }],
+                    legendDisplay: false,
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'B' } }
+                },
+                'varChart1': {
+                    type: 'line',
+                    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                    datasets: [{
+                        label: 'VaR (M)',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#EF4444',
+                        fill: true,
+                        backgroundColor: 'rgba(239,68,68,0.08)',
+                        tension: 0.4,
+                        pointRadius: 3,
+                        borderWidth: 2,
+                    }, {
+                        label: 'Expected Shortfall',
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#F59E0B',
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        borderWidth: 2,
+                    }],
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'M' } }
+                },
+                'shadowVarChart1': {
+                    type: 'bar',
+                    labels: ['Standard VaR', 'Shadow VaR'],
+                    datasets: [{ label: 'Value (M)', data: [0, 0],
+                        backgroundColor: ['#2563EB', '#EF4444'], borderRadius: 4 }],
+                    legendDisplay: false,
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'M' } }
+                },
+                'exposureChart1': {
+                    type: 'bar',
+                    labels: ['Goldman', 'JPM', 'BNP', 'HSBC', 'Deutsche'],
+                    datasets: [{ label: 'Exposure (M)', data: [0, 0, 0, 0, 0],
+                        backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#06B6D4', '#EF4444'],
+                        borderRadius: 4 }],
+                    legendDisplay: false,
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'M' } }
+                },
+                'treasuryLiqChart1': {
+                    type: 'line',
+                    labels: ['O/N', '1W', '1M', '3M', '6M', '1Y'],
+                    datasets: [{ label: 'Liquidity (B)', data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#2563EB', fill: true,
+                        backgroundColor: 'rgba(37,99,235,0.05)', tension: 0.4, pointRadius: 3 }],
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'B' } }
+                },
+                'forecastChart1': {
+                    type: 'line',
+                    labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{ label: 'Forecast (B)', data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#10B981', fill: true,
+                        backgroundColor: 'rgba(16,185,129,0.05)', tension: 0.4, pointRadius: 3 }],
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'B' } }
+                },
+                'portfolioChart1': {
+                    type: 'doughnut',
+                    labels: ['Equities', 'Bonds', 'Cash', 'Alternative'],
+                    datasets: [{ data: [0, 0, 0, 0], backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#06B6D4'],
+                        borderWidth: 0 }],
+                    cutout: '65%',
+                    legendPosition: 'bottom',
+                },
+                'rehypoChart1': {
+                    type: 'bar',
+                    labels: ['Goldman', 'JPM', 'BNP', 'HSBC'],
+                    datasets: [{ label: 'Rehypo (B)', data: [0, 0, 0, 0],
+                        backgroundColor: ['#2563EB', '#06B6D4', '#10B981', '#F59E0B'], borderRadius: 4 }],
+                    legendDisplay: false,
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'B' } }
+                },
+                'predChart1': {
+                    type: 'line',
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{ label: 'Prediction', data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#2563EB', fill: true,
+                        backgroundColor: 'rgba(37,99,235,0.05)', tension: 0.4, pointRadius: 3 }]
+                },
+                'mlChart1': {
+                    type: 'line',
+                    labels: ['Epoch 1', 'Epoch 2', 'Epoch 3', 'Epoch 4', 'Epoch 5'],
+                    datasets: [{ label: 'Loss', data: [0, 0, 0, 0, 0],
+                        borderColor: '#2563EB', fill: true,
+                        backgroundColor: 'rgba(37,99,235,0.05)', tension: 0.4, pointRadius: 3 }]
+                },
+                'driftChart1': {
+                    type: 'bar',
+                    labels: ['Feature A', 'Feature B', 'Feature C', 'Feature D'],
+                    datasets: [{ label: 'Drift', data: [0, 0, 0, 0],
+                        backgroundColor: ['#F59E0B', '#10B981', '#EF4444', '#06B6D4'], borderRadius: 4 }],
+                    legendDisplay: false,
+                },
+                'metricsChart1': {
+                    type: 'line',
+                    labels: ['12:00', '12:05', '12:10', '12:15', '12:20', '12:25', '12:30'],
+                    datasets: [{ label: 'CPU %', data: [0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#2563EB', fill: true,
+                        backgroundColor: 'rgba(37,99,235,0.05)', tension: 0.4, pointRadius: 2 }]
+                },
+                'impactChart1': {
+                    type: 'line',
+                    labels: ['10K', '50K', '100K', '500K', '1M', '5M'],
+                    datasets: [{ label: 'Impact (bp)', data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#F59E0B', fill: true,
+                        backgroundColor: 'rgba(245,158,11,0.05)', tension: 0.4, pointRadius: 3 }]
+                },
+                'clearingChart1': {
+                    type: 'line',
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [{ label: 'Clearing Volume', data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#2563EB', fill: true,
+                        backgroundColor: 'rgba(37,99,235,0.05)', tension: 0.4, pointRadius: 2 }]
+                },
+                'stressChart1': {
+                    type: 'bar',
+                    labels: ['Equities', 'Bonds', 'FX', 'Commodities'],
+                    datasets: [{ label: 'Impact (M)', data: [0, 0, 0, 0],
+                        backgroundColor: ['#EF4444', '#F59E0B', '#2563EB', '#06B6D4'], borderRadius: 4 }],
+                    legendDisplay: false,
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'M' } }
+                },
+                'cashChart1': {
+                    type: 'bar',
+                    labels: ['USD', 'EUR', 'GBP', 'Other'],
+                    datasets: [{ label: 'Cash (B)', data: [0, 0, 0, 0],
+                        backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#06B6D4'], borderRadius: 4 }],
+                    legendDisplay: false,
+                    scales: { y: { callback: v => getCurrencySymbol() + v + 'B' } }
+                },
+                'fundingChart1': {
+                    type: 'doughnut',
+                    labels: ['Bonds', 'Loans', 'Deposits', 'Other'],
+                    datasets: [{ data: [0, 0, 0, 0], backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#06B6D4'],
+                        borderWidth: 0 }],
+                    cutout: '65%',
+                    legendPosition: 'bottom',
+                },
+                'healthChart1': {
+                    type: 'bar',
+                    labels: ['API', 'DB', 'Cache', 'Queue', 'Worker'],
+                    datasets: [{ label: 'Health %', data: [0, 0, 0, 0, 0],
+                        backgroundColor: ['#10B981', '#10B981', '#F59E0B', '#F59E0B', '#10B981'],
+                        borderRadius: 4 }],
+                    legendDisplay: false,
+                    scales: { y: { callback: v => v + '%' } }
+                },
+                'optChart1': {
+                    type: 'line',
+                    labels: ['Iter 1', 'Iter 2', 'Iter 3', 'Iter 4', 'Iter 5'],
+                    datasets: [{ label: 'Objective', data: [0, 0, 0, 0, 0],
+                        borderColor: '#2563EB', fill: true,
+                        backgroundColor: 'rgba(37,99,235,0.05)', tension: 0.4, pointRadius: 3 }]
+                }
+            };
+
+            const config = chartConfigs[id];
+            if (!config) return;
+
+            const datasets = config.datasets.map(ds => {
+                const newDs = { ...ds };
+                // Ensure fill is properly set
+                if (newDs.fill === undefined) newDs.fill = false;
+                return newDs;
+            });
+
+            const chartConfig = {
+                type: config.type,
+                data: {
+                    labels: config.labels,
+                    datasets: datasets,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: config.legendDisplay !== false,
+                            labels: { color: '#94A3B8', font: { size: 10 }, boxWidth: 12, padding: 10 }
+                        }
+                    },
+                    scales: config.type !== 'doughnut' ? {
+                        x: {
+                            grid: { color: 'rgba(30,41,59,0.2)' },
+                            ticks: { color: '#64748B', font: { size: 9 } }
+                        },
+                        y: {
+                            grid: { color: 'rgba(30,41,59,0.2)' },
+                            ticks: { color: '#64748B', font: { size: 9 }, callback: config.scales?.y?.callback }
+                        }
+                    } : {}
+                }
+            };
+
+            if (config.type === 'doughnut') {
+                chartConfig.options.cutout = config.cutout || '65%';
+                if (config.legendPosition) {
+                    chartConfig.options.plugins.legend.position = config.legendPosition;
+                }
+            }
+
+            // Handle additional y-axis for dual-axis charts
+            if (config.scales?.y1) {
+                chartConfig.options.scales.y1 = {
+                    position: 'right',
+                    grid: { display: false },
+                    ticks: { color: '#64748B', font: { size: 9 } }
+                };
+            }
+
+            state.chartInstances[id] = new Chart(ctx, chartConfig);
+        }
+
         // ================================================================
-        // 41. SYNTHETIC MONITORING
+        // 35. SYNTHETIC MONITORING
         // ================================================================
         function updateSyntheticStatus() {
             const status = state.syntheticTest;
@@ -8011,7 +7397,7 @@
         }
 
         // ================================================================
-        // 42. INITIALISATION
+        // 36. INITIALISATION
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('chronos_theme') || CONFIG.DEFAULT_THEME;
@@ -8091,16 +7477,12 @@
         window.exportTransactions = exportTransactions;
         window.refreshTransactions = refreshTransactions;
         window.filterTransactions = filterTransactions;
-        window.processPayment = processPayment;
         window.resolveMargin = resolveMargin;
-        window.openAddUserModal = openAddUserModal;
         window.approveUser = approveUser;
         window.rejectUser = rejectUser;
-        window.editUser = editUser;
-        window.deleteUser = deleteUser;
+        window.refreshPendingUsers = refreshPendingUsers;
         window.openGenerateApiKeyModal = openGenerateApiKeyModal;
         window.revokeApiKey = revokeApiKey;
-        window.openAddRoleModal = openAddRoleModal;
         window.openAddTenantModal = openAddTenantModal;
         window.activateTenant = activateTenant;
         window.suspendTenant = suspendTenant;
@@ -8109,17 +7491,9 @@
         window.approveDevice = approveDevice;
         window.revokeDevice = revokeDevice;
         window.deleteDevice = deleteDevice;
-        window.openAddWebhookModal = openAddWebhookModal;
-        window.testWebhook = testWebhook;
-        window.openAddAutomationModal = openAddAutomationModal;
-        window.runAutomation = runAutomation;
-        window.triggerBackup = triggerBackup;
-        window.triggerRestore = triggerRestore;
-        window.restoreBackup = restoreBackup;
         window.runLpOptimiser = runLpOptimiser;
         window.runShadowVarSim = runShadowVarSim;
         window.retrainModel = retrainModel;
-        window.savePermissions = savePermissions;
         window.filterLogs = filterLogs;
         window.refreshLogs = refreshLogs;
         window.streamLogs = streamLogs;
@@ -8143,10 +7517,11 @@
         window.CONFIG = CONFIG;
 
         console.log('🚀 CHRONOS v7 — Enterprise Banking Platform (Production Ready)');
-        console.log('✅ All 70+ endpoints integrated');
+        console.log('✅ All working endpoints integrated');
         console.log('🔐 Role-based access: user, admin, developer');
-        console.log('📊 Full CRUD: Users, Roles, API Keys, Webhooks, Automation, Tenants');
-        console.log(`🔗 API Base: ${API.base}`);
+        console.log('📊 Core pages: Dashboard, Trades, Risk, Collateral, AI, Monitoring');
+        console.log('🔗 API Base: ' + API.base);
+        console.log('🧹 Dead features removed: User CRUD, Roles, Permissions, Webhooks, Backup, Automation');
     </script>
 </body>
 </html>
