@@ -1,13 +1,13 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>LIQUIDATED Referral Awards — Unlock Extraordinary Rewards</title>
-<meta name="description" content="Every referral brings you closer to something extraordinary. Confirm 5 investors, unlock a reward. Go all the way to 2,000 — and we'll put you in a car." />
+<meta name="description" content="Every referral brings you closer to something extraordinary. Confirm 5 investors, unlock a reward. Go all the way to 2,000+ — and we'll put you in a car." />
 <meta name="theme-color" content="#04130d" />
 <meta property="og:title" content="LIQUIDATED Referral Awards" />
-<meta property="og:description" content="12 tiers. Real rewards. From branded merch to a luxury vehicle." />
+<meta property="og:description" content="16 tiers. Real rewards. From branded merch to a luxury vehicle." />
 <meta property="og:type" content="website" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -81,7 +81,6 @@ body{
 
 ::selection{background:rgba(212,175,55,.3);color:#fff;}
 
-/* Scrollbar */
 ::-webkit-scrollbar{width:9px;height:9px;}
 ::-webkit-scrollbar-track{background:rgba(255,255,255,.02);}
 ::-webkit-scrollbar-thumb{background:rgba(212,175,55,.28);border-radius:99px;}
@@ -127,7 +126,6 @@ body.tab-hidden .orb{animation-play-state:paused;}
   .orb{opacity:.26;filter:blur(60px);}
 }
 
-/* Grid texture overlay */
 .ambient::after{
   content:'';position:absolute;inset:0;
   background-image:linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
@@ -357,6 +355,32 @@ body.has-dock #bottomDock{display:block;}
   50%{filter:drop-shadow(0 6px 16px rgba(0,0,0,.5)) drop-shadow(0 0 14px currentColor);}
 }
 
+/* Tier image thumbnails */
+.tier-thumb{
+  border-radius:14px;overflow:hidden;flex-shrink:0;
+  border:1px solid rgba(212,175,55,.3);position:relative;
+  background:linear-gradient(140deg,#0a261a,#04130d);
+}
+.tier-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform var(--t-base) var(--ease-base);
+}
+.tier-card:hover .tier-thumb img{transform:scale(1.06);}
+.tier-thumb::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  box-shadow:inset 0 0 22px rgba(0,0,0,.5);
+}
+
+.tier-hero-img{
+  position:absolute;inset:0;z-index:1;
+  background-size:cover;background-position:center;
+  opacity:.85;
+}
+.tier-hero-veil{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,rgba(4,19,13,.55) 0%,rgba(4,19,13,.88) 55%,rgba(4,19,13,.98) 100%);
+}
+
 /* Vertical ladder */
 .ladder{position:relative;padding-left:6px;}
 .ladder-rail{
@@ -410,13 +434,13 @@ body.has-dock #bottomDock{display:block;}
   color:#07160f;font-size:.6rem;font-weight:800;letter-spacing:.12em;
   padding:4px 38px;box-shadow:0 4px 14px rgba(0,0,0,.4);
   animation:ribbonPulse 2.4s ease-in-out infinite;
+  z-index:3;
 }
 @keyframes ribbonPulse{0%,100%{filter:brightness(1);}50%{filter:brightness(1.22);}}
 
 .tier-card.shake{animation:shake .42s var(--ease-fast);}
 @keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}}
 
-/* Grid view */
 .tier-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
 
 /* ==========================================================================
@@ -441,7 +465,6 @@ body.has-dock #bottomDock{display:block;}
 .ring-fg{transition:stroke-dashoffset 1.3s var(--ease-base);}
 .ring-label{fill:var(--text-hi);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;}
 
-/* Status pipeline */
 .pipeline{display:flex;align-items:center;gap:0;margin:14px 0;}
 .pipe-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;}
 .pipe-dot{
@@ -481,7 +504,6 @@ body.has-dock #bottomDock{display:block;}
 .field-error{font-size:.7rem;color:#fda4af;margin-top:.3rem;display:none;}
 .field-error.show{display:block;animation:viewIn .24s var(--ease-base);}
 
-/* Step progress */
 .steps{display:flex;gap:6px;margin-bottom:22px;}
 .steps .s{
   flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.09);
@@ -551,7 +573,7 @@ body.has-dock #bottomDock{display:block;}
 @keyframes toastOut{to{opacity:0;transform:translateX(60px) scale(.94);}}
 
 /* ==========================================================================
-   REVEAL ANIMATIONS
+   REVEAL / STAGGER
    ========================================================================== */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease-base),transform .7s var(--ease-base);}
 .reveal.in{opacity:1;transform:none;}
@@ -694,7 +716,6 @@ body.has-dock #bottomDock{display:block;}
   padding:.28rem .68rem;font-size:.7rem;font-weight:700;color:var(--emerald-400);
 }
 
-/* Automation dock */
 #autoBtn{
   position:fixed;right:14px;bottom:calc(var(--dock-h) + 18px + env(safe-area-inset-bottom));
   z-index:880;width:46px;height:46px;border-radius:50%;
@@ -715,7 +736,6 @@ body:not(.has-dock) #autoBtn{bottom:18px;}
 .auto-log .wn{color:var(--warn);}
 .auto-log .er{color:#fda4af;}
 
-/* Perf HUD */
 #perfHud{
   position:fixed;left:8px;bottom:calc(var(--dock-h) + 18px + env(safe-area-inset-bottom));
   z-index:880;font-family:'JetBrains Mono',monospace;font-size:.62rem;
@@ -726,11 +746,20 @@ body:not(.has-dock) #autoBtn{bottom:18px;}
 body:not(.has-dock) #perfHud{bottom:18px;}
 #perfHud.on{display:block;}
 
+/* Live/mock mode indicator */
+#modeTag{
+  position:fixed;left:8px;top:calc(var(--top-h) + env(safe-area-inset-top) + 6px);
+  z-index:885;font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  background:rgba(0,0,0,.6);border:1px solid rgba(212,175,55,.22);
+  border-radius:6px;padding:3px 7px;color:var(--text-lo);
+  letter-spacing:.08em;pointer-events:none;opacity:.7;
+}
+#modeTag.live{color:var(--emerald-400);border-color:rgba(16,185,129,.32);}
+
 @media (min-width:992px){
   #view{padding-left:24px;padding-right:24px;}
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{
     animation-duration:.001ms!important;animation-iteration-count:1!important;
@@ -739,7 +768,6 @@ body:not(.has-dock) #perfHud{bottom:18px;}
   .reveal{opacity:1;transform:none;}
 }
 
-/* Utility */
 .mw-640{max-width:640px;}
 .mw-780{max-width:780px;}
 .mw-900{max-width:900px;}
@@ -772,7 +800,6 @@ body:not(.has-dock) #perfHud{bottom:18px;}
 
 <body data-bs-theme="dark">
 
-<!-- ======================= AMBIENT BACKGROUND ======================= -->
 <div class="ambient" aria-hidden="true">
   <span class="orb orb-1"></span>
   <span class="orb orb-2"></span>
@@ -781,7 +808,6 @@ body:not(.has-dock) #perfHud{bottom:18px;}
 
 <canvas id="confettiCanvas" aria-hidden="true"></canvas>
 
-<!-- ======================= APP SHELL ======================= -->
 <div id="app">
   <header id="topbar"></header>
   <main id="view" role="main"></main>
@@ -795,18 +821,45 @@ body:not(.has-dock) #perfHud{bottom:18px;}
   <i class="bi bi-cpu"></i>
 </button>
 <div id="perfHud"></div>
+<div id="modeTag">MODE · DEMO</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 /* ==========================================================================
-   LIQUIDATED REFERRAL AWARDS — APPLICATION CORE
-   Single-file vanilla SPA. Mock backend via localStorage.
+   LIQUIDATED REFERRAL AWARDS — PRODUCTION BUILD (16 TIERS)
+   Single-file vanilla SPA. Live API + mock fallback.
    ========================================================================== */
 (function(){
 'use strict';
 
 /* ==========================================================================
-   0. UTILITIES
+   0. CONFIGURATION
+   ========================================================================== */
+const CONFIG = {
+  // Production API (Render backend)
+  API_PROD:  'https://real-wealthy-1-gwiz.onrender.com/api',
+  // Local dev API
+  API_LOCAL: 'http://localhost:10000/api',
+  // Backend's main app registration page (for referral links)
+  MAIN_APP:  'https://lucky-investment-eta.vercel.app',
+  // Tier image host
+  IMAGES:    'https://liquidated-zeta.vercel.app',
+
+  // Auto-detect mode: try live first, fall back to mock if unreachable
+  preferLive: true,
+  // Timeout for live ping before falling back (ms)
+  liveProbeTimeout: 3500,
+
+  TOKEN_KEY: 'liq_awards_token',
+  USER_KEY:  'liq_awards_user'
+};
+
+const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? CONFIG.API_LOCAL
+  : CONFIG.API_PROD;
+
+/* ==========================================================================
+   1. UTILITIES
    ========================================================================== */
 const $  = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
@@ -839,6 +892,12 @@ function maskName(full){
   const last  = parts[1] ? ' ' + parts[1][0] + '.' : '';
   return first + last;
 }
+function maskEmail(email){
+  if(!email) return '';
+  const [u, d] = email.split('@');
+  if(!d) return email;
+  return u.slice(0, 2) + '***@' + d;
+}
 function initials(name){
   return String(name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
 }
@@ -865,27 +924,153 @@ function copyText(text){
 }
 
 /* ==========================================================================
-   1. TIER DEFINITIONS (seed data — mirrors backend AwardTier model)
+   2. TIER IMAGE MAP — files live in the awards frontend repo (root)
    ========================================================================== */
-const TIER_SEED = [
-  { tier_number:1,  slug:'starter',              title:'Starter',              referrals_required:5,    reward_name:'Branded T-shirt + Digital Appreciation Badge', reward_description:'A premium LIQUIDATED branded tee shipped to your door, plus a permanent digital appreciation badge on your profile.', reward_category:'merch',       reward_icon:'🎁', accent_color:'#a8861f', estimated_value_ngn:25000,  requires_admin_approval:true, terms:'Available to all confirmed referrers. One claim per account.' },
-  { tier_number:2,  slug:'bronze-ambassador',    title:'Bronze Ambassador',    referrals_required:15,   reward_name:'Premium Wireless Earbuds',                     reward_description:'High-fidelity wireless earbuds with active noise cancellation and a compact charging case.',                       reward_category:'electronics', reward_icon:'🎧', accent_color:'#cd7f32', estimated_value_ngn:85000,  requires_admin_approval:true, terms:'KYC verification required before fulfilment.' },
-  { tier_number:3,  slug:'silver-ambassador',    title:'Silver Ambassador',    referrals_required:30,   reward_name:'Smart Watch',                                  reward_description:'A modern smart watch with health tracking, notifications, and multi-day battery life.',                          reward_category:'electronics', reward_icon:'⌚', accent_color:'#c0c0c0', estimated_value_ngn:180000, requires_admin_approval:true, terms:'KYC verification required before fulfilment.' },
-  { tier_number:4,  slug:'gold-ambassador',      title:'Gold Ambassador',      referrals_required:50,   reward_name:'Premium Branded Backpack + Exclusive VIP Badge',reward_description:'A durable premium backpack with embroidered LIQUIDATED branding, plus an exclusive VIP badge on your profile.',   reward_category:'merch',       reward_icon:'🎒', accent_color:'#d4af37', estimated_value_ngn:120000, requires_admin_approval:true, terms:'VIP badge is non-transferable.' },
-  { tier_number:5,  slug:'platinum-ambassador',  title:'Platinum Ambassador',  referrals_required:100,  reward_name:'High-Quality Smartphone',                      reward_description:'A current-generation smartphone, unlocked and ready to use. Colour subject to availability.',                    reward_category:'electronics', reward_icon:'📱', accent_color:'#e5e4e2', estimated_value_ngn:650000, requires_admin_approval:true, terms:'KYC verification mandatory. Delivery within Nigeria only.' },
-  { tier_number:6,  slug:'diamond-ambassador',   title:'Diamond Ambassador',   referrals_required:170,  reward_name:'Premium Tablet',                               reward_description:'A premium tablet with stylus support — built for productivity and entertainment.',                            reward_category:'electronics', reward_icon:'💻', accent_color:'#b9f2ff', estimated_value_ngn:900000, requires_admin_approval:true, terms:'KYC verification mandatory. Delivery within Nigeria only.' },
-  { tier_number:7,  slug:'elite-ambassador',     title:'Elite Ambassador',     referrals_required:280,  reward_name:'High-End Laptop',                              reward_description:'A high-performance laptop suitable for professional work, creative projects, and development.',              reward_category:'electronics', reward_icon:'💻', accent_color:'#10b981', estimated_value_ngn:1800000,requires_admin_approval:true, terms:'Specification confirmed with you before dispatch.' },
-  { tier_number:8,  slug:'executive-ambassador', title:'Executive Ambassador', referrals_required:500,  reward_name:'Premium Smart TV',                             reward_description:'A large-format 4K smart television with HDR support and built-in streaming apps.',                          reward_category:'electronics', reward_icon:'📺', accent_color:'#059669', estimated_value_ngn:2200000,requires_admin_approval:true, terms:'Installation support available in select cities.' },
-  { tier_number:9,  slug:'crown-ambassador',     title:'Crown Ambassador',     referrals_required:1000, reward_name:'Luxury Smartphone / Flagship Phone',           reward_description:'The flagship device of your choice from a curated list of premium smartphones.',                            reward_category:'electronics', reward_icon:'💎', accent_color:'#f6d054', estimated_value_ngn:1500000,requires_admin_approval:true, terms:'Model selection confirmed with your account manager.' },
-  { tier_number:10, slug:'royal-partner',        title:'Royal Partner',        referrals_required:1500, reward_name:'Major Lifestyle Reward — Car Contribution',    reward_description:'A substantial cash contribution toward a vehicle of your choice, paid directly to a verified dealer.',       reward_category:'vehicle',     reward_icon:'🚘', accent_color:'#fbbf24', estimated_value_ngn:5000000,requires_admin_approval:true, terms:'Paid to a verified dealer only. Documentation required.' },
-  { tier_number:11, slug:'elite-partner',        title:'Elite Partner',        referrals_required:2000, reward_name:'LIQUIDATED Elite Ambassador Award + Luxury Vehicle', reward_description:'Our flagship award: a luxury vehicle plus formal recognition as a LIQUIDATED Elite Ambassador.',     reward_category:'vehicle',     reward_icon:'🏆', accent_color:'#e9bd3d', estimated_value_ngn:25000000,requires_admin_approval:true,terms:'Subject to a formal award agreement and AML review.' },
-  { tier_number:12, slug:'strategic-partner',    title:'Strategic Partner',    referrals_required:2001, reward_name:'Strategic Partnership Program + Dedicated Account Manager', reward_description:'An invitation into the LIQUIDATED Strategic Partnership Program with a dedicated account manager and revenue share.', reward_category:'partnership', reward_icon:'🤝', accent_color:'#34d399', estimated_value_ngn:0, requires_admin_approval:true, terms:'Entry by invitation following partnership review.' }
-];
+const TIER_IMAGES = {
+  1:  'IMG_20260924_130915.png',
+  2:  'IMG_20260924_130957.png',
+  3:  'IMG_20260924_131037.png',
+  4:  'IMG_20260924_131125.png',
+  5:  'IMG_20260924_131216.png',
+  6:  'IMG_20260924_131253.png',
+  7:  'IMG_20260924_131333.png',
+  8:  'IMG_20260924_131415.png',
+  9:  'IMG_20260924_131501.png',
+  10: 'IMG_20260924_131538.png',
+  11: 'IMG_20260924_131620.png',
+  12: 'IMG_20260924_131711.png',
+  13: 'IMG_20260924_131748.png',
+  14: 'IMG_20260924_131825.png',
+  15: 'IMG_20260924_131907.png',
+  16: 'IMG_20260924_131950.png'
+};
+
+function tierImage(tier){
+  if(!tier) return '';
+  // Prefer an absolute non-Unsplash URL from the backend
+  if(tier.image_url && /^https?:\/\//.test(tier.image_url) && !tier.image_url.includes('unsplash')){
+    return tier.image_url;
+  }
+  const fn = TIER_IMAGES[tier.tier_number];
+  return fn ? (CONFIG.IMAGES + '/' + fn) : '';
+}
 
 /* ==========================================================================
-   2. DATABASE LAYER (localStorage-backed mock of MongoDB)
+   3. TIER DEFINITIONS — 16 TIERS (mirrors backend AwardTier model)
    ========================================================================== */
-const DB_KEY = 'liquidated_awards_db_v3';
+const TIER_SEED = [
+  { tier_number:1,  slug:'starter',                  title:'Starter',                  referrals_required:5,    reward_name:'Branded T-Shirt + Digital Appreciation Badge', reward_description:'A premium LIQUIDATED branded tee shipped to your door, plus a permanent digital appreciation badge on your profile.', reward_category:'merch',       reward_icon:'👕', accent_color:'#a8861f', estimated_value_ngn:25000,   requires_admin_approval:true, terms:'One claim per account.' },
+  { tier_number:2,  slug:'silver-ambassador',        title:'Silver Ambassador',        referrals_required:30,   reward_name:'Smart Watch',                                  reward_description:'A modern smart watch with health tracking, notifications, and multi-day battery life.',                          reward_category:'electronics', reward_icon:'⌚', accent_color:'#c0c0c0', estimated_value_ngn:180000,  requires_admin_approval:true, terms:'KYC verification required before fulfilment.' },
+  { tier_number:3,  slug:'gold-ambassador',          title:'Gold Ambassador',          referrals_required:50,   reward_name:'Premium Backpack + Exclusive VIP Badge',       reward_description:'A durable premium backpack with embroidered LIQUIDATED branding, plus an exclusive VIP badge on your profile.', reward_category:'merch',       reward_icon:'🎒', accent_color:'#d4af37', estimated_value_ngn:120000,  requires_admin_approval:true, terms:'VIP badge is non-transferable.' },
+  { tier_number:4,  slug:'platinum-ambassador',      title:'Platinum Ambassador',      referrals_required:75,   reward_name:'Premium Gift Package',                         reward_description:'A curated premium gift package delivered to your door.',                                                    reward_category:'merch',       reward_icon:'🎁', accent_color:'#e5e4e2', estimated_value_ngn:350000,  requires_admin_approval:true, terms:'Contents may vary by availability.' },
+  { tier_number:5,  slug:'diamond-ambassador',       title:'Diamond Ambassador',       referrals_required:100,  reward_name:'Smartphone',                                   reward_description:'A current-generation smartphone, unlocked and ready to use. Colour subject to availability.',                reward_category:'electronics', reward_icon:'📱', accent_color:'#b9f2ff', estimated_value_ngn:650000,  requires_admin_approval:true, terms:'KYC verification mandatory. Delivery within Nigeria only.' },
+  { tier_number:6,  slug:'royal-ambassador',         title:'Royal Ambassador',         referrals_required:150,  reward_name:'Tablet',                                       reward_description:'A premium tablet with stylus support — built for productivity and entertainment.',                          reward_category:'electronics', reward_icon:'📲', accent_color:'#f6d054', estimated_value_ngn:900000,  requires_admin_approval:true, terms:'KYC verification mandatory. Delivery within Nigeria only.' },
+  { tier_number:7,  slug:'diamond-ambassador-award', title:'Diamond Ambassador Award', referrals_required:170,  reward_name:'Diamond Ambassador Award',                     reward_description:'Formal recognition as a LIQUIDATED Diamond Ambassador with a physical award trophy.',                       reward_category:'merch',       reward_icon:'🏅', accent_color:'#b9f2ff', estimated_value_ngn:250000,  requires_admin_approval:true, terms:'Physical award shipped by courier.' },
+  { tier_number:8,  slug:'elite-ambassador',         title:'Elite Ambassador',         referrals_required:250,  reward_name:'Premium Laptop',                               reward_description:'A high-performance laptop suitable for professional work, creative projects, and development.',              reward_category:'electronics', reward_icon:'💻', accent_color:'#10b981', estimated_value_ngn:1800000, requires_admin_approval:true, terms:'Specification confirmed with you before dispatch.' },
+  { tier_number:9,  slug:'executive-ambassador-280', title:'Executive Ambassador',     referrals_required:280,  reward_name:'Elite Ambassador Award',                       reward_description:'Formal recognition as an Elite Ambassador with a premium physical trophy.',                                 reward_category:'merch',       reward_icon:'🏆', accent_color:'#059669', estimated_value_ngn:400000,  requires_admin_approval:true, terms:'Physical award shipped by courier.' },
+  { tier_number:10, slug:'premium-ambassador',       title:'Premium Ambassador',       referrals_required:350,  reward_name:'Smart TV',                                     reward_description:'A large-format 4K smart television with HDR support and built-in streaming apps.',                          reward_category:'electronics', reward_icon:'📺', accent_color:'#34d399', estimated_value_ngn:2200000, requires_admin_approval:true, terms:'Installation support available in select cities.' },
+  { tier_number:11, slug:'executive-ambassador-500', title:'Executive Ambassador',     referrals_required:500,  reward_name:'Executive Ambassador Award',                   reward_description:'Formal recognition as a LIQUIDATED Executive Ambassador with a premium trophy.',                          reward_category:'merch',       reward_icon:'🥇', accent_color:'#059669', estimated_value_ngn:600000,  requires_admin_approval:true, terms:'Physical award shipped by courier.' },
+  { tier_number:12, slug:'platinum-ambassador-750',  title:'Platinum Ambassador',      referrals_required:750,  reward_name:'Flagship Smartphone',                          reward_description:'The flagship device of your choice from a curated list of premium smartphones.',                            reward_category:'electronics', reward_icon:'📱', accent_color:'#e5e4e2', estimated_value_ngn:1500000, requires_admin_approval:true, terms:'Model selection confirmed with your account manager.' },
+  { tier_number:13, slug:'crown-ambassador',         title:'Crown Ambassador',         referrals_required:1000, reward_name:'Crown Ambassador Award',                       reward_description:'Our Crown-tier award — flagship smartphone plus formal Crown Ambassador recognition.',                       reward_category:'electronics', reward_icon:'👑', accent_color:'#f6d054', estimated_value_ngn:2500000, requires_admin_approval:true, terms:'Subject to a formal award agreement.' },
+  { tier_number:14, slug:'royal-partner',            title:'Royal Partner',            referrals_required:1500, reward_name:'Major Lifestyle Reward — Vehicle Contribution',reward_description:'A substantial cash contribution toward a vehicle of your choice, paid directly to a verified dealer.',       reward_category:'vehicle',     reward_icon:'🚘', accent_color:'#fbbf24', estimated_value_ngn:5000000, requires_admin_approval:true, terms:'Paid to a verified dealer only. Documentation required.' },
+  { tier_number:15, slug:'elite-partner',            title:'Elite Partner',            referrals_required:2000, reward_name:'LIQUIDATED Elite Ambassador Award + Luxury Vehicle', reward_description:'Our flagship award: a luxury vehicle plus formal recognition as a LIQUIDATED Elite Ambassador.',       reward_category:'vehicle',     reward_icon:'🏆', accent_color:'#e9bd3d', estimated_value_ngn:25000000,requires_admin_approval:true, terms:'Subject to a formal award agreement and AML review.' },
+  { tier_number:16, slug:'strategic-partner',        title:'Strategic Partner',        referrals_required:2001, reward_name:'Strategic Partnership Program + Dedicated Account Manager', reward_description:'An invitation into the LIQUIDATED Strategic Partnership Program with a dedicated account manager and revenue share.', reward_category:'partnership', reward_icon:'🤝', accent_color:'#34d399', estimated_value_ngn:0, requires_admin_approval:true, terms:'Entry by invitation following partnership review.' }
+];
+
+const TOTAL_TIERS = TIER_SEED.length;
+
+/* ==========================================================================
+   4. LIVE API CLIENT (with automatic mock fallback)
+   ========================================================================== */
+let MODE = 'demo'; // 'live' | 'demo'
+
+const LiveAPI = {
+  _token(){ return localStorage.getItem(CONFIG.TOKEN_KEY); },
+  _cachedUser(){
+    try { return JSON.parse(localStorage.getItem(CONFIG.USER_KEY) || 'null'); } catch(e){ return null; }
+  },
+  _setAuth(token, user){
+    if(token) localStorage.setItem(CONFIG.TOKEN_KEY, token);
+    if(user)  localStorage.setItem(CONFIG.USER_KEY, JSON.stringify(user));
+  },
+  _clearAuth(){
+    localStorage.removeItem(CONFIG.TOKEN_KEY);
+    localStorage.removeItem(CONFIG.USER_KEY);
+  },
+  async _req(method, path, body){
+    const headers = { 'Content-Type': 'application/json' };
+    const t = this._token();
+    if(t) headers['Authorization'] = 'Bearer ' + t;
+
+    const ctrl = new AbortController();
+    const timeoutId = setTimeout(() => ctrl.abort(), 15000);
+
+    let res;
+    try{
+      res = await fetch(API_BASE + path, {
+        method, headers,
+        body: body ? JSON.stringify(body) : undefined,
+        signal: ctrl.signal
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+
+    let json;
+    try { json = await res.json(); }
+    catch(e){ json = { success:false, message:'Invalid server response' }; }
+
+    if(!res.ok || json.success === false){
+      const err = new Error(json.message || ('HTTP ' + res.status));
+      err.status = res.status;
+      err.errors = json.data && json.data.errors;
+      if(res.status === 401) this._clearAuth();
+      throw err;
+    }
+    return json.data !== undefined ? json.data : json;
+  },
+
+  async probe(){
+    try{
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), CONFIG.liveProbeTimeout);
+      const r = await fetch(API_BASE + '/awards/tiers', { signal: ctrl.signal });
+      clearTimeout(t);
+      if(!r.ok) return false;
+      const j = await r.json();
+      return j && j.success !== false && j.data && Array.isArray(j.data.tiers) && j.data.tiers.length > 0;
+    }catch(e){ return false; }
+  },
+
+  async login(email, password){
+    const data = await this._req('POST', '/auth/login', { email, password });
+    this._setAuth(data.token, data.user);
+    return data;
+  },
+  async logout(){
+    this._clearAuth();
+  },
+  async getTiers(){ const d = await this._req('GET', '/awards/tiers'); return d.tiers || []; },
+  async getStatus(){ return this._req('GET', '/awards/status'); },
+  async getClaims(){ const d = await this._req('GET', '/awards/claims'); return d.claims || []; },
+  async claim(tierNumber, delivery_details){
+    const d = await this._req('POST', `/awards/claim/${tierNumber}`, { delivery_details });
+    return d.claim;
+  },
+  async getLeaderboard(){ const d = await this._req('GET', '/awards/leaderboard'); return d.leaderboard || []; },
+  async getNotifications(){ try{ const d = await this._req('GET', '/notifications'); return d.notifications || []; }catch(e){ return []; } },
+  async markNotificationsRead(){ try{ await this._req('POST', '/notifications/read-all', {}); }catch(e){} },
+  async adminGetClaims(){ const d = await this._req('GET', '/admin/awards/claims'); return d.claims || []; },
+  async adminSetClaimStatus(id, status, extra = {}){
+    const d = await this._req('POST', `/admin/awards/claims/${id}/status`, { status, ...extra });
+    return d.claim;
+  }
+};
+
+/* ==========================================================================
+   5. MOCK DATABASE (localStorage — for demo / offline mode)
+   ========================================================================== */
+const DB_KEY = 'liquidated_awards_db_v4';
 
 const DB = {
   data: null,
@@ -914,13 +1099,13 @@ const DB = {
     const tiers = TIER_SEED.map((t,i) => ({
       _id: 'tier_' + t.tier_number,
       ...t,
+      image_url: CONFIG.IMAGES + '/' + (TIER_IMAGES[t.tier_number] || ''),
       is_active: true,
       display_order: i,
       created_at: t0,
       updated_at: t0
     }));
 
-    // ---- Demo user --------------------------------------------------------
     const demo = {
       _id: 'u_demo',
       name: 'Ada Obi',
@@ -930,45 +1115,46 @@ const DB = {
       referral_code: 'LIQ-ADA2026',
       referred_by: null,
       kyc_verified: true,
-      referral_count: 29,
+      referral_count: 189,
       avatar: null,
       created_at: t0 - 240*DAY
     };
 
-    // ---- Leaderboard users ------------------------------------------------
+    // Leaderboard: descending by confirmed count (mirrors the 16-tier ladder)
     const LB = [
-      ['John Doe',812],['Sarah Mitchell',634],['Aisha Khan',502],['Chidi Okeke',421],
-      ['Tunde Bakare',388],['Grace Adeyemi',344],['Emeka Nwosu',301],['Fatima Bello',267],
-      ['David Okafor',233],['Ngozi Eze',201],['Ibrahim Musa',178],['Blessing Uche',156],
-      ['Samuel Adeleke',141],['Halima Yusuf',129],['Peter Obi',118],['Rita Mensah',104],
-      ['Kunle Adebayo',96],['Zainab Ali',88],['Victor Chukwu',79],['Maryam Sani',71],
-      ['Segun Ojo',64],['Peace Amadi',57],['Yusuf Garba',51],['Joy Nnamdi',46],
-      ['Ahmed Sule',41],['Esther Danjuma',37],['Femi Lawal',33],['Kemi Ajayi',29],
-      ['Bola Shittu',26],['Chinelo Obi',24]
+      ['John Doe',2841],['Sarah Mitchell',2104],['Aisha Khan',1832],['Chidi Okeke',1521],
+      ['Tunde Bakare',1288],['Grace Adeyemi',1120],['Emeka Nwosu',1004],['Fatima Bello',912],
+      ['David Okafor',806],['Ngozi Eze',734],['Ibrahim Musa',688],['Blessing Uche',612],
+      ['Samuel Adeleke',551],['Halima Yusuf',489],['Peter Obi',412],['Rita Mensah',378],
+      ['Kunle Adebayo',344],['Zainab Ali',301],['Victor Chukwu',267],['Maryam Sani',233],
+      ['Segun Ojo',201],['Peace Amadi',178],['Yusuf Garba',156],['Joy Nnamdi',141],
+      ['Ahmed Sule',129],['Esther Danjuma',118],['Femi Lawal',104],['Kemi Ajayi',96],
+      ['Bola Shittu',88],['Chinelo Obi',79]
     ];
 
     const users = [demo];
     const referrals = [];
 
-    // Demo user's referrals: 23 completed + 4 pending + 2 registered
+    // Demo user: 189 confirmed + 4 pending + 2 registered = 195 total
     const firstNames = ['John','Sarah','Michael','Grace','Emeka','Fatima','David','Ngozi','Ibrahim','Blessing','Samuel','Halima','Peter','Rita','Kunle','Zainab','Victor','Maryam','Segun','Peace','Yusuf','Joy','Ahmed','Esther','Femi','Kemi','Bola','Chinelo','Uche'];
     const lastNames  = ['Doe','Mitchell','Khan','Okeke','Bakare','Adeyemi','Nwosu','Bello','Okafor','Eze','Musa','Uche','Adeleke','Yusuf','Obi','Mensah','Adebayo','Ali','Chukwu','Sani','Ojo','Amadi','Garba','Nnamdi','Sule','Danjuma','Lawal','Ajayi','Shittu'];
 
-    for(let i=0;i<29;i++){
+    for(let i=0;i<195;i++){
       const fn = firstNames[i % firstNames.length];
       const ln = lastNames[(i*3) % lastNames.length];
       const name = fn + ' ' + ln;
       const uidRef = 'u_ref_' + i;
-      let status = 'completed';
-      if(i >= 23 && i < 27) status = 'pending';
-      else if(i >= 27) status = 'registered';
 
-      const created = t0 - (29 - i) * (2.4*DAY);
+      let status = 'completed';
+      if(i >= 189 && i < 193) status = 'pending';
+      else if(i >= 193) status = 'registered';
+
+      const created = t0 - (195 - i) * (1.4*DAY);
 
       users.push({
         _id: uidRef,
         name,
-        email: name.toLowerCase().replace(/\s+/g,'.') + '@example.com',
+        email: name.toLowerCase().replace(/\s+/g,'.') + i + '@example.com',
         password: null,
         phone: '+23480' + (10000000 + i*137),
         referral_code: 'LIQ-' + fn.slice(0,3).toUpperCase() + (1000+i),
@@ -989,12 +1175,10 @@ const DB = {
       });
     }
 
-    // Leaderboard users + their referral volume
     LB.forEach((entry, idx) => {
       const [name, count] = entry;
-      const id = 'u_lb_' + idx;
       users.push({
-        _id: id,
+        _id: 'u_lb_' + idx,
         name,
         email: name.toLowerCase().replace(/\s+/g,'.') + '@example.com',
         password: null,
@@ -1003,12 +1187,11 @@ const DB = {
         referred_by: null,
         kyc_verified: true,
         referral_count: count,
-        _confirmed_override: count, // used by leaderboard aggregation
+        _confirmed_override: count,
         created_at: t0 - (300 - idx*4) * DAY
       });
     });
 
-    // ---- Claims -----------------------------------------------------------
     const claims = [
       {
         _id: 'claim_seed_1',
@@ -1033,10 +1216,31 @@ const DB = {
         reviewed_at: t0 - 24*DAY,
         created_at: t0 - 26*DAY,
         updated_at: t0 - 18*DAY
+      },
+      {
+        _id: 'claim_seed_2',
+        user: demo._id,
+        tier: 'tier_2',
+        tier_number: 2,
+        referrals_at_claim: 34,
+        status: 'under_review',
+        delivery_details: {
+          full_name: 'Ada Obi',
+          phone: '+2348012345678',
+          email: 'ada@liquidated.com',
+          address_line: '14B Admiralty Way, Lekki Phase 1',
+          city: 'Lagos',
+          state: 'Lagos',
+          country: 'Nigeria',
+          postal_code: '106104'
+        },
+        admin_notes: '',
+        reviewed_at: t0 - 1*DAY,
+        created_at: t0 - 2*DAY,
+        updated_at: t0 - 1*DAY
       }
     ];
 
-    // ---- Activity feed ----------------------------------------------------
     const activity = [];
     for(let i=0;i<9;i++){
       const r = referrals[i];
@@ -1052,21 +1256,17 @@ const DB = {
     activity.sort((a,b) => b.at - a.at);
 
     this.data = {
-      version: 3,
+      version: 4,
       users,
       referrals,
       awardTiers: tiers,
       awardClaims: claims,
       notifications: [
-        { id: uid('n'), userId: demo._id, title: 'Award unlocked', body: 'You unlocked Bronze Ambassador. Claim your reward now.', read: false, at: t0 - 3*DAY }
+        { id: uid('n'), userId: demo._id, title: 'Award unlocked', body: 'You unlocked Silver Ambassador. Claim your Smart Watch now.', read: false, at: t0 - 3*DAY }
       ],
       activity,
       session: null,
-      meta: {
-        seeded_at: t0,
-        leaderboard_updated_at: t0,
-        automation_runs: 0
-      }
+      meta: { seeded_at: t0, leaderboard_updated_at: t0, automation_runs: 0 }
     };
 
     this.save();
@@ -1074,16 +1274,13 @@ const DB = {
 };
 
 /* ==========================================================================
-   3. MOCK API (mirrors backend endpoints)
+   6. MOCK API (mirrors backend endpoints — used in demo mode)
    ========================================================================== */
-const API = {
+const MockAPI = {
   _latency: 140,
-
   async _wait(){ if(this._latency) await sleep(this._latency + Math.random()*90); },
-
   _user(userId){ return DB.data.users.find(u => u._id === userId) || null; },
 
-  /* GET /api/auth/login */
   async login(email, password){
     await this._wait();
     const u = DB.data.users.find(x => x.email.toLowerCase() === String(email).toLowerCase().trim());
@@ -1095,7 +1292,6 @@ const API = {
     return { token, user: this._publicUser(u) };
   },
 
-  /* POST /api/auth/register */
   async register({ name, email, password, phone, referralCode }){
     await this._wait();
     if(DB.data.users.some(u => u.email.toLowerCase() === email.toLowerCase())){
@@ -1116,22 +1312,16 @@ const API = {
     return { token: DB.data.session.token, user: this._publicUser(u) };
   },
 
-  async logout(){
-    await sleep(40);
-    DB.data.session = null;
-    DB.save();
-  },
+  async logout(){ await sleep(40); DB.data.session = null; DB.save(); },
 
   _publicUser(u){
     if(!u) return null;
     return {
       _id: u._id, name: u.name, email: u.email, phone: u.phone,
-      referral_code: u.referral_code, kyc_verified: u.kyc_verified,
-      created_at: u.created_at
+      referral_code: u.referral_code, kyc_verified: u.kyc_verified, created_at: u.created_at
     };
   },
 
-  /* GET /api/awards/tiers (cached 1hr) */
   async getTiers(){
     const cached = sessionStorage.getItem('liq_tiers');
     if(cached){
@@ -1146,19 +1336,14 @@ const API = {
     return data;
   },
 
-  /* GET /api/awards/status */
-  async getStatus(userId){
-    await this._wait();
-    return computeEligibility(userId);
-  },
+  async getStatus(userId){ await this._wait(); return MockEligibility(userId); },
 
-  /* POST /api/awards/claim/:tierNumber */
   async claim(userId, tierNumber, deliveryDetails){
     await this._wait();
     const tier = DB.data.awardTiers.find(t => t.tier_number === Number(tierNumber));
     if(!tier) throw new Error('Tier not found.');
 
-    const elig = computeEligibility(userId);
+    const elig = MockEligibility(userId);
     if(elig.confirmed_referrals < tier.referrals_required){
       throw new Error(`You need ${tier.referrals_required} confirmed referrals to claim this tier.`);
     }
@@ -1169,8 +1354,6 @@ const API = {
       const u = this._user(userId);
       if(u && !u.kyc_verified) throw new Error('KYC verification is required for tiers 5 and above.');
     }
-
-    // Rate limit: max 3 claims / hour
     const recent = DB.data.awardClaims.filter(c => c.user === userId && now() - c.created_at < 3600000);
     if(recent.length >= 3) throw new Error('Rate limit reached. Maximum 3 claims per hour.');
 
@@ -1183,32 +1366,23 @@ const API = {
       status: 'claimed',
       delivery_details: deliveryDetails,
       admin_notes: '',
-      reviewed_by: null,
-      reviewed_at: null,
-      fulfilled_at: null,
-      tracking_info: null,
-      rejection_reason: null,
-      created_at: now(),
-      updated_at: now()
+      reviewed_by: null, reviewed_at: null, fulfilled_at: null,
+      tracking_info: null, rejection_reason: null,
+      created_at: now(), updated_at: now()
     };
     DB.data.awardClaims.push(claim);
     DB.save();
     return claim;
   },
 
-  /* GET /api/awards/claims */
   async getClaims(userId){
     await this._wait();
-    return DB.data.awardClaims
-      .filter(c => c.user === userId)
-      .sort((a,b) => b.created_at - a.created_at);
+    return DB.data.awardClaims.filter(c => c.user === userId).sort((a,b) => b.created_at - a.created_at);
   },
 
-  /* GET /api/awards/leaderboard */
   async getLeaderboard(){
     await this._wait();
     const rows = DB.data.users
-      .filter(u => u.referred_by === null || u._id === 'u_demo' || u._confirmed_override)
       .map(u => {
         const confirmed = u._confirmed_override != null
           ? u._confirmed_override
@@ -1218,24 +1392,17 @@ const API = {
       .filter(r => r.confirmed > 0)
       .sort((a,b) => b.confirmed - a.confirmed)
       .slice(0,100);
-
-    return rows.map((r, i) => {
-      const tier = tierForCount(r.confirmed);
-      return { rank: i+1, ...r, tier };
-    });
+    return rows.map((r,i) => ({ rank: i+1, ...r, tier: tierForCount(r.confirmed) }));
   },
 
-  /* GET /api/notifications */
   async getNotifications(userId){
     return DB.data.notifications.filter(n => n.userId === userId).sort((a,b)=>b.at-a.at);
   },
-
   async markNotificationsRead(userId){
     DB.data.notifications.forEach(n => { if(n.userId === userId) n.read = true; });
     DB.save();
   },
 
-  /* Admin */
   async adminGetClaims(){
     await this._wait();
     return DB.data.awardClaims
@@ -1246,7 +1413,6 @@ const API = {
       })
       .sort((a,b) => b.created_at - a.created_at);
   },
-
   async adminSetClaimStatus(claimId, status, extra){
     await this._wait();
     const c = DB.data.awardClaims.find(x => x._id === claimId);
@@ -1262,7 +1428,7 @@ const API = {
 };
 
 /* ==========================================================================
-   4. ELIGIBILITY ENGINE
+   7. ELIGIBILITY ENGINE (mock mode)
    ========================================================================== */
 function tierForCount(count){
   let match = null;
@@ -1273,7 +1439,7 @@ function tierForCount(count){
   return match;
 }
 
-function computeEligibility(userId){
+function MockEligibility(userId){
   const tiers = DB.data.awardTiers
     .filter(t => t.is_active)
     .sort((a,b)=>a.referrals_required - b.referrals_required);
@@ -1293,10 +1459,7 @@ function computeEligibility(userId){
     const reached = confirmed >= t.referrals_required;
     if(reached){
       unlocked.push(t.tier_number);
-      if(!claimedSet.has(t.tier_number)){
-        const existing = claims.find(c => c.tier_number === t.tier_number);
-        if(!existing) claimable.push(t);
-      }
+      if(!claimedSet.has(t.tier_number)) claimable.push(t);
     } else if(!nextTier){
       nextTier = {
         ...t,
@@ -1306,7 +1469,6 @@ function computeEligibility(userId){
     }
   }
 
-  // ETA based on 30-day velocity
   let avg30 = 0;
   if(nextTier){
     const cutoff = now() - 30*DAY;
@@ -1327,14 +1489,15 @@ function computeEligibility(userId){
     next_tier: nextTier,
     claims,
     referral_code: u ? u.referral_code : '',
-    referral_link: u ? (location.origin + location.pathname + '?ref=' + u.referral_code) : '',
+    referral_link: u ? (CONFIG.MAIN_APP + '/register?ref=' + u.referral_code) : '',
     avg_daily: avg30,
     eta_days: (nextTier && avg30 >= 0.5) ? Math.ceil(nextTier.referrals_needed / avg30) : null,
-    rarity_percent: computeRarity(confirmed)
+    rarity_percent: MockRarity(confirmed),
+    tiers
   };
 }
 
-function computeRarity(count){
+function MockRarity(count){
   const all = DB.data.users
     .map(u => u._confirmed_override != null
       ? u._confirmed_override
@@ -1346,38 +1509,198 @@ function computeRarity(count){
 }
 
 /* ==========================================================================
-   5. STORES
+   8. API FACADE — routes to Live or Mock, with shared cache shape
+   ========================================================================== */
+const CACHE = {
+  tiers: null,
+  status: null,
+  claims: null,
+  leaderboard: null,
+  notifications: null,
+  pendingRef: null
+};
+
+const API = {
+  async hydrateAuth(){
+    // Called on boot to reconcile localStorage
+    if(MODE === 'live'){
+      return LiveAPI._cachedUser();
+    }
+    const s = DB.data.session;
+    if(s && s.userId){
+      return MockAPI._publicUser(DB.data.users.find(x => x._id === s.userId));
+    }
+    return null;
+  },
+
+  async login(email, password){
+    if(MODE === 'live'){
+      const r = await LiveAPI.login(email, password);
+      // After login, hydrate shared caches
+      await this.refreshAll();
+      return r;
+    }
+    const r = await MockAPI.login(email, password);
+    await this.refreshAll();
+    return r;
+  },
+
+  async register(payload){
+    if(MODE !== 'live'){
+      const r = await MockAPI.register(payload);
+      await this.refreshAll();
+      return r;
+    }
+    throw new Error('Registration is disabled on the awards panel. Please register in the main Liquidated app.');
+  },
+
+  async logout(){
+    if(MODE === 'live') await LiveAPI.logout();
+    else await MockAPI.logout();
+    CACHE.tiers = CACHE.status = CACHE.claims = CACHE.leaderboard = CACHE.notifications = null;
+  },
+
+  async refreshAll(){
+    if(MODE === 'live'){
+      if(!LiveAPI._token()) return;
+      const [tiers, status, claims, notifications] = await Promise.all([
+        LiveAPI.getTiers().catch(()=>[]),
+        LiveAPI.getStatus().catch(()=>null),
+        LiveAPI.getClaims().catch(()=>[]),
+        LiveAPI.getNotifications().catch(()=>[])
+      ]);
+      CACHE.tiers = tiers;
+      CACHE.status = status;
+      CACHE.claims = claims;
+      CACHE.notifications = notifications;
+    } else {
+      const s = DB.data.session;
+      const userId = s ? s.userId : 'u_demo';
+      const [tiers, status, claims, notifications] = await Promise.all([
+        MockAPI.getTiers(),
+        MockAPI.getStatus(userId),
+        MockAPI.getClaims(userId),
+        MockAPI.getNotifications(userId)
+      ]);
+      CACHE.tiers = tiers;
+      CACHE.status = status;
+      CACHE.claims = claims;
+      CACHE.notifications = notifications;
+    }
+  },
+
+  getTiers(){ return CACHE.tiers || TIER_SEED; },
+  getStatus(){ return CACHE.status; },
+  getClaims(){ return CACHE.claims || []; },
+  getNotifications(){ return CACHE.notifications || []; },
+
+  async getLeaderboard(){
+    if(CACHE.leaderboard) return CACHE.leaderboard;
+    if(MODE === 'live'){
+      try{ CACHE.leaderboard = await LiveAPI.getLeaderboard(); }
+      catch(e){ CACHE.leaderboard = []; }
+    } else {
+      CACHE.leaderboard = await MockAPI.getLeaderboard();
+    }
+    return CACHE.leaderboard;
+  },
+
+  async claim(tierNumber, deliveryDetails){
+    if(MODE === 'live'){
+      const c = await LiveAPI.claim(tierNumber, deliveryDetails);
+      await this.refreshAll();
+      return c;
+    }
+    const s = DB.data.session;
+    const userId = s ? s.userId : 'u_demo';
+    const c = await MockAPI.claim(userId, tierNumber, deliveryDetails);
+    await this.refreshAll();
+    return c;
+  },
+
+  async adminGetClaims(){
+    if(MODE === 'live') return LiveAPI.adminGetClaims();
+    return MockAPI.adminGetClaims();
+  },
+  async adminSetClaimStatus(id, status, extra){
+    if(MODE === 'live') return LiveAPI.adminSetClaimStatus(id, status, extra);
+    const s = DB.data.session;
+    const c = await MockAPI.adminSetClaimStatus(id, status, extra);
+    await this.refreshAll();
+    return c;
+  },
+
+  async markNotificationsRead(){
+    if(MODE === 'live') await LiveAPI.markNotificationsRead();
+    else {
+      const s = DB.data.session;
+      if(s) await MockAPI.markNotificationsRead(s.userId);
+    }
+    CACHE.notifications = this.getNotifications().map(n => ({...n, read:true}));
+  },
+
+  // Unified compute eligibility — backend shape in live mode, mock shape in demo mode
+  computeEligibility(){
+    const status = CACHE.status;
+    if(status){
+      return {
+        confirmed_referrals: status.confirmed_referrals || 0,
+        total_referrals: status.total_referrals || 0,
+        pending_referrals: status.pending_referrals || (status.total_referrals - status.confirmed_referrals) || 0,
+        unlocked_tiers: status.unlocked_tiers || [],
+        claimable_tiers: status.claimable_tiers || [],
+        next_tier: status.next_tier || null,
+        claims: status.claims || CACHE.claims || [],
+        referral_code: status.referral_code || (AuthStore.user ? AuthStore.user.referral_code : ''),
+        referral_link: status.referral_link || (AuthStore.user ? CONFIG.MAIN_APP + '/register?ref=' + AuthStore.user.referral_code : ''),
+        avg_daily: status.avg_daily || 0,
+        eta_days: status.eta_days || null,
+        rarity_percent: status.rarity_percent || 50,
+        tiers: status.tiers || CACHE.tiers || TIER_SEED
+      };
+    }
+    // Demo fallback
+    const s = DB.data.session;
+    return MockEligibility(s ? s.userId : 'u_demo');
+  }
+};
+
+/* ==========================================================================
+   9. AUTH STORE
    ========================================================================== */
 const AuthStore = {
   session: null,
   user: null,
 
-  hydrate(){
-    const s = DB.data.session;
-    if(s && s.userId){
-      const u = DB.data.users.find(x => x._id === s.userId);
-      if(u){ this.session = s; this.user = API._publicUser(u); return true; }
+  async hydrate(){
+    const cached = await API.hydrateAuth();
+    if(cached){
+      this.session = { token: MODE === 'live' ? LiveAPI._token() : (DB.data.session && DB.data.session.token) };
+      this.user = cached;
+      return true;
     }
     this.session = null; this.user = null;
     return false;
   },
-  get isAuthed(){ return !!this.session; },
+
+  get isAuthed(){ return !!this.session && !!this.user; },
+
   async login(email, password){
     const res = await API.login(email, password);
-    this.session = DB.data.session; this.user = res.user;
+    this.session = { token: MODE === 'live' ? LiveAPI._token() : (DB.data.session && DB.data.session.token) };
+    this.user = res.user;
     return res;
   },
-  async register(payload){
-    const res = await API.register(payload);
-    this.session = DB.data.session; this.user = res.user;
-    return res;
-  },
+
   async logout(){
     await API.logout();
     this.session = null; this.user = null;
   }
 };
 
+/* ==========================================================================
+   10. UI STORE
+   ========================================================================== */
 const UIStore = {
   awardsView: localStorage.getItem('liq_awards_view') || 'ladder',
   awardsFilter: 'all',
@@ -1386,7 +1709,7 @@ const UIStore = {
 };
 
 /* ==========================================================================
-   6. TOASTS
+   11. TOASTS
    ========================================================================== */
 const Toast = {
   show(msg, type='info', timeout=4200){
@@ -1417,7 +1740,7 @@ const Toast = {
 };
 
 /* ==========================================================================
-   7. SHEET (bottom sheet on mobile, modal on desktop)
+   12. SHEET (bottom sheet mobile, modal desktop)
    ========================================================================== */
 const Sheet = {
   open({ title, body, actions = [], onMount }){
@@ -1459,7 +1782,7 @@ const Sheet = {
 };
 
 /* ==========================================================================
-   8. CONFETTI ENGINE (~3kb canvas)
+   13. CONFETTI ENGINE
    ========================================================================== */
 const Confetti = (() => {
   const canvas = document.getElementById('confettiCanvas');
@@ -1549,7 +1872,7 @@ const Confetti = (() => {
 })();
 
 /* ==========================================================================
-   9. COMPONENT HELPERS
+   14. COMPONENT HELPERS
    ========================================================================== */
 function tierShield(tier, size = 60, glow = false){
   const gid = 'sg' + tier.tier_number + '_' + Math.random().toString(36).slice(2,7);
@@ -1567,6 +1890,33 @@ function tierShield(tier, size = 60, glow = false){
     <text x="32" y="39" text-anchor="middle" font-size="23">${tier.reward_icon}</text>
   </svg>`;
 }
+
+/* Thumbnail (image with graceful fallback to shield) */
+function tierThumb(tier, size = 72, radius = 14){
+  const src = tierImage(tier);
+  if(!src) return tierShield(tier, size);
+  return `
+    <div class="tier-thumb" style="width:${size}px;height:${size}px;border-radius:${radius}px">
+      <img src="${src}" alt="${escapeHtml(tier.reward_name||tier.title||'')}"
+           loading="lazy" decoding="async"
+           data-tier-fallback="${tier.tier_number}"
+           onerror="window.__liqTierImgFallback && window.__liqTierImgFallback(this, ${tier.tier_number})" />
+    </div>
+  `;
+}
+
+/* Global fallback used by onerror attributes */
+window.__liqTierImgFallback = function(imgEl, tierNum){
+  const t = (CACHE.tiers || TIER_SEED).find(x => x.tier_number === Number(tierNum))
+         || TIER_SEED.find(x => x.tier_number === Number(tierNum));
+  if(!t) return;
+  const wrap = imgEl.parentElement;
+  if(wrap){
+    const sz = wrap.style.width ? parseInt(wrap.style.width) : 72;
+    const rd = wrap.style.borderRadius ? wrap.style.borderRadius : '14px';
+    wrap.outerHTML = `<div style="width:${sz}px;height:${sz}px;border-radius:${rd};display:grid;place-items:center;background:linear-gradient(140deg,#0a261a,#04130d);border:1px solid rgba(212,175,55,.3)">${tierShield(t, sz*0.72)}</div>`;
+  }
+};
 
 function progressRing(percent, size = 148, stroke = 10, color = 'var(--gold-500)', label){
   const r = (size - stroke) / 2;
@@ -1612,7 +1962,6 @@ function categoryPill(cat){
   return `<span class="pill ${cls}">${label}</span>`;
 }
 
-/* Animate bars + rings after render */
 function animateProgress(root = document){
   requestAnimationFrame(() => {
     $$('.bar-fill[data-pct]', root).forEach(el => {
@@ -1625,7 +1974,6 @@ function animateProgress(root = document){
   });
 }
 
-/* Scroll reveal */
 let revealObserver = null;
 function initReveal(root = document){
   if(prefersReducedMotion()){
@@ -1645,15 +1993,6 @@ function initReveal(root = document){
   $$('.reveal:not(.in)', root).forEach(el => revealObserver.observe(el));
 }
 
-function staggerChildren(container, delay = 80){
-  if(prefersReducedMotion()) return;
-  const kids = Array.from(container.children);
-  kids.forEach((k, i) => {
-    k.style.animationDelay = (i * delay) + 'ms';
-  });
-}
-
-/* Count-up animation for stat values */
 function countUp(el, to, duration = 900, format = fmtNum){
   if(prefersReducedMotion()){ el.textContent = format(to); return; }
   const from = 0;
@@ -1668,12 +2007,12 @@ function countUp(el, to, duration = 900, format = fmtNum){
 }
 
 /* ==========================================================================
-   10. NOTIFICATIONS
+   15. NOTIFICATIONS
    ========================================================================== */
 const Notify = {
   unreadCount(){
     if(!AuthStore.user) return 0;
-    return DB.data.notifications.filter(n => n.userId === AuthStore.user._id && !n.read).length;
+    return API.getNotifications().filter(n => !n.read).length;
   },
   push(userId, title, body){
     DB.data.notifications.unshift({ id: uid('n'), userId, title, body, read: false, at: now() });
@@ -1682,7 +2021,7 @@ const Notify = {
 };
 
 /* ==========================================================================
-   11. AUTOMATION SCRIPTS + TOOLS
+   16. AUTOMATION SCRIPTS + TOOLS
    ========================================================================== */
 const Automation = {
   log: [],
@@ -1704,59 +2043,70 @@ const Automation = {
       : '<div class="t-lo">No automation runs yet.</div>';
   },
 
-  /* --- seed-award-tiers.js --------------------------------------------- */
   seedAwardTiers(){
     const existing = new Set(DB.data.awardTiers.map(t => t.tier_number));
     let added = 0;
     TIER_SEED.forEach((t,i) => {
       if(!existing.has(t.tier_number)){
-        DB.data.awardTiers.push({ _id:'tier_'+t.tier_number, ...t, is_active:true, display_order:i, created_at:now(), updated_at:now() });
+        DB.data.awardTiers.push({
+          _id:'tier_'+t.tier_number,
+          ...t,
+          image_url: CONFIG.IMAGES + '/' + (TIER_IMAGES[t.tier_number]||''),
+          is_active:true,
+          display_order:i,
+          created_at:now(),
+          updated_at:now()
+        });
         added++;
       }
     });
     DB.save();
-    this.record('seed-award-tiers.js', added ? 'ok' : 'warn', added ? `${added} tier(s) inserted.` : 'All 12 tiers already present.');
+    this.record('seed-award-tiers.js', added ? 'ok' : 'warn', added ? `${added} tier(s) inserted.` : `All ${TOTAL_TIERS} tiers already present.`);
     return added;
   },
 
-  /* --- refresh-leaderboard.js ------------------------------------------- */
   refreshLeaderboard(){
     DB.data.meta.leaderboard_updated_at = now();
     DB.save();
     sessionStorage.removeItem('liq_lb_cache');
+    CACHE.leaderboard = null;
     this.record('refresh-leaderboard.js', 'ok', 'Leaderboard cache recomputed.');
   },
 
-  /* --- notify-unclaimed-awards.js --------------------------------------- */
   notifyUnclaimedAwards(){
     let sent = 0;
-    DB.data.users.forEach(u => {
-      const elig = computeEligibility(u._id);
-      if(elig.claimable_tiers.length){
-        const already = DB.data.notifications.some(
-          n => n.userId === u._id && n.title === 'Unclaimed award available' && now() - n.at < 7*DAY
-        );
-        if(!already){
-          this.pushNotification(u._id, 'Unclaimed award available',
-            `You have ${elig.claimable_tiers.length} unclaimed award(s). Claim before they pile up!`);
-          sent++;
+    if(MODE === 'demo'){
+      DB.data.users.forEach(u => {
+        const elig = MockEligibility(u._id);
+        if(elig.claimable_tiers.length){
+          const already = DB.data.notifications.some(
+            n => n.userId === u._id && n.title === 'Unclaimed award available' && now() - n.at < 7*DAY
+          );
+          if(!already){
+            DB.data.notifications.unshift({
+              id: uid('n'), userId: u._id,
+              title:'Unclaimed award available',
+              body:`You have ${elig.claimable_tiers.length} unclaimed award(s). Claim before they pile up!`,
+              read:false, at: now()
+            });
+            sent++;
+          }
         }
-      }
-    });
+      });
+      DB.save();
+    } else {
+      this.record('notify-unclaimed-awards.js', 'warn', 'Server-side job — run on backend.');
+      return 0;
+    }
     this.record('notify-unclaimed-awards.js', sent ? 'ok' : 'warn',
       sent ? `${sent} notification(s) dispatched.` : 'No unclaimed awards detected.');
     return sent;
   },
 
-  pushNotification(userId, title, body){
-    DB.data.notifications.unshift({ id: uid('n'), userId, title, body, read:false, at: now() });
-    DB.save();
-  },
-
-  /* --- backup-claims.js -------------------------------------------------- */
   backupClaims(){
     const rows = [['claim_id','user_email','tier_number','status','created_at','fulfilled_at','tracking']];
-    DB.data.awardClaims.forEach(c => {
+    const claims = API.getClaims();
+    claims.forEach(c => {
       const u = DB.data.users.find(x => x._id === c.user);
       rows.push([c._id, u?u.email:'', c.tier_number, c.status,
         new Date(c.created_at).toISOString(),
@@ -1772,23 +2122,22 @@ const Automation = {
       a.download = 'liquidated-claims-' + new Date().toISOString().slice(0,10) + '.csv';
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 2000);
-      this.record('backup-claims.js', 'ok', `${DB.data.awardClaims.length} claim(s) exported to CSV.`);
+      this.record('backup-claims.js', 'ok', `${claims.length} claim(s) exported to CSV.`);
     }catch(e){
       this.record('backup-claims.js', 'er', 'Export failed: ' + e.message);
     }
   },
 
-  /* --- eligibility-scan.js (tier unlock detection) ---------------------- */
   eligibilityScan(){
     if(!AuthStore.user){ this.record('eligibility-scan.js','warn','No authenticated user.'); return; }
-    const elig = computeEligibility(AuthStore.user._id);
+    const elig = API.computeEligibility();
     const seenKey = 'liq_seen_unlocks_' + AuthStore.user._id;
     let seen = [];
     try{ seen = JSON.parse(localStorage.getItem(seenKey) || '[]'); }catch(e){}
 
-    const fresh = elig.unlocked_tiers.filter(t => !seen.includes(t));
+    const fresh = (elig.unlocked_tiers||[]).filter(t => !seen.includes(t));
     if(fresh.length){
-      const tier = DB.data.awardTiers.find(t => t.tier_number === fresh[fresh.length-1]);
+      const tier = (CACHE.tiers || TIER_SEED).find(t => t.tier_number === fresh[fresh.length-1]);
       Confetti.celebrate();
       vibrate([28, 60, 28]);
       Toast.show(`🎉 Tier unlocked: ${tier.title}! ${tier.reward_name}`, 'gold', 6000);
@@ -1796,12 +2145,11 @@ const Automation = {
       localStorage.setItem(seenKey, JSON.stringify(elig.unlocked_tiers));
       this.record('eligibility-scan.js', 'ok', `New unlock detected: ${tier.title}.`);
     } else {
-      this.record('eligibility-scan.js', 'ok', `${elig.confirmed_referrals} confirmed · ${elig.claimable_tiers.length} claimable.`);
+      this.record('eligibility-scan.js', 'ok', `${elig.confirmed_referrals} confirmed · ${(elig.claimable_tiers||[]).length} claimable.`);
     }
     return fresh;
   },
 
-  /* --- perf-audit.js ----------------------------------------------------- */
   perfAudit(){
     const nav = performance.getEntriesByType('navigation')[0];
     if(!nav){ this.record('perf-audit.js','warn','Navigation timing unavailable.'); return; }
@@ -1813,15 +2161,21 @@ const Automation = {
       `FCP ${fcp}ms · DCL ${dcl}ms · Load ${load}ms`);
   },
 
-  /* --- Schedulers --------------------------------------------------------- */
+  switchMode(){
+    const newMode = MODE === 'live' ? 'demo' : 'live';
+    try{ localStorage.setItem('liq_awards_mode', newMode); }catch(e){}
+    this.record('mode-switch.js','warn',`Switching to ${newMode.toUpperCase()} mode — reloading…`);
+    Toast.show(`Switching to ${newMode.toUpperCase()} mode…`, 'info', 1800);
+    setTimeout(() => location.reload(), 800);
+  },
+
   startSchedulers(){
-    // Refresh leaderboard hourly
     this.timers.push(setInterval(() => this.refreshLeaderboard(), 3600000));
-    // Eligibility scan every 60s while tab visible
     this.timers.push(setInterval(() => {
-      if(document.visibilityState === 'visible' && AuthStore.isAuthed) this.eligibilityScan();
+      if(document.visibilityState === 'visible' && AuthStore.isAuthed){
+        API.refreshAll().then(() => this.eligibilityScan()).catch(()=>{});
+      }
     }, 60000));
-    // Idle perf audit
     if('requestIdleCallback' in window){
       requestIdleCallback(() => this.perfAudit(), { timeout: 3000 });
     } else {
@@ -1837,14 +2191,16 @@ const Automation = {
       ['backupClaims', 'backup-claims.js', 'Export all award claims to CSV.'],
       ['eligibilityScan', 'eligibility-scan.js', 'Re-evaluate tier unlocks for the current user.'],
       ['perfAudit', 'perf-audit.js', 'Run a runtime performance audit.'],
+      ['switchMode', 'mode-switch.js', `Switch between LIVE and DEMO mode (current: ${MODE.toUpperCase()}).`],
       ['resetDatabase', 'reset-database.js', 'Wipe local data and re-seed from scratch.']
     ];
     Sheet.open({
       title: '⚙️ Automation Console',
       body: `
         <p class="fs-7 t-mid mb-3">
-          Scheduled and on-demand scripts mirroring the backend cron jobs.
-          Runs: <span class="mono t-gold">${DB.data.meta.automation_runs || 0}</span>
+          Mode: <span class="mono ${MODE==='live'?'t-emerald':'t-gold'}">${MODE.toUpperCase()}</span> ·
+          Runs: <span class="mono t-gold">${DB.data.meta.automation_runs || 0}</span> ·
+          Tiers: <span class="mono t-gold">${TOTAL_TIERS}</span>
         </p>
         <div class="d-grid gap-2 mb-3">
           ${rows.map(([fn, name, desc]) => `
@@ -1877,7 +2233,9 @@ const Automation = {
                   { id:'cancel', label:'Cancel', class:'btn-ghost' },
                   { id:'confirm', label:'Reset everything', class:'', onClick(c){
                     DB.reset();
-                    AuthStore.hydrate();
+                    localStorage.removeItem(CONFIG.TOKEN_KEY);
+                    localStorage.removeItem(CONFIG.USER_KEY);
+                    AuthStore.session = null; AuthStore.user = null;
                     Automation.record('reset-database.js','ok','Local database reset and re-seeded.');
                     c(); Sheet.close();
                     Toast.show('Database reset complete.', 'success');
@@ -1903,7 +2261,7 @@ const Automation = {
 };
 
 /* ==========================================================================
-   12. TOP BAR + BOTTOM DOCK
+   17. TOP BAR + BOTTOM DOCK
    ========================================================================== */
 const DOCK_ITEMS = [
   { route:'/dashboard',   icon:'bi-house-door',      label:'Home' },
@@ -1944,7 +2302,6 @@ function renderTopBar(){
 
   const bell = $('#btnBell');
   if(bell) bell.onclick = openNotifications;
-
   const av = $('#btnAvatar');
   if(av) av.onclick = openAccountMenu;
 }
@@ -1974,9 +2331,7 @@ function renderDock(){
 }
 
 function openNotifications(){
-  const list = DB.data.notifications
-    .filter(n => n.userId === AuthStore.user._id)
-    .sort((a,b)=>b.at-a.at);
+  const list = API.getNotifications().sort((a,b)=>b.at-a.at);
 
   Sheet.open({
     title: '🔔 Notifications',
@@ -1992,7 +2347,7 @@ function openNotifications(){
     `).join('') : '<p class="t-lo fs-7 text-center py-4">No notifications yet.</p>',
     actions: [
       { id:'read', label:'Mark all read', class:'btn-ghost', onClick(c){
-        API.markNotificationsRead(AuthStore.user._id).then(() => {
+        API.markNotificationsRead().then(() => {
           renderTopBar(); c(); Toast.show('All notifications marked read.', 'success');
         });
       }},
@@ -2011,7 +2366,7 @@ function openAccountMenu(){
           font-weight:800;font-size:1.1rem">${initials(AuthStore.user.name)}</div>
         <div>
           <div class="fw-semibold">${escapeHtml(AuthStore.user.email)}</div>
-          <div class="fs-8 t-lo">Code: <span class="mono t-gold">${escapeHtml(AuthStore.user.referral_code)}</span></div>
+          <div class="fs-8 t-lo">Code: <span class="mono t-gold">${escapeHtml(AuthStore.user.referral_code||'—')}</span></div>
           <div class="mt-1">${AuthStore.user.kyc_verified ? '<span class="pill pill-emerald">KYC Verified</span>' : '<span class="pill pill-muted">KYC Pending</span>'}</div>
         </div>
       </div>
@@ -2043,7 +2398,7 @@ function openAccountMenu(){
 }
 
 /* ==========================================================================
-   13. VIEWS
+   18. VIEWS
    ========================================================================== */
 
 /* ---------------------------------------------------------------------------
@@ -2051,7 +2406,9 @@ function openAccountMenu(){
 --------------------------------------------------------------------------- */
 const LandingView = {
   render(){
-    const totalReferrers = DB.data.users.filter(u => {
+    const tiers = CACHE.tiers || TIER_SEED;
+
+    const totalReferrers = (DB.data.users||[]).filter(u => {
       const c = u._confirmed_override != null ? u._confirmed_override
         : DB.data.referrals.filter(r => r.referrer_id === u._id && r.status === 'completed').length;
       return c > 0;
@@ -2065,12 +2422,11 @@ const LandingView = {
         return sum + (t ? t.estimated_value_ngn : 0);
       }, 0) + 184200000;
 
-    const featured = [1,4,9,11].map(n => TIER_SEED.find(t => t.tier_number === n));
+    const featured = [1,3,5,8,13,15].map(n => tiers.find(t => t.tier_number === n)).filter(Boolean);
 
     return `
     <div class="view-enter">
 
-      <!-- ============ HERO ============ -->
       <section class="hero-panel p-4 p-md-5 mb-4" style="margin-top:6px">
         <div class="position-relative" style="z-index:3">
           <div class="eyebrow mb-2">Referral Awards Programme</div>
@@ -2078,11 +2434,11 @@ const LandingView = {
             Every Referral Brings You Closer to <span class="grad-gold">Something Extraordinary.</span>
           </h1>
           <p class="t-mid mb-4" style="max-width:600px;font-size:clamp(.9rem,3.4vw,1.05rem)">
-            Confirm 5 investors. Unlock a reward. Go all the way to 2,000 — and we'll put you in a car.
+            Confirm 5 investors. Unlock a reward. Go all the way to 2,000+ — and we'll put you in a car.
           </p>
           <div class="d-flex flex-wrap gap-2">
             <a href="#/dashboard" class="btn-liq"><i class="bi bi-trophy-fill"></i> View My Progress</a>
-            <a href="#/awards" class="btn-liq btn-ghost"><i class="bi bi-list-stars"></i> Explore All 12 Tiers</a>
+            <a href="#/awards" class="btn-liq btn-ghost"><i class="bi bi-list-stars"></i> Explore All ${TOTAL_TIERS} Tiers</a>
           </div>
           <div class="d-flex flex-wrap gap-3 mt-4 fs-8 t-lo">
             <span><i class="bi bi-shield-check t-emerald me-1"></i> Verified investors only</span>
@@ -2091,13 +2447,11 @@ const LandingView = {
           </div>
         </div>
 
-        <!-- Floating badges -->
         <div class="floating-badge d-none d-md-grid" style="width:64px;height:64px;top:16%;right:8%;animation-delay:.4s">🎧</div>
         <div class="floating-badge d-none d-md-grid" style="width:56px;height:56px;top:52%;right:20%;animation-delay:1.4s">⌚</div>
         <div class="floating-badge d-none d-md-grid" style="width:72px;height:72px;bottom:12%;right:5%;animation-delay:2.2s">🏆</div>
       </section>
 
-      <!-- ============ LIVE COUNTER STRIP ============ -->
       <section class="mb-4 reveal">
         <div class="row g-2 g-md-3">
           <div class="col-4">
@@ -2121,31 +2475,30 @@ const LandingView = {
         </div>
       </section>
 
-      <!-- ============ TIER PREVIEW GRID ============ -->
       <section class="mb-5 reveal">
         <div class="d-flex justify-content-between align-items-end mb-3 flex-wrap gap-2">
           <div>
             <div class="eyebrow mb-1">The Ladder</div>
-            <h2 class="section-title mb-1">12 Tiers. Real Rewards.</h2>
+            <h2 class="section-title mb-1">${TOTAL_TIERS} Tiers. Real Rewards.</h2>
             <p class="section-sub mb-0">From branded merch to a luxury vehicle — every tier is a milestone worth chasing.</p>
           </div>
           <a href="#/awards" class="btn-liq btn-outline-gold btn-sm-liq nowrap">Full Ladder <i class="bi bi-arrow-right"></i></a>
         </div>
 
         <div class="d-flex gap-2 overflow-auto pb-2" style="scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch">
-          ${TIER_SEED.map(t => `
-            <div class="tier-card card-hover flex-shrink-0" style="--accent:${t.accent_color};width:230px;scroll-snap-align:start"
+          ${tiers.map(t => `
+            <div class="tier-card card-hover flex-shrink-0" style="--accent:${t.accent_color};width:240px;scroll-snap-align:start"
                  data-tier-slug="${t.slug}">
               <div class="d-flex align-items-center gap-2 mb-2">
-                ${tierShield(t, 40)}
-                <div>
+                ${tierThumb(t, 48, 12)}
+                <div style="min-width:0">
                   <div class="fs-9 t-lo mono">TIER ${t.tier_number}</div>
-                  <div class="fw-semibold" style="font-size:.88rem">${escapeHtml(t.title)}</div>
+                  <div class="fw-semibold text-truncate" style="font-size:.88rem">${escapeHtml(t.title)}</div>
                 </div>
               </div>
               <div class="fs-8 t-mid mb-2" style="min-height:36px">${escapeHtml(t.reward_name)}</div>
               <div class="d-flex justify-content-between align-items-center">
-                <span class="pill pill-gold mono">${t.referrals_required}+</span>
+                <span class="pill pill-gold mono">${t.referrals_required >= 2001 ? '2,000+' : t.referrals_required}+</span>
                 ${t.estimated_value_ngn ? `<span class="fs-9 t-lo mono">${fmtNaira(t.estimated_value_ngn)}</span>` : '<span class="fs-9 t-emerald">Invitation</span>'}
               </div>
             </div>
@@ -2153,7 +2506,6 @@ const LandingView = {
         </div>
       </section>
 
-      <!-- ============ HOW IT WORKS ============ -->
       <section class="mb-5 reveal">
         <div class="eyebrow mb-1 text-center">How It Works</div>
         <h2 class="section-title text-center mb-1">Three Steps. That's It.</h2>
@@ -2183,34 +2535,41 @@ const LandingView = {
         </div>
       </section>
 
-      <!-- ============ FEATURED TIERS ============ -->
       <section class="mb-5 reveal">
         <div class="eyebrow mb-1">Featured</div>
         <h2 class="section-title mb-4">The Tiers People Talk About</h2>
         <div class="row g-3">
-          ${featured.map(t => `
-            <div class="col-12 col-sm-6 col-lg-3">
+          ${featured.map(t => {
+            const img = tierImage(t);
+            return `
+            <div class="col-12 col-sm-6 col-lg-4">
               <div class="surface h-100 card-hover overflow-hidden" data-tier-slug="${t.slug}" style="cursor:pointer">
                 <div style="height:4px;background:linear-gradient(90deg,${t.accent_color},transparent)"></div>
+                ${img ? `
+                  <div style="height:180px;background:url('${img}') center/cover no-repeat;position:relative">
+                    <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(4,19,13,.94))"></div>
+                    <div style="position:absolute;bottom:10px;left:12px">
+                      <span class="pill pill-gold mono" style="font-size:.64rem">${t.referrals_required >= 2001 ? '2,000+' : t.referrals_required}+ referrals</span>
+                    </div>
+                  </div>
+                ` : `
+                  <div class="text-center pt-4 pb-2">${tierShield(t, 72, true)}</div>
+                `}
                 <div class="p-3">
-                  <div class="text-center mb-3">${tierShield(t, 68, true)}</div>
                   <div class="text-center mb-2">
                     <div class="fs-9 t-lo mono">TIER ${t.tier_number}</div>
                     <div class="fw-bold" style="font-size:1rem">${escapeHtml(t.title)}</div>
                   </div>
                   <div class="fs-8 t-mid text-center mb-3" style="min-height:40px">${escapeHtml(t.reward_name)}</div>
-                  <div class="d-flex justify-content-center gap-2 flex-wrap mb-2">
-                    <span class="pill pill-gold mono">${t.referrals_required} referrals</span>
-                  </div>
                   ${t.estimated_value_ngn ? `<div class="text-center"><span class="value-badge">≈ ${fmtNaira(t.estimated_value_ngn)}</span></div>` : `<div class="text-center"><span class="value-badge">By invitation</span></div>`}
                 </div>
               </div>
             </div>
-          `).join('')}
+          `;
+          }).join('')}
         </div>
       </section>
 
-      <!-- ============ TERMS & FAIRNESS ============ -->
       <section class="mb-5 reveal">
         <div class="surface surface-pad">
           <div class="row g-4 align-items-center">
@@ -2244,7 +2603,6 @@ const LandingView = {
         </div>
       </section>
 
-      <!-- ============ FAQ ============ -->
       <section class="mb-5 reveal">
         <div class="eyebrow mb-1">Questions</div>
         <h2 class="section-title mb-4">Frequently Asked</h2>
@@ -2275,7 +2633,6 @@ const LandingView = {
         </div>
       </section>
 
-      <!-- ============ FINAL CTA ============ -->
       <section class="reveal mb-4">
         <div class="hero-panel p-4 p-md-5 text-center">
           <div class="position-relative" style="z-index:3">
@@ -2302,14 +2659,11 @@ const LandingView = {
   },
 
   mount(){
-    // Count-up stats
     $$('[data-count]').forEach(el => {
       const val = parseFloat(el.dataset.count);
       const isNaira = el.dataset.format === 'naira';
       countUp(el, val, 1400, isNaira ? fmtNaira : fmtNum);
     });
-
-    // Tier card navigation
     $$('[data-tier-slug]').forEach(card => {
       card.addEventListener('click', () => {
         vibrate(8);
@@ -2338,14 +2692,14 @@ const LoginView = {
             <div class="mb-3">
               <label class="form-label-liq" for="lgEmail">Email Address</label>
               <input type="email" class="input-liq" id="lgEmail" placeholder="you@example.com"
-                     autocomplete="email" inputmode="email" value="ada@liquidated.com" required />
+                     autocomplete="email" inputmode="email" required />
               <div class="field-error" id="err-lgEmail"></div>
             </div>
             <div class="mb-3">
               <label class="form-label-liq" for="lgPass">Password</label>
               <div style="position:relative">
                 <input type="password" class="input-liq" id="lgPass" placeholder="••••••••"
-                       autocomplete="current-password" value="demo1234" required style="padding-right:46px" />
+                       autocomplete="current-password" required style="padding-right:46px" />
                 <button type="button" class="icon-btn" id="togglePass"
                         style="position:absolute;right:5px;top:50%;transform:translateY(-50%);width:36px;height:36px;background:none;border:0">
                   <i class="bi bi-eye"></i>
@@ -2369,12 +2723,24 @@ const LoginView = {
           <div class="divider"></div>
 
           <div class="text-center">
-            <p class="fs-8 t-lo mb-2">Demo credentials are pre-filled.</p>
             <p class="fs-8 t-mid mb-0">
-              New to Liquidated? <a href="#/">Learn about the programme</a>
+              New to Liquidated? <a href="${CONFIG.MAIN_APP}/register" target="_blank" rel="noopener">Create an account</a>
             </p>
           </div>
         </div>
+
+        ${MODE === 'demo' ? `
+        <div class="surface surface-pad mt-3" style="border-color:rgba(212,175,55,.28)">
+          <div class="d-flex gap-2 align-items-start">
+            <i class="bi bi-info-circle t-gold mt-1"></i>
+            <div class="fs-8 t-mid">
+              <strong class="t-gold">Demo Mode Active.</strong>
+              Sign in with <span class="mono t-gold">ada@liquidated.com</span> / <span class="mono t-gold">demo1234</span>
+              to explore. <br/>Switch to LIVE in the Automation Console to connect your real backend.
+            </div>
+          </div>
+        </div>
+        ` : ''}
 
         <div class="text-center mt-3">
           <a href="#/" class="fs-8 t-lo"><i class="bi bi-arrow-left me-1"></i>Back to home</a>
@@ -2443,17 +2809,16 @@ function showErr(id, msg){
 const DashboardView = {
   render(){
     const user = AuthStore.user;
-    const s = computeEligibility(user._id);
+    const s = API.computeEligibility();
     const next = s.next_tier;
-    const claimableCount = s.claimable_tiers.length;
-    const firstName = user.name.split(' ')[0];
+    const claimableCount = (s.claimable_tiers||[]).length;
+    const firstName = (user.name||'Friend').split(' ')[0];
 
     const activity = DB.data.activity ? DB.data.activity.slice(0,6) : [];
 
     return `
     <div class="view-enter">
 
-      <!-- Greeting -->
       <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
         <div>
           <div class="eyebrow mb-1">${greeting()}</div>
@@ -2461,10 +2826,9 @@ const DashboardView = {
             ${escapeHtml(firstName)}, you're <span class="grad-gold">${s.confirmed_referrals}</span> deep.
           </h1>
         </div>
-        <span class="rarity-chip nowrap"><i class="bi bi-graph-up-arrow me-1"></i>Top ${s.rarity_percent.toFixed(1)}%</span>
+        <span class="rarity-chip nowrap"><i class="bi bi-graph-up-arrow me-1"></i>Top ${(s.rarity_percent||50).toFixed(1)}%</span>
       </div>
 
-      <!-- Claimable banner -->
       ${claimableCount ? `
         <div class="surface surface-pad mb-3 reveal" style="border-color:rgba(212,175,55,.42);box-shadow:0 0 0 1px rgba(212,175,55,.2),0 0 34px rgba(212,175,55,.14)">
           <div class="d-flex align-items-center gap-3 flex-wrap">
@@ -2478,7 +2842,7 @@ const DashboardView = {
                 🔔 You have ${claimableCount} unclaimed award${claimableCount>1?'s':''}!
               </div>
               <div class="fs-8 t-mid">
-                ${s.claimable_tiers.map(t => escapeHtml(t.title)).join(' · ')}
+                ${(s.claimable_tiers||[]).map(t => escapeHtml(t.title)).join(' · ')}
               </div>
             </div>
             <a href="#/awards" class="btn-liq btn-sm-liq nowrap">Claim Now <i class="bi bi-arrow-right"></i></a>
@@ -2486,7 +2850,6 @@ const DashboardView = {
         </div>
       ` : ''}
 
-      <!-- Next tier progress -->
       <div class="surface surface-pad mb-3 reveal">
         ${next ? `
           <div class="eyebrow mb-3">Next Milestone</div>
@@ -2498,7 +2861,7 @@ const DashboardView = {
             </div>
             <div class="col-12 col-sm">
               <div class="d-flex align-items-center gap-2 mb-2">
-                ${tierShield(next, 42)}
+                ${tierThumb(next, 52, 12)}
                 <div>
                   <div class="fs-9 t-lo mono">TIER ${next.tier_number}</div>
                   <h2 class="h5 mb-0">${escapeHtml(next.title)}</h2>
@@ -2516,7 +2879,7 @@ const DashboardView = {
               ${s.eta_days ? `
                 <div class="fs-9 t-lo mt-2">
                   <i class="bi bi-clock-history me-1"></i>
-                  At your current pace (~${s.avg_daily.toFixed(1)}/day), unlock in ≈ ${s.eta_days} day${s.eta_days>1?'s':''}.
+                  At your current pace (~${(s.avg_daily||0).toFixed(1)}/day), unlock in ≈ ${s.eta_days} day${s.eta_days>1?'s':''}.
                 </div>
               ` : ''}
               <div class="mt-3">
@@ -2533,23 +2896,21 @@ const DashboardView = {
         `}
       </div>
 
-      <!-- Quick stats -->
       <div class="row g-2 g-md-3 mb-3 reveal">
         <div class="col-6 col-md-3">
           <div class="stat-tile"><div class="stat-val" data-count="${s.confirmed_referrals}">0</div><div class="stat-lab">Confirmed</div></div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-tile"><div class="stat-val" data-count="${s.unlocked_tiers.length}">0</div><div class="stat-lab">Unlocked</div></div>
+          <div class="stat-tile"><div class="stat-val" data-count="${(s.unlocked_tiers||[]).length}">0</div><div class="stat-lab">Unlocked</div></div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-tile"><div class="stat-val" data-count="${s.claims.length}">0</div><div class="stat-lab">Claimed</div></div>
+          <div class="stat-tile"><div class="stat-val" data-count="${(s.claims||[]).length}">0</div><div class="stat-lab">Claimed</div></div>
         </div>
         <div class="col-6 col-md-3">
-          <div class="stat-tile"><div class="stat-val" data-count="${s.pending_referrals}">0</div><div class="stat-lab">Pending</div></div>
+          <div class="stat-tile"><div class="stat-val" data-count="${s.pending_referrals||0}">0</div><div class="stat-lab">Pending</div></div>
         </div>
       </div>
 
-      <!-- Quick actions -->
       <div class="row g-2 mb-3 reveal">
         <div class="col-6 col-md-3">
           <a href="#/awards" class="surface surface-pad d-flex align-items-center gap-2 card-hover h-100" style="text-decoration:none">
@@ -2577,7 +2938,6 @@ const DashboardView = {
         </div>
       </div>
 
-      <!-- Activity feed -->
       <div class="surface surface-pad reveal">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h2 class="h6 mb-0">Recent Activity</h2>
@@ -2622,15 +2982,16 @@ function greeting(){
 const AwardsView = {
   render(){
     const user = AuthStore.user;
-    const s = computeEligibility(user._id);
+    const s = API.computeEligibility();
+    const tiers = CACHE.tiers || TIER_SEED;
     const filter = UIStore.awardsFilter;
     const view = UIStore.awardsView;
 
-    const filtered = TIER_SEED.filter(t => {
-      const unlocked = s.unlocked_tiers.includes(t.tier_number);
+    const filtered = tiers.filter(t => {
+      const unlocked = (s.unlocked_tiers||[]).includes(t.tier_number);
       if(filter === 'unlocked') return unlocked;
       if(filter === 'locked') return !unlocked;
-      if(filter === 'claimable') return s.claimable_tiers.some(c => c.tier_number === t.tier_number);
+      if(filter === 'claimable') return (s.claimable_tiers||[]).some(c => c.tier_number === t.tier_number);
       return true;
     });
 
@@ -2642,8 +3003,8 @@ const AwardsView = {
           <h1 class="section-title mb-1">Awards &amp; Tiers</h1>
           <p class="t-mid fs-7 mb-0">
             <span class="t-gold mono">${s.confirmed_referrals}</span> confirmed ·
-            <span class="t-emerald mono">${s.unlocked_tiers.length}</span> unlocked ·
-            ${s.claimable_tiers.length ? `<span class="t-gold mono">${s.claimable_tiers.length}</span> claimable` : 'nothing claimable yet'}
+            <span class="t-emerald mono">${(s.unlocked_tiers||[]).length}</span> unlocked ·
+            ${(s.claimable_tiers||[]).length ? `<span class="t-gold mono">${(s.claimable_tiers||[]).length}</span> claimable` : 'nothing claimable yet'}
           </p>
         </div>
         <button class="btn-liq btn-ghost btn-sm-liq nowrap" id="toggleView">
@@ -2654,7 +3015,7 @@ const AwardsView = {
 
       <div class="filter-tabs mb-3">
         ${[
-          ['all','All 12'],
+          ['all',`All ${TOTAL_TIERS}`],
           ['unlocked','Unlocked'],
           ['claimable','Claimable'],
           ['locked','Locked']
@@ -2675,17 +3036,14 @@ const AwardsView = {
   },
 
   renderLadder(tiers, s){
-    const maxUnlocked = s.unlocked_tiers.length;
-    const railHeight = Math.min(100, (maxUnlocked / TIER_SEED.length) * 100);
-
     return `
     <div class="ladder" id="ladderEl">
       <div class="ladder-rail"></div>
       <div class="ladder-rail-fill" id="railFill" style="height:0"></div>
       ${tiers.map(t => {
-        const unlocked = s.unlocked_tiers.includes(t.tier_number);
-        const claimable = s.claimable_tiers.some(c => c.tier_number === t.tier_number);
-        const claim = s.claims.find(c => c.tier_number === t.tier_number);
+        const unlocked = (s.unlocked_tiers||[]).includes(t.tier_number);
+        const claimable = (s.claimable_tiers||[]).some(c => c.tier_number === t.tier_number);
+        const claim = (s.claims||[]).find(c => c.tier_number === t.tier_number);
         const isCurrent = s.next_tier && s.next_tier.tier_number === t.tier_number;
         const pct = clamp((s.confirmed_referrals / t.referrals_required) * 100, 0, 100);
 
@@ -2703,7 +3061,7 @@ const AwardsView = {
           <div class="${cls}" style="--accent:${t.accent_color}" data-tier-card="${t.tier_number}">
             ${claimable ? '<div class="ribbon">CLAIM</div>' : ''}
             <div class="d-flex align-items-start gap-3">
-              ${tierShield(t, 52, unlocked)}
+              ${tierThumb(t, 72, 14)}
               <div style="flex:1;min-width:0">
                 <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
                   <span class="fs-9 t-lo mono">TIER ${t.tier_number}</span>
@@ -2733,7 +3091,7 @@ const AwardsView = {
                 ` : ''}
               </div>
               <div class="text-end flex-shrink-0">
-                <div class="fs-9 t-lo mono">${t.referrals_required}</div>
+                <div class="fs-9 t-lo mono">${t.referrals_required >= 2001 ? '2k+' : t.referrals_required}</div>
                 <div class="fs-9 t-lo" style="font-size:.55rem">REFS</div>
               </div>
             </div>
@@ -2749,17 +3107,24 @@ const AwardsView = {
     return `
     <div class="tier-grid">
       ${tiers.map(t => {
-        const unlocked = s.unlocked_tiers.includes(t.tier_number);
-        const claimable = s.claimable_tiers.some(c => c.tier_number === t.tier_number);
-        const claim = s.claims.find(c => c.tier_number === t.tier_number);
+        const unlocked = (s.unlocked_tiers||[]).includes(t.tier_number);
+        const claimable = (s.claimable_tiers||[]).some(c => c.tier_number === t.tier_number);
+        const claim = (s.claims||[]).find(c => c.tier_number === t.tier_number);
         const isCurrent = s.next_tier && s.next_tier.tier_number === t.tier_number;
         const pct = clamp((s.confirmed_referrals / t.referrals_required) * 100, 0, 100);
+        const img = tierImage(t);
 
         return `
         <div class="tier-card ${unlocked?'':'locked'} ${claimable?'claimable':''}"
              style="--accent:${t.accent_color}" data-tier-card="${t.tier_number}">
           ${claimable ? '<div class="ribbon">CLAIM</div>' : ''}
-          <div class="text-center mb-2">${tierShield(t, 64, unlocked)}</div>
+          ${img ? `
+            <div class="tier-thumb mb-2" style="width:100%;height:140px;border-radius:var(--r3)">
+              <img src="${img}" alt="${escapeHtml(t.reward_name)}" loading="lazy"
+                   data-tier-fallback="${t.tier_number}"
+                   onerror="window.__liqTierImgFallback(this, ${t.tier_number})" />
+            </div>
+          ` : `<div class="text-center mb-2">${tierShield(t, 64, unlocked)}</div>`}
           <div class="text-center mb-2">
             <div class="fs-9 t-lo mono">TIER ${t.tier_number}</div>
             <div class="fw-bold">${escapeHtml(t.title)}</div>
@@ -2769,7 +3134,7 @@ const AwardsView = {
           ${isCurrent ? bar(pct, 'mb-2') : ''}
 
           <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
-            <span class="pill pill-gold mono">${t.referrals_required} refs</span>
+            <span class="pill pill-gold mono">${t.referrals_required >= 2001 ? '2,000+' : t.referrals_required} refs</span>
             ${unlocked ? '<span class="pill pill-emerald">Unlocked</span>' : ''}
             ${claim ? statusPill(claim.status) : ''}
           </div>
@@ -2789,15 +3154,13 @@ const AwardsView = {
   mount(){
     animateProgress();
 
-    // Rail fill
     const rail = $('#railFill');
     if(rail){
-      const s = computeEligibility(AuthStore.user._id);
-      const pct = (s.unlocked_tiers.length / TIER_SEED.length) * 100;
+      const s = API.computeEligibility();
+      const pct = ((s.unlocked_tiers||[]).length / TOTAL_TIERS) * 100;
       setTimeout(() => { rail.style.height = pct + '%'; }, 200);
     }
 
-    // Toggle view
     const tv = $('#toggleView');
     if(tv) tv.onclick = () => {
       UIStore.awardsView = UIStore.awardsView === 'ladder' ? 'grid' : 'ladder';
@@ -2805,15 +3168,10 @@ const AwardsView = {
       Router.rerender();
     };
 
-    // Filters
     $$('[data-filter]').forEach(b => {
-      b.onclick = () => {
-        UIStore.awardsFilter = b.dataset.filter;
-        Router.rerender();
-      };
+      b.onclick = () => { UIStore.awardsFilter = b.dataset.filter; Router.rerender(); };
     });
 
-    // Claim buttons
     $$('[data-claim]').forEach(b => {
       b.onclick = (e) => {
         e.stopPropagation();
@@ -2822,7 +3180,6 @@ const AwardsView = {
       };
     });
 
-    // Detail buttons
     $$('[data-detail]').forEach(b => {
       b.onclick = (e) => {
         e.stopPropagation();
@@ -2830,14 +3187,14 @@ const AwardsView = {
       };
     });
 
-    // Card taps
     $$('[data-tier-card]').forEach(card => {
       card.addEventListener('click', (e) => {
         if(e.target.closest('button')) return;
         const tierNum = Number(card.dataset.tierCard);
-        const tier = TIER_SEED.find(t => t.tier_number === tierNum);
-        const s = computeEligibility(AuthStore.user._id);
-        if(!s.unlocked_tiers.includes(tierNum)){
+        const tier = (CACHE.tiers||TIER_SEED).find(t => t.tier_number === tierNum);
+        if(!tier) return;
+        const s = API.computeEligibility();
+        if(!(s.unlocked_tiers||[]).includes(tierNum)){
           card.classList.add('shake');
           setTimeout(() => card.classList.remove('shake'), 460);
           vibrate([20,40,20]);
@@ -2856,7 +3213,8 @@ const AwardsView = {
 --------------------------------------------------------------------------- */
 const TierDetailView = {
   render(params){
-    const tier = TIER_SEED.find(t => t.slug === params.slug);
+    const tiers = CACHE.tiers || TIER_SEED;
+    const tier = tiers.find(t => t.slug === params.slug);
     if(!tier){
       return `<div class="view-enter text-center py-5">
         <div style="font-size:3rem">🔍</div>
@@ -2865,15 +3223,16 @@ const TierDetailView = {
       </div>`;
     }
 
-    const s = computeEligibility(AuthStore.user._id);
-    const unlocked = s.unlocked_tiers.includes(tier.tier_number);
-    const claimable = s.claimable_tiers.some(c => c.tier_number === tier.tier_number);
-    const claim = s.claims.find(c => c.tier_number === tier.tier_number);
+    const s = API.computeEligibility();
+    const unlocked = (s.unlocked_tiers||[]).includes(tier.tier_number);
+    const claimable = (s.claimable_tiers||[]).some(c => c.tier_number === tier.tier_number);
+    const claim = (s.claims||[]).find(c => c.tier_number === tier.tier_number);
     const isNext = s.next_tier && s.next_tier.tier_number === tier.tier_number;
     const pct = clamp((s.confirmed_referrals / tier.referrals_required) * 100, 0, 100);
     const needed = Math.max(0, tier.referrals_required - s.confirmed_referrals);
 
     const holders = Math.floor(12480 * Math.pow(0.55, tier.tier_number - 1)) + 12;
+    const img = tierImage(tier);
 
     let ctaHtml = '';
     if(claim){
@@ -2915,25 +3274,29 @@ const TierDetailView = {
         <i class="bi bi-arrow-left"></i> Back to Ladder
       </button>
 
-      <div class="hero-panel p-4 mb-3">
+      <div class="hero-panel p-4 mb-3" style="position:relative;overflow:hidden;min-height:280px">
+        ${img ? `
+          <div class="tier-hero-img" style="background-image:url('${img}')"></div>
+          <div class="tier-hero-veil"></div>
+        ` : ''}
         <div class="position-relative" style="z-index:3">
           <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
             ${tierShield(tier, 84, unlocked)}
             <div style="flex:1;min-width:180px">
-              <div class="fs-9 t-lo mono">TIER ${tier.tier_number} OF 12</div>
+              <div class="fs-9 t-lo mono">TIER ${tier.tier_number} OF ${TOTAL_TIERS}</div>
               <h1 class="section-title mb-1">${escapeHtml(tier.title)}</h1>
               <div class="d-flex gap-2 flex-wrap">
                 ${categoryPill(tier.reward_category)}
-                <span class="pill pill-gold mono">${tier.referrals_required} referrals</span>
+                <span class="pill pill-gold mono">${tier.referrals_required >= 2001 ? '2,000+' : tier.referrals_required} referrals</span>
                 ${unlocked ? '<span class="pill pill-emerald">Unlocked</span>' : '<span class="pill pill-muted">Locked</span>'}
               </div>
             </div>
           </div>
 
-          <div class="p-3" style="background:rgba(0,0,0,.26);border-radius:var(--r3);border:1px solid rgba(255,255,255,.06)">
+          <div class="p-3" style="background:rgba(0,0,0,.4);border-radius:var(--r3);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(6px)">
             <div class="fs-9 t-lo mono mb-1">REWARD</div>
             <div class="fw-bold mb-2" style="font-size:1.05rem">${escapeHtml(tier.reward_name)}</div>
-            <p class="fs-7 t-mid mb-0">${escapeHtml(tier.reward_description)}</p>
+            <p class="fs-7 t-mid mb-0">${escapeHtml(tier.reward_description||'')}</p>
           </div>
         </div>
       </div>
@@ -3015,7 +3378,7 @@ const TierDetailView = {
             <div class="d-flex align-items-center gap-3">
               <div style="font-size:1.8rem">📈</div>
               <div>
-                <div class="mono t-emerald" style="font-size:1.2rem">Top ${(100 - computeRarity(tier.referrals_required)).toFixed(1)}%</div>
+                <div class="mono t-emerald" style="font-size:1.2rem">Top ${(100 - (s.rarity_percent||50)).toFixed(1)}%</div>
                 <div class="fs-9 t-lo">of all referrers reach this</div>
               </div>
             </div>
@@ -3047,7 +3410,8 @@ const TierDetailView = {
     if(btn){
       btn.onclick = () => {
         vibrate(18);
-        Router.go('/claim/' + TIER_SEED.find(t=>t.slug===params.slug).tier_number);
+        const tier = (CACHE.tiers||TIER_SEED).find(t=>t.slug===params.slug);
+        if(tier) Router.go('/claim/' + tier.tier_number);
       };
     }
   }
@@ -3061,13 +3425,13 @@ const ClaimView = {
 
   render(params){
     const tierNum = Number(params.tierNumber);
-    const tier = TIER_SEED.find(t => t.tier_number === tierNum);
+    const tier = (CACHE.tiers||TIER_SEED).find(t => t.tier_number === tierNum);
     if(!tier){
       return `<div class="view-enter text-center py-5"><h1>Tier not found</h1><a href="#/awards" class="btn-liq mt-3">Back</a></div>`;
     }
 
-    const s = computeEligibility(AuthStore.user._id);
-    if(!s.unlocked_tiers.includes(tierNum)){
+    const s = API.computeEligibility();
+    if(!(s.unlocked_tiers||[]).includes(tierNum)){
       return `<div class="view-enter text-center py-5">
         <div style="font-size:3rem">🔒</div>
         <h1 class="section-title mt-3 mb-2">Not yet unlocked</h1>
@@ -3075,7 +3439,7 @@ const ClaimView = {
         <a href="#/awards" class="btn-liq mt-3">Back to Ladder</a>
       </div>`;
     }
-    if(s.claims.some(c => c.tier_number === tierNum)){
+    if((s.claims||[]).some(c => c.tier_number === tierNum)){
       return `<div class="view-enter text-center py-5">
         <div style="font-size:3rem">✅</div>
         <h1 class="section-title mt-3 mb-2">Already claimed</h1>
@@ -3084,7 +3448,15 @@ const ClaimView = {
       </div>`;
     }
 
-    this.state = { step: 1, data: { full_name: AuthStore.user.name, email: AuthStore.user.email, phone: AuthStore.user.phone || '', country: 'Nigeria' } };
+    this.state = {
+      step: 1,
+      data: {
+        full_name: AuthStore.user.name,
+        email: AuthStore.user.email,
+        phone: AuthStore.user.phone || '',
+        country: 'Nigeria'
+      }
+    };
 
     return `
     <div class="view-enter mw-640 mx-auto">
@@ -3125,7 +3497,7 @@ const ClaimView = {
 
   renderStep(n){
     const tierNum = Number(this.params.tierNumber);
-    const tier = TIER_SEED.find(t => t.tier_number === tierNum);
+    const tier = (CACHE.tiers||TIER_SEED).find(t => t.tier_number === tierNum);
     const body = $('#claimBody');
     const d = this.state.data;
 
@@ -3133,7 +3505,7 @@ const ClaimView = {
       body.innerHTML = `
         <div class="eyebrow mb-3">Step 1 of 4 · Confirm</div>
         <div class="d-flex align-items-center gap-3 mb-3 p-3" style="background:rgba(0,0,0,.24);border-radius:var(--r2)">
-          ${tierShield(tier, 48)}
+          ${tierThumb(tier, 56, 12)}
           <div style="flex:1">
             <div class="fw-bold">${escapeHtml(tier.title)}</div>
             <div class="fs-8 t-mid">${escapeHtml(tier.reward_name)}</div>
@@ -3240,13 +3612,14 @@ const ClaimView = {
     }
 
     else if(n === 3){
+      const s = API.computeEligibility();
       body.innerHTML = `
         <div class="eyebrow mb-3">Step 3 of 4 · Review</div>
         <div class="mb-3 p-3" style="background:rgba(0,0,0,.24);border-radius:var(--r2)">
           <div class="fs-9 t-lo mono mb-2">REWARD</div>
           <div class="fw-bold mb-1">${escapeHtml(tier.title)}</div>
           <div class="fs-8 t-mid mb-2">${escapeHtml(tier.reward_name)}</div>
-          <div class="fs-9 t-lo">Referrals at claim: <span class="mono t-gold">${computeEligibility(AuthStore.user._id).confirmed_referrals}</span></div>
+          <div class="fs-9 t-lo">Referrals at claim: <span class="mono t-gold">${s.confirmed_referrals}</span></div>
         </div>
         <div class="mb-3 p-3" style="background:rgba(0,0,0,.24);border-radius:var(--r2)">
           <div class="fs-9 t-lo mono mb-2">DELIVER TO</div>
@@ -3274,7 +3647,7 @@ const ClaimView = {
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Submitting…';
         try{
-          await API.claim(AuthStore.user._id, tierNum, this.state.data);
+          await API.claim(tierNum, this.state.data);
           this.setStep(4);
         }catch(err){
           Toast.show(err.message, 'error');
@@ -3319,8 +3692,8 @@ const ClaimsView = {
   filter: 'active',
 
   render(){
-    const s = computeEligibility(AuthStore.user._id);
-    const claims = s.claims;
+    const s = API.computeEligibility();
+    const claims = s.claims || [];
 
     const groups = {
       active: claims.filter(c => ['claimed','under_review','approved'].includes(c.status)),
@@ -3386,7 +3759,7 @@ const ClaimsView = {
   },
 
   renderClaim(c){
-    const tier = TIER_SEED.find(t => t.tier_number === c.tier_number);
+    const tier = (CACHE.tiers||TIER_SEED).find(t => t.tier_number === c.tier_number);
     if(!tier) return '';
 
     const stages = ['claimed','under_review','approved','fulfilled'];
@@ -3395,7 +3768,7 @@ const ClaimsView = {
     return `
     <div class="surface surface-pad mb-3 reveal">
       <div class="d-flex align-items-start gap-3 mb-3">
-        ${tierShield(tier, 52)}
+        ${tierThumb(tier, 56, 12)}
         <div style="flex:1;min-width:0">
           <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
             <span class="fw-bold">${escapeHtml(tier.title)}</span>
@@ -3445,14 +3818,15 @@ const ClaimsView = {
 
     $$('[data-claim-detail]').forEach(b => {
       b.onclick = () => {
-        const claim = DB.data.awardClaims.find(c => c._id === b.dataset.claimDetail);
+        const claims = API.getClaims();
+        const claim = claims.find(c => c._id === b.dataset.claimDetail);
         if(!claim) return;
-        const tier = TIER_SEED.find(t => t.tier_number === claim.tier_number);
+        const tier = (CACHE.tiers||TIER_SEED).find(t => t.tier_number === claim.tier_number);
         const d = claim.delivery_details || {};
         Sheet.open({
           title: tier ? tier.title : 'Claim',
           body: `
-            <div class="text-center mb-3">${tier ? tierShield(tier, 64) : ''}</div>
+            <div class="text-center mb-3">${tier ? tierThumb(tier, 64, 14) : ''}</div>
             <div class="mb-3">${statusPill(claim.status)}</div>
             <div class="mb-3 p-3" style="background:rgba(0,0,0,.24);border-radius:var(--r2)">
               <div class="fs-9 t-lo mono mb-2">DELIVERY DETAILS</div>
@@ -3485,10 +3859,10 @@ const ReferralsView = {
 
   render(){
     const user = AuthStore.user;
-    const s = computeEligibility(user._id);
-    const link = s.referral_link;
+    const s = API.computeEligibility();
+    const link = s.referral_link || (CONFIG.MAIN_APP + '/register?ref=' + (user.referral_code||''));
 
-    const all = DB.data.referrals.filter(r => r.referrer_id === user._id);
+    const all = DB.data.referrals ? DB.data.referrals.filter(r => r.referrer_id === user._id) : [];
     const filtered = this.filter === 'all' ? all : all.filter(r => r.status === this.filter);
     filtered.sort((a,b) => b.created_at - a.created_at);
 
@@ -3500,13 +3874,12 @@ const ReferralsView = {
         <p class="t-mid fs-7 mb-0">Share your link and watch your ladder climb.</p>
       </div>
 
-      <!-- Referral code card -->
       <div class="hero-panel p-4 mb-3">
         <div class="position-relative" style="z-index:3">
           <div class="eyebrow mb-2">Your Referral Code</div>
           <div class="d-flex align-items-center justify-content-between gap-3 mb-3 flex-wrap">
             <div class="mono grad-gold" style="font-size:clamp(1.5rem,7vw,2.2rem);font-weight:700;letter-spacing:.06em">
-              ${escapeHtml(user.referral_code)}
+              ${escapeHtml(user.referral_code || '—')}
             </div>
             <button class="btn-liq btn-sm-liq" id="copyCode"><i class="bi bi-clipboard"></i> Copy</button>
           </div>
@@ -3531,14 +3904,12 @@ const ReferralsView = {
         </div>
       </div>
 
-      <!-- Stats -->
       <div class="row g-2 mb-3">
         <div class="col-4"><div class="stat-tile"><div class="stat-val">${s.confirmed_referrals}</div><div class="stat-lab">Confirmed</div></div></div>
-        <div class="col-4"><div class="stat-tile"><div class="stat-val">${s.pending_referrals}</div><div class="stat-lab">Pending</div></div></div>
+        <div class="col-4"><div class="stat-tile"><div class="stat-val">${s.pending_referrals||0}</div><div class="stat-lab">Pending</div></div></div>
         <div class="col-4"><div class="stat-tile"><div class="stat-val">${all.length}</div><div class="stat-lab">Total</div></div></div>
       </div>
 
-      <!-- Posters -->
       <div class="surface surface-pad mb-3">
         <div class="eyebrow mb-3">Shareable Posters</div>
         <div class="row g-2">
@@ -3555,7 +3926,6 @@ const ReferralsView = {
         </div>
       </div>
 
-      <!-- List -->
       <div class="surface surface-pad">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
           <h2 class="h6 mb-0">Referral List</h2>
@@ -3618,8 +3988,9 @@ const ReferralsView = {
 
   mount(){
     const user = AuthStore.user;
-    const link = computeEligibility(user._id).referral_link;
-    const shareText = `Join LIQUIDATED with my referral code ${user.referral_code} and start earning. ${link}`;
+    const s = API.computeEligibility();
+    const link = s.referral_link || (CONFIG.MAIN_APP + '/register?ref=' + (user.referral_code||''));
+    const shareText = `Join LIQUIDATED with my referral code ${user.referral_code || ''} and start earning. ${link}`;
 
     const doCopy = (text, msg) => {
       copyText(text).then(() => {
@@ -3629,7 +4000,7 @@ const ReferralsView = {
     };
 
     const cc = $('#copyCode');
-    if(cc) cc.onclick = () => doCopy(user.referral_code, 'Referral code copied!');
+    if(cc) cc.onclick = () => doCopy(user.referral_code || '', 'Referral code copied!');
     const cl = $('#copyLink');
     if(cl) cl.onclick = () => doCopy(link, 'Referral link copied!');
 
@@ -3640,9 +4011,9 @@ const ReferralsView = {
         const enc = encodeURIComponent;
         const urls = {
           whatsapp: `https://wa.me/?text=${enc(shareText)}`,
-          telegram: `https://t.me/share/url?url=${enc(link)}&text=${enc('Join LIQUIDATED with my code ' + user.referral_code)}`,
+          telegram: `https://t.me/share/url?url=${enc(link)}&text=${enc('Join LIQUIDATED with my code ' + (user.referral_code||''))}`,
           facebook: `https://www.facebook.com/sharer/sharer.php?u=${enc(link)}`,
-          x: `https://twitter.com/intent/tweet?text=${enc('Join LIQUIDATED with my code ' + user.referral_code)}&url=${enc(link)}`,
+          x: `https://twitter.com/intent/tweet?text=${enc('Join LIQUIDATED with my code ' + (user.referral_code||''))}&url=${enc(link)}`,
           email: `mailto:?subject=${enc('Join LIQUIDATED')}&body=${enc(shareText)}`
         };
         if(t === 'copy'){ doCopy(link, 'Link copied!'); return; }
@@ -3672,22 +4043,14 @@ const ReferralsView = {
   }
 };
 
-function maskEmail(email){
-  if(!email) return '';
-  const [u, d] = email.split('@');
-  if(!d) return email;
-  const shown = u.slice(0, 2);
-  return shown + '***@' + d;
-}
-
 /* ---------------------------------------------------------------------------
    LEADERBOARD (/leaderboard)
 --------------------------------------------------------------------------- */
 const LeaderboardView = {
   render(){
-    const rows = buildLeaderboard();
+    const rows = CACHE.leaderboard || [];
     const me = AuthStore.user;
-    const myIdx = rows.findIndex(r => r.userId === me._id);
+    const myIdx = me ? rows.findIndex(r => r.userId === me._id) : -1;
 
     return `
     <div class="view-enter">
@@ -3697,18 +4060,20 @@ const LeaderboardView = {
         <p class="t-mid fs-7 mb-0">Top 100 referrers · updated hourly</p>
       </div>
 
-      <div class="row g-2 mb-3">
-        ${rows.slice(0,3).map((r,i) => `
-          <div class="col-4">
-            <div class="surface surface-pad text-center card-hover" style="padding:14px 10px">
-              <div class="rank-badge r${i+1} mx-auto mb-2">${r.rank}</div>
-              ${tierShield(r.tier || TIER_SEED[0], 42)}
-              <div class="fs-8 t-hi mt-2 text-truncate">${escapeHtml(maskName(r.name))}</div>
-              <div class="fs-9 t-lo mono">${fmtNum(r.confirmed)} refs</div>
+      ${rows.length ? `
+        <div class="row g-2 mb-3">
+          ${rows.slice(0,3).map((r,i) => `
+            <div class="col-4">
+              <div class="surface surface-pad text-center card-hover" style="padding:14px 10px">
+                <div class="rank-badge r${i+1} mx-auto mb-2">${r.rank}</div>
+                ${r.tier ? tierShield(r.tier, 42) : tierShield(TIER_SEED[0], 42)}
+                <div class="fs-8 t-hi mt-2 text-truncate">${escapeHtml(maskName(r.name))}</div>
+                <div class="fs-9 t-lo mono">${fmtNum(r.confirmed)} refs</div>
+              </div>
             </div>
-          </div>
-        `).join('')}
-      </div>
+          `).join('')}
+        </div>
+      ` : ''}
 
       ${myIdx >= 0 ? `
         <div class="surface surface-pad mb-3" style="border-color:rgba(212,175,55,.42);box-shadow:0 0 0 1px rgba(212,175,55,.2)">
@@ -3733,8 +4098,8 @@ const LeaderboardView = {
               <tr><th style="width:52px">#</th><th>Referrer</th><th class="text-end">Confirmed</th><th class="text-end d-none d-sm-table-cell">Tier</th></tr>
             </thead>
             <tbody>
-              ${rows.map(r => `
-                <tr class="${r.userId === me._id ? 'me' : ''}">
+              ${rows.length ? rows.map(r => `
+                <tr class="${me && r.userId === me._id ? 'me' : ''}">
                   <td><div class="rank-badge ${r.rank<=3?'r'+r.rank:''}">${r.rank}</div></td>
                   <td>
                     <div class="fs-8 t-hi">${escapeHtml(maskName(r.name))}</div>
@@ -3745,7 +4110,9 @@ const LeaderboardView = {
                     ${r.tier ? `<span class="fs-9 t-mid">${r.tier.reward_icon} ${escapeHtml(r.tier.title)}</span>` : '<span class="fs-9 t-lo">—</span>'}
                   </td>
                 </tr>
-              `).join('')}
+              `).join('') : `
+                <tr><td colspan="4" class="text-center py-4 t-lo fs-8">Leaderboard unavailable. Refresh to retry.</td></tr>
+              `}
             </tbody>
           </table>
         </div>
@@ -3761,27 +4128,13 @@ const LeaderboardView = {
   mount(){}
 };
 
-function buildLeaderboard(){
-  const rows = DB.data.users.map(u => {
-    const confirmed = u._confirmed_override != null
-      ? u._confirmed_override
-      : DB.data.referrals.filter(r => r.referrer_id === u._id && r.status === 'completed').length;
-    return { userId: u._id, name: u.name, confirmed };
-  })
-  .filter(r => r.confirmed > 0)
-  .sort((a,b) => b.confirmed - a.confirmed)
-  .slice(0,100);
-
-  return rows.map((r,i) => ({ rank: i+1, ...r, tier: tierForCount(r.confirmed) }));
-}
-
 /* ---------------------------------------------------------------------------
    PROFILE (/profile)
 --------------------------------------------------------------------------- */
 const ProfileView = {
   render(){
     const u = AuthStore.user;
-    const s = computeEligibility(u._id);
+    const s = API.computeEligibility();
 
     return `
     <div class="view-enter mw-640 mx-auto">
@@ -3795,7 +4148,7 @@ const ProfileView = {
         <p class="fs-8 t-lo mb-2">${escapeHtml(u.email)}</p>
         <div class="d-flex justify-content-center gap-2 flex-wrap">
           ${u.kyc_verified ? '<span class="pill pill-emerald"><i class="bi bi-patch-check-fill"></i> KYC Verified</span>' : '<span class="pill pill-muted">KYC Pending</span>'}
-          <span class="pill pill-gold"><i class="bi bi-trophy-fill"></i> ${s.unlocked_tiers.length} Tiers</span>
+          <span class="pill pill-gold"><i class="bi bi-trophy-fill"></i> ${(s.unlocked_tiers||[]).length} / ${TOTAL_TIERS} Tiers</span>
         </div>
       </div>
 
@@ -3803,7 +4156,7 @@ const ProfileView = {
         <div class="eyebrow mb-3">Account</div>
         <div class="d-flex justify-content-between py-2" style="border-bottom:1px solid rgba(255,255,255,.06)">
           <span class="fs-8 t-lo">Referral code</span>
-          <span class="fs-8 mono t-gold">${escapeHtml(u.referral_code)}</span>
+          <span class="fs-8 mono t-gold">${escapeHtml(u.referral_code||'—')}</span>
         </div>
         <div class="d-flex justify-content-between py-2" style="border-bottom:1px solid rgba(255,255,255,.06)">
           <span class="fs-8 t-lo">Phone</span>
@@ -3811,21 +4164,21 @@ const ProfileView = {
         </div>
         <div class="d-flex justify-content-between py-2" style="border-bottom:1px solid rgba(255,255,255,.06)">
           <span class="fs-8 t-lo">Member since</span>
-          <span class="fs-8 t-hi">${fmtDate(u.created_at)}</span>
+          <span class="fs-8 t-hi">${u.created_at ? fmtDate(u.created_at) : '—'}</span>
         </div>
         <div class="d-flex justify-content-between py-2">
           <span class="fs-8 t-lo">Rank percentile</span>
-          <span class="fs-8 t-gold">Top ${s.rarity_percent.toFixed(1)}%</span>
+          <span class="fs-8 t-gold">Top ${(s.rarity_percent||50).toFixed(1)}%</span>
         </div>
       </div>
 
       <div class="surface surface-pad mb-3">
         <div class="eyebrow mb-3">Progress</div>
         <div class="text-center mb-3">
-          ${progressRing((s.unlocked_tiers.length / 12) * 100, 130, 10, 'var(--gold-500)', s.unlocked_tiers.length + '/12')}
+          ${progressRing(((s.unlocked_tiers||[]).length / TOTAL_TIERS) * 100, 130, 10, 'var(--gold-500)', (s.unlocked_tiers||[]).length + '/' + TOTAL_TIERS)}
         </div>
         <div class="fs-8 t-mid text-center">
-          ${s.confirmed_referrals} confirmed referrals · ${s.claims.length} claims filed
+          ${s.confirmed_referrals} confirmed referrals · ${(s.claims||[]).length} claims filed
         </div>
       </div>
 
@@ -3974,13 +4327,9 @@ const SupportView = {
    ADMIN — CLAIM REVIEW (/admin/awards)
 --------------------------------------------------------------------------- */
 const AdminView = {
-  render(){
-    const claims = DB.data.awardClaims.slice().sort((a,b)=>b.created_at-a.created_at);
-    const pending = claims.filter(c => ['claimed','under_review'].includes(c.status));
-    const approved = claims.filter(c => c.status === 'approved');
-    const fulfilled = claims.filter(c => c.status === 'fulfilled');
-    const rejected = claims.filter(c => c.status === 'rejected');
+  state: { claims: [], loading: true },
 
+  render(){
     return `
     <div class="view-enter">
       <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
@@ -3991,7 +4340,47 @@ const AdminView = {
         </div>
         <span class="pill pill-danger"><i class="bi bi-shield-lock"></i> Admin</span>
       </div>
+      <div id="adminBody">
+        <div class="surface surface-pad text-center py-5">
+          <div class="spinner-border text-warning" role="status"></div>
+          <p class="fs-8 t-lo mt-3 mb-0">Loading claims…</p>
+        </div>
+      </div>
+      <button class="btn-liq btn-ghost btn-block mt-3" onclick="location.hash='#/dashboard'">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+    `;
+  },
 
+  async mount(){
+    try{
+      const claims = await API.adminGetClaims();
+      this.state.claims = claims;
+      this.state.loading = false;
+      this.renderBody();
+    }catch(err){
+      this.state.loading = false;
+      $('#adminBody').innerHTML = `
+        <div class="surface surface-pad text-center py-5">
+          <div style="font-size:2.4rem">⚠️</div>
+          <h2 class="h6 mt-3 mb-1">Access Denied</h2>
+          <p class="fs-8 t-lo mb-0">${escapeHtml(err.message || 'You do not have admin privileges on this account.')}</p>
+        </div>`;
+    }
+  },
+
+  renderBody(){
+    const claims = this.state.claims || [];
+    const pending = claims.filter(c => ['claimed','under_review'].includes(c.status));
+    const approved = claims.filter(c => c.status === 'approved');
+    const fulfilled = claims.filter(c => c.status === 'fulfilled');
+    const rejected = claims.filter(c => c.status === 'rejected');
+
+    const el = $('#adminBody');
+    if(!el) return;
+
+    el.innerHTML = `
       <div class="row g-2 mb-3">
         <div class="col-3"><div class="stat-tile"><div class="stat-val">${pending.length}</div><div class="stat-lab">Pending</div></div></div>
         <div class="col-3"><div class="stat-tile"><div class="stat-val">${approved.length}</div><div class="stat-lab">Approved</div></div></div>
@@ -4000,19 +4389,20 @@ const AdminView = {
       </div>
 
       ${claims.length ? claims.map(c => {
-        const tier = TIER_SEED.find(t => t.tier_number === c.tier_number);
-        const u = DB.data.users.find(x => x._id === c.user);
+        const tier = (CACHE.tiers||TIER_SEED).find(t => t.tier_number === c.tier_number)
+                  || (c._tier) || null;
+        const u = DB.data.users.find(x => x._id === c.user) || c._user || null;
         const d = c.delivery_details || {};
         return `
           <div class="surface surface-pad mb-3">
             <div class="d-flex align-items-start gap-3 mb-2 flex-wrap">
-              ${tier ? tierShield(tier, 46) : ''}
+              ${tier ? tierThumb(tier, 46, 10) : ''}
               <div style="flex:1;min-width:180px">
                 <div class="d-flex gap-2 align-items-center flex-wrap mb-1">
                   <span class="fw-bold">${tier ? escapeHtml(tier.title) : 'Tier'}</span>
                   ${statusPill(c.status)}
                 </div>
-                <div class="fs-8 t-mid">${u ? escapeHtml(u.name) : 'Unknown'} · ${u ? escapeHtml(u.email) : ''}</div>
+                <div class="fs-8 t-mid">${u ? escapeHtml(u.name) : 'Unknown'} · ${u ? escapeHtml(u.email || '') : ''}</div>
                 <div class="fs-9 t-lo">${c.referrals_at_claim} referrals at claim · ${fmtDate(c.created_at)}</div>
               </div>
             </div>
@@ -4025,7 +4415,7 @@ const AdminView = {
             <div class="d-flex gap-2 flex-wrap">
               ${['claimed','under_review'].includes(c.status) ? `
                 <button class="btn-liq btn-emerald btn-xs-liq" data-admin-approve="${c._id}"><i class="bi bi-check-lg"></i> Approve</button>
-                <button class="btn-liq btn-ghost btn-xs-liq" data-admin-review="${c._id}"><i class="bi bi-hourglass"></i> Mark Reviewing</button>
+                ${c.status === 'claimed' ? `<button class="btn-liq btn-ghost btn-xs-liq" data-admin-review="${c._id}"><i class="bi bi-hourglass"></i> Mark Reviewing</button>` : ''}
               ` : ''}
               ${c.status === 'approved' ? `
                 <button class="btn-liq btn-emerald btn-xs-liq" data-admin-fulfill="${c._id}"><i class="bi bi-truck"></i> Mark Fulfilled</button>
@@ -4040,68 +4430,51 @@ const AdminView = {
           </div>
         `;
       }).join('') : '<div class="surface surface-pad text-center py-4"><p class="t-lo fs-8 mb-0">No claims to review.</p></div>'}
-
-      <button class="btn-liq btn-ghost btn-block mt-3" onclick="location.hash='#/dashboard'">
-        <i class="bi bi-arrow-left"></i> Back to Dashboard
-      </button>
-    </div>
     `;
-  },
 
-  mount(){
-    $$('[data-admin-approve]').forEach(b => {
+    el.querySelectorAll('[data-admin-approve]').forEach(b => {
       b.onclick = async () => {
-        await API.adminSetClaimStatus(b.dataset.adminApprove, 'approved');
-        Toast.show('Claim approved.', 'success');
-        Router.rerender();
+        try{ await API.adminSetClaimStatus(b.dataset.adminApprove, 'approved'); Toast.show('Claim approved.', 'success'); await this.mount(); }
+        catch(e){ Toast.show(e.message, 'error'); }
       };
     });
-    $$('[data-admin-review]').forEach(b => {
+    el.querySelectorAll('[data-admin-review]').forEach(b => {
       b.onclick = async () => {
-        await API.adminSetClaimStatus(b.dataset.adminReview, 'under_review');
-        Toast.show('Claim marked under review.', 'info');
-        Router.rerender();
+        try{ await API.adminSetClaimStatus(b.dataset.adminReview, 'under_review'); Toast.show('Claim marked under review.', 'info'); await this.mount(); }
+        catch(e){ Toast.show(e.message, 'error'); }
       };
     });
-    $$('[data-admin-reject]').forEach(b => {
+    el.querySelectorAll('[data-admin-reject]').forEach(b => {
       b.onclick = () => {
         const id = b.dataset.adminReject;
         Sheet.open({
           title: 'Reject Claim',
-          body: `
-            <label class="form-label-liq">Rejection Reason</label>
-            <textarea class="input-liq" id="rejReason" rows="3" placeholder="Explain why this claim is being rejected…" style="min-height:100px;resize:vertical"></textarea>
-          `,
+          body: `<label class="form-label-liq">Rejection Reason</label>
+            <textarea class="input-liq" id="rejReason" rows="3" placeholder="Explain why this claim is being rejected…" style="min-height:100px;resize:vertical"></textarea>`,
           actions: [
             { id:'cancel', label:'Cancel', class:'btn-ghost' },
             { id:'reject', label:'Confirm Rejection', class:'', onClick: async (close) => {
               const reason = $('#rejReason').value.trim() || 'Does not meet programme terms.';
-              await API.adminSetClaimStatus(id, 'rejected', { reason });
-              close();
-              Toast.show('Claim rejected.', 'info');
-              Router.rerender();
+              try{ await API.adminSetClaimStatus(id, 'rejected', { reason }); close(); Toast.show('Claim rejected.', 'info'); await this.mount(); }
+              catch(e){ Toast.show(e.message, 'error'); }
             }}
           ]
         });
       };
     });
-    $$('[data-admin-fulfill]').forEach(b => {
+    el.querySelectorAll('[data-admin-fulfill]').forEach(b => {
       b.onclick = () => {
         const id = b.dataset.adminFulfill;
         Sheet.open({
           title: 'Mark as Fulfilled',
-          body: `
-            <label class="form-label-liq">Tracking Number</label>
-            <input class="input-liq" id="trkNum" placeholder="LIQ-TRK-XXXX" />
-          `,
+          body: `<label class="form-label-liq">Tracking Number</label>
+            <input class="input-liq" id="trkNum" placeholder="LIQ-TRK-XXXX" />`,
           actions: [
             { id:'cancel', label:'Cancel', class:'btn-ghost' },
             { id:'fulfil', label:'Confirm Fulfilment', class:'btn-emerald', onClick: async (close) => {
               const trk = $('#trkNum').value.trim() || ('LIQ-TRK-' + Math.floor(1000+Math.random()*8999));
-              await API.adminSetClaimStatus(id, 'fulfilled', { tracking_info: trk });
-              close();
-              Toast.show('Claim marked fulfilled.', 'success');
-              Router.rerender();
+              try{ await API.adminSetClaimStatus(id, 'fulfilled', { tracking_info: trk }); close(); Toast.show('Claim marked fulfilled.', 'success'); await this.mount(); }
+              catch(e){ Toast.show(e.message, 'error'); }
             }}
           ]
         });
@@ -4128,7 +4501,7 @@ const NotFoundView = {
 };
 
 /* ==========================================================================
-   14. ROUTER
+   19. ROUTER
    ========================================================================== */
 const Router = {
   currentPath: '/',
@@ -4170,7 +4543,7 @@ const Router = {
     location.hash = '#' + path;
   },
 
-  rerender(){
+  async rerender(){
     const view = $('#view');
     const path = this.parse();
     this.currentPath = path;
@@ -4184,19 +4557,26 @@ const Router = {
       return;
     }
 
-    // Scroll to top
+    // Refresh data from live backend before rendering protected views
+    if(!matched.route.public && AuthStore.isAuthed && MODE === 'live'){
+      try{ await API.refreshAll(); }
+      catch(err){ Toast.show('Could not reach the server. Showing cached data.', 'error', 3200); }
+    }
+
+    // For non-authed routes in demo, still hydrate demo data for landing/leaderboard
+    if(MODE === 'demo' && !AuthStore.isAuthed && (matched.route.key === 'landing')){
+      try{ await API.refreshAll(); }catch(e){}
+    }
+
     window.scrollTo({ top:0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
 
-    // Render
     const html = matched.route.view.render(matched.params);
     view.innerHTML = html;
 
-    // Mount
     if(matched.route.view.mount){
-      try{ matched.route.view.mount(matched.params); }catch(e){ console.warn(e); }
+      try{ await matched.route.view.mount(matched.params); }catch(e){ console.warn(e); }
     }
 
-    // Post-render
     animateProgress();
     initReveal(view);
     renderDock();
@@ -4230,27 +4610,18 @@ const Router = {
 };
 
 /* ==========================================================================
-   15. PERFORMANCE BEHAVIOUR
+   20. PERFORMANCE BEHAVIOUR
    ========================================================================== */
 document.addEventListener('visibilitychange', () => {
   document.body.classList.toggle('tab-hidden', document.visibilityState === 'hidden');
 });
 
-/* Pause confetti when hidden to save battery */
-let wasVisible = true;
-document.addEventListener('visibilitychange', () => {
-  if(document.visibilityState === 'hidden'){ wasVisible = false; }
-  else if(!wasVisible){ wasVisible = true; }
-});
-
-/* Passive scroll listeners for future parallax */
 let rafScroll = null;
 window.addEventListener('scroll', () => {
   if(rafScroll) return;
   rafScroll = requestAnimationFrame(() => { rafScroll = null; });
 }, { passive:true });
 
-/* Battery-aware: reduce animation on low battery */
 if(navigator.getBattery){
   navigator.getBattery().then(b => {
     const apply = () => {
@@ -4265,18 +4636,59 @@ if(navigator.getBattery){
 }
 
 /* ==========================================================================
-   16. BOOTSTRAP / INIT
+   21. MODE INDICATOR
    ========================================================================== */
-function boot(){
+function renderModeTag(){
+  const el = $('#modeTag');
+  if(!el) return;
+  el.textContent = 'MODE · ' + MODE.toUpperCase();
+  el.classList.toggle('live', MODE === 'live');
+}
+
+/* ==========================================================================
+   22. BOOTSTRAP
+   ========================================================================== */
+async function boot(){
+  // Load mock DB (used as fallback and for demo mode)
   DB.load();
-  AuthStore.hydrate();
+
+  // Determine mode: URL param > localStorage > auto-probe
+  const urlParams = new URLSearchParams(location.search);
+  const urlMode = urlParams.get('mode');
+  let storedMode = null;
+  try{ storedMode = localStorage.getItem('liq_awards_mode'); }catch(e){}
+
+  if(urlMode === 'demo' || urlMode === 'live'){
+    MODE = urlMode;
+  } else if(storedMode === 'demo' || storedMode === 'live'){
+    MODE = storedMode;
+  } else if(CONFIG.preferLive){
+    // Probe the live backend
+    try{
+      const ok = await LiveAPI.probe();
+      MODE = ok ? 'live' : 'demo';
+    }catch(e){ MODE = 'demo'; }
+  } else {
+    MODE = 'demo';
+  }
+
+  try{ localStorage.setItem('liq_awards_mode', MODE); }catch(e){}
+  renderModeTag();
+
+  // Hydrate auth
+  await AuthStore.hydrate();
 
   // Handle ?ref= in URL (referral capture)
-  const params = new URLSearchParams(location.search);
-  const ref = params.get('ref');
+  const ref = urlParams.get('ref');
   if(ref){
+    CACHE.pendingRef = ref;
     try{ localStorage.setItem('liq_pending_ref', ref); }catch(e){}
     setTimeout(() => Toast.show('Referral code captured: ' + ref, 'info', 3600), 900);
+  }
+
+  // Initial data hydration for landing / leaderboard
+  if(MODE === 'demo'){
+    try{ await API.refreshAll(); }catch(e){}
   }
 
   renderTopBar();
@@ -4289,42 +4701,40 @@ function boot(){
     Automation.openConsole();
   };
 
-  // Start schedulers
+  // Schedulers
   Automation.startSchedulers();
 
-  // First-run seed log
-  Automation.record('seed-award-tiers.js', 'ok', '12 tier definitions verified at boot.');
+  // Seed log
+  Automation.record('seed-award-tiers.js', 'ok', `${TOTAL_TIERS} tier definitions verified at boot.`);
 
-  // Welcome toast (first visit only)
+  // First-run welcome
   try{
     if(!localStorage.getItem('liq_welcomed')){
       localStorage.setItem('liq_welcomed', '1');
       setTimeout(() => {
-        Toast.show('Welcome to LIQUIDATED Awards. Sign in with the demo account to explore.', 'gold', 5200);
+        Toast.show(
+          MODE === 'live'
+            ? 'Connected to live backend. Sign in with your Liquidated account.'
+            : 'Demo mode active. Sign in with ada@liquidated.com / demo1234 to explore.',
+          'gold', 5200);
       }, 1200);
     }
   }catch(e){}
 
-  // Global error safety net
   window.addEventListener('error', (e) => {
     console.warn('[LIQUIDATED] runtime error:', e.message);
   });
 
-  // Keyboard shortcut: Ctrl/Cmd + K → automation console
   window.addEventListener('keydown', (e) => {
     if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){
       e.preventDefault();
       Automation.openConsole();
     }
-  });
-
-  // Escape closes sheet
-  window.addEventListener('keydown', (e) => {
     if(e.key === 'Escape') Sheet.close();
   });
 
-  console.log('%cLIQUIDATED AWARDS', 'color:#d4af37;font-weight:800;font-size:16px');
-  console.log('%c12 tiers · gold + emerald · mobile-first', 'color:#10b981;font-size:11px');
+  console.log('%cLIQUIDATED AWARDS · ' + MODE.toUpperCase(), 'color:#d4af37;font-weight:800;font-size:16px');
+  console.log('%c' + TOTAL_TIERS + ' tiers · gold + emerald · mobile-first', 'color:#10b981;font-size:11px');
   console.log('%cAutomation console: Ctrl/Cmd + K', 'color:#7fa595;font-size:11px');
 }
 
@@ -4334,10 +4744,11 @@ if(document.readyState === 'loading'){
   boot();
 }
 
-/* Expose for debugging / automation */
+/* Expose for debugging */
 window.Liquidated = {
-  DB, API, AuthStore, Router, Automation, Confetti, Toast, Sheet,
-  computeEligibility, TIER_SEED, buildLeaderboard
+  CONFIG, DB, API, LiveAPI, MockAPI, AuthStore, Router, Automation, Confetti, Toast, Sheet,
+  TIER_SEED, TIER_IMAGES, tierImage, tierForCount,
+  getMode: () => MODE
 };
 
 })();
