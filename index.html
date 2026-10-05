@@ -28,12 +28,12 @@
             apiBase: 'https://school-lwoa.onrender.com/api/v1',
             publicSiteBase: 'https://school-lwoa.onrender.com',
             support: {
-                whatsapp: '+2349161809464',
+                whatsapp: '+2349161806424',
                 email: 'support@schoolflow.ng'
             },
             bank: {
                 bankName: 'OPay',
-                accountNumber: '9161809464',
+                accountNumber: '9161806424',
                 accountName: 'Israel Dewa Wycliffe'
             }
         };
@@ -346,6 +346,74 @@
         }
         .input-x:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-light); outline: none; }
         .input-x::placeholder { color: var(--slate-light); }
+
+        /* Password input wrapper with eye toggle */
+        .pwd-wrap { position: relative; }
+        .pwd-wrap .input-x { padding-right: 2.4rem; }
+        .pwd-wrap .pwd-toggle {
+            position: absolute; right: .35rem; top: 50%; transform: translateY(-50%);
+            background: transparent; border: none; color: var(--slate);
+            width: 2rem; height: 2rem; border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: .95rem;
+        }
+        .pwd-wrap .pwd-toggle:hover { background: var(--line-soft); color: var(--ink); }
+
+        /* Strength meter */
+        .strength-meter { display: flex; gap: .25rem; margin-top: .35rem; }
+        .strength-meter .seg {
+            flex: 1; height: 4px; border-radius: 4px; background: var(--line);
+            transition: background .2s ease;
+        }
+        .strength-meter .seg.on-weak { background: var(--danger); }
+        .strength-meter .seg.on-fair { background: var(--gold); }
+        .strength-meter .seg.on-good { background: var(--green-bright); }
+        .strength-meter .seg.on-strong { background: var(--green); }
+        .strength-meter-label { font-size: .7rem; color: var(--slate); margin-top: .25rem; }
+
+        /* First-login banner */
+        .first-login-banner {
+            display: flex; gap: .7rem; align-items: center; flex-wrap: wrap;
+            background: var(--gold-light); border-left: 4px solid var(--gold);
+            border-radius: var(--radius-md); padding: .8rem 1rem; margin-bottom: 1rem;
+        }
+        .first-login-banner .fli { font-size: 1.2rem; color: var(--gold); }
+        .first-login-banner strong { color: var(--ink); }
+        .first-login-banner .fl-actions { margin-left: auto; display: flex; gap: .4rem; }
+
+        /* Login improvements */
+        .login-schoolcode-row { display: none; }
+        .login-schoolcode-row.show { display: block; }
+        .login-remember-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin: .4rem 0 .8rem; font-size: .8rem; color: var(--slate);
+        }
+        .login-hint {
+            font-size: .72rem; color: var(--slate); margin-top: .3rem;
+            display: flex; align-items: flex-start; gap: .3rem;
+        }
+
+        /* Modal credential slip */
+        .cred-slip {
+            background: linear-gradient(160deg, var(--green-light) 0%, var(--surface) 100%);
+            border: 1px solid var(--green); border-radius: var(--radius-md);
+            padding: 1rem 1.1rem; margin-bottom: .8rem;
+        }
+        .cred-slip h6 { font-weight: 700; margin-bottom: .5rem; font-size: .9rem; }
+        .cred-slip .cred-row { display: flex; justify-content: space-between; padding: .3rem 0; font-size: .85rem; border-bottom: 1px dashed rgba(0,0,0,.08); }
+        .cred-slip .cred-row:last-child { border-bottom: none; }
+        .cred-slip .cred-label { color: var(--slate); }
+        .cred-slip .cred-value { font-family: var(--font-display); font-weight: 700; letter-spacing: .01em; }
+
+        /* Portal status badge on student table */
+        .portal-cell { display: flex; align-items: center; gap: .3rem; font-size: .72rem; }
+        .portal-dot {
+            display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .portal-dot.active { background: var(--green); }
+        .portal-dot.never { background: var(--gold); }
+        .portal-dot.none { background: var(--slate-light); }
 
         .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius-md); }
         table.tbl { width: 100%; border-collapse: collapse; font-size: .84rem; }
@@ -760,7 +828,8 @@
         }
         @media print {
             .topbar, .bottom-nav, .sidebar, .fab-wrap, .toast-stack, .overlay-x, .btn-x,
-            #topLoader, .setup-checklist, #termCelebration, .sms-banner, .trial-banner { display: none !important; }
+            #topLoader, .setup-checklist, #termCelebration, .sms-banner, .trial-banner,
+            .first-login-banner { display: none !important; }
             .main { margin-left: 0 !important; padding: 0 !important; }
             .page { padding: 0 !important; max-width: 100% !important; }
             .panel { border: none !important; box-shadow: none !important; background: transparent !important; }
@@ -1004,6 +1073,29 @@
         button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
             outline: 2px solid var(--green); outline-offset: 2px;
         }
+
+        /* Child switcher for parent portal */
+        .child-switcher {
+            display: flex; gap: .4rem; overflow-x: auto; -webkit-overflow-scrolling: touch;
+            padding-bottom: .3rem; margin-bottom: 1rem;
+        }
+        .child-switcher::-webkit-scrollbar { display: none; }
+        .child-switcher .cs-item {
+            background: var(--surface); border: 1.5px solid var(--line);
+            border-radius: 22px; padding: .4rem .9rem; cursor: pointer;
+            display: flex; align-items: center; gap: .5rem;
+            white-space: nowrap; transition: border-color .15s, background .15s;
+        }
+        .child-switcher .cs-item:hover { border-color: var(--green); }
+        .child-switcher .cs-item.active {
+            border-color: var(--green); background: var(--green-light); color: var(--green);
+            font-weight: 600;
+        }
+        .child-switcher .cs-item .cs-avatar {
+            width: 24px; height: 24px; border-radius: 50%; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .65rem; font-weight: 700; font-family: var(--font-display);
+        }
     </style>
 </head>
 <body>
@@ -1122,20 +1214,39 @@
             </div>
             <div class="login-error" id="loginError">Invalid username or password.</div>
             <div class="mb-3">
-                <label class="form-label field-label" for="loginUsername">Username</label>
-                <input class="input-x" id="loginUsername" placeholder="Enter your username" autofocus autocomplete="username" />
+                <label class="form-label field-label" for="loginUsername">Username (Admission No. or Phone Number)</label>
+                <input class="input-x" id="loginUsername" placeholder="e.g. ADM/2026/0001 or 08031234567" autofocus autocomplete="username" inputmode="text" />
+                <div class="login-hint"><i class="bi bi-info-circle"></i> Students sign in with their admission number. Parents sign in with their phone number.</div>
             </div>
             <div class="mb-3">
                 <label class="form-label field-label" for="loginPassword">Password</label>
-                <input class="input-x" id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" />
+                <div class="pwd-wrap">
+                    <input class="input-x" id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" />
+                    <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('loginPassword', this)">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="login-schoolcode-row" id="loginSchoolCodeRow">
+                <div class="mb-3">
+                    <label class="form-label field-label" for="loginSchoolSlug">School code</label>
+                    <input class="input-x" id="loginSchoolSlug" placeholder="e.g. bright-path-academy" autocomplete="organization" />
+                    <div class="login-hint"><i class="bi bi-info-circle"></i> More than one school uses this username. Enter your school's code to continue.</div>
+                </div>
+            </div>
+            <div class="login-remember-row">
+                <label class="d-flex align-items-center gap-2" style="cursor:pointer;">
+                    <input type="checkbox" id="loginRemember" checked style="width:15px;height:15px;" />
+                    <span>Keep me signed in</span>
+                </label>
+                <button class="btn-x btn-ghost-x" style="padding:.2rem .4rem;color:var(--slate);" onclick="showForgotPassword()">
+                    <i class="bi bi-question-circle"></i> Forgot password?
+                </button>
             </div>
             <button class="btn-x btn-primary-x btn-block-x" id="loginBtn">
                 <i class="bi bi-box-arrow-in-right"></i> Sign in
             </button>
-            <div class="d-flex justify-content-between mt-3" style="font-size:.82rem;">
-                <button class="btn-x btn-ghost-x" style="padding:.2rem .4rem;color:var(--slate);" onclick="showForgotPassword()">
-                    <i class="bi bi-question-circle"></i> Forgot password?
-                </button>
+            <div class="d-flex justify-content-center mt-3" style="font-size:.82rem;">
                 <button class="btn-x btn-ghost-x" style="padding:.2rem .4rem;color:var(--green);" onclick="showRoutingScreen()">
                     <i class="bi bi-person-plus"></i> Create an account
                 </button>
@@ -1150,8 +1261,18 @@
         <div class="login-card">
             <div class="login-logo"><div class="brand-mark-lg"><i class="bi bi-shield-lock"></i></div><h4>Set your login credentials</h4><p class="eyebrow">Your school data was found. Please set a username and password to secure it.</p></div>
             <div class="mb-3"><label class="field-label">Username</label><input class="input-x" id="scUsername" placeholder="Choose a username" /></div>
-            <div class="mb-3"><label class="field-label">Password</label><input class="input-x" id="scPassword" type="password" placeholder="Choose a strong password" /></div>
-            <div class="mb-3"><label class="field-label">Confirm password</label><input class="input-x" id="scPasswordConfirm" type="password" placeholder="Confirm your password" /></div>
+            <div class="mb-3"><label class="field-label">Password</label>
+                <div class="pwd-wrap">
+                    <input class="input-x" id="scPassword" type="password" placeholder="Choose a strong password" />
+                    <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('scPassword', this)"><i class="bi bi-eye"></i></button>
+                </div>
+            </div>
+            <div class="mb-3"><label class="field-label">Confirm password</label>
+                <div class="pwd-wrap">
+                    <input class="input-x" id="scPasswordConfirm" type="password" placeholder="Confirm your password" />
+                    <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('scPasswordConfirm', this)"><i class="bi bi-eye"></i></button>
+                </div>
+            </div>
             <button class="btn-x btn-primary-x btn-block-x" id="scSaveBtn"><i class="bi bi-check-lg"></i> Save credentials</button>
             <div class="login-footer mt-3"><span class="eyebrow">This secures your school's data on this device.</span></div>
         </div>
@@ -1167,12 +1288,24 @@
                     <div class="mb-3"><label class="field-label">School name</label><input class="input-x" id="wSchoolName" placeholder="e.g. Bright Path Academy" /></div>
                     <div class="mb-3"><label class="field-label">School type</label><select class="input-x" id="wSchoolType"><option>Nursery &amp; Primary</option><option>Primary Only</option><option>Secondary Only</option><option selected>Primary &amp; Secondary</option></select></div>
                     <div class="mb-3"><label class="field-label">Town / State</label><input class="input-x" id="wAddress" placeholder="e.g. Ikeja, Lagos" /></div>
-                    <div class="mb-3"><label class="field-label">Phone number</label><input class="input-x" id="wPhone" placeholder="e.g. 0803 123 4567" /></div>
+                    <div class="mb-3"><label class="field-label">Phone number</label><input class="input-x" id="wPhone" placeholder="e.g. 0803 123 4567" inputmode="tel" /></div>
                     <div class="mb-3"><label class="field-label">Your name (Proprietor / Owner)</label><input class="input-x" id="wOwnerName" placeholder="e.g. Mrs. Adebola Johnson" /></div>
                     <hr class="hr-x" />
                     <div class="mb-3"><label class="field-label">Choose a username</label><input class="input-x" id="wOwnerUsername" placeholder="e.g. adebola" /><p class="eyebrow mt-1">You'll use this to sign in.</p></div>
-                    <div class="mb-3"><label class="field-label">Choose a password</label><input class="input-x" id="wOwnerPassword" type="password" placeholder="Minimum 6 characters" /></div>
-                    <div class="mb-1"><label class="field-label">Confirm password</label><input class="input-x" id="wOwnerPasswordConfirm" type="password" placeholder="Confirm your password" /></div>
+                    <div class="mb-3"><label class="field-label">Choose a password</label>
+                        <div class="pwd-wrap">
+                            <input class="input-x" id="wOwnerPassword" type="password" placeholder="Minimum 6 characters" oninput="updateStrengthMeter('wOwnerPassword','wOwnerStrength')" />
+                            <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('wOwnerPassword', this)"><i class="bi bi-eye"></i></button>
+                        </div>
+                        <div class="strength-meter" id="wOwnerStrength"><div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div></div>
+                        <div class="strength-meter-label" id="wOwnerStrengthLabel"></div>
+                    </div>
+                    <div class="mb-1"><label class="field-label">Confirm password</label>
+                        <div class="pwd-wrap">
+                            <input class="input-x" id="wOwnerPasswordConfirm" type="password" placeholder="Confirm your password" />
+                            <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('wOwnerPasswordConfirm', this)"><i class="bi bi-eye"></i></button>
+                        </div>
+                    </div>
                     <p class="eyebrow mt-2"><i class="bi bi-shield-check me-1"></i>You'll be the only one who can approve payments and close terms.</p>
                     <div class="d-flex justify-content-between align-items-center mt-3 p-2" style="background:var(--line-soft);border-radius:var(--radius-sm);">
                         <span class="eyebrow"><i class="bi bi-info-circle me-1"></i>Already have a SchoolFlow account?</span>
@@ -1269,7 +1402,7 @@
         const PUBLIC_SITE_BASE = CFG.publicSiteBase || API_BASE.replace(/\/api\/v1\/?$/, '');
         const HEALTH_BASE = API_BASE.replace(/\/api\/v1\/?$/, '');
         const SUPPORT = CFG.support || { whatsapp: '', email: '' };
-        const BANK = CFG.bank || { bankName: 'OPay', accountNumber: '9161809464', accountName: 'Israel Dewa Wycliffe' };
+        const BANK = CFG.bank || { bankName: 'OPay', accountNumber: '9161806424', accountName: 'Israel Dewa Wycliffe' };
         const TOKEN_KEY = 'schoolflow_tokens';
         const REFRESH_KEY = 'schoolflow_refresh';
         const THEME_KEY = 'schoolflow_theme';
@@ -1278,6 +1411,9 @@
         const VISITED_PAGES_KEY = 'schoolflow_visited_pages';
         const SETUP_DISMISSED_KEY = 'schoolflow_setup_dismissed';
         const SESSION_STATUS_KEY = 'schoolflow_session_status';
+        const SCHOOL_SLUG_KEY = 'schoolflow_school_slug';
+        const FIRST_LOGIN_KEY = 'schoolflow_first_login_pending';
+        const LAST_CHILD_KEY = 'schoolflow_last_child';
         const REQUEST_TIMEOUT_MS = 45000;
 
         const ROLE_LABELS = {
@@ -1651,6 +1787,10 @@
                 return `Request failed (HTTP ${resp.status})`;
             }
         }
+        async function parseErrorBody(resp) {
+            try { return await resp.json(); }
+            catch (_) { return {}; }
+        }
 
         // =============================================================
         // 3. TOP LOADER
@@ -1788,6 +1928,60 @@
                 t = setTimeout(() => fn.apply(this, args), wait);
             };
         }
+
+        // =============================================================
+        // 4a. PASSWORD UX HELPERS
+        // =============================================================
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            const icon = btn?.querySelector('i');
+            if (icon) icon.className = isPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
+            if (btn) btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+        }
+        window.togglePasswordVisibility = togglePasswordVisibility;
+
+        function passwordStrength(pw) {
+            // Score 0–4 based on length and character variety
+            if (!pw) return 0;
+            let score = 0;
+            if (pw.length >= 6) score++;
+            if (pw.length >= 10) score++;
+            if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+            if (/\d/.test(pw) && /[^A-Za-z0-9]/.test(pw)) score++;
+            return Math.min(score, 4);
+        }
+        function strengthLabel(score) {
+            return ['Too short', 'Weak', 'Fair', 'Good', 'Strong'][score] || 'Weak';
+        }
+        function strengthClass(score) {
+            return ['on-weak', 'on-weak', 'on-fair', 'on-good', 'on-strong'][score] || 'on-weak';
+        }
+        function updateStrengthMeter(inputId, meterId) {
+            const input = document.getElementById(inputId);
+            const meter = document.getElementById(meterId);
+            if (!input || !meter) return;
+            const score = passwordStrength(input.value);
+            const segs = meter.querySelectorAll('.seg');
+            segs.forEach((seg, i) => {
+                seg.className = 'seg' + (i < score ? ' ' + strengthClass(score) : '');
+            });
+            const label = document.getElementById(meterId + 'Label');
+            if (label) {
+                label.textContent = input.value ? strengthLabel(score) : '';
+                label.style.color = score <= 1 ? 'var(--danger)' : score === 2 ? 'var(--gold)' : 'var(--green)';
+            }
+        }
+        window.updateStrengthMeter = updateStrengthMeter;
+
+        // Normalize a phone number so it matches how the backend stores parent usernames.
+        function normalizePhoneForLogin(v) {
+            if (!v) return '';
+            return String(v).replace(/[\s\-()]/g, '');
+        }
+        window.normalizePhoneForLogin = normalizePhoneForLogin;
 
         // =============================================================
         // 4b. ACADEMIC CONTEXT
@@ -2071,6 +2265,61 @@
         }
 
         // =============================================================
+        // 4d. FIRST-LOGIN PROMPT (STUDENT/PARENT)
+        // =============================================================
+        function firstLoginKey(userId) { return FIRST_LOGIN_KEY + '_' + userId; }
+        function isFirstLoginPending(userId) {
+            try {
+                const v = localStorage.getItem(firstLoginKey(userId));
+                if (v === 'dismissed') return false;
+                if (v === 'pending') return true;
+            } catch (_) {}
+            return null; // unknown
+        }
+        function markFirstLoginPending(userId) {
+            if (!userId) return;
+            try { localStorage.setItem(firstLoginKey(userId), 'pending'); } catch (_) {}
+        }
+        function dismissFirstLogin(userId) {
+            if (!userId) return;
+            try { localStorage.setItem(firstLoginKey(userId), 'dismissed'); } catch (_) {}
+        }
+        function isDefaultPassword(user, password) {
+            // Not stored; we approximate: if the username equals the password the user just typed.
+            // The backend also refuses a new password equal to the username, so this is safe.
+            return password && user && (user.username === password);
+        }
+
+        function maybeRenderFirstLoginBanner() {
+            const user = Api.getUser();
+            if (!user) return '';
+            if (!['STUDENT', 'PARENT'].includes(user.role)) return '';
+            const state = isFirstLoginPending(user.id);
+            // Show only if we never recorded a dismissed state and we haven't seen this user sign in before.
+            // (The safest heuristic: if the user has never logged in since this device saw them.)
+            if (state !== 'pending') return '';
+            const label = user.role === 'STUDENT' ? 'admission number' : 'phone number';
+            return `
+                <div class="first-login-banner" role="alert">
+                    <i class="bi bi-shield-lock-fill fli"></i>
+                    <div style="flex:1;min-width:200px;">
+                        <strong>Change your password</strong>
+                        <div class="eyebrow">Your password is still your ${escapeHtml(label)}. Set your own password now to keep your account safe.</div>
+                    </div>
+                    <div class="fl-actions">
+                        <button class="btn-x btn-ghost-x btn-sm-x" onclick="dismissFirstLoginBanner()">Later</button>
+                        <button class="btn-x btn-primary-x btn-sm-x" onclick="openChangePassword()"><i class="bi bi-key"></i> Change now</button>
+                    </div>
+                </div>`;
+        }
+        window.dismissFirstLoginBanner = function() {
+            const user = Api.getUser();
+            if (user) dismissFirstLogin(user.id);
+            const el = document.querySelector('.first-login-banner');
+            if (el) el.remove();
+        };
+
+        // =============================================================
         // 5. TOASTS
         // =============================================================
         function showToast(message, type = 'success', duration = 3200) {
@@ -2274,6 +2523,14 @@
             document.getElementById('loginError').classList.remove('show');
             document.getElementById('loginUsername').value = '';
             document.getElementById('loginPassword').value = '';
+            // Pre-fill school code if we remembered it
+            try {
+                const slug = localStorage.getItem(SCHOOL_SLUG_KEY);
+                const slugInput = document.getElementById('loginSchoolSlug');
+                if (slug && slugInput) slugInput.value = slug;
+                const row = document.getElementById('loginSchoolCodeRow');
+                if (slug && row) row.classList.add('show');
+            } catch (_) {}
             setTimeout(() => document.getElementById('loginUsername').focus(), 100);
         }
         function showRoutingScreen() {
@@ -2288,31 +2545,67 @@
             document.getElementById('scPasswordConfirm').value = '';
             setTimeout(() => document.getElementById('scUsername').focus(), 100);
         }
+
+        let _loginAttempts = 0;
+
         async function attemptLogin() {
-            const username = document.getElementById('loginUsername').value.trim();
+            const rawUsername = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('loginRemember')?.checked !== false;
+            const schoolSlugInput = document.getElementById('loginSchoolSlug');
+            const schoolSlug = schoolSlugInput ? schoolSlugInput.value.trim() : '';
             const errorEl = document.getElementById('loginError');
             const btn = document.getElementById('loginBtn');
-            if (!username || !password) {
+
+            if (!rawUsername || !password) {
                 errorEl.textContent = 'Please enter both username and password.';
                 errorEl.classList.add('show');
                 return;
             }
+
+            // If the user typed a phone number, strip spaces, dashes and brackets
+            // so it matches the parent-username format the backend expects.
+            const looksLikePhone = /^[\d\s\-()+]+$/.test(rawUsername) && /\d/.test(rawUsername);
+            const username = looksLikePhone ? normalizePhoneForLogin(rawUsername) : rawUsername;
+
             setButtonLoading(btn, 'Signing in...');
             errorEl.classList.remove('show');
+
             try {
-                const resp = await Api.post('/auth/login', { username, password });
+                const resp = await Api.post('/auth/login', { username, password, remember, schoolSlug: schoolSlug || undefined });
                 if (!resp.ok) {
+                    const body = await parseErrorBody(resp);
+                    const code = body?.code || body?.error?.code;
+                    if (code === 'SCHOOL_REQUIRED') {
+                        // Reveal school code field
+                        document.getElementById('loginSchoolCodeRow').classList.add('show');
+                        errorEl.textContent = 'More than one school uses this username. Enter your school code below and try again.';
+                        errorEl.classList.add('show');
+                        return;
+                    }
                     if (resp.status === 401) errorEl.textContent = 'Invalid username or password.';
                     else if (resp.status === 403) errorEl.textContent = 'This account has been deactivated. Contact your school owner.';
                     else if (resp.status >= 500) errorEl.textContent = 'The server is having trouble right now. Please try again in a minute.';
-                    else errorEl.textContent = await parseErrorResponse(resp);
+                    else errorEl.textContent = extractErrorMessage(body);
                     errorEl.classList.add('show');
+                    _loginAttempts++;
+                    if (_loginAttempts >= 5) {
+                        errorEl.textContent += ' If you cannot remember it, ask your school to reset your password.';
+                    }
                     return;
                 }
+                _loginAttempts = 0;
                 const data = await Api.json(resp);
                 Api.setTokens(data.accessToken, data.refreshToken, data.user);
                 if (data.sessionStatus) Api.setSessionStatus(data.sessionStatus);
+                // Persist school slug for next time
+                if (schoolSlug) { try { localStorage.setItem(SCHOOL_SLUG_KEY, schoolSlug); } catch (_) {} }
+
+                // Heuristic: if a STUDENT/PARENT typed their username as password, mark first login.
+                if (data.user && ['STUDENT','PARENT'].includes(data.user.role)) {
+                    if (password === username) markFirstLoginPending(data.user.id);
+                }
+
                 errorEl.classList.remove('show');
                 hideAllScreens();
                 hapticFeedback(20);
@@ -2402,13 +2695,33 @@
         }
 
         // =============================================================
-        // 9b. CHANGE PASSWORD
+        // 9b. CHANGE PASSWORD (UPGRADED)
         // =============================================================
         function openChangePassword() {
             openModal('Change password', `
-                <div class="mb-3"><label class="field-label">Current password</label><input class="input-x" id="cpOld" type="password" autocomplete="current-password" /></div>
-                <div class="mb-3"><label class="field-label">New password</label><input class="input-x" id="cpNew" type="password" autocomplete="new-password" placeholder="Minimum 6 characters" /></div>
-                <div class="mb-3"><label class="field-label">Confirm new password</label><input class="input-x" id="cpNew2" type="password" autocomplete="new-password" /></div>
+                <div class="mb-3">
+                    <label class="field-label">Current password</label>
+                    <div class="pwd-wrap">
+                        <input class="input-x" id="cpOld" type="password" autocomplete="current-password" />
+                        <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('cpOld', this)"><i class="bi bi-eye"></i></button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="field-label">New password</label>
+                    <div class="pwd-wrap">
+                        <input class="input-x" id="cpNew" type="password" autocomplete="new-password" placeholder="Minimum 6 characters" oninput="updateStrengthMeter('cpNew','cpStrength')" />
+                        <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('cpNew', this)"><i class="bi bi-eye"></i></button>
+                    </div>
+                    <div class="strength-meter" id="cpStrength"><div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div></div>
+                    <div class="strength-meter-label" id="cpStrengthLabel"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="field-label">Confirm new password</label>
+                    <div class="pwd-wrap">
+                        <input class="input-x" id="cpNew2" type="password" autocomplete="new-password" />
+                        <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('cpNew2', this)"><i class="bi bi-eye"></i></button>
+                    </div>
+                </div>
                 <p class="eyebrow mt-2"><i class="bi bi-shield-lock me-1"></i>Changing your password signs you out of other devices.</p>
                 <div class="d-flex gap-2 mt-4">
                     <button class="btn-x btn-outline-x" onclick="closeModal()">Cancel</button>
@@ -2420,17 +2733,27 @@
             const oldPassword = document.getElementById('cpOld').value;
             const newPassword = document.getElementById('cpNew').value;
             const again = document.getElementById('cpNew2').value;
+            const user = Api.getUser() || {};
             if (!oldPassword || !newPassword) { showToast('Fill all fields', 'error'); return; }
             if (newPassword.length < 6) { showToast('New password must be at least 6 characters', 'error'); return; }
             if (newPassword !== again) { showToast('New passwords do not match', 'error'); return; }
+            if (newPassword === (user.username || '')) { showToast('New password cannot be the same as your username', 'error', 5000); return; }
             setButtonLoading(btn, 'Updating...');
             try {
                 const resp = await Api.post('/auth/change-password', { oldPassword, newPassword });
                 if (!resp.ok) throw new Error(await parseErrorResponse(resp));
+                // Clear first-login prompt
+                if (user.id) dismissFirstLogin(user.id);
+                // Backend revokes all sessions on password change.
+                try { await Api.serverLogout(); } catch (_) {}
+                Api.clearTokens();
                 closeModal();
-                hapticFeedback(25);
-                showToast('Password updated. Other devices have been signed out.', 'success', 4500);
-                Api.refreshSessionStatus().catch(() => {});
+                hapticFeedback([20, 40, 20]);
+                showToast('Password changed. Please sign in again.', 'success', 4500);
+                setTimeout(() => {
+                    hideAllScreens();
+                    showLoginScreen();
+                }, 700);
             } catch (e) { showToast(e.message, 'error'); resetButton(btn); }
         }
 
@@ -2447,7 +2770,7 @@
                 <p style="font-size:.9rem;color:var(--slate);">Or send a reset request to the platform team. We'll reach out within 24 hours.</p>
                 <div class="mb-3"><label class="field-label">Your email</label><input class="input-x" id="resetEmail" type="email" placeholder="you@school.edu" /></div>
                 <div class="mb-3"><label class="field-label">Your school name</label><input class="input-x" id="resetSchool" placeholder="Bright Path Academy" /></div>
-                <div class="mb-3"><label class="field-label">Phone number</label><input class="input-x" id="resetPhone" placeholder="0803 000 0000" /></div>
+                <div class="mb-3"><label class="field-label">Phone number</label><input class="input-x" id="resetPhone" placeholder="0803 000 0000" inputmode="tel" /></div>
                 <button class="btn-x btn-primary-x btn-block-x" onclick="submitResetRequest(this)"><i class="bi bi-send"></i> Send reset request</button>
                 ${wa ? `<a href="${wa}" target="_blank" rel="noopener" class="btn-x btn-outline-x btn-block-x mt-2"><i class="bi bi-whatsapp"></i> Chat on WhatsApp</a>` : ''}
                 <p class="eyebrow mt-2 text-center">We'll call or text you to verify.</p>
@@ -2913,7 +3236,8 @@
                 html = renderer();
             }
             const shouldAnim = shouldAnimatePage(page);
-            container.innerHTML = `<div class="page-enter${shouldAnim ? '' : ' no-anim'}">${html}</div>`;
+            const firstLoginBanner = (page === 'dashboard') ? maybeRenderFirstLoginBanner() : '';
+            container.innerHTML = `<div class="page-enter${shouldAnim ? '' : ' no-anim'}">${firstLoginBanner}${html}</div>`;
             // Fire the sub-renderer hook (for hubs, fire the active tab's hook)
             if (HUB_TABS[page]) {
                 const tabs = HUB_TABS[page];
@@ -3431,10 +3755,14 @@
 
         function renderParentDashboard() {
             const name = (Api.getUser()?.name || 'there').split(' ')[0];
+            const isStudent = Api.getRole() === 'STUDENT';
+            // Students do not see fees — the backend blocks them anyway.
+            const feesHidden = isStudent ? 'style="display:none;"' : '';
             return `
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
-                <div><h4 style="font-weight:700;">Welcome, ${escapeHtml(name)}</h4><p class="eyebrow mb-0">Your children at a glance</p></div>
+                <div><h4 style="font-weight:700;">Welcome, ${escapeHtml(name)}</h4><p class="eyebrow mb-0">${isStudent ? 'Your dashboard' : 'Your children at a glance'}</p></div>
             </div>
+            <div id="parentChildSwitcher" class="child-switcher" style="display:none;"></div>
             <div class="row g-3" id="parentChildren"><div class="col-12 text-center py-4"><i class="bi bi-arrow-repeat me-2"></i>Loading...</div></div>
             `;
         }
@@ -3866,6 +4194,7 @@
         }
 
         async function loadParentDashboard() {
+            const isStudent = Api.getRole() === 'STUDENT';
             let children = [];
             let usedPortal = false;
             try {
@@ -3879,22 +4208,44 @@
                 } catch (_) {}
             }
             const grid = document.getElementById('parentChildren');
+            const switcher = document.getElementById('parentChildSwitcher');
             if (children.length === 0) {
                 grid.innerHTML = `<div class="col-12">${emptyState('people','No children linked','Ask your school to link your account.')}</div>`;
+                if (switcher) switcher.style.display = 'none';
                 return;
+            }
+            // Multi-child switcher for parents
+            if (!isStudent && children.length > 1 && switcher) {
+                switcher.style.display = 'flex';
+                let savedLast = '';
+                try { savedLast = localStorage.getItem(LAST_CHILD_KEY) || ''; } catch (_) {}
+                const activeId = children.find(c => pickId(c) === savedLast) ? savedLast : pickId(children[0]);
+                switcher.innerHTML = children.map(c => {
+                    const id = pickId(c);
+                    const isActive = id === activeId;
+                    return `<button class="cs-item${isActive ? ' active' : ''}" data-child="${escJs(id)}" onclick="selectChild('${escJs(id)}', this)">
+                        <div class="cs-avatar" style="background:${avatarColor(id)};">${initials(displayName(c))}</div>
+                        <span>${escapeHtml(displayName(c))}</span>
+                    </button>`;
+                }).join('');
+            } else if (switcher) {
+                switcher.style.display = 'none';
             }
             grid.innerHTML = children.map(c => {
                 const fees = c.fees || c.financeSummary || {};
                 const att = c.attendance || {};
                 const attRate = att.rate != null ? att.rate : (c.attendanceRate || 0);
+                const feesBlock = isStudent ? '' : `
+                    <div class="d-flex justify-content-between mt-2">
+                        <span>Fees: ${moneyShort(fees.paid||0)} / ${moneyShort(fees.expected||0)}</span>
+                        <span>${statusChipHtml(fees.status||'OUTSTANDING')}</span>
+                    </div>`;
+                const payBtn = isStudent ? '' : `<button class="btn-x btn-outline-x btn-sm-x" onclick="navigateTo('fees')"><i class="bi bi-wallet"></i> Fees</button>`;
                 return `
                 <div class="col-12 col-md-6 col-lg-4"><div class="stat tone-green h-100">
                     <h6 class="mb-0">${escapeHtml(displayName(c))}</h6>
                     <div class="eyebrow">${escapeHtml(c.className || 'No class assigned')}</div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span>Fees: ${moneyShort(fees.paid||0)} / ${moneyShort(fees.expected||0)}</span>
-                        <span>${statusChipHtml(fees.status||'OUTSTANDING')}</span>
-                    </div>
+                    ${feesBlock}
                     ${attRate ? `
                         <div class="mt-2">
                             <div class="d-flex justify-content-between"><span class="eyebrow">Attendance</span><strong>${Math.round(attRate)}%</strong></div>
@@ -3905,10 +4256,18 @@
                         <button class="btn-x btn-outline-x btn-sm-x" onclick="viewStudent('${escJs(pickId(c))}')"><i class="bi bi-eye"></i> View</button>
                         <button class="btn-x btn-outline-x btn-sm-x" onclick="generateReportCard('${escJs(pickId(c))}')"><i class="bi bi-file-earmark-text"></i> Report</button>
                         <button class="btn-x btn-outline-x btn-sm-x" onclick="navigateTo('assessment');switchTab('assessment','results')"><i class="bi bi-bar-chart"></i> Results</button>
+                        ${payBtn}
                     </div>
                 </div></div>
             `;}).join('');
         }
+        window.selectChild = function(childId, btn) {
+            try { localStorage.setItem(LAST_CHILD_KEY, childId); } catch (_) {}
+            document.querySelectorAll('.child-switcher .cs-item').forEach(el => el.classList.toggle('active', el.dataset.child === childId));
+            // Scroll the selected card into view
+            const card = document.querySelector(`[data-child-card="${childId}"]`);
+            if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        };
 
         async function loadHeadTeacherDashboard() {
             try {
@@ -4086,8 +4445,13 @@
                             <option value="term" ${_studentsTermScope==='term'?'selected':''}>This term</option>
                         </select>
                     </div>
-                    <div class="panel" style="padding:0;"><div class="table-wrap"><table class="tbl"><thead><tr><th>Student</th><th>Class</th><th>Guardian</th><th>Fees</th><th>Status</th><th></th></tr></thead><tbody id="studentTableBody">
-                    ${list.map(s => `
+                    <div class="panel" style="padding:0;"><div class="table-wrap"><table class="tbl"><thead><tr><th>Student</th><th>Class</th><th>Guardian</th><th>Fees</th><th>Status</th><th>Portal</th><th></th></tr></thead><tbody id="studentTableBody">
+                    ${list.map(s => {
+                        const portal = s.portal || {};
+                        const portalState = portal.hasLogin === false ? 'none' : (portal.lastLoginAt ? 'active' : 'never');
+                        const portalLabel = portalState === 'active' ? 'Active' : portalState === 'never' ? 'Never signed in' : 'No login';
+                        const portalDot = portalState === 'active' ? 'active' : portalState === 'never' ? 'never' : 'none';
+                        return `
                         <tr class="clickable" data-search="${escapeHtml((displayName(s)+' '+pickId(s)+' '+(s.guardian||'')+' '+(s.className||'')).toLowerCase())}" data-class="${escapeHtml(s.className||'')}" data-status="${escapeHtml(s.fees?.status||'')}" onclick="viewStudent('${escJs(pickId(s))}')">
                             <td data-label="Student"><div class="d-flex align-items-center gap-2"><div class="avatar-ring sm" style="background:${avatarColor(pickId(s))};">${initials(displayName(s))}</div><div><div style="font-weight:600;">${escapeHtml(displayName(s))}</div><div class="eyebrow">${escapeHtml(s.admissionNumber||pickId(s))}</div></div></div></td>
                             <td data-label="Class">${escapeHtml(s.className || 'No class assigned')}</td>
@@ -4102,9 +4466,10 @@
                                 return `<span class="num">${moneyShort(exp)}</span>`;
                             })()}</td>
                             <td data-label="Status">${statusChipHtml(s.fees?.status||'NO_INVOICE')}</td>
+                            <td data-label="Portal"><span class="portal-cell"><span class="portal-dot ${portalDot}"></span>${escapeHtml(portalLabel)}</span></td>
                             <td><button class="btn-x btn-outline-x btn-sm-x" onclick="event.stopPropagation();viewStudent('${escJs(pickId(s))}')">View</button></td>
                         </tr>
-                    `).join('')}
+                    `;}).join('')}
                     </tbody></table></div></div>
                 </div>`;
             } catch (e) {
@@ -4189,7 +4554,11 @@
                 <div class="row g-3">
                     <div class="col-6"><label class="field-label">First name</label><input class="input-x" id="sfFirst" placeholder="John" /></div>
                     <div class="col-6"><label class="field-label">Last name</label><input class="input-x" id="sfLast" placeholder="Okafor" /></div>
-                    <div class="col-6"><label class="field-label">Admission number</label><input class="input-x" id="sfAdmission" placeholder="e.g. ADM-2026-001" /></div>
+                    <div class="col-6">
+                        <label class="field-label">Admission number</label>
+                        <input class="input-x" id="sfAdmission" placeholder="e.g. ADM/2026/0001" />
+                        <div class="login-hint"><i class="bi bi-info-circle"></i> The student's first login is this number as both username and password.</div>
+                    </div>
                     <div class="col-6"><label class="field-label">Date of birth</label><input class="input-x" id="sfDob" type="date" /></div>
                     <div class="col-6"><label class="field-label">Gender</label><select class="input-x" id="sfGender"><option value="MALE">Male</option><option value="FEMALE">Female</option></select></div>
                     <div class="col-6"><label class="field-label">Class</label><select class="input-x" id="sfClass"><option>Loading...</option></select></div>
@@ -4205,7 +4574,11 @@
                 </div>
                 <div class="row g-3">
                     <div class="col-12"><label class="field-label">Guardian name</label><input class="input-x" id="sfGuardian" placeholder="Mrs. Okafor" /></div>
-                    <div class="col-6"><label class="field-label">Guardian phone</label><input class="input-x" id="sfPhone" placeholder="0803 000 0000" /></div>
+                    <div class="col-6">
+                        <label class="field-label">Guardian phone</label>
+                        <input class="input-x" id="sfPhone" placeholder="0803 000 0000" inputmode="tel" onchange="checkGuardianPhone(this.value)" />
+                        <div id="sfGuardianHint" class="login-hint"></div>
+                    </div>
                     <div class="col-6"><label class="field-label">Guardian email</label><input class="input-x" id="sfEmail" type="email" placeholder="parent@mail.com" /></div>
                 </div>
                 <div class="d-flex gap-2 mt-4"><button class="btn-x btn-outline-x" onclick="closeModal()">Cancel</button><button class="btn-x btn-primary-x btn-block-x" onclick="saveNewStudent(this)"><i class="bi bi-check-lg"></i> Save student</button></div>
@@ -4223,6 +4596,27 @@
             })();
         };
 
+        window.checkGuardianPhone = debounce(async function(phone) {
+            const hint = document.getElementById('sfGuardianHint');
+            if (!hint) return;
+            const normalized = normalizePhoneForLogin(phone || '');
+            if (normalized.length < 7) { hint.innerHTML = ''; return; }
+            hint.innerHTML = '<i class="bi bi-arrow-repeat spinning"></i> Checking...';
+            try {
+                const resp = await Api.get('/parents?search=' + encodeURIComponent(normalized));
+                if (resp.ok) {
+                    const list = toArray(await Api.json(resp));
+                    const found = list.find(p => normalizePhoneForLogin(p.phone || '') === normalized);
+                    if (found) {
+                        const name = found.fullName || `${found.firstName || ''} ${found.lastName || ''}`.trim();
+                        hint.innerHTML = `<span style="color:var(--green);"><i class="bi bi-check-circle"></i> Existing guardian found: ${escapeHtml(name)}. Child will be added to that account.</span>`;
+                    } else {
+                        hint.innerHTML = '<span style="color:var(--slate);"><i class="bi bi-plus-circle"></i> New guardian will be created with this phone number.</span>';
+                    }
+                }
+            } catch (_) { hint.innerHTML = ''; }
+        }, 400);
+
         window.saveNewStudent = async function(btn) {
             const first = document.getElementById('sfFirst').value.trim();
             const last = document.getElementById('sfLast').value.trim();
@@ -4235,12 +4629,25 @@
             if (!dob) { showToast('Date of birth is required', 'error'); return; }
             if (!classId) { showToast('Please pick a class', 'error'); return; }
             if (!address) { showToast('Home address is required', 'error'); return; }
-            setButtonLoading(btn, 'Saving...');
             const gender = document.getElementById('sfGender').value;
             const guardianName = document.getElementById('sfGuardian').value.trim();
-            const guardianPhone = document.getElementById('sfPhone').value.trim();
+            const guardianPhoneRaw = document.getElementById('sfPhone').value.trim();
             const guardianEmail = document.getElementById('sfEmail').value.trim();
             const createParent = document.getElementById('sfCreateParent').checked;
+            if (createParent && (!guardianName || !guardianPhoneRaw)) {
+                showToast('Enter the guardian name and phone number, or uncheck "Create parent record".', 'error', 5000);
+                return;
+            }
+            // Loose Nigerian phone validation: 11 digits starting with 0, or +234 + 10 digits.
+            const digitsOnly = guardianPhoneRaw.replace(/[^\d+]/g, '');
+            if (createParent && digitsOnly && !/^0\d{10}$/.test(digitsOnly) && !/^\+?234\d{10}$/.test(digitsOnly)) {
+                const ok = await confirmModal('That phone number does not look like a Nigerian number. Save anyway?', {
+                    title: 'Phone number check', confirmLabel: 'Save anyway'
+                });
+                if (!ok) return;
+            }
+            setButtonLoading(btn, 'Saving...');
+            const guardianPhone = normalizePhoneForLogin(guardianPhoneRaw);
             const gParts = guardianName.split(' ').filter(Boolean);
             const gFirst = gParts[0] || 'Guardian';
             const gLast = gParts.slice(1).join(' ') || 'Guardian';
@@ -4275,7 +4682,10 @@
                 }
                 closeModal();
                 hapticFeedback(30);
-                showToast(`${payload.fullName} added successfully${parentWarn}`, parentWarn ? 'warning' : 'success');
+                const detail = parentId
+                    ? ` Login: ${admissionNumber.toLowerCase()} / ${admissionNumber}`
+                    : '';
+                showToast(`${payload.fullName} added successfully${parentWarn}${detail}`, parentWarn ? 'warning' : 'success', 5000);
                 renderPage('students');
             } catch (e) {
                 showToast(e.message || 'Network error', 'error');
@@ -4291,6 +4701,7 @@
                 if (!resp.ok) { showToast('Student not found', 'error'); closeModal(); return; }
                 const s = await Api.json(resp);
                 const out = Math.max(0, (s.fees?.expected || 0) - (s.fees?.paid || 0));
+                const isStudentRole = Api.getRole() === 'STUDENT';
                 let attHTML = '';
                 try {
                     const attResp = await Api.get('/attendance/summary/' + id);
@@ -4299,12 +4710,7 @@
                         attHTML = `<div class="col-4"><div class="stat tone-slate" style="padding:.7rem;"><div class="label-caps">Att. rate</div><div class="figure-md num">${Math.round(att.rate||0)}%</div></div></div>`;
                     }
                 } catch (_) {}
-                document.getElementById('modalTitle').textContent = displayName(s);
-                document.getElementById('modalBody').innerHTML = `
-                    <div class="d-flex align-items-center gap-3 mb-3">
-                        <div class="avatar-ring lg" style="background:${avatarColor(pickId(s))};">${initials(displayName(s))}</div>
-                        <div><div style="font-weight:700;font-size:1.05rem;">${escapeHtml(displayName(s))}</div><div class="eyebrow">${escapeHtml(s.admissionNumber||pickId(s))} · ${escapeHtml(s.className || 'No class assigned')} · ${escapeHtml(s.gender||'—')}</div></div>
-                    </div>
+                const feesRow = isStudentRole ? '' : `
                     <div class="row g-2 mb-3">
                         <div class="col-4"><div class="stat tone-green" style="padding:.7rem;"><div class="label-caps">Paid</div><div class="figure-md num" style="color:var(--green)">${moneyShort(s.fees?.paid||0)}</div></div></div>
                         <div class="col-4"><div class="stat tone-danger" style="padding:.7rem;"><div class="label-caps">Owing</div><div class="figure-md num" style="color:var(--danger)">${moneyShort(out)}</div></div></div>
@@ -4313,18 +4719,26 @@
                     <div class="mb-3">
                         <div class="label-caps mb-1">Fee status</div>
                         ${statusChipHtml(s.fees?.status||'NO_INVOICE')}
+                    </div>`;
+                document.getElementById('modalTitle').textContent = displayName(s);
+                document.getElementById('modalBody').innerHTML = `
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="avatar-ring lg" style="background:${avatarColor(pickId(s))};">${initials(displayName(s))}</div>
+                        <div><div style="font-weight:700;font-size:1.05rem;">${escapeHtml(displayName(s))}</div><div class="eyebrow">${escapeHtml(s.admissionNumber||pickId(s))} · ${escapeHtml(s.className || 'No class assigned')} · ${escapeHtml(s.gender||'—')}</div></div>
                     </div>
+                    ${feesRow}
                     <div class="mb-3">
                         <div class="label-caps mb-1">Guardian</div>
                         <div style="font-weight:600;">${escapeHtml(s.guardian||'—')}</div>
                         <div class="eyebrow">${escapeHtml(s.guardianPhone||'')}${s.guardianEmail?' · '+escapeHtml(s.guardianEmail):''}</div>
                     </div>
+                    ${isStudentRole ? '' : `
                     <div class="mb-3">
                         <div class="label-caps mb-2">Payment history</div>
                         <div id="studentPaymentsBox"><div class="text-center py-2 eyebrow">Loading...</div></div>
-                    </div>
+                    </div>`}
                     <div class="d-flex flex-wrap gap-2">
-                        ${Api.can('submitPayments') ? `<button class="btn-x btn-gold-x btn-sm-x" onclick="closeModal();openRecordPaymentModal('${escJs(pickId(s))}')"><i class="bi bi-credit-card"></i> Record payment</button>` : ''}
+                        ${Api.can('submitPayments') && !isStudentRole ? `<button class="btn-x btn-gold-x btn-sm-x" onclick="closeModal();openRecordPaymentModal('${escJs(pickId(s))}')"><i class="bi bi-credit-card"></i> Record payment</button>` : ''}
                         <button class="btn-x btn-outline-x btn-sm-x" onclick="closeModal();generateReportCard('${escJs(pickId(s))}')"><i class="bi bi-file-earmark-text"></i> Report card</button>
                         <button class="btn-x btn-outline-x btn-sm-x" onclick="printAttendanceReport('${escJs(pickId(s))}')"><i class="bi bi-printer"></i> Attendance</button>
                         ${Api.can('manageStudents') ? `<button class="btn-x btn-outline-x btn-sm-x" onclick="openStudentPhotoUpload('${escJs(pickId(s))}')"><i class="bi bi-camera"></i> Photo</button>` : ''}
@@ -4332,8 +4746,7 @@
                         ${Api.can('manageStudents') ? `<button class="btn-x btn-danger-x btn-sm-x ms-auto" onclick="confirmDeleteStudent('${escJs(pickId(s))}')"><i class="bi bi-trash3"></i></button>` : ''}
                     </div>
                 `;
-                // Load payment history asynchronously
-                loadStudentPayments(id);
+                if (!isStudentRole) loadStudentPayments(id);
             } catch (e) { showToast('Error loading student', 'error'); closeModal(); }
         };
 
@@ -4460,7 +4873,7 @@
                         <div class="col-6"><label class="field-label">Date of birth</label><input class="input-x" id="esDob" type="date" value="${s.dateOfBirth ? String(s.dateOfBirth).slice(0,10) : ''}" /></div>
                         <div class="col-12"><label class="field-label">Address</label><input class="input-x" id="esAddress" value="${escapeHtml(s.address||'')}" /></div>
                         <div class="col-6"><label class="field-label">Guardian name</label><input class="input-x" id="esGuardian" value="${escapeHtml(s.guardian||'')}" /></div>
-                        <div class="col-6"><label class="field-label">Guardian phone</label><input class="input-x" id="esPhone" value="${escapeHtml(s.guardianPhone||'')}" /></div>
+                        <div class="col-6"><label class="field-label">Guardian phone</label><input class="input-x" id="esPhone" value="${escapeHtml(s.guardianPhone||'')}" inputmode="tel" /></div>
                         <div class="col-12"><label class="field-label">Guardian email</label><input class="input-x" id="esEmail" value="${escapeHtml(s.guardianEmail||'')}" /></div>
                     </div>
                     <div class="d-flex gap-2 mt-4"><button class="btn-x btn-outline-x" onclick="closeModal()">Cancel</button><button class="btn-x btn-primary-x btn-block-x" onclick="saveEditStudent('${escJs(id)}', this)"><i class="bi bi-check-lg"></i> Save changes</button></div>
@@ -5567,10 +5980,6 @@
         };
         // Keep old name for compatibility with older call sites
         window.rejectPaymentPrompt = window.openRejectPaymentModal;
-
-        // =============================================================
-        // RECEIPT helpers (already defined above as openReceiptPdf)
-        // =============================================================
 
         // =============================================================
         // DEFAULTERS
@@ -6708,7 +7117,7 @@
                         <div class="mb-3"><label class="field-label">School name</label><input class="input-x" id="setName" value="${escapeHtml(school.name||'')}" /></div>
                         <div class="mb-3"><label class="field-label">School type</label><input class="input-x" id="setType" value="${escapeHtml(school.schoolType||'')}" /></div>
                         <div class="mb-3"><label class="field-label">Address</label><input class="input-x" id="setAddress" value="${escapeHtml(school.address||'')}" /></div>
-                        <div class="mb-3"><label class="field-label">Phone</label><input class="input-x" id="setPhone" value="${escapeHtml(school.phone||'')}" /></div>
+                        <div class="mb-3"><label class="field-label">Phone</label><input class="input-x" id="setPhone" value="${escapeHtml(school.phone||'')}" inputmode="tel" /></div>
                         <div class="mb-1"><label class="field-label">Email</label><input class="input-x" id="setEmail" value="${escapeHtml(school.email||'')}" /></div>
                         <button class="btn-x btn-primary-x mt-3" onclick="saveSettings(this)">Save changes</button>
                     </div>
@@ -7540,6 +7949,10 @@
                     const childCount = p.childCount != null ? p.childCount : (p.children || []).length;
                     const childList = (p.children || []).map(c => escapeHtml(typeof c === 'string' ? c : (c.fullName || ''))).filter(Boolean).join(', ') || '—';
                     const outstanding = p.outstanding || 0;
+                    const portal = p.portal || {};
+                    const portalState = portal.hasLogin === false ? 'none' : (portal.lastLoginAt ? 'active' : 'never');
+                    const portalLabel = portalState === 'active' ? 'Active' : portalState === 'never' ? 'Never signed in' : 'No login';
+                    const portalDot = portalState === 'active' ? 'active' : portalState === 'never' ? 'never' : 'none';
                     return `
                     <div class="col-12 col-md-6 col-lg-4"><div class="stat ${(outstanding > 0) ? 'tone-danger' : 'tone-green'} h-100">
                         <div class="d-flex justify-content-between align-items-start">
@@ -7550,6 +7963,7 @@
                         ${outstanding > 0
                             ? `<div class="mt-2" style="color:var(--danger);font-weight:700;font-size:.85rem;">Owing ${moneyShort(outstanding)}</div>`
                             : `<div class="mt-2" style="color:var(--green);font-weight:700;font-size:.85rem;">Fully paid</div>`}
+                        <div class="eyebrow mt-1"><span class="portal-cell"><span class="portal-dot ${portalDot}"></span>Portal: ${escapeHtml(portalLabel)}</span></div>
                         <div class="d-flex gap-2 mt-2 flex-wrap">
                             <button class="btn-x btn-outline-x btn-sm-x" onclick="viewParent('${escJs(pickId(p))}')"><i class="bi bi-eye"></i> View</button>
                             <button class="btn-x btn-outline-x btn-sm-x" onclick="openEditParentModal('${escJs(pickId(p))}')"><i class="bi bi-pencil"></i> Edit</button>
@@ -7568,7 +7982,7 @@
                 <div class="row g-3">
                     <div class="col-6"><label class="field-label">First name</label><input class="input-x" id="pfaFirst" placeholder="Mrs." /></div>
                     <div class="col-6"><label class="field-label">Last name</label><input class="input-x" id="pfaLast" placeholder="Okafor" /></div>
-                    <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="pfaPhone" placeholder="0803 000 0000" /></div>
+                    <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="pfaPhone" placeholder="0803 000 0000" inputmode="tel" /></div>
                     <div class="col-6"><label class="field-label">Email</label><input class="input-x" id="pfaEmail" type="email" placeholder="parent@mail.com" /></div>
                     <div class="col-12"><label class="field-label">Relationship</label><select class="input-x" id="pfaRelation"><option value="Guardian">Guardian</option><option value="Mother">Mother</option><option value="Father">Father</option><option value="Other">Other</option></select></div>
                 </div>
@@ -7587,7 +8001,7 @@
             try {
                 const resp = await Api.post('/parents', {
                     firstName: first, lastName: last, fullName: first + ' ' + last,
-                    phone, email, relationship: document.getElementById('pfaRelation').value
+                    phone: normalizePhoneForLogin(phone), email, relationship: document.getElementById('pfaRelation').value
                 });
                 if (!resp.ok) {
                     const msg = await parseErrorResponse(resp);
@@ -7610,7 +8024,7 @@
                     <div class="row g-3">
                         <div class="col-6"><label class="field-label">First name</label><input class="input-x" id="epFirst" value="${escapeHtml(p.firstName || '')}" /></div>
                         <div class="col-6"><label class="field-label">Last name</label><input class="input-x" id="epLast" value="${escapeHtml(p.lastName || '')}" /></div>
-                        <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="epPhone" value="${escapeHtml(p.phone || '')}" /></div>
+                        <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="epPhone" value="${escapeHtml(p.phone || '')}" inputmode="tel" /></div>
                         <div class="col-6"><label class="field-label">Email</label><input class="input-x" id="epEmail" value="${escapeHtml(p.email || '')}" /></div>
                         <div class="col-12"><label class="field-label">Address</label><input class="input-x" id="epAddress" value="${escapeHtml(p.address || '')}" /></div>
                         <div class="col-6"><label class="field-label">Relationship</label><select class="input-x" id="epRelation">${['Guardian','Mother','Father','Other'].map(r => `<option ${r===p.relationship?'selected':''}>${r}</option>`).join('')}</select></div>
@@ -7626,7 +8040,7 @@
             try {
                 const resp = await Api.put('/parents/' + id, {
                     firstName: first, lastName: last, fullName: first + ' ' + last,
-                    phone: document.getElementById('epPhone').value.trim(),
+                    phone: normalizePhoneForLogin(document.getElementById('epPhone').value.trim()),
                     email: document.getElementById('epEmail').value.trim(),
                     address: document.getElementById('epAddress').value.trim(),
                     relationship: document.getElementById('epRelation').value
@@ -7843,7 +8257,12 @@
                     </select>
                 </div>
                 <div class="mb-3"><label class="field-label">Username</label><input class="input-x" id="staffLoginUsername" placeholder="e.g. adeyemi" /></div>
-                <div class="mb-1"><label class="field-label">Initial password</label><input class="input-x" id="staffLoginPassword" type="password" placeholder="Min 6 characters" /></div>
+                <div class="mb-1"><label class="field-label">Initial password</label>
+                    <div class="pwd-wrap">
+                        <input class="input-x" id="staffLoginPassword" type="password" placeholder="Min 6 characters" />
+                        <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('staffLoginPassword', this)"><i class="bi bi-eye"></i></button>
+                    </div>
+                </div>
                 <div class="d-flex gap-2 mt-4">
                     <button class="btn-x btn-outline-x" onclick="closeModal()">Cancel</button>
                     <button class="btn-x btn-primary-x btn-block-x" onclick="submitStaffLogin('${escJs(staffId)}', this)"><i class="bi bi-shield-check"></i> Create login</button>
@@ -7881,7 +8300,7 @@
                     <div class="col-6"><label class="field-label">First name</label><input class="input-x" id="stfFirst" placeholder="Adaeze" /></div>
                     <div class="col-6"><label class="field-label">Last name</label><input class="input-x" id="stfLast" placeholder="Nwosu" /></div>
                     <div class="col-6"><label class="field-label">Email</label><input class="input-x" id="stfEmail" type="email" placeholder="adaeze@school.edu" /></div>
-                    <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="stfPhone" placeholder="0803 000 0000" /></div>
+                    <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="stfPhone" placeholder="0803 000 0000" inputmode="tel" /></div>
                     <div class="col-6"><label class="field-label">Role</label><select class="input-x" id="stfRole">
                         <option value="TEACHER">Teacher</option>
                         <option value="ACCOUNTANT">Accountant</option>
@@ -7927,7 +8346,7 @@
                         <div class="col-6"><label class="field-label">First name</label><input class="input-x" id="esFirst" value="${escapeHtml(s.firstName || '')}" /></div>
                         <div class="col-6"><label class="field-label">Last name</label><input class="input-x" id="esLast" value="${escapeHtml(s.lastName || '')}" /></div>
                         <div class="col-6"><label class="field-label">Email</label><input class="input-x" id="esEmail" value="${escapeHtml(s.email || '')}" /></div>
-                        <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="esPhone" value="${escapeHtml(s.phone || '')}" /></div>
+                        <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="esPhone" value="${escapeHtml(s.phone || '')}" inputmode="tel" /></div>
                         <div class="col-6"><label class="field-label">Role</label><select class="input-x" id="esRole">${['TEACHER','ACCOUNTANT','ADMIN','OTHER'].map(r => `<option ${r===s.role?'selected':''}>${r}</option>`).join('')}</select></div>
                         <div class="col-6"><label class="field-label">Department</label><input class="input-x" id="esDept" value="${escapeHtml(s.department || '')}" /></div>
                     </div>
@@ -8114,7 +8533,12 @@
                 <div class="row g-3">
                     <div class="col-12"><label class="field-label">Display name</label><input class="input-x" id="credName" placeholder="e.g. Mrs. Adeyemi Bukola" /></div>
                     <div class="col-6"><label class="field-label">Username</label><input class="input-x" id="credUsername" placeholder="e.g. adeyemi" /></div>
-                    <div class="col-6"><label class="field-label">Password</label><input class="input-x" id="credPassword" type="password" placeholder="Min 6 characters" /></div>
+                    <div class="col-6"><label class="field-label">Password</label>
+                        <div class="pwd-wrap">
+                            <input class="input-x" id="credPassword" type="password" placeholder="Min 6 characters" />
+                            <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('credPassword', this)"><i class="bi bi-eye"></i></button>
+                        </div>
+                    </div>
                 </div>
                 <div id="credScopeFormTeacher" style="display:none;" class="mt-3">
                     <label class="field-label">Form class</label>
@@ -8207,7 +8631,7 @@
                     <div class="mb-3"><label class="field-label">Display name</label><input class="input-x" id="ecName" value="${escapeHtml(u.name||'')}" /></div>
                     <div class="row g-3 mb-3">
                         <div class="col-6"><label class="field-label">Email</label><input class="input-x" id="ecEmail" value="${escapeHtml(u.email||'')}" /></div>
-                        <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="ecPhone" value="${escapeHtml(u.phone||'')}" /></div>
+                        <div class="col-6"><label class="field-label">Phone</label><input class="input-x" id="ecPhone" value="${escapeHtml(u.phone||'')}" inputmode="tel" /></div>
                     </div>
                     <div class="mb-3"><label class="field-label">Active</label><select class="input-x" id="ecActive"><option value="true" ${u.isActive?'selected':''}>Yes</option><option value="false" ${!u.isActive?'selected':''}>No</option></select></div>
                     ${u.role === 'FORM_TEACHER' ? `
@@ -8271,7 +8695,12 @@
         window.openResetPasswordModal = function(id, username) {
             openModal('Reset password', `
                 <p class="eyebrow mb-3">Set a new password for <strong>${escapeHtml(username)}</strong>.</p>
-                <div class="mb-3"><label class="field-label">New password</label><input class="input-x" id="newPwd" type="password" placeholder="Minimum 6 characters" /></div>
+                <div class="mb-3"><label class="field-label">New password</label>
+                    <div class="pwd-wrap">
+                        <input class="input-x" id="newPwd" type="password" placeholder="Minimum 6 characters" />
+                        <button type="button" class="pwd-toggle" aria-label="Show password" onclick="togglePasswordVisibility('newPwd', this)"><i class="bi bi-eye"></i></button>
+                    </div>
+                </div>
                 <div class="d-flex gap-2 mt-3">
                     <button class="btn-x btn-outline-x" onclick="closeModal()">Cancel</button>
                     <button class="btn-x btn-primary-x btn-block-x" onclick="submitResetPassword('${escJs(id)}', this)"><i class="bi bi-key"></i> Reset password</button>
@@ -8756,10 +9185,12 @@
             }
             return `
             <div class="d-flex align-items-center gap-2 mb-3"><h5 style="font-weight:700;">Parent Portal</h5><span class="chip chip-green">My children</span></div>
+            <div id="parentChildSwitcher" class="child-switcher" style="display:none;"></div>
             <div class="row g-3" id="parentChildren"><div class="col-12 text-center py-4"><i class="bi bi-arrow-repeat me-2"></i>Loading...</div></div>
             `;
         };
         POST_RENDER_HOOKS.parentportal = async function() {
+            const isStudent = Api.getRole() === 'STUDENT';
             let children = [];
             try {
                 const resp = await Api.get('/portal/children');
@@ -8770,9 +9201,27 @@
                 }
             } catch (_) {}
             const grid = document.getElementById('parentChildren');
+            const switcher = document.getElementById('parentChildSwitcher');
             if (children.length === 0) {
                 grid.innerHTML = `<div class="col-12">${emptyState('people','No children linked','Ask your school to link your account.')}</div>`;
+                if (switcher) switcher.style.display = 'none';
                 return;
+            }
+            if (!isStudent && children.length > 1 && switcher) {
+                switcher.style.display = 'flex';
+                let savedLast = '';
+                try { savedLast = localStorage.getItem(LAST_CHILD_KEY) || ''; } catch (_) {}
+                const activeId = children.find(c => pickId(c) === savedLast) ? savedLast : pickId(children[0]);
+                switcher.innerHTML = children.map(c => {
+                    const id = pickId(c);
+                    const isActive = id === activeId;
+                    return `<button class="cs-item${isActive ? ' active' : ''}" data-child="${escJs(id)}" onclick="selectChild('${escJs(id)}', this)">
+                        <div class="cs-avatar" style="background:${avatarColor(id)};">${initials(displayName(c))}</div>
+                        <span>${escapeHtml(displayName(c))}</span>
+                    </button>`;
+                }).join('');
+            } else if (switcher) {
+                switcher.style.display = 'none';
             }
             grid.innerHTML = children.map(c => `
                 <div class="col-12 col-md-6 col-lg-4"><div class="stat tone-green h-100">
@@ -9905,7 +10354,7 @@
                     <select class="input-x" id="apCls">${classes.map(c => `<option value="${escJs(pickId(c))}" ${String(pickId(c)) === String(a.classAppliedId) ? 'selected' : ''}>${escapeHtml(c.name)}</option>`).join('')}</select></div>
                 <div class="mb-3"><label class="field-label">Admission number (optional)</label><input class="input-x" id="apNo" placeholder="Leave blank to generate" /></div>
                 <div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="apLogin" checked /><label class="form-check-label" for="apLogin">Create a student login</label></div>
-                <div class="eyebrow mb-3">This creates the student record, the first invoice and the parent's portal login.</div>`
+                <div class="eyebrow mb-3">This creates the student record, the first invoice and the parent's portal login. Student login = the admission number.</div>`
                 : `<div class="eyebrow mb-3">The parent gets an SMS that a place has been offered. You can enrol later.</div>`}
                 <div class="d-flex gap-2"><button class="btn-x btn-outline-x" onclick="admOpen('${escJs(id)}')">Back</button>
                 <button class="btn-x btn-primary-x btn-block-x" onclick="admRunApprove(this,'${escJs(id)}','${mode}')">Confirm</button></div>`);
@@ -9930,13 +10379,55 @@
                 const r = await Api.json(resp);
                 if (!r.enrolled) { showToast('Place offered', 'success'); closeModal(); renderPage('admissions'); return; }
                 const c = r.credentials;
-                const rows = c ? Object.entries(c).map(([k, v]) => `<div class="mb-2"><div class="eyebrow">${escapeHtml(k)}</div><div><strong>${escapeHtml(typeof v === 'object' ? JSON.stringify(v) : String(v))}</strong></div></div>`).join('') : '<div class="eyebrow">No new login was created.</div>';
+                const rows = c ? Object.entries(c).map(([k, v]) => {
+                    if (!v) return '';
+                    const inner = typeof v === 'object'
+                        ? `<div class="cred-row"><span class="cred-label">${escapeHtml(k)}</span><span class="cred-value">${escapeHtml(v.username || '')}</span></div>
+                           ${v.password ? `<div class="cred-row"><span class="cred-label">${escapeHtml(k)} password</span><span class="cred-value">${escapeHtml(v.password)}</span></div>` : ''}
+                           ${v.isNew === false ? `<div class="cred-row"><span class="cred-label">Note</span><span class="cred-value">Existing account</span></div>` : ''}`
+                        : `<div class="cred-row"><span class="cred-label">${escapeHtml(k)}</span><span class="cred-value">${escapeHtml(String(v))}</span></div>`;
+                    return inner;
+                }).join('') : '<div class="eyebrow">No new login was created.</div>';
+                const slipHtml = c ? `
+                    <div class="cred-slip">
+                        <h6>Login details</h6>
+                        ${rows}
+                    </div>
+                    <div class="eyebrow mb-3"><i class="bi bi-exclamation-triangle"></i> This is the only time the password is shown. Copy it now.</div>
+                    <div class="d-flex gap-2 mb-3">
+                        <button class="btn-x btn-outline-x btn-sm-x" onclick="copyCredentialsSlip('${escJs(JSON.stringify(c||{}))}')"><i class="bi bi-clipboard"></i> Copy</button>
+                        <button class="btn-x btn-outline-x btn-sm-x" onclick="printCredentialsSlip()"><i class="bi bi-printer"></i> Print slip</button>
+                    </div>
+                ` : '';
                 openModal('Student enrolled', `
                     <p>${escapeHtml((r.student && (r.student.fullName || r.student.name)) || (window._adm.cur && window._adm.cur.applicantName) || 'The applicant')} is now enrolled.</p>
-                    <div class="panel">${rows}</div>
-                    <div class="eyebrow mt-2 mb-3">Login details are shown once. Copy them now.</div>
+                    ${slipHtml}
                     <button class="btn-x btn-primary-x btn-block-x" onclick="closeModal();renderPage('admissions')">Done</button>`);
             } catch (e) { showToast(e.message, 'error'); resetButton(btn); }
+        };
+        window.copyCredentialsSlip = function(json) {
+            try {
+                const c = typeof json === 'string' ? JSON.parse(json) : json;
+                const lines = [];
+                ['parent', 'student'].forEach(role => {
+                    const v = c[role];
+                    if (!v) return;
+                    lines.push(`${role === 'parent' ? 'Parent' : 'Student'} login:`);
+                    lines.push(`  Username: ${v.username || ''}`);
+                    if (v.password) lines.push(`  Password: ${v.password}`);
+                    lines.push('');
+                });
+                copyToClipboard(lines.join('\n'));
+            } catch (_) { showToast('Nothing to copy', 'error'); }
+        };
+        window.printCredentialsSlip = function() {
+            const el = document.querySelector('.cred-slip');
+            if (!el) { showToast('Nothing to print', 'warning'); return; }
+            const w = window.open('', '_blank');
+            if (!w) return;
+            w.document.write(`<html><head><title>Login slip</title><style>body{font-family:system-ui;padding:20px;}h2{margin-bottom:10px;}table{border-collapse:collapse;width:100%;}td{padding:6px 8px;border-bottom:1px solid #ddd;font-size:14px;}.lbl{color:#666;}</style></head><body><h2>${escapeHtml(_pageData.school?.name||'SchoolFlow')} — Login slip</h2>${el.outerHTML}</body></html>`);
+            w.document.close();
+            setTimeout(() => w.print(), 250);
         };
         window.openOfficeApplication = function() {
             const classes = window._adm.classes || [];
@@ -9953,7 +10444,7 @@
                 <div class="row g-2 mb-3">
                     <div class="col-6"><input class="input-x" id="ofPF" placeholder="First name" /></div>
                     <div class="col-6"><input class="input-x" id="ofPL" placeholder="Last name" /></div>
-                    <div class="col-12"><input class="input-x" id="ofPh" type="tel" placeholder="Phone number" /></div>
+                    <div class="col-12"><input class="input-x" id="ofPh" type="tel" placeholder="Phone number" inputmode="tel" /></div>
                     <div class="col-12"><input class="input-x" id="ofPe" type="email" placeholder="Email (optional)" /></div>
                 </div>
                 <div class="d-flex gap-2"><button class="btn-x btn-outline-x" onclick="closeModal()">Cancel</button>
@@ -10457,6 +10948,7 @@
             document.getElementById('loginBtn').addEventListener('click', attemptLogin);
             document.getElementById('loginPassword').addEventListener('keydown', (e) => { if (e.key === 'Enter') attemptLogin(); });
             document.getElementById('loginUsername').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('loginPassword').focus(); });
+            document.getElementById('loginSchoolSlug').addEventListener('keydown', (e) => { if (e.key === 'Enter') attemptLogin(); });
 
             document.getElementById('scSaveBtn').addEventListener('click', () => {
                 const username = document.getElementById('scUsername').value.trim();
@@ -10708,6 +11200,14 @@
         window.saveHostelRollCall = saveHostelRollCall;
         window.copyToClipboard = copyToClipboard;
         window.openReceiptPdf = openReceiptPdf;
+        window.togglePasswordVisibility = togglePasswordVisibility;
+        window.updateStrengthMeter = updateStrengthMeter;
+        window.normalizePhoneForLogin = normalizePhoneForLogin;
+        window.dismissFirstLoginBanner = dismissFirstLoginBanner;
+        window.selectChild = selectChild;
+        window.copyCredentialsSlip = copyCredentialsSlip;
+        window.printCredentialsSlip = printCredentialsSlip;
+        window.checkGuardianPhone = checkGuardianPhone;
 
         // =============================================================
         // 24. SERVICE WORKER (basic offline caching for the shell)
@@ -10742,28 +11242,33 @@
             } catch (_) {}
         }
 
-        console.log('🏫 SchoolFlow · Production Frontend (v8.0 — Backend parity + consolidated navigation)');
-        console.log('✅ v8.0 highlights:');
+        console.log('🏫 SchoolFlow · Production Frontend (v9.0 — Portal accounts + login UX)');
+        console.log('✅ v9.0 highlights:');
+        console.log('   • Login: username field accepts admission number or phone; phone is stripped of spaces/dashes; school code field appears when /auth/login returns SCHOOL_REQUIRED');
+        console.log('   • Password fields have show/hide eye icons everywhere');
+        console.log('   • Change-password screen: strength meter, username-collision guard, forced sign-out after success');
+        console.log('   • First-login banner for STUDENT and PARENT users until they change the default password');
+        console.log('   • Add student form: live guardian-phone lookup and clearer "login = admission number" hint');
+        console.log('   • Admission enrol result: shows parent+student credentials with Copy and Print slip buttons');
+        console.log('   • Student and Parent lists: portal column with Active / Never signed in / No login');
+        console.log('   • Parent portal: child switcher remembers the last selected child');
+        console.log('   • Student portal: fee screens are hidden for STUDENT role');
         console.log('   • Payments: 5 tabs, badges from /payments/summary, filters (q/from/to), pagination, PDF receipts');
         console.log('   • Approve/Reject honours approval delegation (BURSAR with canApprovePayments)');
-        console.log('   • Reject prompt is a modal with quick reasons — no more window.prompt');
         console.log('   • Students: OVERPAID (credit) and NO_INVOICE (not billed yet) chips');
-        console.log('   • Student popup: payment history with per-row receipt buttons');
-        console.log('   • Term scoping toggle (All terms / This term) on the students list');
         console.log('   • SMS credit banner on dashboard (EMPTY=red, LOW=amber)');
         console.log('   • SMS top-up button only for SUPER_ADMIN; owners get Buy credits (bank transfer)');
         console.log('   • Website: copy link, open site, QR code, sitemap link');
         console.log('   • Sidebar collapsed to 11 hub items with tabs inside each hub');
-        console.log('   • Confetti, term celebration, weekly popup and routing screen simplified');
         console.log('   • Health page is a clean status table (no JSON dump, no emoji)');
         console.log('   • Dates: 12 Oct 2026. Money: ₦12,500.00 (moneyShort: ₦12,500). Days: Monday…');
         console.log('   • Loading states: skeletons, buttons disabled while working');
         console.log('   • Empty states explain the next action');
-        console.log('   • Mobile: card-style rows in tables; bottom nav trimmed to 5 items');
-        console.log('   • a11y: pinch-zoom enabled, skip-link, labels, focus states');
+        console.log('   • Mobile: card-style rows in tables; bottom nav trimmed to 5 items; larger tap targets on login forms');
+        console.log('   • a11y: pinch-zoom enabled, skip-link, labels, focus states, inputmode="tel" on phone fields');
         console.log('   • PWA meta tags + service worker for offline shell caching');
         console.log('   • Landing pricing pulled from /subscriptions/plans; Talk-to-us → WhatsApp');
-        console.log('   • Bank details (OPay · 9161809464 · Israel Dewa Wycliffe) surfaced in subscription and SMS purchase flows');
+        console.log('   • Bank details (OPay · ' + BANK.accountNumber + ' · ' + BANK.accountName + ') surfaced in subscription and SMS purchase flows');
         console.log('🔐 Role:', Api.getRole());
         console.log('📶 Online:', navigator.onLine);
         console.log('🔗 API:', API_BASE);
